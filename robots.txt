@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/sitemap.xml
