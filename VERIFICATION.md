@@ -63,8 +63,12 @@ All assets and case-study links are repository-relative. `.nojekyll` is retained
 
 These checks use an emulated responsive Chromium browser, not physical iOS/Android devices or a Safari/Firefox test matrix. Performance scores are local lab measurements and vary with hardware, throttling and hosting. Email and telephone links require the visitor’s configured applications. The email link is functional navigation, not a hosted message-delivery service.
 
-## Final mobile Lighthouse audit
+## Previous revision mobile Lighthouse audit
 
-Final isolated Chrome/Lighthouse run: **Performance 86 / Accessibility 100 / Best Practices 100 / SEO 100**. Default mobile simulation at the local GitHub Pages-style URL. The standalone HTML report is supplied with the final deliverables.
+Prior scroll-motion revision isolated Chrome/Lighthouse run: **Performance 86 / Accessibility 100 / Best Practices 100 / SEO 100**. Default mobile simulation at the local GitHub Pages-style URL. The standalone HTML report is supplied with the final deliverables.
 
-This audit covers the enhanced portrait, scroll-depth and typewriter revision. Scores are lab measurements, not guarantees for every visitor.
+This historical audit predates the stronger float, draggable name/photo and second typing line; it is not a new measurement of this revision. Scores are lab measurements, not guarantees for every visitor.
+
+## Draggable motion revision
+
+Verified name and portrait mouse dragging, arrow-key movement and Escape reset; portrait touch dragging; both typing lines changing; scroll depth; pause and reduced motion; six responsive widths without overflow; original CV download; and zero automated accessibility violations on the homepage and five case studies. The portrait now gently moves around its centered resting position.

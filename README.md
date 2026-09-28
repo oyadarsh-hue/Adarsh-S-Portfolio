@@ -10,7 +10,7 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Verified IJRASET publication link and DOI metadata.
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
 - Dimensional multicolor hero lettering, cursor-driven perspective, floating draggable labels, 3D project-card tilt, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
-- Floating portrait with layered 3D pointer tilt, scroll-linked depth and a typewriter role introduction.
+- Draggable name and portrait, staggered letter waves, stronger portrait float, scroll-linked depth and two typewriter introductions. Drag with mouse/touch, use arrow keys, or press Escape/Enter/Space to reset the name and photo.
 - System reduced-motion support and a persistent animation-pause button.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.

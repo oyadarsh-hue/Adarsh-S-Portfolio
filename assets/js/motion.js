@@ -7,6 +7,69 @@
   const typed = document.getElementById("typed-role");
   const fine = matchMedia("(hover: hover) and (pointer: fine)");
   const allowed = () => !root.classList.contains("paused") && !document.hidden;
+  document.querySelectorAll("[data-drag-piece]").forEach((el) => {
+    let x = 0,
+      y = 0,
+      drag = null;
+    const place = (nx, ny) => {
+      const r = el.getBoundingClientRect();
+      const left = r.left - x,
+        right = r.right - x;
+      x = Math.max(
+        Math.min(0, 12 - left),
+        Math.min(
+          Math.max(0, innerWidth - 12 - right),
+          Math.max(-90, Math.min(90, nx)),
+        ),
+      );
+      y = Math.max(-40, Math.min(40, ny));
+      el.style.setProperty("--piece-x", `${x}px`);
+      el.style.setProperty("--piece-y", `${y}px`);
+    };
+    const reset = () => place(0, 0);
+    el.addEventListener("pointerdown", (e) => {
+      if (!allowed() || e.button !== 0) return;
+      drag = { x, y, px: e.clientX, py: e.clientY };
+      el.setPointerCapture(e.pointerId);
+      el.classList.add("piece-grabbed");
+    });
+    el.addEventListener("pointermove", (e) => {
+      if (drag && allowed())
+        place(drag.x + e.clientX - drag.px, drag.y + e.clientY - drag.py);
+    });
+    const end = () => {
+      drag = null;
+      el.classList.remove("piece-grabbed");
+    };
+    ["pointerup", "pointercancel", "lostpointercapture"].forEach((name) =>
+      el.addEventListener(name, end),
+    );
+    el.addEventListener("dblclick", reset);
+    el.addEventListener("keydown", (e) => {
+      if (["Escape", "Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        reset();
+        return;
+      }
+      const delta = {
+        ArrowLeft: [-12, 0],
+        ArrowRight: [12, 0],
+        ArrowUp: [0, -12],
+        ArrowDown: [0, 12],
+      }[e.key];
+      if (delta && allowed()) {
+        e.preventDefault();
+        place(x + delta[0], y + delta[1]);
+      }
+    });
+    addEventListener("resize", reset, { passive: true });
+    new MutationObserver(() => {
+      if (!allowed()) {
+        end();
+        reset();
+      }
+    }).observe(root, { attributes: true, attributeFilter: ["class"] });
+  });
   let heroVisible = true;
   let frame = 0;
   const active = new Set();
@@ -142,4 +205,54 @@
     schedule();
   });
   syncTyping();
+  // A second, independent typing line keeps the introduction lively.
+  const greeting = document.getElementById("typed-greeting");
+  const greetings = [
+    "Hello, world. I’m",
+    "Code. Create. Explore.",
+    "Ideas into experiences.",
+  ];
+  let greetingIndex = 0,
+    greetingLength = greetings[0].length,
+    erasing = true,
+    greetingTimer;
+  function greetingTick() {
+    if (!greeting || !allowed() || !heroVisible) {
+      greetingTimer = null;
+      return;
+    }
+    greetingLength += erasing ? -1 : 1;
+    greeting.textContent = greetings[greetingIndex].slice(0, greetingLength);
+    let delay = erasing ? 45 : 95;
+    if (!greetingLength) {
+      erasing = false;
+      greetingIndex = (greetingIndex + 1) % greetings.length;
+      delay = 300;
+    } else if (greetingLength === greetings[greetingIndex].length && !erasing) {
+      erasing = true;
+      delay = 2400;
+    }
+    greetingTimer = setTimeout(greetingTick, delay);
+  }
+  function syncGreeting() {
+    clearTimeout(greetingTimer);
+    if (!greeting) return;
+    if (!allowed()) {
+      greeting.textContent = greetings[0];
+      greetingIndex = 0;
+      greetingLength = greetings[0].length;
+      erasing = true;
+    } else if (heroVisible) greetingTimer = setTimeout(greetingTick, 2600);
+  }
+  new MutationObserver(syncGreeting).observe(root, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  if (stage)
+    new MutationObserver(syncGreeting).observe(stage, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  document.addEventListener("visibilitychange", syncGreeting);
+  syncGreeting();
 })();

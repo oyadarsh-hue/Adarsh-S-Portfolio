@@ -57,9 +57,9 @@
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/css/style.css?v=3" />
-    <script src="assets/js/main.js?v=3" defer></script>
-    <script src="assets/js/motion.js?v=3" defer></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=4" />
+    <script src="assets/js/main.js?v=4" defer></script>
+    <script src="assets/js/motion.js?v=4" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -114,9 +114,20 @@
           class="creative-stage"
           aria-label="Adarsh’s interactive introduction"
         >
-          <p class="stage-hello">Hello, world. I’m</p>
+          <p class="stage-hello">
+            <span class="motion-sr-only">Hello, world. I’m</span
+            ><span id="typed-greeting" aria-hidden="true"
+              >Hello, world. I’m</span
+            ><span class="type-caret" aria-hidden="true">|</span>
+          </p>
           <h1 class="dimensional-name" aria-label="Adarsh S">
-            <span aria-hidden="true"
+            <span
+              class="drag-name"
+              role="button"
+              tabindex="0"
+              aria-label="Move Adarsh S lettering"
+              aria-describedby="drag-help"
+              data-drag-piece
               ><i>A</i><i>D</i><i>A</i><i>R</i><i>S</i><i>H</i
               ><i class="name-space">S</i><i>.</i></span
             >
@@ -124,13 +135,21 @@
           <div class="stage-orbit orbit-blue" aria-hidden="true"></div>
           <div class="stage-orbit orbit-coral" aria-hidden="true"></div>
           <figure class="center-portrait">
-            <div class="portrait-depth">
+            <div
+              class="portrait-depth"
+              role="button"
+              tabindex="0"
+              aria-label="Move portrait"
+              aria-describedby="drag-help"
+              data-drag-piece
+            >
               <div class="portrait-float">
                 <img
                   src="assets/images/adarsh-s.jpeg"
                   width="400"
                   height="400"
                   alt="Adarsh S — full-color portrait"
+                  draggable="false"
                   fetchpriority="high"
                 />
               </div>
@@ -170,8 +189,7 @@
           <div class="stage-spark spark-one" aria-hidden="true">✳</div>
           <div class="stage-spark spark-two" aria-hidden="true">+</div>
           <p id="drag-help" class="stage-hint">
-            Play a little: drag the labels, or focus and use arrow keys. Escape
-            resets.
+            Drag my name, photo or labels. Or focus them and use arrow keys. Escape resets.
           </p>
         </div>
         <div class="hero-introduction">
