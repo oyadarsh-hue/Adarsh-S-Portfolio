@@ -1,1 +1,220 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AegisForge-X | Adarsh S</title><link rel="stylesheet" href="../assets/css/style.css"></head><body><main class="case"><a class="case-back" href="../index.html#projects">← Back to portfolio</a><p class="kicker">Cybersecurity · Static Analysis · Evidence</p><h1>AegisForge-X</h1><p class="lead">A multi-language source-security review and symbolic invariant verification platform with cryptographic evidence binding.</p><section><h2>Overview</h2><p>AegisForge-X reviews source code across multiple languages, links findings to exact source positions, performs defensive flow analysis and produces evidence-focused security reports.</p></section><section><h2>Highlights</h2><ul><li>Security review for C/C++, Rust, Go, Python and C#.</li><li>Defensive taint propagation and symbolic boundary checks.</li><li>CWE/OWASP/NIST/CERT/CVSS/EPSS mapping.</li><li>SHA-256 Merkle proof evidence binding and PDF audit output.</li></ul></section><section><h2>Technology</h2><div class="chips"><span>Python</span><span>Security</span><span>C/C++</span><span>Rust</span><span>Go</span><span>C#</span><span>Merkle Trees</span><span>OWASP</span><span>NIST</span></div></section><a class="repo-link" href="https://github.com/oyadarsh-hue/AegisForge-X" target="_blank" rel="noopener">View GitHub Repository ↗</a></main></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      document.documentElement.classList.add("js");
+      try {
+        if (localStorage.getItem("adarsh-theme") === "light")
+          document.documentElement.dataset.theme = "light";
+      } catch {}
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AegisForge-X — Case Study | Adarsh S</title>
+    <meta
+      name="description"
+      content="Source-security review that connects findings to code locations and cryptographic evidence."
+    />
+    <meta name="theme-color" content="#0b1016" />
+    <link
+      rel="canonical"
+      href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/aegisforge-x.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AegisForge-X — Case Study | Adarsh S" />
+    <meta
+      property="og:description"
+      content="Source-security review that connects findings to code locations and cryptographic evidence."
+    />
+    <meta
+      property="og:url"
+      content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/aegisforge-x.html"
+    />
+    <meta
+      property="og:image"
+      content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Adarsh S — software engineering, AI and research"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AegisForge-X — Case Study | Adarsh S" />
+    <meta
+      name="twitter:description"
+      content="Source-security review that connects findings to code locations and cryptographic evidence."
+    />
+    <meta
+      name="twitter:image"
+      content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
+    />
+    <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <script src="../assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <header class="topbar case-topbar">
+      <a class="brand" href="../index.html"
+        >A<span class="brand-dot">.</span
+        ><span class="brand-name">ADARSH S</span></a
+      ><a class="case-back" href="../index.html#projects">← All projects</a>
+      <div class="preferences">
+        <button
+          class="icon-button"
+          id="motionButton"
+          aria-pressed="false"
+          aria-label="Pause animation"
+        >
+          Ⅱ</button
+        ><button
+          class="icon-button"
+          id="themeButton"
+          aria-label="Switch to light theme"
+        >
+          ◐
+        </button>
+      </div>
+    </header>
+    <main id="main" class="case">
+      <div class="case-intro">
+        <p class="eyebrow">
+          CASE STUDY / 03 / Security tooling / Evidence integrity
+        </p>
+        <h1>AegisForge-X</h1>
+        <p class="case-lead">
+          Source-security review that connects findings to code locations and
+          cryptographic evidence.
+        </p>
+        <p class="case-role">Independent project · Security engineering</p>
+        <div class="chips">
+          <span>Python</span><span>Static analysis</span><span>SHA-256</span
+          ><span>Merkle trees</span>
+        </div>
+        <div class="actions">
+          <a
+            class="button primary"
+            href="https://github.com/oyadarsh-hue/AegisForge-X"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View source code <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </div>
+      <div class="project-visual security" aria-hidden="true">
+        <div class="visual-top">
+          <span>SECURITY TOOLING</span><span>AS / AEGISFORGE-X</span>
+        </div>
+        <div class="diagram-orbit">
+          <i></i><i></i><i></i><span class="diagram-symbol">⌘</span>
+        </div>
+        <div class="diagram-flow">
+          <span>SOURCE</span><span>FINDINGS</span><span>PROOF</span>
+        </div>
+        <span class="visual-caption">SYSTEM CONCEPT / AEGISFORGE-X</span>
+      </div>
+      <div class="case-grid">
+        <section>
+          <p class="eyebrow">01 / CONTEXT</p>
+          <h2>The problem</h2>
+          <p>
+            A security finding is difficult to review when the report loses its
+            connection to the exact source code being analyzed.
+          </p>
+        </section>
+        <section>
+          <p class="eyebrow">02 / RESPONSE</p>
+          <h2>The approach</h2>
+          <p>
+            Link multi-language security findings to source coordinates,
+            defensive flow analysis and SHA-256 Merkle proofs.
+          </p>
+        </section>
+      </div>
+      <section class="case-architecture">
+        <p class="eyebrow">03 / UNDER THE HOOD</p>
+        <h2>How it fits together.</h2>
+        <ol>
+          <li>
+            Language-specific rules inspect C/C++, Rust, Go, Python and C# while
+            masking comments and string literals.
+          </li>
+          <li>
+            Boundary checks and defensive taint propagation support a review of
+            untrusted data reaching risky operations.
+          </li>
+          <li>
+            A Python standard-library service coordinates findings; optional
+            Clang diagnostics and PDF exports support review.
+          </li>
+        </ol>
+      </section>
+      <div class="case-grid">
+        <section>
+          <p class="eyebrow">04 / CAPABILITIES</p>
+          <h2>What it does</h2>
+          <ul>
+            <li>Multi-language source review</li>
+            <li>CWE and OWASP taxonomy mappings</li>
+            <li>Defensive taint-flow inspection</li>
+            <li>Merkle evidence and PDF audit output</li>
+          </ul>
+        </section>
+        <section>
+          <p class="eyebrow">05 / ENGINEERING CHALLENGE</p>
+          <h2>The important detail</h2>
+          <p>
+            Retaining exact source positions while filtering comments and
+            binding report evidence to the reviewed input.
+          </p>
+        </section>
+      </div>
+      <section class="case-outcome">
+        <p class="eyebrow">06 / OUTCOME</p>
+        <h2>What came out of it.</h2>
+        <p>
+          A documented local security-review platform with CLI and browser
+          workflows. Findings support human review; they are not a guarantee
+          that code is vulnerability-free.
+        </p>
+        <p class="source-note">
+          Project details are based on the public repository documentation.
+        </p>
+      </section>
+      <a class="next-project" href="deciphera.html"
+        ><span>NEXT CASE STUDY</span><strong>Deciphera ↗</strong></a
+      >
+    </main>
+    <footer>
+      <div class="footer-top">
+        <a href="../index.html#home">Back to top ↑</a>
+        <div>
+          <a
+            class=""
+            href="https://github.com/oyadarsh-hue"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub <span aria-hidden="true">↗</span></a
+          ><a
+            class=""
+            href="https://www.linkedin.com/in/adarshs-031869355"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn <span aria-hidden="true">↗</span></a
+          ><a href="../assets/docs/Adarsh_S_CV.pdf" download>Download CV ↓</a
+          ><a href="../index.html#publication">Research</a
+          ><a href="mailto:oyadarsh@gmail.com">Contact</a>
+        </div>
+      </div>
+      <p class="footer-word" aria-hidden="true">ADARSH S<span>✳</span></p>
+      <div class="footer-bottom">
+        <span>© 2026 Adarsh S</span
+        ><span>Thoughtfully built. Always learning.</span
+        ><span>Kozhikode, India</span>
+      </div>
+    </footer>
+  </body>
+</html>

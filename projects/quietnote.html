@@ -10,25 +10,25 @@
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>AssentTag — Case Study | Adarsh S</title>
+    <title>QuietNote — Case Study | Adarsh S</title>
     <meta
       name="description"
-      content="A privacy-first image-sharing platform that makes facial consent part of the sharing workflow."
+      content="Expiring, revocable note sharing with PostgreSQL-enforced one-time access."
     />
     <meta name="theme-color" content="#0b1016" />
     <link
       rel="canonical"
-      href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/assenttag.html"
+      href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/quietnote.html"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="AssentTag — Case Study | Adarsh S" />
+    <meta property="og:title" content="QuietNote — Case Study | Adarsh S" />
     <meta
       property="og:description"
-      content="A privacy-first image-sharing platform that makes facial consent part of the sharing workflow."
+      content="Expiring, revocable note sharing with PostgreSQL-enforced one-time access."
     />
     <meta
       property="og:url"
-      content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/assenttag.html"
+      content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/quietnote.html"
     />
     <meta
       property="og:image"
@@ -41,10 +41,10 @@
       content="Adarsh S — software engineering, AI and research"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AssentTag — Case Study | Adarsh S" />
+    <meta name="twitter:title" content="QuietNote — Case Study | Adarsh S" />
     <meta
       name="twitter:description"
-      content="A privacy-first image-sharing platform that makes facial consent part of the sharing workflow."
+      content="Expiring, revocable note sharing with PostgreSQL-enforced one-time access."
     />
     <meta
       name="twitter:image"
@@ -82,59 +82,63 @@
     <main id="main" class="case">
       <div class="case-intro">
         <p class="eyebrow">
-          CASE STUDY / 01 / Privacy engineering / Computer vision
+          CASE STUDY / 05 / Full-stack engineering / Secure sharing
         </p>
-        <h1>AssentTag</h1>
+        <h1>QuietNote</h1>
         <p class="case-lead">
-          A privacy-first image-sharing platform that makes facial consent part
-          of the sharing workflow.
+          Expiring, revocable note sharing with PostgreSQL-enforced one-time
+          access.
         </p>
         <p class="case-role">
-          Academic project · Full-stack development and computer vision
+          Independent project · Full-stack application and access control
         </p>
         <div class="chips">
-          <span>Python</span><span>Django</span><span>OpenCV</span
-          ><span>Dlib</span><span>MySQL</span>
+          <span>Next.js</span><span>TypeScript</span><span>Hono</span
+          ><span>Prisma</span><span>PostgreSQL</span>
         </div>
         <div class="actions">
           <a
             class="button primary"
-            href="https://github.com/oyadarsh-hue/AssentTag"
+            href="https://github.com/oyadarsh-hue/secure-note-sharing-app"
             target="_blank"
             rel="noopener noreferrer"
             >View source code <span aria-hidden="true">↗</span></a
+          ><a
+            class="button"
+            href="https://secure-note-sharing-app-nine.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Open live demo <span aria-hidden="true">↗</span></a
           >
         </div>
       </div>
-      <div class="project-visual privacy" aria-hidden="true">
+      <div class="project-visual notes" aria-hidden="true">
         <div class="visual-top">
-          <span>PRIVACY ENGINEERING</span><span>AS / ASSENTTAG</span>
+          <span>FULL-STACK ENGINEERING</span><span>AS / QUIETNOTE</span>
         </div>
         <div class="diagram-orbit">
-          <i></i><i></i><i></i><span class="diagram-symbol">◎</span>
+          <i></i><i></i><i></i><span class="diagram-symbol">N</span>
         </div>
         <div class="diagram-flow">
-          <span>DETECT</span><span>VERIFY</span><span>CONSENT</span>
+          <span>CREATE</span><span>AUTHORIZE</span><span>CONSUME</span>
         </div>
-        <span class="visual-caption">SYSTEM CONCEPT / ASSENTTAG</span>
+        <span class="visual-caption">SYSTEM CONCEPT / QUIETNOTE</span>
       </div>
       <div class="case-grid">
         <section>
           <p class="eyebrow">01 / CONTEXT</p>
           <h2>The problem</h2>
           <p>
-            A shared photograph can expose people who never agreed to be
-            visible. Identity and consent need to be considered before a face is
-            revealed.
+            A one-time link can be opened twice if concurrent requests check its
+            availability before either marks it as consumed.
           </p>
         </section>
         <section>
           <p class="eyebrow">02 / RESPONSE</p>
           <h2>The approach</h2>
           <p>
-            Detect faces, compare biometric embeddings with enrolled identities,
-            and blur unconsented faces. The Veil workflow lifts the mask when
-            the identified person grants permission.
+            Authorize access with a conditional PostgreSQL update so only one
+            concurrent request can claim a one-time note.
           </p>
         </section>
       </div>
@@ -143,16 +147,16 @@
         <h2>How it fits together.</h2>
         <ol>
           <li>
-            Django modules separate enrollment, authentication, image processing
-            and consent management.
+            Next.js and Hono provide the interface and authenticated API; Prisma
+            manages PostgreSQL records.
           </li>
           <li>
-            Dlib landmarks and ResNet facial embeddings support identity
-            matching using Euclidean distance.
+            Random share tokens are stored as SHA-256 digests, with
+            bcrypt-hashed optional access keys.
           </li>
           <li>
-            MySQL stores application records; notifications connect consent
-            requests to the social feed.
+            A transactional conditional update handles expiry, consumption,
+            revocation and view counts.
           </li>
         </ol>
       </section>
@@ -161,19 +165,18 @@
           <p class="eyebrow">04 / CAPABILITIES</p>
           <h2>What it does</h2>
           <ul>
-            <li>Privacy-by-default facial blurring</li>
-            <li>Biometric enrollment and verification</li>
-            <li>Consent-driven unblurring</li>
-            <li>OTP authorization and audit reporting</li>
+            <li>Expiring and one-time share links</li>
+            <li>Optional access-key protection</li>
+            <li>Owner-controlled revocation</li>
+            <li>Database-backed concurrency controls</li>
           </ul>
         </section>
         <section>
           <p class="eyebrow">05 / ENGINEERING CHALLENGE</p>
           <h2>The important detail</h2>
           <p>
-            Keeping recognition and user consent separate: a face match
-            identifies a person, while permission determines whether the face
-            can be shown.
+            Making access rules hold under concurrent requests and avoiding
+            accidental consumption by previews or page prefetching.
           </p>
         </section>
       </div>
@@ -181,16 +184,15 @@
         <p class="eyebrow">06 / OUTCOME</p>
         <h2>What came out of it.</h2>
         <p>
-          An integrated academic application connecting computer vision with a
-          consent-aware social experience.
+          A deployed proof of concept with documented database and browser
+          verification. Notes are not end-to-end encrypted.
         </p>
         <p class="source-note">
-          Project details are based on the public repository documentation and
-          supplied CV.
+          Project details are based on the public repository documentation.
         </p>
       </section>
-      <a class="next-project" href="epigraphix-ai.html"
-        ><span>NEXT CASE STUDY</span><strong>EpigraphiX-AI ↗</strong></a
+      <a class="next-project" href="assenttag.html"
+        ><span>NEXT CASE STUDY</span><strong>AssentTag ↗</strong></a
       >
     </main>
     <footer>
