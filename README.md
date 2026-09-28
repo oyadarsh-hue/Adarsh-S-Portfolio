@@ -81,3 +81,7 @@ Education uses the same replayable timeline as experience, ordered MCA, B.Sc. Co
 ## Continuous project typing
 
 Project titles and taglines repeatedly type, hold for readability, erase and restart while visible. New letters flip into place in 3D; scrolling away restores complete text, and returning starts the effect again. Body text uses stronger scroll-linked perspective. Pause and reduced-motion preferences retain readable static text.
+
+## Contact icons and heading motion
+
+Visible GitHub, LinkedIn, Gmail and phone links use inline SVG marks, avoiding external icon requests. Brand glyphs: Simple Icons (GitHub/Gmail, and LinkedIn from v11.15.0); phone: Lucide. Section headings reveal word by word in 3D each time they enter the viewport. Motion respects pause and reduced-motion preferences.

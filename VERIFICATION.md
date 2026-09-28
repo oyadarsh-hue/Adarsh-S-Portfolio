@@ -92,3 +92,7 @@ Re-extracted education directly from the supplied CV: Higher Secondary Education
 ## Continuous project text revision
 
 Verified typing completion, deletion and repetition while visible; individual 3D letter animation; scroll-away/return replay; pause and resume; mobile project cards; bidirectional text motion; six responsive widths; original CV download; reduced motion; and zero automated accessibility violations on the homepage and five case studies. No browser runtime errors. No new Lighthouse measurement.
+
+## Visible contact icons and replayable headings
+
+Verified four labeled inline SVG links in the introduction, destination URLs, two heading animation re-entry cycles, mobile contact layout, six responsive widths, pause/reduced motion, CV download, and zero automated accessibility violations across the homepage and five case studies. No runtime errors. Brand glyphs and phone licensing are documented in ICON-LICENSES.txt.

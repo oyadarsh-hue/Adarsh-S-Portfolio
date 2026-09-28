@@ -275,6 +275,74 @@
     copy.forEach((el) => observer.observe(el));
   }
 
+  // Reveal heading words on every viewport visit, preserving semantic text.
+  document.querySelectorAll(".section h2").forEach((heading) => {
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (
+        !node.parentElement.closest(
+          '[data-scroll-type], [aria-hidden="true"]',
+        ) &&
+        node.textContent.trim()
+      )
+        nodes.push(node);
+    }
+    const words = [];
+    nodes.forEach((node) => {
+      const fragment = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach((word) => {
+        if (!word.trim()) fragment.append(document.createTextNode(word));
+        else {
+          const span = document.createElement("span");
+          span.className = "heading-word";
+          span.textContent = word;
+          words.push(span);
+          fragment.append(span);
+        }
+      });
+      node.replaceWith(fragment);
+    });
+    if ("IntersectionObserver" in window)
+      new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) {
+            words.forEach((word) =>
+              word.getAnimations().forEach((a) => a.cancel()),
+            );
+            return;
+          }
+          words.forEach((word, i) =>
+            play(
+              word,
+              [
+                {
+                  transform:
+                    "perspective(800px) translateY(28px) rotateX(-45deg)",
+                  opacity: 0.25,
+                },
+                {
+                  transform:
+                    "perspective(800px) translateY(-3px) rotateX(3deg)",
+                  opacity: 1,
+                  offset: 0.8,
+                },
+                { transform: "none", opacity: 1 },
+              ],
+              {
+                duration: 800,
+                delay: i * 85,
+                easing: "cubic-bezier(.16,1,.3,1)",
+                fill: "backwards",
+              },
+            ),
+          );
+        },
+        { threshold: 0.15 },
+      ).observe(heading);
+  });
+
   const arrival = document.querySelector(".portrait-arrival");
   if (arrival && "IntersectionObserver" in window) {
     const anchor = document.querySelector(".center-portrait");
