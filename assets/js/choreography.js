@@ -154,7 +154,16 @@
     visual.setAttribute("aria-hidden", "true");
     visual.textContent = text;
     el.replaceChildren(original, visual);
-    const state = { el, text, visual, timer: 0, index: 0, started: false };
+    const state = {
+      el,
+      text,
+      visual,
+      timer: 0,
+      index: 0,
+      started: false,
+      deleting: false,
+      looping: !!el.closest(".project-copy"),
+    };
     typeStates.push(state);
     const finish = () => {
       clearTimeout(state.timer);
@@ -162,14 +171,61 @@
       el.classList.remove("typing-active");
     };
     state.finish = finish;
+    state.restart = () => {
+      clearTimeout(state.timer);
+      state.index = 0;
+      state.deleting = false;
+      visual.textContent = "";
+      el.classList.add("typing-active");
+      tick();
+    };
     function tick() {
       if (!allowed()) {
         finish();
         return;
       }
-      visual.textContent = text.slice(0, ++state.index);
+      if (state.deleting) {
+        const last = visual.lastChild;
+        if (last?.nodeType === Node.ELEMENT_NODE) {
+          last.lastChild?.remove();
+          if (!last.childNodes.length) last.remove();
+        } else last?.remove();
+        state.index--;
+        if (state.index > 0) state.timer = setTimeout(tick, 36);
+        else {
+          state.deleting = false;
+          state.timer = setTimeout(tick, 350);
+        }
+        return;
+      }
+      const char = text[state.index++];
+      if (/\s/.test(char)) visual.append(document.createTextNode(char));
+      else {
+        let word = visual.lastChild;
+        if (!word || word.nodeType !== Node.ELEMENT_NODE) {
+          word = document.createElement("span");
+          word.className = "type-word";
+          visual.append(word);
+        }
+        const letter = document.createElement("span");
+        letter.className = "type-letter";
+        letter.textContent = char;
+        word.append(letter);
+      }
       if (state.index < text.length) state.timer = setTimeout(tick, 65);
-      else el.classList.remove("typing-active");
+      else {
+        el.classList.remove("typing-active");
+        if (state.looping)
+          state.timer = setTimeout(() => {
+            if (!allowed() || !state.started) {
+              finish();
+              return;
+            }
+            state.deleting = true;
+            el.classList.add("typing-active");
+            tick();
+          }, 3200);
+      }
     }
     if ("IntersectionObserver" in window)
       new IntersectionObserver(
@@ -177,6 +233,7 @@
           if (entries.some((e) => e.isIntersecting) && !state.started) {
             state.started = true;
             state.index = 0;
+            state.deleting = false;
             if (allowed()) {
               el.classList.add("typing-active");
               visual.textContent = "";
@@ -235,7 +292,12 @@
     copy.forEach((el) => {
       el.style.animationName = allowed() ? "" : "none";
     });
-    if (allowed()) return;
+    if (allowed()) {
+      typeStates.forEach((s) => {
+        if (s.started && s.looping) s.restart();
+      });
+      return;
+    }
     document.getAnimations().forEach((a) => a.cancel());
     animations.forEach((a) => a.cancel());
     sequenceStops.forEach((stopSequence) => stopSequence());

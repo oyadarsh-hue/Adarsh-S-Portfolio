@@ -88,3 +88,7 @@ Added a separate coral portrait backdrop and layered blue edge, deeper project-c
 ## Complete education and project typing revision
 
 Re-extracted education directly from the supplied CV: Higher Secondary Education (Biology), Government Higher Secondary School, Thamarassery, June 2017–March 2019, 79.9%; High School Education, MGM Higher Secondary School, Engapuzha, June 2016–March 2017, 98.8%. Retained MCA and B.Sc. dates and CGPAs. Verified four education entries in requested descending order and replay across two visits, all five typed project titles and taglines, texture motion, mobile layout and pause behavior.
+
+## Continuous project text revision
+
+Verified typing completion, deletion and repetition while visible; individual 3D letter animation; scroll-away/return replay; pause and resume; mobile project cards; bidirectional text motion; six responsive widths; original CV download; reduced motion; and zero automated accessibility violations on the homepage and five case studies. No browser runtime errors. No new Lighthouse measurement.

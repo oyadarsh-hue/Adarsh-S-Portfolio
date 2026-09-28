@@ -77,3 +77,7 @@ Existing text blocks now use scroll-linked depth in browsers supporting CSS view
 ## Education and project presentation
 
 Education uses the same replayable timeline as experience, ordered MCA, B.Sc. Computer Science, Class 12 (Biology) and Class 10. Dates, institutions and grades come from the supplied CV. All five project titles and taglines type again on scroll re-entry, with dimensional title styling and a subtle animated dot texture.
+
+## Continuous project typing
+
+Project titles and taglines repeatedly type, hold for readability, erase and restart while visible. New letters flip into place in 3D; scrolling away restores complete text, and returning starts the effect again. Body text uses stronger scroll-linked perspective. Pause and reduced-motion preferences retain readable static text.

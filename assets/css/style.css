@@ -3159,3 +3159,63 @@ html:not(.js) .floating-label {
     padding: 8px 12px 12px;
   }
 }
+
+/* Individual letters rise in depth; complete words retain normal wrapping. */
+.type-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.type-letter {
+  display: inline-block;
+  animation: letter-type-depth 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+@keyframes letter-type-depth {
+  from {
+    transform: perspective(600px) rotateX(-65deg) translateY(9px)
+      translateZ(-12px);
+  }
+  to {
+    transform: perspective(600px) rotateX(0) translateY(0) translateZ(0);
+  }
+}
+.project-title-3d .typing-active .typing-visual {
+  animation: none;
+}
+@keyframes copy-scroll {
+  0% {
+    transform: perspective(900px) translate3d(0, 30px, 0) rotateX(12deg)
+      rotateY(-2deg);
+  }
+  32%,
+  72% {
+    transform: perspective(900px) translate3d(0, 0, 0) rotateX(0) rotateY(0);
+  }
+  100% {
+    transform: perspective(900px) translate3d(0, -18px, 0) rotateX(-6deg)
+      rotateY(1deg);
+  }
+}
+@media (max-width: 650px) {
+  @keyframes copy-scroll {
+    0% {
+      transform: perspective(900px) translateY(22px) rotateX(8deg);
+    }
+    32%,
+    72% {
+      transform: none;
+    }
+    100% {
+      transform: perspective(900px) translateY(-12px) rotateX(-4deg);
+    }
+  }
+}
+.paused .type-letter {
+  animation: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .type-letter {
+    animation: none !important;
+    transform: none !important;
+  }
+}
