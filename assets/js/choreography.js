@@ -59,71 +59,88 @@
       }).observe(root, { attributes: true, attributeFilter: ["class"] });
     });
 
-  const items = [...document.querySelectorAll("#experience .timeline-item")];
-  const timeline = document.querySelector(".timeline");
-  let next = 0,
-    requested = -1,
-    queueTimer = 0;
-  function revealNext() {
-    queueTimer = 0;
-    if (!allowed() || next > requested || next >= items.length) return;
-    const el = items[next++];
-    el.classList.add("experience-shown");
-    el.dataset.revealOrder = String(next);
-    timeline?.style.setProperty(
-      "--journey-progress",
-      String(next / items.length),
-    );
-    play(
-      el,
-      [
-        {
-          opacity: 0,
-          transform: "perspective(1000px) translate3d(0,64px,0) rotateX(12deg)",
+  const sequenceStops = [];
+  function setupSequence(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    const items = [...section.querySelectorAll(".timeline-item")];
+    const timeline = section.querySelector(".timeline");
+    let next = 0,
+      requested = -1,
+      queueTimer = 0;
+    function revealNext() {
+      queueTimer = 0;
+      if (!allowed() || next > requested || next >= items.length) return;
+      const el = items[next++];
+      el.classList.add("experience-shown");
+      el.dataset.revealOrder = String(next);
+      timeline?.style.setProperty(
+        "--journey-progress",
+        String(next / items.length),
+      );
+      play(
+        el,
+        [
+          {
+            opacity: 0,
+            transform:
+              "perspective(1000px) translate3d(0,64px,0) rotateX(12deg)",
+          },
+          {
+            opacity: 1,
+            transform:
+              "perspective(1000px) translate3d(0,-4px,0) rotateX(-1deg)",
+            offset: 0.8,
+          },
+          { opacity: 1, transform: "none" },
+        ],
+        { duration: 850, easing: "cubic-bezier(.16,1,.3,1)" },
+      );
+      if (next < items.length) queueTimer = setTimeout(revealNext, 320);
+    }
+    if ("IntersectionObserver" in window) {
+      items.forEach((el) => el.classList.add("experience-pending"));
+      const resetExperience = () => {
+        if (!allowed()) return;
+        clearTimeout(queueTimer);
+        queueTimer = 0;
+        next = 0;
+        requested = -1;
+        items.forEach((el) => {
+          el.getAnimations().forEach((a) => a.cancel());
+          el.classList.remove("experience-shown");
+          delete el.dataset.revealOrder;
+        });
+        timeline?.style.setProperty("--journey-progress", "0");
+      };
+      const experience = section;
+      if (experience)
+        new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) resetExperience();
+        }).observe(experience);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting)
+              requested = Math.max(requested, items.indexOf(entry.target));
+          });
+          if (!queueTimer && next <= requested) revealNext();
         },
-        {
-          opacity: 1,
-          transform: "perspective(1000px) translate3d(0,-4px,0) rotateX(-1deg)",
-          offset: 0.8,
-        },
-        { opacity: 1, transform: "none" },
-      ],
-      { duration: 850, easing: "cubic-bezier(.16,1,.3,1)" },
-    );
-    if (next < items.length) queueTimer = setTimeout(revealNext, 320);
-  }
-  if ("IntersectionObserver" in window) {
-    items.forEach((el) => el.classList.add("experience-pending"));
-    const resetExperience = () => {
-      if (!allowed()) return;
+        { threshold: 0.08, rootMargin: "0px 0px -8% 0px" },
+      );
+      items.forEach((el) => observer.observe(el));
+    }
+
+    sequenceStops.push(() => {
       clearTimeout(queueTimer);
       queueTimer = 0;
-      next = 0;
-      requested = -1;
-      items.forEach((el) => {
-        el.getAnimations().forEach((a) => a.cancel());
-        el.classList.remove("experience-shown");
-        delete el.dataset.revealOrder;
-      });
-      timeline?.style.setProperty("--journey-progress", "0");
-    };
-    const experience = document.getElementById("experience");
-    if (experience)
-      new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) resetExperience();
-      }).observe(experience);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting)
-            requested = Math.max(requested, items.indexOf(entry.target));
-        });
-        if (!queueTimer && next <= requested) revealNext();
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" },
-    );
-    items.forEach((el) => observer.observe(el));
+      items.forEach((el) => el.classList.add("experience-shown"));
+      next = items.length;
+      timeline?.style.setProperty("--journey-progress", "1");
+    });
   }
+  setupSequence("experience");
+  setupSequence("education");
 
   // Keep an invisible full-size copy to reserve wrapping and avoid layout jumps.
   const typeStates = [];
@@ -219,20 +236,9 @@
       el.style.animationName = allowed() ? "" : "none";
     });
     if (allowed()) return;
-    document
-      .getAnimations()
-      .filter(
-        (a) =>
-          a.animationName === "copy-scroll" ||
-          a.animationName === "copy-arrive",
-      )
-      .forEach((a) => a.cancel());
+    document.getAnimations().forEach((a) => a.cancel());
     animations.forEach((a) => a.cancel());
-    clearTimeout(queueTimer);
-    queueTimer = 0;
-    items.forEach((el) => el.classList.add("experience-shown"));
-    next = items.length;
-    timeline?.style.setProperty("--journey-progress", "1");
+    sequenceStops.forEach((stopSequence) => stopSequence());
     typeStates.forEach((s) => s.finish());
   }
   new MutationObserver(stop).observe(root, {

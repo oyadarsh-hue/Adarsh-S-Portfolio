@@ -3065,3 +3065,97 @@ html:not(.js) .floating-label {
     transform: none !important;
   }
 }
+
+/* Education follows the same ordered, replayable timeline as internships. */
+#education .timeline-item.in-view {
+  animation: none;
+}
+.education-level {
+  font:
+    600 11px/1.5 Consolas,
+    monospace;
+  letter-spacing: 0.09em;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+.education-timeline .timeline-content {
+  padding: 8px 20px 12px;
+  border-left: 3px solid #2456d8;
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(115deg, #edf3ff66, transparent);
+}
+.education-timeline .timeline-item:nth-child(2) .timeline-content {
+  border-color: #7953c2;
+}
+.education-timeline .timeline-item:nth-child(3) .timeline-content {
+  border-color: #c44a28;
+}
+.education-timeline .timeline-item:nth-child(4) .timeline-content {
+  border-color: #12856d;
+}
+.education-timeline .grade {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--text);
+  font-weight: 700;
+}
+.project-copy {
+  position: relative;
+  isolation: isolate;
+}
+.project-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 16px;
+  background-image: radial-gradient(#2456d826 1px, transparent 1px);
+  background-size: 19px 19px;
+  mask-image: linear-gradient(120deg, transparent 20%, #000 100%);
+  opacity: 0.6;
+}
+.project-card.in-view .project-copy::before {
+  animation: project-texture-drift 14s linear infinite;
+}
+.project-title-3d {
+  perspective: 900px;
+}
+.project-title-3d [data-scroll-type] {
+  text-shadow:
+    0 1px 0 #c6d6ed,
+    0 2px 0 #bacbe4,
+    0 3px 0 #aebfd9,
+    0 7px 14px #18365214;
+}
+.project-title-3d .typing-active .typing-visual {
+  animation: project-title-rise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: bottom left;
+}
+.project-tagline [data-scroll-type] {
+  max-width: 100%;
+}
+@keyframes project-title-rise {
+  from {
+    transform: perspective(900px) rotateX(20deg) translateY(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes project-texture-drift {
+  to {
+    background-position: 38px -38px;
+  }
+}
+:root[data-theme="dark"] .project-title-3d [data-scroll-type] {
+  text-shadow:
+    0 1px 0 #263650,
+    0 2px 0 #263650,
+    0 3px 0 #17253c;
+}
+@media (max-width: 650px) {
+  .education-timeline .timeline-content {
+    padding: 8px 12px 12px;
+  }
+}

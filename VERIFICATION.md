@@ -84,3 +84,7 @@ Added a separate coral portrait backdrop and layered blue edge, deeper project-c
 ## Repeating body-text motion
 
 81 existing text blocks now use scroll-linked depth in browsers supporting CSS view timelines, with repeat-on-entry animation elsewhere. Includes paragraphs, project headings, dates and experience bullets. Verified motion across two visits in both scroll directions and cancellation under pause/reduced motion.
+
+## Complete education and project typing revision
+
+Re-extracted education directly from the supplied CV: Higher Secondary Education (Biology), Government Higher Secondary School, Thamarassery, June 2017–March 2019, 79.9%; High School Education, MGM Higher Secondary School, Engapuzha, June 2016–March 2017, 98.8%. Retained MCA and B.Sc. dates and CGPAs. Verified four education entries in requested descending order and replay across two visits, all five typed project titles and taglines, texture motion, mobile layout and pause behavior.

@@ -72,4 +72,8 @@ The white-first design uses distinct blue, coral, violet and green accents. On d
 
 ## Repeating body-text motion
 
-81 existing text blocks now use scroll-linked depth in browsers supporting CSS view timelines, with repeat-on-entry animation elsewhere. Includes paragraphs, project headings, dates and experience bullets. Verified motion across two visits in both scroll directions and cancellation under pause/reduced motion.
+Existing text blocks now use scroll-linked depth in browsers supporting CSS view timelines, with repeat-on-entry animation elsewhere. Includes paragraphs, project headings, dates and experience bullets. Verified motion across two visits in both scroll directions and cancellation under pause/reduced motion.
+
+## Education and project presentation
+
+Education uses the same replayable timeline as experience, ordered MCA, B.Sc. Computer Science, Class 12 (Biology) and Class 10. Dates, institutions and grades come from the supplied CV. All five project titles and taglines type again on scroll re-entry, with dimensional title styling and a subtle animated dot texture.
