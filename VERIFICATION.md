@@ -34,7 +34,7 @@ Chromium-based automated testing and visual review were performed under `/Adarsh
 
 The GitHub profile and all five project repository URLs returned HTTP 200. QuietNote’s real demo returned HTTP 200. The supplied IJRASET article URL and DOI returned HTTP 200. The photo, CSS, JavaScript, case-study pages and replacement CV served locally at their GitHub Pages-style paths.
 
-LinkedIn returned its HTTP 999 automated-access restriction. The new CV’s URL (`https://www.linkedin.com/in/adarshs-031869355`) is used; it differs from the old portfolio URL. Manual confirmation remains useful.
+All portfolio LinkedIn links and structured profile metadata use the user-confirmed URL: https://www.linkedin.com/in/adarsh-s-031869355/. Updated across the homepage and all five case studies.
 
 A Research Square preprint URL was not found in the supplied CV, original site, project READMEs or targeted search. No speculative preprint link or metadata was added. No certificate-verification URLs were supplied, so credential entries do not pretend to link to verified certificates.
 
