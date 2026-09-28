@@ -4,8 +4,8 @@
     <script>
       document.documentElement.classList.add("js");
       try {
-        if (localStorage.getItem("adarsh-theme") === "light")
-          document.documentElement.dataset.theme = "light";
+        document.documentElement.dataset.theme =
+          localStorage.getItem("adarsh-theme-v2") === "dark" ? "dark" : "light";
       } catch {}
     </script>
     <meta charset="utf-8" />
@@ -15,7 +15,7 @@
       name="description"
       content="Expiring, revocable note sharing with PostgreSQL-enforced one-time access."
     />
-    <meta name="theme-color" content="#0b1016" />
+    <meta name="theme-color" content="#ffffff" />
     <link
       rel="canonical"
       href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/projects/quietnote.html"
@@ -51,8 +51,8 @@
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <script src="../assets/js/main.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/style.css?v=2" />
+    <script src="../assets/js/main.js?v=2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -73,7 +73,7 @@
         ><button
           class="icon-button"
           id="themeButton"
-          aria-label="Switch to light theme"
+          aria-label="Switch to dark theme"
         >
           ◐
         </button>

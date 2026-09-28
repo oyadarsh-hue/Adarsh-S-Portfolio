@@ -4,8 +4,8 @@
     <script>
       document.documentElement.classList.add("js");
       try {
-        if (localStorage.getItem("adarsh-theme") === "light")
-          document.documentElement.dataset.theme = "light";
+        document.documentElement.dataset.theme =
+          localStorage.getItem("adarsh-theme-v2") === "dark" ? "dark" : "light";
       } catch {}
     </script>
     <meta charset="utf-8" />
@@ -15,7 +15,7 @@
       name="description"
       content="Adarsh S, MCA graduate building full-stack applications, computer vision systems and security tools. Explore projects, research, internships and CV."
     />
-    <meta name="theme-color" content="#0b1016" />
+    <meta name="theme-color" content="#ffffff" />
     <link
       rel="canonical"
       href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/"
@@ -57,8 +57,8 @@
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <script src="assets/js/main.js" defer></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=2" />
+    <script src="assets/js/main.js?v=2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -94,33 +94,92 @@
         ><button
           class="icon-button"
           id="themeButton"
-          aria-label="Switch to light theme"
+          aria-label="Switch to dark theme"
         >
           ◐
         </button>
       </div>
     </header>
     <main id="main">
-      <section id="home" class="hero">
+      <section id="home" class="hero color-hero">
         <div class="hero-topline">
           <p class="eyebrow">
             <span class="status-dot"></span> SOFTWARE ENGINEERING / AI /
             RESEARCH
           </p>
-          <span class="edition">PORTFOLIO — 2026</span>
+          <span class="edition">A LITTLE CODE. A LOT OF CURIOSITY. / 2026</span>
         </div>
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="hello">Hello, I’m</p>
-            <h1>
-              <span>ADARSH</span>
-              <span class="surname">S<span class="name-dot">.</span></span>
-            </h1>
-            <h2>Engineering ideas.<br /><span>Into useful things.</span></h2>
-            <p class="hero-text">
-              MCA graduate building thoughtful web applications, privacy-aware
-              vision systems, and tools that make complex information
-              understandable.
+        <div
+          class="creative-stage"
+          aria-label="Adarsh’s interactive introduction"
+        >
+          <p class="stage-hello">Hello, world. I’m</p>
+          <h1 class="dimensional-name" aria-label="Adarsh S">
+            <span aria-hidden="true"
+              ><i>A</i><i>D</i><i>A</i><i>R</i><i>S</i><i>H</i
+              ><i class="name-space">S</i><i>.</i></span
+            >
+          </h1>
+          <div class="stage-orbit orbit-blue" aria-hidden="true"></div>
+          <div class="stage-orbit orbit-coral" aria-hidden="true"></div>
+          <figure class="center-portrait">
+            <img
+              src="assets/images/adarsh-s.jpeg"
+              width="400"
+              height="400"
+              alt="Adarsh S — full-color portrait"
+              fetchpriority="high"
+            />
+            <figcaption>
+              ADARSH S <span>·</span> MCA ’26 <span>·</span> KOZHIKODE
+            </figcaption>
+          </figure>
+          <button
+            class="floating-label label-blue"
+            data-floating
+            aria-describedby="drag-help"
+          >
+            <span><b aria-hidden="true">&lt;/&gt;</b> FULL STACK</span>
+          </button>
+          <button
+            class="floating-label label-violet"
+            data-floating
+            aria-describedby="drag-help"
+          >
+            <span><b aria-hidden="true">✳</b> AI / ML</span>
+          </button>
+          <button
+            class="floating-label label-coral"
+            data-floating
+            aria-describedby="drag-help"
+          >
+            <span><b aria-hidden="true">↗</b> RESEARCH</span>
+          </button>
+          <button
+            class="floating-label label-green"
+            data-floating
+            aria-describedby="drag-help"
+          >
+            <span><b aria-hidden="true">◎</b> COMPUTER VISION</span>
+          </button>
+          <div class="stage-spark spark-one" aria-hidden="true">✳</div>
+          <div class="stage-spark spark-two" aria-hidden="true">+</div>
+          <p id="drag-help" class="stage-hint">
+            Play a little: drag the labels, or focus and use arrow keys. Escape
+            resets.
+          </p>
+        </div>
+        <div class="hero-introduction">
+          <div>
+            <p class="eyebrow">THOUGHTFUL SOFTWARE. HUMAN PURPOSE.</p>
+            <h2>
+              Serious about code.<br /><span>Curious about everything.</span>
+            </h2>
+          </div>
+          <div>
+            <p class="hero-description">
+              I turn ideas into web applications, privacy-aware vision systems,
+              and tools that make complex information understandable.
             </p>
             <div class="actions">
               <a class="button primary magnetic" href="#projects"
@@ -135,45 +194,23 @@
             </div>
             <div class="hero-socials">
               <a
-                class=""
                 href="https://github.com/oyadarsh-hue"
                 target="_blank"
                 rel="noopener noreferrer"
-                >GitHub <span aria-hidden="true">↗</span></a
+                >GitHub ↗</a
               ><a
-                class=""
                 href="https://www.linkedin.com/in/adarshs-031869355"
                 target="_blank"
                 rel="noopener noreferrer"
-                >LinkedIn <span aria-hidden="true">↗</span></a
-              ><span>Kozhikode, Kerala</span>
+                >LinkedIn ↗</a
+              ><a href="mailto:oyadarsh@gmail.com">Let’s talk ↗</a>
             </div>
           </div>
-          <figure class="portrait-block">
-            <div class="portrait-frame">
-              <span class="portrait-coordinate">11.2588° N / 75.7804° E</span
-              ><img
-                src="assets/images/adarsh-s.jpeg"
-                width="400"
-                height="400"
-                alt="Adarsh S, software developer"
-                fetchpriority="high"
-              /><span class="portrait-cross cross-one">+</span
-              ><span class="portrait-cross cross-two">+</span>
-            </div>
-            <figcaption>
-              <span>THE PERSON BEHIND THE CODE</span
-              ><strong>Curiosity → Code → Impact</strong>
-            </figcaption>
-            <div class="portrait-stamp" aria-hidden="true">
-              MCA<br /><b>’26</b>
-            </div>
-          </figure>
         </div>
         <div class="hero-bottom">
           <span
             >FULL STACK <i>/</i> COMPUTER VISION <i>/</i> DATA ANALYTICS</span
-          ><a href="#about">SCROLL TO EXPLORE <span>↓</span></a>
+          ><a href="#about">KEEP EXPLORING <span>↓</span></a>
         </div>
       </section>
       <div

@@ -29,7 +29,8 @@ for (const page of pages) {
       !href.startsWith("/"),
       `Root-relative path breaks project Pages: ${page} → ${href}`,
     );
-    const [relative, anchor] = href.split("#");
+    const [withQuery, anchor] = href.split("#");
+    const relative = withQuery.split("?")[0];
     const target = relative ? path.resolve(path.dirname(file), relative) : file;
     assert(fs.existsSync(target), `Missing asset: ${page} → ${href}`);
     if (anchor)

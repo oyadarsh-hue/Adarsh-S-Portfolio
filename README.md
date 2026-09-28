@@ -9,7 +9,7 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Five case studies: AssentTag, EpigraphiX-AI, AegisForge-X, Deciphera and QuietNote.
 - Verified IJRASET publication link and DOI metadata.
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
-- Kinetic hero text, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
+- Dimensional multicolor hero lettering, cursor-driven perspective, floating draggable labels, 3D project-card tilt, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
 - System reduced-motion support and a persistent animation-pause button.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.
@@ -55,6 +55,10 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 | `scripts/check-site.mjs` | Dependency-free structural verification |
 | `VERIFICATION.md` | Test results, provenance and limitations |
 
-Dark mode is the initial theme. Theme and motion preferences are saved locally when storage is available. Content stays readable if scripts or storage are disabled. Contact opens the visitor’s email application; no contact backend or inert form is included.
+White is the initial theme; dark mode remains optional. Theme and motion preferences are saved locally when storage is available. Content stays readable if scripts or storage are disabled. Contact opens the visitor’s email application; no contact backend or inert form is included.
 
-The portrait is displayed in grayscale through CSS, with color on desktop hover. The original JPEG is preserved. Project diagrams are original conceptual illustrations, not application screenshots.
+The supplied portrait is centered, upright and displayed in full color, with no grayscale filter. The original JPEG is preserved. Project diagrams are original conceptual illustrations, not application screenshots.
+
+## Interactive color edition
+
+The white-first design uses distinct blue, coral, violet and green accents. On desktop, drag the floating hero labels. Keyboard users can focus a label and use arrow keys; Escape restores its position. On touch devices, drag a label with a finger; the rest of the page retains natural scrolling. The pause control and system reduced-motion setting disable animation and movement. Theme preference uses a new storage key so the previous dark default does not override this revision.

@@ -19,7 +19,7 @@
     }
   };
   root.classList.add("js");
-  if (stored("adarsh-theme") === "light") root.dataset.theme = "light";
+  root.dataset.theme = stored("adarsh-theme-v2") === "dark" ? "dark" : "light";
   let manuallyPaused = stored("adarsh-motion") === "paused";
   const motionAllowed = () => !reducedMotion.matches && !manuallyPaused;
   const motionButton = document.getElementById("motionButton");
@@ -54,8 +54,91 @@
   });
   themeButton?.addEventListener("click", () => {
     root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
-    remember("adarsh-theme", root.dataset.theme);
+    remember("adarsh-theme-v2", root.dataset.theme);
     syncPreferences();
+  });
+
+  const stage = document.querySelector(".creative-stage");
+  let stageFrame = 0;
+  stage?.addEventListener(
+    "pointermove",
+    (event) => {
+      if (!motionAllowed() || !finePointer.matches || stageFrame) return;
+      const { clientX, clientY } = event;
+      stageFrame = requestAnimationFrame(() => {
+        stageFrame = 0;
+        const rect = stage.getBoundingClientRect();
+        stage.style.setProperty(
+          "--stage-rx",
+          `${(0.5 - (clientY - rect.top) / rect.height) * 12}deg`,
+        );
+        stage.style.setProperty(
+          "--stage-ry",
+          `${((clientX - rect.left) / rect.width - 0.5) * 14}deg`,
+        );
+      });
+    },
+    { passive: true },
+  );
+  stage?.addEventListener("pointerleave", () => {
+    stage.style.setProperty("--stage-rx", "0deg");
+    stage.style.setProperty("--stage-ry", "0deg");
+  });
+  document.querySelectorAll("[data-floating]").forEach((label) => {
+    let x = 0,
+      y = 0,
+      drag = null;
+    const place = (nx, ny) => {
+      const bounds = stage.getBoundingClientRect();
+      const rect = label.getBoundingClientRect();
+      const originX = rect.left - bounds.left - x,
+        originY = rect.top - bounds.top - y;
+      x = Math.max(-originX, Math.min(bounds.width - originX - rect.width, nx));
+      y = Math.max(
+        -originY,
+        Math.min(bounds.height - originY - rect.height, ny),
+      );
+      label.style.setProperty("--drag-x", `${x}px`);
+      label.style.setProperty("--drag-y", `${y}px`);
+    };
+    label.addEventListener("pointerdown", (event) => {
+      if (!motionAllowed() || event.button !== 0)
+        return;
+      drag = { px: event.clientX, py: event.clientY, x, y };
+      label.setPointerCapture(event.pointerId);
+      label.classList.add("is-dragging");
+    });
+    label.addEventListener("pointermove", (event) => {
+      if (drag)
+        place(
+          drag.x + event.clientX - drag.px,
+          drag.y + event.clientY - drag.py,
+        );
+    });
+    const endDrag = () => {
+      drag = null;
+      label.classList.remove("is-dragging");
+    };
+    label.addEventListener("pointerup", endDrag);
+    label.addEventListener("pointercancel", endDrag);
+    label.addEventListener("lostpointercapture", endDrag);
+    label.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        place(0, 0);
+        return;
+      }
+      const moves = {
+        ArrowLeft: [-12, 0],
+        ArrowRight: [12, 0],
+        ArrowUp: [0, -12],
+        ArrowDown: [0, 12],
+      };
+      if (moves[event.key] && motionAllowed()) {
+        event.preventDefault();
+        place(x + moves[event.key][0], y + moves[event.key][1]);
+      }
+    });
+    label.addEventListener("dblclick", () => place(0, 0));
   });
 
   const menu = document.getElementById("menuButton");
@@ -131,10 +214,14 @@
     ?.setAttribute("aria-current", "location");
 
   if ("IntersectionObserver" in window) {
-    const visualObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => entry.target.classList.toggle("is-visible", entry.isIntersecting));
+    const visualObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) =>
+        entry.target.classList.toggle("is-visible", entry.isIntersecting),
+      );
     });
-    document.querySelectorAll('.project-visual').forEach(el => visualObserver.observe(el));
+    document
+      .querySelectorAll(".project-visual")
+      .forEach((el) => visualObserver.observe(el));
     const observer = new IntersectionObserver(
       (entries) =>
         entries.forEach((entry) => {
@@ -183,6 +270,14 @@
           const rect = card.getBoundingClientRect();
           card.style.setProperty("--pointer-x", `${clientX - rect.left}px`);
           card.style.setProperty("--pointer-y", `${clientY - rect.top}px`);
+          card.style.setProperty(
+            "--card-rx",
+            `${(0.5 - (clientY - rect.top) / rect.height) * 3}deg`,
+          );
+          card.style.setProperty(
+            "--card-ry",
+            `${((clientX - rect.left) / rect.width - 0.5) * 3}deg`,
+          );
         }
         const link = target.closest("a");
         let label = link?.dataset.cursor || "";
