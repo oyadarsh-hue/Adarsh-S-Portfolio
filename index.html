@@ -57,8 +57,9 @@
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/css/style.css?v=2" />
-    <script src="assets/js/main.js?v=2" defer></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=3" />
+    <script src="assets/js/main.js?v=3" defer></script>
+    <script src="assets/js/motion.js?v=3" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -123,13 +124,17 @@
           <div class="stage-orbit orbit-blue" aria-hidden="true"></div>
           <div class="stage-orbit orbit-coral" aria-hidden="true"></div>
           <figure class="center-portrait">
-            <img
-              src="assets/images/adarsh-s.jpeg"
-              width="400"
-              height="400"
-              alt="Adarsh S — full-color portrait"
-              fetchpriority="high"
-            />
+            <div class="portrait-depth">
+              <div class="portrait-float">
+                <img
+                  src="assets/images/adarsh-s.jpeg"
+                  width="400"
+                  height="400"
+                  alt="Adarsh S — full-color portrait"
+                  fetchpriority="high"
+                />
+              </div>
+            </div>
             <figcaption>
               ADARSH S <span>·</span> MCA ’26 <span>·</span> KOZHIKODE
             </figcaption>
@@ -171,7 +176,15 @@
         </div>
         <div class="hero-introduction">
           <div>
-            <p class="eyebrow">THOUGHTFUL SOFTWARE. HUMAN PURPOSE.</p>
+            <p class="typed-intro">
+              <span class="motion-sr-only"
+                >I build full-stack applications, computer vision systems and
+                research tools.</span
+              ><span aria-hidden="true"
+                >I build <span id="typed-role">full-stack applications.</span
+                ><span class="type-caret">|</span></span
+              >
+            </p>
             <h2>
               Serious about code.<br /><span>Curious about everything.</span>
             </h2>

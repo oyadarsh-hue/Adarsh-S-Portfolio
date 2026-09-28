@@ -27,7 +27,7 @@ Chromium-based automated testing and visual review were performed under `/Adarsh
 - No-JavaScript navigation and project content remain accessible.
 - CV download emits `Adarsh_S_CV.pdf`; source and replacement checksums match.
 - Runtime errors: none. Missing local resources: none.
-- Structural check: seven HTML pages, 79 local references, unique IDs, one H1 per page, valid JSON-LD and valid PDF signature.
+- Structural check: seven HTML pages, 80 local references, unique IDs, one H1 per page, valid JSON-LD and valid PDF signature.
 - Automated WCAG A/AA scans: no remaining violations on the white homepage and five case studies. Automated checks do not replace a full manual accessibility audit.
 
 ## Link checks
@@ -46,6 +46,7 @@ A Research Square preprint URL was not found in the supplied CV, original site, 
 - Offscreen sections use browser-native deferred rendering; offscreen diagram animations pause.
 - Perspective effects use fine pointers; floating labels support mouse, touch and arrow keys. Motion pauses and reduced-motion preferences disable the effects.
 - White is the default theme. The centered original portrait remains full color, while multicolor dimensional lettering and draggable labels provide movement.
+- Portrait float, pointer tilt, changing typewriter text, scroll-linked transforms, pause/resume and system reduced motion are explicitly browser-tested.
 - Photo alignment and white background verified at all six viewport widths; touch dragging verified with emulated touch events.
 - Scroll handling uses requestAnimationFrame and groups geometry reads before writes.
 - No blocking loader or scroll hijacking.
@@ -64,6 +65,6 @@ These checks use an emulated responsive Chromium browser, not physical iOS/Andro
 
 ## Final mobile Lighthouse audit
 
-Final isolated Chrome/Lighthouse run: **Performance 97 / Accessibility 100 / Best Practices 100 / SEO 100**. Default mobile simulation at the local GitHub Pages-style URL. The standalone HTML report is supplied with the final deliverables.
+Final isolated Chrome/Lighthouse run: **Performance 86 / Accessibility 100 / Best Practices 100 / SEO 100**. Default mobile simulation at the local GitHub Pages-style URL. The standalone HTML report is supplied with the final deliverables.
 
-This audit covers the white, colorful 3D revision. Scores are lab measurements, not guarantees for every visitor.
+This audit covers the enhanced portrait, scroll-depth and typewriter revision. Scores are lab measurements, not guarantees for every visitor.

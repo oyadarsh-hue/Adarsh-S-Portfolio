@@ -2548,3 +2548,177 @@ html:not(.js) .floating-label {
     transform: none !important;
   }
 }
+
+/* Motion edition: independent layers keep the portrait legible. */
+.portrait-depth {
+  perspective: 950px;
+  transform-style: preserve-3d;
+  transform: perspective(950px) rotateX(var(--portrait-rx, 0deg))
+    rotateY(var(--portrait-ry, 0deg));
+  transition: transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.portrait-float {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: portrait-hover 6s ease-in-out infinite;
+}
+.portrait-float::before {
+  content: "";
+  position: absolute;
+  inset: 8% -4% -3%;
+  border-radius: 46% 46% 15% 15%;
+  background: linear-gradient(
+    135deg,
+    #2456d8,
+    #af8aeb 40%,
+    #ff986e 70%,
+    #9cd443
+  );
+  transform: translateZ(-25px) rotate(-3deg);
+  opacity: 0.28;
+  z-index: -1;
+}
+.center-portrait img {
+  display: block;
+}
+.center-portrait {
+  translate: 0 calc(var(--hero-travel, 0) * -32px);
+  rotate: calc(var(--hero-travel, 0) * -5deg);
+}
+.dimensional-name {
+  translate: 0 calc(var(--hero-travel, 0) * -62px);
+}
+.stage-orbit {
+  translate: 0 calc(var(--hero-travel, 0) * 36px);
+}
+.typed-intro {
+  color: var(--accent);
+  font:
+    600 clamp(12px, 1.25vw, 16px)/1.6 Consolas,
+    monospace;
+  min-height: 3.2em;
+  margin: 0 0 12px;
+}
+.type-caret {
+  color: #c44a28;
+  animation: type-blink 1s step-end infinite;
+}
+.scroll-depth {
+  translate: 0 var(--depth-y, 0px);
+  rotate: x var(--depth-rx, 0deg);
+  transform-origin: center;
+}
+.project-visual.scroll-depth {
+  rotate: var(--depth-rz, 0deg);
+}
+.section-heading.in-view h2 {
+  animation: title-unfold 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.project-card.in-view {
+  animation: card-emerge 1.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.timeline-item.in-view {
+  animation: timeline-emerge 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.motion-offscreen .portrait-float,
+.motion-offscreen .stage-orbit,
+.motion-offscreen .floating-label > span {
+  animation-play-state: paused;
+}
+@keyframes portrait-hover {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotateZ(-1.2deg);
+  }
+  50% {
+    transform: translate3d(0, -13px, 18px) rotateZ(1.2deg);
+  }
+}
+@keyframes type-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes title-unfold {
+  from {
+    transform: perspective(900px) rotateX(32deg) translateY(28px);
+  }
+  to {
+    transform: perspective(900px) rotateX(0) translateY(0);
+  }
+}
+@keyframes card-emerge {
+  from {
+    transform: perspective(1500px) rotateX(6deg) translateY(48px) scale(0.975);
+  }
+  to {
+    transform: perspective(1500px) rotateX(0) translateY(0) scale(1);
+  }
+}
+@keyframes timeline-emerge {
+  from {
+    transform: translateX(-24px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (max-width: 650px) {
+  .portrait-float {
+    animation-name: portrait-hover-mobile;
+  }
+  .typed-intro {
+    font-size: 12px;
+  }
+}
+@keyframes portrait-hover-mobile {
+  0%,
+  100% {
+    transform: translateY(0) rotateZ(-0.7deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateZ(0.7deg);
+  }
+}
+.paused .portrait-depth,
+.paused .portrait-float {
+  transform: none !important;
+}
+.paused .scroll-depth,
+.paused .center-portrait,
+.paused .dimensional-name,
+.paused .stage-orbit {
+  translate: none !important;
+  rotate: none !important;
+}
+.paused .type-caret {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-depth,
+  .portrait-float {
+    transform: none !important;
+    animation: none !important;
+  }
+  .scroll-depth,
+  .center-portrait,
+  .dimensional-name,
+  .stage-orbit {
+    translate: none !important;
+    rotate: none !important;
+  }
+  .type-caret {
+    display: none;
+  }
+}
+.motion-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

@@ -10,6 +10,7 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Verified IJRASET publication link and DOI metadata.
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
 - Dimensional multicolor hero lettering, cursor-driven perspective, floating draggable labels, 3D project-card tilt, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
+- Floating portrait with layered 3D pointer tilt, scroll-linked depth and a typewriter role introduction.
 - System reduced-motion support and a persistent animation-pause button.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.
@@ -29,6 +30,7 @@ Optional structural verification, using Node.js:
 ```sh
 node scripts/check-site.mjs
 node --check assets/js/main.js
+node --check assets/js/motion.js
 ```
 
 ## GitHub Pages
@@ -47,6 +49,7 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 | `index.html` | Homepage and structured data |
 | `assets/css/style.css` | Design tokens, themes, layout and motion |
 | `assets/js/main.js` | Optional interaction enhancements |
+| `assets/js/motion.js` | Portrait tilt, scroll depth and typewriter motion |
 | `assets/images/adarsh-s.jpeg` | Original supplied portrait |
 | `assets/images/social-preview.png` | Social sharing image |
 | `assets/docs/Adarsh_S_CV.pdf` | Original replacement CV |
@@ -57,7 +60,7 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 
 White is the initial theme; dark mode remains optional. Theme and motion preferences are saved locally when storage is available. Content stays readable if scripts or storage are disabled. Contact opens the visitor’s email application; no contact backend or inert form is included.
 
-The supplied portrait is centered, upright and displayed in full color, with no grayscale filter. The original JPEG is preserved. Project diagrams are original conceptual illustrations, not application screenshots.
+The supplied portrait is centered, gently animated and displayed in full color, with no grayscale filter. The original JPEG is preserved. Project diagrams are original conceptual illustrations, not application screenshots.
 
 ## Interactive color edition
 
