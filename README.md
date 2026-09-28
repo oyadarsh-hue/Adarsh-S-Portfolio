@@ -11,6 +11,7 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
 - Dimensional multicolor hero lettering, cursor-driven perspective, floating draggable labels, 3D project-card tilt, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
 - Draggable name and portrait, staggered letter waves, stronger portrait float, scroll-linked depth and two typewriter introductions. Drag with mouse/touch, use arrow keys, or press Escape/Enter/Space to reset the name and photo.
+- Top-down portrait entrance, drag lift and release wobble, ordered experience reveals, a progressing timeline and four scroll-triggered typing headings.
 - System reduced-motion support and a persistent animation-pause button.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.
@@ -31,6 +32,7 @@ Optional structural verification, using Node.js:
 node scripts/check-site.mjs
 node --check assets/js/main.js
 node --check assets/js/motion.js
+node --check assets/js/choreography.js
 ```
 
 ## GitHub Pages
@@ -50,6 +52,7 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 | `assets/css/style.css` | Design tokens, themes, layout and motion |
 | `assets/js/main.js` | Optional interaction enhancements |
 | `assets/js/motion.js` | Portrait tilt, scroll depth and typewriter motion |
+| `assets/js/choreography.js` | Drag spring, sequential experience and heading typing |
 | `assets/images/adarsh-s.jpeg` | Original supplied portrait |
 | `assets/images/social-preview.png` | Social sharing image |
 | `assets/docs/Adarsh_S_CV.pdf` | Original replacement CV |

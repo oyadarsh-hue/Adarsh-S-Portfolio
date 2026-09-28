@@ -2811,3 +2811,119 @@ html:not(.js) .floating-label {
     rotate: none !important;
   }
 }
+
+/* Arrival and scroll choreography; all content remains available without JS. */
+.portrait-arrival {
+  animation: portrait-drop 1.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes portrait-drop {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(-320px) rotateX(20deg)
+      rotateZ(-8deg) scale(0.82);
+  }
+  65% {
+    opacity: 1;
+    transform: perspective(1000px) translateY(15px) rotateX(-4deg) rotateZ(2deg)
+      scale(1.02);
+  }
+  84% {
+    transform: translateY(-7px) rotateZ(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.drag-lifted {
+  scale: 1.045;
+  rotate: var(--drag-lean, 0deg);
+  z-index: 8;
+}
+.drag-lifted .portrait-float {
+  animation-play-state: paused;
+}
+.timeline {
+  --journey-progress: 0;
+}
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(#2456d8, #7953c2, #12856d);
+  transform: scaleY(var(--journey-progress));
+  transform-origin: top;
+  transition: transform 0.65s ease;
+}
+#experience .timeline-item.in-view {
+  animation: none;
+}
+.experience-pending {
+  opacity: 0;
+}
+.experience-pending.experience-shown {
+  opacity: 1;
+}
+.timeline-item.experience-shown::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 6px #2456d81a;
+}
+[data-scroll-type] {
+  display: inline-block;
+  position: relative;
+}
+.typing-original {
+  opacity: 0;
+}
+.typing-visual {
+  position: absolute;
+  inset: 0;
+}
+.typing-active .typing-visual::after {
+  content: "|";
+  color: var(--accent);
+  animation: type-blink 0.8s step-end infinite;
+}
+.paused .portrait-arrival {
+  transform: none !important;
+  opacity: 1 !important;
+}
+.paused .experience-pending {
+  opacity: 1;
+}
+.paused .drag-lifted {
+  scale: 1;
+  rotate: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-arrival {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .experience-pending {
+    opacity: 1;
+  }
+  .drag-lifted {
+    scale: 1;
+    rotate: none;
+  }
+}
+@media print {
+  .experience-pending {
+    opacity: 1 !important;
+  }
+  .portrait-arrival {
+    animation: none;
+    transform: none;
+  }
+  .typing-original {
+    opacity: 1;
+  }
+  .typing-visual {
+    display: none;
+  }
+}

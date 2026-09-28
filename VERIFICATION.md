@@ -27,7 +27,7 @@ Chromium-based automated testing and visual review were performed under `/Adarsh
 - No-JavaScript navigation and project content remain accessible.
 - CV download emits `Adarsh_S_CV.pdf`; source and replacement checksums match.
 - Runtime errors: none. Missing local resources: none.
-- Structural check: seven HTML pages, 80 local references, unique IDs, one H1 per page, valid JSON-LD and valid PDF signature.
+- Structural check: seven HTML pages, 81 local references, unique IDs, one H1 per page, valid JSON-LD and valid PDF signature.
 - Automated WCAG A/AA scans: no remaining violations on the white homepage and five case studies. Automated checks do not replace a full manual accessibility audit.
 
 ## Link checks
@@ -72,3 +72,7 @@ This historical audit predates the stronger float, draggable name/photo and seco
 ## Draggable motion revision
 
 Verified name and portrait mouse dragging, arrow-key movement and Escape reset; portrait touch dragging; both typing lines changing; scroll depth; pause and reduced motion; six responsive widths without overflow; original CV download; and zero automated accessibility violations on the homepage and five case studies. The portrait now gently moves around its centered resting position.
+
+## Full choreography revision
+
+Revisited the supplied Deepak portfolio as a visual reference. Added a top-down portrait entrance, drag lift/lean and release wobble, experience reveals in existing document order, a progressive timeline and four on-scroll typing headings. Tested entry order, heading completion, spring animation, pause cancellation, mobile layout, reduced motion and no-JavaScript access. Runtime errors: none. This revision has no new Lighthouse measurement; the earlier score above remains historical.
