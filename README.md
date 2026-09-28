@@ -69,3 +69,7 @@ The supplied portrait is centered, gently animated and displayed in full color, 
 ## Interactive color edition
 
 The white-first design uses distinct blue, coral, violet and green accents. On desktop, drag the floating hero labels. Keyboard users can focus a label and use arrow keys; Escape restores its position. On touch devices, drag a label with a finger; the rest of the page retains natural scrolling. The pause control and system reduced-motion setting disable animation and movement. Theme preference uses a new storage key so the previous dark default does not override this revision.
+
+## Repeating body-text motion
+
+81 existing text blocks now use scroll-linked depth in browsers supporting CSS view timelines, with repeat-on-entry animation elsewhere. Includes paragraphs, project headings, dates and experience bullets. Verified motion across two visits in both scroll directions and cancellation under pause/reduced motion.

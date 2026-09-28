@@ -174,6 +174,33 @@
         { threshold: [0, 0.5] },
       ).observe(el);
   });
+  // Body copy follows the scroll; intersection classes provide a fallback.
+  const copy = [
+    ...document.querySelectorAll(
+      ".section p, .section h3, .section li, .hero-description",
+    ),
+  ].filter(
+    (el) =>
+      !el.closest(".project-visual, .skill-filters") &&
+      !el.querySelector("[data-scroll-type]") &&
+      !el.closest("li p"),
+  );
+  copy.forEach((el, i) => {
+    el.classList.add("scroll-copy");
+    el.style.setProperty("--copy-delay", (i % 4) * 45 + "ms");
+  });
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          target.classList.toggle("copy-in-view", isIntersecting);
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px -3% 0px" },
+    );
+    copy.forEach((el) => observer.observe(el));
+  }
+
   const arrival = document.querySelector(".portrait-arrival");
   if (arrival && "IntersectionObserver" in window) {
     const anchor = document.querySelector(".center-portrait");
@@ -188,7 +215,18 @@
     ).observe(anchor);
   }
   function stop() {
+    copy.forEach((el) => {
+      el.style.animationName = allowed() ? "" : "none";
+    });
     if (allowed()) return;
+    document
+      .getAnimations()
+      .filter(
+        (a) =>
+          a.animationName === "copy-scroll" ||
+          a.animationName === "copy-arrive",
+      )
+      .forEach((a) => a.cancel());
     animations.forEach((a) => a.cancel());
     clearTimeout(queueTimer);
     queueTimer = 0;

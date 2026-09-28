@@ -3011,3 +3011,57 @@ html:not(.js) .floating-label {
     animation: none !important;
   }
 }
+
+/* Readable text motion: replay on re-entry, follow scrolling where supported. */
+.scroll-copy {
+  transform-origin: left center;
+}
+.scroll-copy.copy-in-view {
+  animation: copy-arrive 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--copy-delay, 0ms);
+}
+@keyframes copy-arrive {
+  from {
+    transform: perspective(1000px) translate3d(0, 20px, 0) rotateX(7deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  .scroll-copy,
+  .scroll-copy.copy-in-view {
+    animation: copy-scroll linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+    animation-delay: 0s;
+  }
+}
+@keyframes copy-scroll {
+  0% {
+    transform: perspective(1000px) translate3d(0, 22px, 0) rotateX(8deg);
+  }
+  30%,
+  75% {
+    transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0);
+  }
+  100% {
+    transform: perspective(1000px) translate3d(0, -12px, 0) rotateX(-3deg);
+  }
+}
+.paused .scroll-copy {
+  animation: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-copy {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+@media print {
+  .scroll-copy {
+    animation: none !important;
+    transform: none !important;
+  }
+}

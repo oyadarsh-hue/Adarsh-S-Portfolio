@@ -80,3 +80,7 @@ Revisited the supplied Deepak portfolio as a visual reference. Added a top-down 
 ## Coral frame and repeatable scroll revision
 
 Added a separate coral portrait backdrop and layered blue edge, deeper project-card entrances and repeated scroll animations. Verified two full scroll-away/return cycles for the portrait entrance, heading typing and ordered experience sequence, plus pause visibility, mobile overflow and browser runtime errors. The previous Lighthouse measurement remains historical.
+
+## Repeating body-text motion
+
+81 existing text blocks now use scroll-linked depth in browsers supporting CSS view timelines, with repeat-on-entry animation elsewhere. Includes paragraphs, project headings, dates and experience bullets. Verified motion across two visits in both scroll directions and cancellation under pause/reduced motion.
