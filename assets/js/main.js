@@ -102,8 +102,7 @@
       label.style.setProperty("--drag-y", `${y}px`);
     };
     label.addEventListener("pointerdown", (event) => {
-      if (!motionAllowed() || event.button !== 0)
-        return;
+      if (!motionAllowed() || event.button !== 0) return;
       drag = { px: event.clientX, py: event.clientY, x, y };
       label.setPointerCapture(event.pointerId);
       label.classList.add("is-dragging");
@@ -225,9 +224,10 @@
     const observer = new IntersectionObserver(
       (entries) =>
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          if (motionAllowed()) entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
+          if (entry.isIntersecting && motionAllowed())
+            entry.target.classList.add("in-view");
+          else if (!entry.isIntersecting)
+            entry.target.classList.remove("in-view");
         }),
       { threshold: 0.08 },
     );

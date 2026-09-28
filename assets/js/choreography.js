@@ -92,8 +92,26 @@
     );
     if (next < items.length) queueTimer = setTimeout(revealNext, 320);
   }
-  if ("IntersectionObserver" in window && allowed()) {
+  if ("IntersectionObserver" in window) {
     items.forEach((el) => el.classList.add("experience-pending"));
+    const resetExperience = () => {
+      if (!allowed()) return;
+      clearTimeout(queueTimer);
+      queueTimer = 0;
+      next = 0;
+      requested = -1;
+      items.forEach((el) => {
+        el.getAnimations().forEach((a) => a.cancel());
+        el.classList.remove("experience-shown");
+        delete el.dataset.revealOrder;
+      });
+      timeline?.style.setProperty("--journey-progress", "0");
+    };
+    const experience = document.getElementById("experience");
+    if (experience)
+      new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) resetExperience();
+      }).observe(experience);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -141,17 +159,34 @@
         (entries, observer) => {
           if (entries.some((e) => e.isIntersecting) && !state.started) {
             state.started = true;
-            observer.disconnect();
+            state.index = 0;
             if (allowed()) {
               el.classList.add("typing-active");
               visual.textContent = "";
               tick();
             }
+          } else if (entries.every((e) => !e.isIntersecting)) {
+            finish();
+            state.started = false;
+            state.index = 0;
           }
         },
-        { threshold: 0.5 },
+        { threshold: [0, 0.5] },
       ).observe(el);
   });
+  const arrival = document.querySelector(".portrait-arrival");
+  if (arrival && "IntersectionObserver" in window) {
+    const anchor = document.querySelector(".center-portrait");
+    new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && allowed())
+          arrival.classList.add("arrival-active");
+        else if (!entry.isIntersecting)
+          arrival.classList.remove("arrival-active");
+      },
+      { threshold: 0.12 },
+    ).observe(anchor);
+  }
   function stop() {
     if (allowed()) return;
     animations.forEach((a) => a.cancel());

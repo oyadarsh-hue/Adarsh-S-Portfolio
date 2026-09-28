@@ -76,3 +76,7 @@ Verified name and portrait mouse dragging, arrow-key movement and Escape reset; 
 ## Full choreography revision
 
 Revisited the supplied Deepak portfolio as a visual reference. Added a top-down portrait entrance, drag lift/lean and release wobble, experience reveals in existing document order, a progressive timeline and four on-scroll typing headings. Tested entry order, heading completion, spring animation, pause cancellation, mobile layout, reduced motion and no-JavaScript access. Runtime errors: none. This revision has no new Lighthouse measurement; the earlier score above remains historical.
+
+## Coral frame and repeatable scroll revision
+
+Added a separate coral portrait backdrop and layered blue edge, deeper project-card entrances and repeated scroll animations. Verified two full scroll-away/return cycles for the portrait entrance, heading typing and ordered experience sequence, plus pause visibility, mobile overflow and browser runtime errors. The previous Lighthouse measurement remains historical.
