@@ -111,6 +111,7 @@ footer { background: linear-gradient(125deg, #a0c8d1, #bca4df 55%, #e9b99e); }
   --accent: #bdedeb;
   --border: #ccbbef55;
   --section-accent: #d4bbff;
+  color: var(--text);
   background: radial-gradient(ellipse at 90% 15%, #35869688, transparent 58%), linear-gradient(125deg, #30265c, #59377b 55%, #235c69);
 }
 #publication .publication-card { grid-template-columns: 1fr 1.25fr; background: linear-gradient(130deg, #37275d, #245464); border-radius: 20px; }
