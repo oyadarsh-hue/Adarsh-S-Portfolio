@@ -7,7 +7,6 @@
   const typed = document.getElementById("typed-role");
   const fine = matchMedia("(hover: hover) and (pointer: fine)");
   const allowed = () => !root.classList.contains("paused") && !document.hidden;
-  const scrollGeometry = window.portfolioScrollGeometry;
   document.querySelectorAll("[data-drag-piece]").forEach((el) => {
     let x = 0,
       y = 0,
@@ -72,68 +71,14 @@
     }).observe(root, { attributes: true, attributeFilter: ["class"] });
   });
   let heroVisible = true;
-  let frame = 0;
-  const active = new Set();
-  const targets = [
-    ...document.querySelectorAll(
-      ".section-heading, .project-visual, .publication-card, .profile-facts, .education-grid",
-    ),
-  ];
-  targets.forEach((el, i) => {
-    el.classList.add("scroll-depth");
-    el.dataset.depthDirection = i % 2 ? "1" : "-1";
-  });
-  function paint() {
-    frame = 0;
-    if (!allowed()) return;
-    const height = innerHeight;
-    // Read geometry before writes. Only visible elements participate.
-    const positions = [...active].map((el) => ({
-      el,
-      rect: scrollGeometry(el),
-    }));
-    const heroTop =
-      heroVisible && stage ? scrollGeometry(stage).top : 0;
-    if (stage && heroVisible) {
-      const travel = Math.max(0, Math.min(1, -heroTop / height));
-      stage.style.setProperty("--hero-travel", String(travel));
-    }
-    positions.forEach(({ el, rect }) => {
-      const t = Math.max(
-        -1,
-        Math.min(1, (rect.top + rect.height / 2 - height / 2) / height),
-      );
-      el.style.setProperty("--depth-y", `${t * 42}px`);
-      el.style.setProperty("--depth-rx", `${-t * 9}deg`);
-      el.style.setProperty(
-        "--depth-rz",
-        `${t * Number(el.dataset.depthDirection) * 1.8}deg`,
-      );
-    });
-  }
-  function schedule() {
-    if (!frame && allowed()) frame = requestAnimationFrame(paint);
-  }
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(({ target, isIntersecting }) => {
-          if (isIntersecting) active.add(target);
-          else active.delete(target);
-        });
-      },
-      { rootMargin: "80px" },
-    );
-    targets.forEach((el) => observer.observe(el));
-    if (stage)
-      new IntersectionObserver(([entry]) => {
-        heroVisible = entry.isIntersecting;
-        stage.classList.toggle("motion-offscreen", !heroVisible);
-        syncTyping();
-      }).observe(stage);
-  }
-  addEventListener("scroll", schedule, { passive: true });
-  addEventListener("resize", schedule, { passive: true });
+  // Keep the content plane fixed while scrolling. Only the portrait's
+  // pointer interaction and independently floating decorations move.
+  if (stage && "IntersectionObserver" in window)
+    new IntersectionObserver(([entry]) => {
+      heroVisible = entry.isIntersecting;
+      stage.classList.toggle("motion-offscreen", !heroVisible);
+      syncTyping();
+    }).observe(stage);
   // The outer layer follows the pointer; the inner layer floats independently.
   let pointerFrame = 0;
   stage?.addEventListener(
@@ -199,11 +144,9 @@
   }
   new MutationObserver(() => {
     syncTyping();
-    schedule();
   }).observe(root, { attributes: true, attributeFilter: ["class"] });
   document.addEventListener("visibilitychange", () => {
     syncTyping();
-    schedule();
   });
   syncTyping();
   // A second, independent typing line keeps the introduction lively.

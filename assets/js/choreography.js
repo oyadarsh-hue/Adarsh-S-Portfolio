@@ -84,17 +84,17 @@
           {
             opacity: 0,
             transform:
-              "perspective(1000px) translate3d(0,64px,0) rotateX(12deg)",
+              "translateY(12px)",
           },
           {
             opacity: 1,
             transform:
-              "perspective(1000px) translate3d(0,-4px,0) rotateX(-1deg)",
+              "translateY(2px)",
             offset: 0.8,
           },
           { opacity: 1, transform: "none" },
         ],
-        { duration: 850, easing: "cubic-bezier(.16,1,.3,1)" },
+        { duration: 650, easing: "cubic-bezier(.22,1,.36,1)" },
       );
       if (next < items.length) queueTimer = setTimeout(revealNext, 320);
     }
@@ -319,20 +319,20 @@
               [
                 {
                   transform:
-                    "perspective(800px) translateY(28px) rotateX(-45deg)",
+                    "translateY(8px)",
                   opacity: 0.25,
                 },
                 {
                   transform:
-                    "perspective(800px) translateY(-3px) rotateX(3deg)",
+                    "translateY(1px)",
                   opacity: 1,
                   offset: 0.8,
                 },
                 { transform: "none", opacity: 1 },
               ],
               {
-                duration: 800,
-                delay: i * 85,
+                duration: 700,
+                delay: i * 75,
                 easing: "cubic-bezier(.16,1,.3,1)",
                 fill: "backwards",
               },
