@@ -3,7 +3,7 @@
   --bg: #b4bedf;
   --surface: #c1b3df;
   --elevated: #b7cce5;
-  --muted: #354157;
+  --muted: #2d374c;
   --accent: #1c408e;
   --border: #7a84ae66;
   --vibe-violet: #6e45b7;
@@ -98,7 +98,7 @@ footer { background: linear-gradient(125deg, #a0c8d1, #bca4df 55%, #e9b99e); }
 :root:not([data-theme="dark"]) #certifications { --section-accent: #0b5345; }
 :root:not([data-theme="dark"]) #education { --section-accent: #772c1c; }
 :root:not([data-theme="dark"]) .vibe-project .project-visual { background: linear-gradient(155deg, var(--vibe-end), var(--vibe-wash)); }
-:root:not([data-theme="dark"]) .vibe-project .project-detail { color: #35435b; }
+:root:not([data-theme="dark"]) .vibe-project .project-detail { color: #2d374c; }
 :root:not([data-theme="dark"]) .skill-card { background: linear-gradient(130deg, #a4cfc6, #b8a8df); }
 :root:not([data-theme="dark"]) .skill-card:nth-child(2n) { background: linear-gradient(130deg, #b6bce2, #d9a6c1); }
 :root:not([data-theme="dark"]) .cert-card { background: linear-gradient(130deg, #e4ba98, #c1abde); }
