@@ -1,5 +1,6 @@
 /* Richer colour fields and additive scroll depth, without changing content. */
 :root { --muted: #293449; --accent: #173b85; }
+:root[data-theme="dark"] { --muted: #d0cedf; }
 body { background: linear-gradient(130deg, #a68ceb, #65ced6 55%, #eda17d); }
 .topbar, .topbar.scrolled, :root[data-theme="dark"] .topbar {
   --text: #f6f2ff; --muted: #e1def4; --accent: #a5efe7; --border: #cebbf755;
@@ -89,6 +90,8 @@ footer { background: linear-gradient(125deg, #97c9cd, #b395dc 52%, #e5aa92); }
 :root[data-theme="dark"] #education { background: linear-gradient(125deg, #1d555b, #344579 50%, #4b3170); }
 :root[data-theme="dark"] .contact-section { background: linear-gradient(125deg, #40245f, #693564 50%, #66394d); }
 :root[data-theme="dark"] footer { background: linear-gradient(125deg, #1c4d5b, #462b66 52%, #593248); }
+:root[data-theme="dark"] .footer-word { color: #adc8ff; }
+:root[data-theme="dark"] .footer-word > span { color: #ffbea7; }
 :root[data-theme="dark"] .hero, :root[data-theme="dark"] .section[id] { --title-a: #ddb6ff; --title-b: #a2e5f3; --title-c: #ffc6cd; }
 @media (max-width: 700px) {
   .section-aura::before, .section-aura::after { filter: blur(22px); width: 90%; }
