@@ -2,6 +2,9 @@
 :root { --muted: #293449; --accent: #173b85; }
 :root[data-theme="dark"] { --muted: #d0cedf; }
 body { background: linear-gradient(130deg, #a68ceb, #65ced6 55%, #eda17d); }
+/* Keep real section heights reserved: estimated offscreen heights shifted the
+   document while scrolling, especially around the long projects section. */
+.hero, .section { content-visibility: visible; contain-intrinsic-size: none; }
 .topbar, .topbar.scrolled, :root[data-theme="dark"] .topbar {
   --text: #f6f2ff; --muted: #e1def4; --accent: #a5efe7; --border: #cebbf755;
   color: var(--text); background: linear-gradient(110deg, #372461ee, #214566ee 65%, #5c2e61ee);

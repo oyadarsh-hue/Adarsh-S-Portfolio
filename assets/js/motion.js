@@ -7,6 +7,7 @@
   const typed = document.getElementById("typed-role");
   const fine = matchMedia("(hover: hover) and (pointer: fine)");
   const allowed = () => !root.classList.contains("paused") && !document.hidden;
+  const scrollGeometry = window.portfolioScrollGeometry;
   document.querySelectorAll("[data-drag-piece]").forEach((el) => {
     let x = 0,
       y = 0,
@@ -89,10 +90,10 @@
     // Read geometry before writes. Only visible elements participate.
     const positions = [...active].map((el) => ({
       el,
-      rect: el.getBoundingClientRect(),
+      rect: scrollGeometry(el),
     }));
     const heroTop =
-      heroVisible && stage ? stage.getBoundingClientRect().top : 0;
+      heroVisible && stage ? scrollGeometry(stage).top : 0;
     if (stage && heroVisible) {
       const travel = Math.max(0, Math.min(1, -heroTop / height));
       stage.style.setProperty("--hero-travel", String(travel));

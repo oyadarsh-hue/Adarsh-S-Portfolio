@@ -3,6 +3,7 @@
   'use strict';
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollGeometry = window.portfolioScrollGeometry;
   const artwork = [...document.querySelectorAll('.project-artwork, .publication-artwork')];
   const research = document.querySelector('.publication-card');
   const researchTitle = research?.querySelector('.publication-copy h3');
@@ -36,8 +37,8 @@
   function paint() {
     frame = 0;
     if (!allowed()) { reset(); return; }
-    const positions = [...visible].map(el => ({el, rect: el.getBoundingClientRect()}));
-    const researchTop = researchVisible ? research.getBoundingClientRect().top : null;
+    const positions = [...visible].map(el => ({el, rect: scrollGeometry(el)}));
+    const researchTop = researchVisible ? scrollGeometry(research).top : null;
     const strength = innerWidth < 701 ? .014 : .025;
     for (const {el, rect} of positions) {
       const range = el.classList.contains('publication-artwork') ? 16 : 7;
