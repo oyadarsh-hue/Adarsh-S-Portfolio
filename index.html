@@ -58,9 +58,11 @@
     />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/css/style.css?v=10" />
+    <link rel="stylesheet" href="assets/css/vibe.css?v=11" />
     <script src="assets/js/main.js?v=10" defer></script>
     <script src="assets/js/motion.js?v=10" defer></script>
     <script src="assets/js/choreography.js?v=10" defer></script>
+    <script src="assets/js/vibe.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -104,6 +106,7 @@
     </header>
     <main id="main">
       <section id="home" class="hero color-hero">
+        <div class="vibe-mesh" aria-hidden="true"><span></span><span></span><span></span></div>
         <div class="hero-topline">
           <p class="eyebrow">
             <span class="status-dot"></span> SOFTWARE ENGINEERING / AI /
@@ -373,7 +376,7 @@
           </p>
         </div>
         <div class="project-list">
-          <article class="project-card spotlight">
+          <article class="project-card spotlight vibe-project">
             <div class="project-copy">
               <div class="project-top">
                 <span class="project-number">01</span>
@@ -389,6 +392,7 @@
                 A privacy-first image-sharing platform that makes facial consent
                 part of the sharing workflow.
               </p>
+              <p class="project-detail">A combination of identity verification, face detection and image processing connects privacy requirements with the web application workflow.</p>
               <div class="chips">
                 <span>Python</span><span>Django</span><span>OpenCV</span
                 ><span>Dlib</span><span>MySQL</span>
@@ -408,11 +412,12 @@
                 >
               </div>
             </div>
-            <div class="project-visual privacy" aria-hidden="true">
+            <div class="project-visual privacy" >
               <div class="visual-top">
                 <span>PRIVACY ENGINEERING</span><span>AS / ASSENTTAG</span>
               </div>
-              <div class="diagram-orbit">
+              <figure class="project-artwork"><img src="assets/images/project-assenttag.webp" width="1280" height="800" alt="A conceptual photo frame with protected faces and a translucent privacy shield." loading="lazy" decoding="async"/><figcaption>AI-GENERATED PROJECT CONCEPT · NOT AN APP SCREENSHOT</figcaption></figure>
+              <div class="diagram-orbit" aria-hidden="true">
                 <i></i><i></i><i></i><span class="diagram-symbol">◎</span>
               </div>
               <div class="diagram-flow">
@@ -421,7 +426,7 @@
               <span class="visual-caption">SYSTEM CONCEPT / ASSENTTAG</span>
             </div>
           </article>
-          <article class="project-card spotlight">
+          <article class="project-card spotlight vibe-project">
             <div class="project-copy">
               <div class="project-top">
                 <span class="project-number">02</span>
@@ -439,6 +444,7 @@
                 Image restoration and neural OCR for degraded Malayalam and
                 Grantha palm-leaf manuscripts.
               </p>
+              <p class="project-detail">The project brings image enhancement, segmentation and character recognition together to explore difficult historical manuscript imagery.</p>
               <div class="chips">
                 <span>Python</span><span>OpenCV</span><span>TrOCR</span
                 ><span>PyTorch</span><span>CNN</span>
@@ -458,11 +464,12 @@
                 >
               </div>
             </div>
-            <div class="project-visual manuscript" aria-hidden="true">
+            <div class="project-visual manuscript" >
               <div class="visual-top">
                 <span>APPLIED AI</span><span>AS / EPIGRAPHIX-AI</span>
               </div>
-              <div class="diagram-orbit">
+              <figure class="project-artwork"><img src="assets/images/project-ocr.webp" width="1280" height="800" alt="Historical palm-leaf manuscript concept artwork illuminated by a digital scanning plane." loading="lazy" decoding="async"/><figcaption>AI-GENERATED PROJECT CONCEPT · NOT AN APP SCREENSHOT</figcaption></figure>
+              <div class="diagram-orbit" aria-hidden="true">
                 <i></i><i></i><i></i><span class="diagram-symbol">അ</span>
               </div>
               <div class="diagram-flow">
@@ -471,7 +478,7 @@
               <span class="visual-caption">SYSTEM CONCEPT / EPIGRAPHIX-AI</span>
             </div>
           </article>
-          <article class="project-card spotlight">
+          <article class="project-card spotlight vibe-project">
             <div class="project-copy">
               <div class="project-top">
                 <span class="project-number">03</span>
@@ -489,6 +496,7 @@
                 Source-security review that connects findings to code locations
                 and cryptographic evidence.
               </p>
+              <p class="project-detail">Source context and evidence integrity help make security findings easier to understand and review.</p>
               <div class="chips">
                 <span>Python</span><span>Static analysis</span
                 ><span>SHA-256</span><span>Merkle trees</span>
@@ -508,11 +516,12 @@
                 >
               </div>
             </div>
-            <div class="project-visual security" aria-hidden="true">
+            <div class="project-visual security" >
               <div class="visual-top">
                 <span>SECURITY TOOLING</span><span>AS / AEGISFORGE-X</span>
               </div>
-              <div class="diagram-orbit">
+              <figure class="project-artwork"><img src="assets/images/project-security.webp" width="1280" height="800" alt="A security shield with abstract source panels and interconnected evidence nodes." loading="lazy" decoding="async"/><figcaption>AI-GENERATED PROJECT CONCEPT · NOT AN APP SCREENSHOT</figcaption></figure>
+              <div class="diagram-orbit" aria-hidden="true">
                 <i></i><i></i><i></i><span class="diagram-symbol">⌘</span>
               </div>
               <div class="diagram-flow">
@@ -521,7 +530,7 @@
               <span class="visual-caption">SYSTEM CONCEPT / AEGISFORGE-X</span>
             </div>
           </article>
-          <article class="project-card spotlight">
+          <article class="project-card spotlight vibe-project">
             <div class="project-copy">
               <div class="project-top">
                 <span class="project-number">04</span>
@@ -539,6 +548,7 @@
                 A semantic ledger and covenant-auditing simulator for Bitcoin
                 off-chain transaction flows.
               </p>
+              <p class="project-detail">The simulator explores how low-level state changes can be presented as understandable transaction narratives.</p>
               <div class="chips">
                 <span>JavaScript</span><span>HTML / CSS</span
                 ><span>Bitcoin L2</span><span>Taproot</span>
@@ -558,11 +568,12 @@
                 >
               </div>
             </div>
-            <div class="project-visual ledger" aria-hidden="true">
+            <div class="project-visual ledger" >
               <div class="visual-top">
                 <span>BITCOIN L2</span><span>AS / DECIPHERA</span>
               </div>
-              <div class="diagram-orbit">
+              <figure class="project-artwork"><img src="assets/images/project-ledger.webp" width="1280" height="800" alt="Concept artwork of connected transaction blocks and a semantic ledger path." loading="lazy" decoding="async"/><figcaption>AI-GENERATED PROJECT CONCEPT · NOT AN APP SCREENSHOT</figcaption></figure>
+              <div class="diagram-orbit" aria-hidden="true">
                 <i></i><i></i><i></i><span class="diagram-symbol">₿</span>
               </div>
               <div class="diagram-flow">
@@ -571,7 +582,7 @@
               <span class="visual-caption">SYSTEM CONCEPT / DECIPHERA</span>
             </div>
           </article>
-          <article class="project-card spotlight">
+          <article class="project-card spotlight vibe-project">
             <div class="project-copy">
               <div class="project-top">
                 <span class="project-number">05</span>
@@ -587,6 +598,7 @@
                 Expiring, revocable note sharing with PostgreSQL-enforced
                 one-time access.
               </p>
+              <p class="project-detail">Public or password-protected notes combine expiry, revocation and one-time access in a focused full-stack proof of concept.</p>
               <div class="chips">
                 <span>Next.js</span><span>TypeScript</span><span>Hono</span
                 ><span>Prisma</span><span>PostgreSQL</span>
@@ -612,11 +624,12 @@
                 >
               </div>
             </div>
-            <div class="project-visual notes" aria-hidden="true">
+            <div class="project-visual notes" >
               <div class="visual-top">
                 <span>FULL-STACK ENGINEERING</span><span>AS / QUIETNOTE</span>
               </div>
-              <div class="diagram-orbit">
+              <figure class="project-artwork"><img src="assets/images/project-notes.webp" width="1280" height="800" alt="A secure note concept with a glass padlock and an hourglass." loading="lazy" decoding="async"/><figcaption>AI-GENERATED PROJECT CONCEPT · NOT AN APP SCREENSHOT</figcaption></figure>
+              <div class="diagram-orbit" aria-hidden="true">
                 <i></i><i></i><i></i><span class="diagram-symbol">N</span>
               </div>
               <div class="diagram-flow">
