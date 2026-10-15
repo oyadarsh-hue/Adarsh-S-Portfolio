@@ -13,7 +13,7 @@
     <title>EpigraphiX-AI — Case Study | Adarsh S</title>
     <meta
       name="description"
-      content="Image restoration and neural OCR for degraded Malayalam and Grantha palm-leaf manuscripts."
+      content="Image restoration, segmentation and OCR research for historical palm-leaf manuscripts."
     />
     <meta name="theme-color" content="#ffffff" />
     <link
@@ -24,7 +24,7 @@
     <meta property="og:title" content="EpigraphiX-AI — Case Study | Adarsh S" />
     <meta
       property="og:description"
-      content="Image restoration and neural OCR for degraded Malayalam and Grantha palm-leaf manuscripts."
+      content="Image restoration, segmentation and OCR research for historical palm-leaf manuscripts."
     />
     <meta
       property="og:url"
@@ -47,7 +47,7 @@
     />
     <meta
       name="twitter:description"
-      content="Image restoration and neural OCR for degraded Malayalam and Grantha palm-leaf manuscripts."
+      content="Image restoration, segmentation and OCR research for historical palm-leaf manuscripts."
     />
     <meta
       name="twitter:image"
@@ -55,7 +55,8 @@
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/css/style.css?v=10" />
-    <script src="../assets/js/main.js?v=10" defer></script>
+    <link rel="stylesheet" href="../assets/css/recruiter.css?v=1" />
+    <script src="../assets/js/main.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -89,15 +90,15 @@
         </p>
         <h1>EpigraphiX-AI</h1>
         <p class="case-lead">
-          Image restoration and neural OCR for degraded Malayalam and Grantha
+          Image restoration, segmentation and OCR research for historical
           palm-leaf manuscripts.
         </p>
         <p class="case-role">
           Academic project · Computer vision, OCR and research
         </p>
         <div class="chips">
-          <span>Python</span><span>OpenCV</span><span>TrOCR</span
-          ><span>PyTorch</span><span>CNN</span>
+          <span>Python</span><span>OpenCV</span><span>NumPy</span
+          ><span>Sauvola</span><span>Segmentation</span>
         </div>
         <div class="actions">
           <a
@@ -135,7 +136,7 @@
           <h2>The approach</h2>
           <p>
             Combine image restoration, adaptive binarization, glyph segmentation
-            and neural recognition in a document-intelligence workflow.
+            and lexicon-based post-processing in an inspectable research workflow.
           </p>
         </section>
       </div>
@@ -148,8 +149,9 @@
             separate script structure from the manuscript surface.
           </li>
           <li>
-            TrOCR and CNN components support transcription, with classical
-            classifiers for comparative analysis.
+            The public Python recognition prototype combines geometric features,
+            connected-component topology and simulated attention; trained-model
+            inference is a separate validation step.
           </li>
           <li>
             Levenshtein alignment and a Malayalam trie lexicon support
@@ -163,7 +165,7 @@
           <h2>What it does</h2>
           <ul>
             <li>Adaptive glyph and word segmentation</li>
-            <li>TrOCR sequence recognition</li>
+            <li>Inspectable glyph-to-character prototype</li>
             <li>Photometric surface inspection</li>
             <li>Document-intelligence web studio</li>
           </ul>
@@ -195,6 +197,17 @@
           Project details are based on the public repository documentation and
           supplied CV.
         </p>
+      </section>
+      <section class="case-evidence" aria-labelledby="evidenceHeading">
+        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <h2 id="evidenceHeading">Go from the story to the code.</h2>
+        <div class="evidence-grid">
+          <div><h3>Restoration and segmentation</h3><p>Separate image preparation, connected-component segmentation and Malayalam lexicon post-processing so each stage can be inspected.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/trocr_transformer_engine.py" target="_blank" rel="noopener noreferrer">Inspect recognition prototype ↗</a><a href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/test_pipeline.py" target="_blank" rel="noopener noreferrer">Inspect pipeline checks ↗</a></div></div>
+          <div><h3>Review scenario</h3><p>Follow a sample manuscript through enhancement and segmentation, inspect glyph boxes, then compare transcription with a manually checked reference.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
+          <div><h3>Scope</h3><p>The public Python engine simulates attention and maps features deterministically to characters. It does not demonstrate trained TrOCR inference or independently reproduced OCR accuracy.</p></div>
+          <div><h3>Next engineering step</h3><p>Connect a trained recognition checkpoint and publish a reproducible held-out evaluation with dataset provenance and character/word error rates.</p></div>
+        </div>
+        <a class="evidence-recruiter" href="../recruiter.html">Back to the recruiter overview →</a>
       </section>
       <a class="next-project" href="aegisforge-x.html"
         ><span>NEXT CASE STUDY</span><strong>AegisForge-X ↗</strong></a

@@ -52,7 +52,8 @@
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/css/style.css?v=10" />
-    <script src="../assets/js/main.js?v=10" defer></script>
+    <link rel="stylesheet" href="../assets/css/recruiter.css?v=1" />
+    <script src="../assets/js/main.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -102,8 +103,8 @@
             href="https://github.com/oyadarsh-hue/AssentTag"
             target="_blank"
             rel="noopener noreferrer"
-            >View source code <span aria-hidden="true">↗</span></a
-          >
+            >View source code <span aria-hidden="true">↗</span></a>
+          <a class="button" href="https://oyadarsh-hue.github.io/AssentTag/demo.html#feed" target="_blank" rel="noopener noreferrer">Explore sample UI <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <div class="project-visual privacy" aria-hidden="true">
@@ -188,6 +189,17 @@
           Project details are based on the public repository documentation and
           supplied CV.
         </p>
+      </section>
+      <section class="case-evidence" aria-labelledby="evidenceHeading">
+        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <h2 id="evidenceHeading">Go from the story to the code.</h2>
+        <div class="evidence-grid">
+          <div><h3>Face masking</h3><p>Build a conservative face mask and blur inside it while preserving surrounding pixels.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/face_privacy.py" target="_blank" rel="noopener noreferrer">Inspect masking code ↗</a><a href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/tests.py" target="_blank" rel="noopener noreferrer">Inspect privacy tests ↗</a></div></div>
+          <div><h3>Review scenario</h3><p>Review the fallback-mask tests, then compare a synthetic group image before and after masking. Check edge faces and predictor failure.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
+          <div><h3>Scope</h3><p>The public UI demo uses fictional sample data. Real recognition, identity checks and uploads require the local Django application and its dependencies.</p></div>
+          <div><h3>Next engineering step</h3><p>Evaluate detection and privacy behavior on a consented, representative dataset before any real deployment.</p></div>
+        </div>
+        <a class="evidence-recruiter" href="../recruiter.html">Back to the recruiter overview →</a>
       </section>
       <a class="next-project" href="epigraphix-ai.html"
         ><span>NEXT CASE STUDY</span><strong>EpigraphiX-AI ↗</strong></a

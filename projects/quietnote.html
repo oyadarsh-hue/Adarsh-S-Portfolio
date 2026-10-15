@@ -52,7 +52,8 @@
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/css/style.css?v=10" />
-    <script src="../assets/js/main.js?v=10" defer></script>
+    <link rel="stylesheet" href="../assets/css/recruiter.css?v=1" />
+    <script src="../assets/js/main.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -190,6 +191,17 @@
         <p class="source-note">
           Project details are based on the public repository documentation.
         </p>
+      </section>
+      <section class="case-evidence" aria-labelledby="evidenceHeading">
+        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <h2 id="evidenceHeading">Go from the story to the code.</h2>
+        <div class="evidence-grid">
+          <div><h3>One-time access under concurrency</h3><p>Claim a share with one conditional PostgreSQL UPDATE inside a transaction. Reading metadata does not consume the note.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/src/server/shares.ts" target="_blank" rel="noopener noreferrer">Inspect atomic access code ↗</a><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/tests/concurrency.test.ts" target="_blank" rel="noopener noreferrer">Inspect concurrency tests ↗</a></div></div>
+          <div><h3>Review scenario</h3><p>Create a synthetic one-time note, open its link in two tabs and deliberately request access in both. One succeeds; later access is rejected. Test expiry, wrong keys and revocation separately.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
+          <div><h3>Scope</h3><p>This is an assessment proof of concept. Notes are not end-to-end encrypted; a successful server claim stays consumed if the response is lost.</p></div>
+          <div><h3>Next engineering step</h3><p>Harden content security policy, add retention controls and load-test shared counters before production use.</p></div>
+        </div>
+        <a class="evidence-recruiter" href="../recruiter.html">Back to the recruiter overview →</a>
       </section>
       <a class="next-project" href="assenttag.html"
         ><span>NEXT CASE STUDY</span><strong>AssentTag ↗</strong></a

@@ -52,7 +52,8 @@
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/css/style.css?v=10" />
-    <script src="../assets/js/main.js?v=10" defer></script>
+    <link rel="stylesheet" href="../assets/css/recruiter.css?v=1" />
+    <script src="../assets/js/main.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -183,6 +184,17 @@
         <p class="source-note">
           Project details are based on the public repository documentation.
         </p>
+      </section>
+      <section class="case-evidence" aria-labelledby="evidenceHeading">
+        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <h2 id="evidenceHeading">Go from the story to the code.</h2>
+        <div class="evidence-grid">
+          <div><h3>Reviewable source findings</h3><p>Mask comments and strings while retaining offsets, then attach rule findings to source locations and SHA-256 evidence.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/AegisForge-X/blob/6a447bd90637fc0da5cecdda90ecd8ac4071da8b/aegisforge/scanner.py" target="_blank" rel="noopener noreferrer">Inspect scanner implementation ↗</a><a href="https://github.com/oyadarsh-hue/AegisForge-X/blob/6a447bd90637fc0da5cecdda90ecd8ac4071da8b/tests/test_scanner.py" target="_blank" rel="noopener noreferrer">Inspect language-rule tests ↗</a></div></div>
+          <div><h3>Review scenario</h3><p>Compare the gets/strcpy samples with bounded alternatives. Inspect the matched location and review whether each finding is relevant.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
+          <div><h3>Scope</h3><p>Pattern-based rules and heuristic flow analysis support manual review. Evidence hashes establish integrity; they do not prove that a finding is correct or that code is secure.</p></div>
+          <div><h3>Next engineering step</h3><p>Measure false positives and missed cases on a labeled corpus, with results separated by language and rule.</p></div>
+        </div>
+        <a class="evidence-recruiter" href="../recruiter.html">Back to the recruiter overview →</a>
       </section>
       <a class="next-project" href="deciphera.html"
         ><span>NEXT CASE STUDY</span><strong>Deciphera ↗</strong></a

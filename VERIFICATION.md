@@ -1,3 +1,13 @@
+# Recruiter update — 15 October 2026
+
+The new recruiter view, project discovery controls and evidence sections extend the existing site. The CV and portrait bytes are unchanged. The publication DOI was checked against the official journal listing. Project claims and source links were reviewed against the current public repositories; EpigraphiX-AI prototype wording was corrected to match the inspected Python engine.
+
+Local checks passed: eight HTML pages, 133 local references, unique IDs, anchors, metadata JSON and CV integrity; JavaScript syntax; role/search matching including combined queries, Unicode normalization and empty states; existing scroll-geometry regression checks.
+
+Local Chromium could not start in the restricted Windows environment. The remote browser service also lacked credits. The repository's new Actions workflow performs browser QA on Linux and retains screenshots, a print PDF and an execution report. Refer to the matching workflow run for browser results; this paragraph is not itself a claim that browser checks passed.
+
+---
+
 # Verification and content provenance
 
 Verified on 28 September 2026. This portfolio preserves the original static HTML/CSS/JavaScript architecture; it needs no build step or third-party runtime dependencies.

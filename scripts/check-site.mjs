@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pages = [
   "index.html",
+  "recruiter.html",
   "404.html",
   ...fs
     .readdirSync(path.join(root, "projects"))
