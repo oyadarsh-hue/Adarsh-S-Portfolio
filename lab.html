@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>try { document.documentElement.dataset.theme=localStorage.getItem('adarsh-theme-v2')==='dark'?'dark':'light'; } catch {}</script>
+  <title>Interactive Engineering Lab | Adarsh S</title>
+  <meta name="description" content="Try an interactive one-time-access race simulator and a real SHA-256 integrity playground in Adarsh S's engineering lab." />
+  <link rel="canonical" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/lab.html" />
+  <meta property="og:title" content="Interactive Engineering Lab | Adarsh S" />
+  <meta property="og:description" content="Step through a race condition. Change a byte. Inspect the result." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/lab.html" />
+  <meta property="og:image" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png" />
+  <meta name="theme-color" content="#204ed8" />
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/style.css?v=10" />
+  <link rel="stylesheet" href="assets/css/workbench.css?v=1" />
+  <script src="assets/js/main.js?v=11" defer></script>
+  <script src="assets/js/lab.js?v=1" defer></script>
+</head>
+<body class="tool-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="tool-header"><a class="tool-brand" href="index.html">ADARSH S.</a><nav aria-label="Lab navigation"><a href="index.html">Portfolio</a><a href="recruiter.html">Recruiter overview</a><a href="workbench.html">Opportunity workbench</a><button id="themeButton" type="button" aria-label="Switch to dark theme">Theme</button></nav></header>
+  <main id="main" class="tool-main">
+    <div class="tool-hero"><div><p class="tool-eyebrow">02 / Interactive engineering lab</p><h1>Change an input.<br /><span>See the consequence.</span></h1><p>Two small experiments inspired by my projects. Explore a failure mode, inspect each operation, and test the behavior yourself.</p></div><aside class="tool-intro-note"><strong>Built to be explored.</strong><p>Everything runs in your browser. The race is a step-by-step model; the SHA-256 checker computes real digests of your text.</p></aside></div>
+    <nav class="tool-jump" aria-label="Lab experiments"><a href="#race">01 &nbsp; One-time access</a><a href="#integrity">02 &nbsp; Evidence integrity</a></nav>
+    <noscript><p class="no-script">Enable JavaScript to run these experiments. The explanations below and <a href="projects/quietnote.html">QuietNote</a> / <a href="projects/aegisforge-x.html">AegisForge-X</a> case studies remain available.</p></noscript>
+    <section id="race" class="tool-section" aria-labelledby="raceTitle">
+      <p class="tool-eyebrow">Experiment 01 / Inspired by QuietNote</p><h2 id="raceTitle">One note. Competing readers.</h2>
+      <p>If several requests read “available” before anyone marks a note consumed, each can believe it has permission. Compare that schedule with an atomic conditional claim.</p>
+      <div data-lab hidden>
+        <div class="lab-controls"><div><label for="raceMode">Access strategy</label><select id="raceMode"><option value="unsafe">Read, then mark consumed</option><option value="atomic">Atomic conditional claim</option></select></div><div><label for="readerCount">Competing readers</label><select id="readerCount"><option value="2">2 readers</option><option value="5">5 readers</option><option value="25">25 readers</option></select></div><div><label for="initialState">Starting note state</label><select id="initialState"><option value="available">Available</option><option value="expired">Expired</option><option value="revoked">Revoked</option></select></div></div>
+        <div class="tool-actions"><button id="stepRace" type="button" class="primary">Next operation</button><button id="runRace" type="button">Run full schedule</button><button id="resetRace" type="button">Reset experiment</button></div>
+        <dl class="race-stats"><div><dt>Note state</dt><dd id="noteState">available</dd></div><div><dt>Content received</dt><dd id="winnerCount">0</dd></div><div><dt>Operations</dt><dd id="eventCount">0</dd></div></dl>
+        <p id="raceSummary" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div id="readerGrid" class="reader-grid" aria-label="Reader outcomes"></div>
+        <details open><summary>Operation log</summary><ol id="raceLog" class="event-log" aria-label="Operation log" tabindex="0"></ol></details>
+      </div>
+      <div class="lab-explanation"><strong>What this demonstrates</strong><p>The first strategy intentionally schedules every read before any write to expose stale permission. The second models an indivisible check-and-consume operation. This deterministic browser model illustrates interleaving; it does not run simultaneous requests or prove database behavior. QuietNote's source and concurrency test suite are linked in the <a href="projects/quietnote.html">case study</a>.</p></div>
+    </section>
+    <section id="integrity" class="tool-section" aria-labelledby="integrityTitle">
+      <p class="tool-eyebrow">Experiment 02 / Inspired by AegisForge-X</p><h2 id="integrityTitle">Can you spot a changed record?</h2>
+      <p>Edit the sample evidence or change one character. Compare its SHA-256 digest with the baseline, then establish a new baseline to repeat the experiment.</p>
+      <div data-lab hidden>
+        <div class="tool-columns"><div><label for="hashInput">Evidence text</label><textarea id="hashInput" rows="7" maxlength="10000" aria-describedby="hashHelp"></textarea><p id="hashHelp" class="tool-help">Exact UTF-8 content is hashed locally, including whitespace and line breaks. Text is not uploaded or saved.</p><div class="tool-actions"><button id="tamperSample" type="button" class="primary">Change one character</button><button id="setBaseline" type="button">Use current as baseline</button><button id="resetHash" type="button">Reset sample</button></div></div><div><div class="digest"><strong>Baseline SHA-256</strong><code id="baselineHash">Calculating…</code></div><div class="digest"><strong>Current SHA-256</strong><code id="currentHash">Calculating…</code></div><p id="byteCount" class="tool-help"></p><p id="hashStatus" class="hash-status" role="status" aria-live="polite" aria-atomic="true"></p></div></div>
+      </div>
+      <div class="lab-explanation"><strong>What a hash establishes</strong><p>A digest lets you compare content with a trusted baseline. It does not encrypt the content, identify the author or establish that a security finding is correct. AegisForge-X uses evidence fingerprints to support source review. <a href="projects/aegisforge-x.html">Inspect the case study</a>.</p></div>
+    </section>
+  </main>
+  <footer class="tool-footer">Adarsh S &middot; <a href="workbench.html">Compare my projects</a> &middot; <a href="mailto:oyadarsh@gmail.com">Discuss an engineering decision</a></footer>
+</body>
+</html>

@@ -4,6 +4,8 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 
 ## Included
 
+- New engineering lab at `lab.html`: step through competing one-time note readers and compute/compare real SHA-256 digests in the browser.
+- New opportunity workbench at `workbench.html`: map requirement terms to evidence, compare up to three projects, share a selection and export a tailored project brief as text or print/PDF.
 - A concise recruiter overview at `recruiter.html`, with CV, contact, printable summary and project evidence.
 - Role-based project filters, searchable tools/topics, shareable filter URLs and accessible result announcements.
 - Implementation and test-source links, review scenarios, scope and next engineering steps for every case study.
@@ -35,6 +37,7 @@ Optional structural verification, using Node.js:
 ```sh
 node scripts/check-site.mjs
 node scripts/check-recruiter.mjs
+node scripts/check-tools.mjs
 node --check assets/js/main.js
 node --check assets/js/motion.js
 node --check assets/js/choreography.js
@@ -108,6 +111,17 @@ To run browser checks locally after installing Python and Playwright:
 python -m pip install playwright==1.58.0
 python -m playwright install chromium
 python scripts/browser-smoke.py
+python scripts/browser-tools.py
 ```
 
 Screenshots, a print PDF and the browser report are uploaded as the `portfolio-browser-evidence` Actions artifact for 14 days. Test output is kept out of the published source.
+
+## Opportunity workbench and engineering lab
+
+The homepage and recruiter overview link to both new pages. `assets/js/workbench-data.js` contains a curated, editable project-evidence catalog. Requirement matching uses explicit aliases and token boundaries; it does not interpret negation, seniority or general language, and produces no hiring/ATS score. Unsupported catalog terms are shown as having no linked project evidence, not as claims about all the candidate's skills. The suggested shortlist ranks projects by the number of matched catalog terms, with stable catalog order for ties.
+
+Comparison links include only validated project IDs. Job text, company and role stay in the current tab and are not stored or sent. Briefs use the selected project evidence and scope; they accompany the original CV. All user-entered text is rendered as text, with clipboard fallback and plain-text download. Use the browser print dialog to save the focused brief as a PDF.
+
+The race experiment is a deterministic interleaving model, not a database benchmark or simultaneous network requests. Every unsafe read precedes every write, exposing stale permission; the atomic model permits one conditional claim. Expired and revoked states deny all readers. The integrity tool uses Web Crypto SHA-256 over exact UTF-8 text and compares it with an in-memory baseline. It is an integrity demonstration, not encryption or proof of authorship. It requires HTTPS or localhost and shows an explicit fallback if Web Crypto is unavailable.
+
+New files: `workbench.html`, `lab.html`, `assets/css/workbench.css`, `assets/js/workbench-data.js`, `assets/js/workbench.js` and `assets/js/lab.js`. Node checks cover matching boundaries, unknown evidence, share selection validation, brief content, race invariants and SHA-256 vectors. Browser checks exercise actual controls, downloads, print, layouts, no-JavaScript content, reduced motion and restricted storage/clipboard/crypto contexts.

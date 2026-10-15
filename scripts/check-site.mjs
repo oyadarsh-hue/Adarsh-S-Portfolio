@@ -7,6 +7,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pages = [
   "index.html",
   "recruiter.html",
+  "workbench.html",
+  "lab.html",
   "404.html",
   ...fs
     .readdirSync(path.join(root, "projects"))

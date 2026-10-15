@@ -21,6 +21,8 @@ jobs:
         run: node scripts/check-site.mjs
       - name: Check project discovery behavior
         run: node scripts/check-recruiter.mjs
+      - name: Check new tools and experiment invariants
+        run: node scripts/check-tools.mjs
       - name: Check scroll geometry
         run: node scripts/check-scroll-geometry.mjs
   browser:
@@ -38,6 +40,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify desktop, mobile and fallback behavior
         run: python scripts/browser-smoke.py
+      - name: Verify interactive workbench and engineering lab
+        run: python scripts/browser-tools.py
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4
