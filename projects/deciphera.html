@@ -52,7 +52,8 @@
     />
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/css/style.css?v=10" />
-    <script src="../assets/js/main.js?v=10" defer></script>
+    <link rel="stylesheet" href="../assets/css/recruiter.css?v=1" />
+    <script src="../assets/js/main.js?v=11" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -185,6 +186,17 @@
         <p class="source-note">
           Project details are based on the public repository documentation.
         </p>
+      </section>
+      <section class="case-evidence" aria-labelledby="evidenceHeading">
+        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <h2 id="evidenceHeading">Go from the story to the code.</h2>
+        <div class="evidence-grid">
+          <div><h3>One event, three explanations</h3><p>Generate client, auditor and technical narratives from the same structured transaction state.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/Deciphera-A-Semantic-Ledger-Covenant-Auditor-for-Bitcoin-Off-Chain-Transactions./blob/main/narrativeEngine.js" target="_blank" rel="noopener noreferrer">Inspect narrative engine ↗</a></div></div>
+          <div><h3>Review scenario</h3><p>Compare a cooperative transfer with an offline-recipient scenario, then inspect which event fields change each narrative.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
+          <div><h3>Scope</h3><p>This is a browser simulator. Generated audit statements and oracle scenarios are illustrative; they do not verify real Bitcoin settlement or compliance.</p></div>
+          <div><h3>Next engineering step</h3><p>Add fixtures that compare narrative output against explicit expected states and clearly separate simulated attestations from real evidence.</p></div>
+        </div>
+        <a class="evidence-recruiter" href="../recruiter.html">Back to the recruiter overview →</a>
       </section>
       <a class="next-project" href="quietnote.html"
         ><span>NEXT CASE STUDY</span><strong>QuietNote ↗</strong></a

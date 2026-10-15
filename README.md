@@ -4,6 +4,9 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 
 ## Included
 
+- A concise recruiter overview at `recruiter.html`, with CV, contact, printable summary and project evidence.
+- Role-based project filters, searchable tools/topics, shareable filter URLs and accessible result announcements.
+- Implementation and test-source links, review scenarios, scope and next engineering steps for every case study.
 - Supplied portrait and updated, original CV PDF.
 - Hero, profile, projects, experience, research, toolkit, certifications, education, GitHub and contact.
 - Five case studies: AssentTag, EpigraphiX-AI, AegisForge-X, Deciphera and QuietNote.
@@ -31,6 +34,7 @@ Optional structural verification, using Node.js:
 
 ```sh
 node scripts/check-site.mjs
+node scripts/check-recruiter.mjs
 node --check assets/js/main.js
 node --check assets/js/motion.js
 node --check assets/js/choreography.js
@@ -80,8 +84,30 @@ Education uses the same replayable timeline as experience, ordered MCA, B.Sc. Co
 
 ## Continuous project typing
 
-Project titles and taglines repeatedly type, hold for readability, erase and restart while visible. New letters flip into place in 3D; scrolling away restores complete text, and returning starts the effect again. Body text uses stronger scroll-linked perspective. Pause and reduced-motion preferences retain readable static text.
+Project titles and taglines remain complete and readable. Decorative hero motion and section reveals remain available with the existing pause and reduced-motion controls. The body content plane stays fixed while scrolling.
 
 ## Contact icons and heading motion
 
 Visible GitHub, LinkedIn, Gmail and phone links use inline SVG marks, avoiding external icon requests. Brand glyphs: Simple Icons (GitHub/Gmail, and LinkedIn from v11.15.0); phone: Lucide. Section headings reveal word by word in 3D each time they enter the viewport. Motion respects pause and reduced-motion preferences.
+
+## Recruiter overview and evidence
+
+Share **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/recruiter.html** for a concise first review, or the homepage for the complete visual portfolio. The summary supports browser printing and PDF saving. Email copying falls back to visible text when clipboard access is unavailable.
+
+Project filters combine a role and search terms. URLs such as `index.html?focus=web#projects` restore the selected view. All projects remain visible when JavaScript is disabled; inactive search controls stay hidden. Download links preserve the original CV bytes and suggest the filename **Adarsh S CV.pdf**.
+
+Each case study links to source snapshots. Scope labels distinguish an academic application, research prototype, local review tool, browser simulator and deployed assessment POC. The public EpigraphiX-AI Python engine uses simulated attention and deterministic character mapping; this portfolio does not claim that it demonstrates trained TrOCR inference or independently reproduces the paper's benchmark results.
+
+## Automated verification
+
+`.github/workflows/quality.yml` runs structural, JavaScript syntax, project search and scroll-geometry checks. A separate browser job installs pinned Playwright tooling for QA only; the website still has no runtime dependencies. It checks desktop/mobile layouts, filters and deep links, menu navigation, theme persistence, static project headings, no-JavaScript content, system reduced motion, clipboard/storage fallback and case-study evidence.
+
+To run browser checks locally after installing Python and Playwright:
+
+```sh
+python -m pip install playwright==1.58.0
+python -m playwright install chromium
+python scripts/browser-smoke.py
+```
+
+Screenshots, a print PDF and the browser report are uploaded as the `portfolio-browser-evidence` Actions artifact for 14 days. Test output is kept out of the published source.

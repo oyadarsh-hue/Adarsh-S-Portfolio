@@ -145,6 +145,8 @@
   // Keep an invisible full-size copy to reserve wrapping and avoid layout jumps.
   const typeStates = [];
   document.querySelectorAll("[data-scroll-type]").forEach((el) => {
+    // Project names and descriptions remain complete while recruiters read.
+    if (el.closest(".project-copy")) return;
     const text = el.textContent;
     const original = document.createElement("span");
     original.className = "typing-original";

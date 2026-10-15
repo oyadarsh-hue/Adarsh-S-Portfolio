@@ -154,7 +154,7 @@
   nav?.querySelectorAll("a").forEach((link) =>
     link.addEventListener("click", () => {
       closeMenu();
-      const target = document.querySelector(link.hash);
+      const target = link.hash ? document.getElementById(link.hash.slice(1)) : null;
       if (target) {
         target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
