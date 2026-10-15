@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>try { document.documentElement.dataset.theme=localStorage.getItem('adarsh-theme-v2')==='dark'?'dark':'light'; } catch {}</script>
+  <title>Opportunity Workbench | Adarsh S</title>
+  <meta name="description" content="Explore role requirements against Adarsh S's project evidence, compare engineering decisions and create a tailored project brief." />
+  <link rel="canonical" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/workbench.html" />
+  <meta property="og:title" content="Opportunity Workbench | Adarsh S" />
+  <meta property="og:description" content="Map requirements. Compare projects. Build a project brief." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/workbench.html" />
+  <meta property="og:image" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png" />
+  <meta name="theme-color" content="#204ed8" />
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/style.css?v=10" />
+  <link rel="stylesheet" href="assets/css/workbench.css?v=1" />
+  <script src="assets/js/main.js?v=11" defer></script>
+  <script src="assets/js/workbench-data.js?v=1" defer></script>
+  <script src="assets/js/workbench.js?v=1" defer></script>
+</head>
+<body class="tool-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="tool-header">
+    <a class="tool-brand" href="index.html">ADARSH S.</a>
+    <nav aria-label="Workbench navigation"><a href="index.html">Portfolio</a><a href="recruiter.html">Recruiter overview</a><a href="lab.html">Engineering lab</a><button id="themeButton" type="button" aria-label="Switch to dark theme">Theme</button></nav>
+  </header>
+  <main id="main" class="tool-main">
+    <div class="tool-hero">
+      <div><p class="tool-eyebrow">01 / Opportunity workbench</p><h1>Find the fit.<br /><span>Inspect the work.</span></h1><p>A working space for your next conversation with me. Map a role to project evidence, compare implementation choices, and take a focused brief with you.</p></div>
+      <aside class="tool-intro-note"><strong>Three tools. One useful conversation.</strong><p>Inputs stay in this tab. No account required. Shared links contain only your project selection.</p></aside>
+    </div>
+    <nav class="tool-jump" aria-label="Workbench sections"><a href="#match">01 &nbsp; Map requirements</a><a href="#compare">02 &nbsp; Compare projects</a><a href="#brief">03 &nbsp; Build a brief</a></nav>
+    <noscript><p class="no-script">These interactive tools need JavaScript. You can still <a href="recruiter.html">read the recruiter overview</a>, <a href="index.html#projects">review every project</a> or <a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">download the original CV</a>.</p></noscript>
+    <section id="match" class="tool-section" aria-labelledby="matchTitle">
+      <p class="tool-eyebrow">01 / Evidence explorer</p><h2 id="matchTitle">What does your role need?</h2>
+      <p>Choose a starting point or paste the technical requirements. Explore where those terms appear in my documented project work.</p>
+      <div class="tool-columns" data-workbench hidden>
+        <div>
+          <label for="rolePreset">Start with a role</label>
+          <select id="rolePreset"><option value="">Choose a preset or write your own</option><option value="fullstack">Full-stack development</option><option value="python">Python backend</option><option value="vision">Computer vision</option><option value="security">Security tooling</option></select>
+          <label for="jobText">Technical requirements</label>
+          <textarea id="jobText" rows="6" maxlength="6000" placeholder="For example: Python, Django, REST APIs, PostgreSQL and automated tests" aria-describedby="matchHelp"></textarea>
+          <p id="matchHelp" class="tool-help">Matches use a fixed term catalog. Context, seniority and negation are not interpreted; review every result. This is an evidence lookup, not an ATS or hiring score.</p>
+          <div class="tool-actions"><button id="suggestProjects" class="primary" type="button" disabled>Select matching projects</button></div>
+          <details class="catalog"><summary>See the matching catalog</summary><p>Python, Django, React, TypeScript, JavaScript, PostgreSQL, MySQL, REST APIs, testing, concurrency, OpenCV, computer vision, security review, SHA-256, HTML and CSS. AWS, Kubernetes, Docker, Java, Go (Golang), C#, TensorFlow, PyTorch, GraphQL and Redis are also recognized so missing project evidence can be made visible. This catalog covers selected projects, not the full CV.</p></details>
+        </div>
+        <div class="match-output"><h3>Term → project evidence</h3><p id="matchSummary" role="status" aria-live="polite" aria-atomic="true"></p><ul id="matchList" class="match-list"></ul></div>
+      </div>
+    </section>
+    <section id="compare" class="tool-section" aria-labelledby="compareTitle">
+      <p class="tool-eyebrow">02 / Side by side</p><h2 id="compareTitle">Compare the decisions.</h2>
+      <p>Choose up to three projects to compare their stack, engineering decisions, validation evidence and limits.</p>
+      <div data-workbench hidden>
+        <fieldset id="projectChoices" class="project-choices" aria-describedby="selectionCount"><legend>Projects to include</legend></fieldset>
+        <p id="selectionCount" role="status" aria-live="polite" class="tool-help"></p>
+        <div class="tool-actions"><button id="clearSelection" type="button">Clear selection</button><button id="shareSelection" type="button">Copy selection link</button></div>
+        <div id="comparison" class="comparison-scroll" role="region" aria-label="Project comparison; scroll horizontally on small screens" tabindex="0"></div>
+        <p class="tool-help">On a narrow screen, swipe the table or focus it and use the arrow keys. Linked test source describes coverage; it does not imply a new test run.</p>
+      </div>
+    </section>
+    <section id="brief" class="tool-section" aria-labelledby="briefTitle">
+      <p class="tool-eyebrow no-print">03 / Take it with you</p><h2 id="briefTitle">Build a focused project brief.</h2>
+      <p>Your selected projects become a readable brief with engineering evidence, scope and direct source links. Add the company and role if useful.</p>
+      <div data-workbench hidden>
+        <div class="brief-fields"><div><label for="company">Company (optional)</label><input id="company" type="text" maxlength="80" autocomplete="off" placeholder="Company name" /></div><div><label for="targetRole">Role (optional)</label><input id="targetRole" type="text" maxlength="80" autocomplete="off" placeholder="Software Developer" /></div></div>
+        <div class="tool-actions"><button id="downloadBrief" data-brief-action class="primary" type="button">Download brief (.txt)</button><button id="copyBrief" data-brief-action type="button">Copy brief</button><button id="printBrief" data-brief-action type="button">Print / save PDF</button><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Original CV</a></div>
+        <pre id="briefText" class="brief-preview" aria-label="Project brief preview"></pre>
+      </div>
+    </section>
+    <p id="workStatus" class="work-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <div id="copyFallbackWrap" hidden><label for="copyFallback">Select and copy this text</label><textarea id="copyFallback" rows="6" readonly></textarea></div>
+  </main>
+  <footer class="tool-footer">Adarsh S &middot; <a href="mailto:oyadarsh@gmail.com">Let's discuss the role</a> &middot; <a href="lab.html">Try the engineering lab</a></footer>
+</body>
+</html>

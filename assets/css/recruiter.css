@@ -141,3 +141,16 @@
   .recruiter-page p { color: #354256 !important; }
   .recruiter-page * { box-shadow: none !important; text-shadow: none !important; animation: none !important; transition: none !important; }
 }
+
+/* Entrances to the new interactive pages. */
+.feature-launchpad { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0 30px; position:relative; z-index:2; }
+.feature-launchpad > a { display:grid; gap:9px; padding:22px; background:var(--elevated); border:1px solid var(--border); border-radius:10px; color:var(--text); text-decoration:none; }
+.feature-launchpad > a:first-child { border-top:4px solid #2863dc; }
+.feature-launchpad > a:last-child { border-top:4px solid #9360d8; }
+.feature-launchpad strong { font-size:clamp(18px,2vw,24px); line-height:1.3; letter-spacing:-.03em; }
+.feature-launchpad > a > span:last-child { color:var(--muted); font-size:13px; line-height:1.6; }
+.feature-launchpad .feature-label { font:700 10px/1.5 'Courier New',monospace; letter-spacing:.12em; color:var(--accent); }
+.feature-launchpad a:hover { border-color:var(--accent); }
+.feature-launchpad a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+@media(max-width:650px) { .feature-launchpad { grid-template-columns:1fr; } }
+@media print { .feature-launchpad { display:none !important; } }
