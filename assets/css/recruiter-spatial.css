@@ -9,7 +9,7 @@ body.recruiter-page{
 .recruiter-page .summary-nav{font-size:11px;gap:30px;flex-wrap:nowrap;letter-spacing:.02em}
 .recruiter-page .summary-nav a{position:relative;color:#c2cbe4;white-space:nowrap}.recruiter-page .summary-nav a:hover{color:#62e7f0}.recruiter-page .summary-nav a:after{content:'';position:absolute;left:0;right:0;bottom:3px;height:1px;background:#a99aff;transform:scaleX(0);transform-origin:left;transition:transform .3s}.recruiter-page .summary-nav a:hover:after{transform:scaleX(1)}
 .recruiter-page .preferences{display:flex;gap:8px}.recruiter-page .icon-button{width:37px;height:37px;border:1px solid #c3c9ff40;border-radius:3px;background:#151a2c;color:#c3cbea;font-size:14px;flex:none}
-.recruiter-page .recruiter-main{max-width:1500px;padding:35px clamp(22px,5.5vw,90px) 90px;margin:auto}
+.recruiter-page .recruiter-main{max-width:1500px;padding:35px clamp(22px,5.5vw,90px) 90px;margin:auto;overflow-x:clip}
 .recruiter-page .summary-hero{position:relative;display:grid;grid-template-columns:1.05fr 1fr;grid-template-areas:'intro art' 'detail art';column-gap:45px;row-gap:0;min-height:650px;padding:25px 0 55px;border:0;border-radius:0;background:none;box-shadow:none;isolation:isolate;align-items:center}
 .recruiter-page .summary-hero:before{content:'';position:absolute;z-index:-1;inset:0 -5%;background:linear-gradient(90deg,#a99aff06 1px,transparent 1px) right/84px 84px,linear-gradient(#a99aff06 1px,transparent 1px) right/84px 84px;mask-image:linear-gradient(90deg,transparent 25%,#000)}
 .recruiter-page .summary-hero:after{content:'';position:absolute;height:1px;inset:auto 0 0;background:linear-gradient(90deg,#a99aff,transparent 75%)}

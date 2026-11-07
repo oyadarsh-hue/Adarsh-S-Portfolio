@@ -149,18 +149,19 @@ try:
         page.wait_for_timeout(350)
         check(page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime') == stopped, 'Reel pause holds the frame')
         check(page.locator('.cinema-state').inner_text() == 'PAUSED', 'Film timecode reflects actual paused playback')
-        page.locator('[data-reel-mode="motion"]').click()
+        page.locator('button[data-reel-mode="motion"]').click()
         page.wait_for_function("document.querySelector('#projectReel').readyState >= 2")
         check(page.locator('#projectReel').evaluate("v => v.paused && v.currentSrc.endsWith('dimensional-loop.mp4') && v.videoWidth === 960"), '3D film loads actual video without overriding pause')
         page.locator('#reelToggle').click()
         page.wait_for_function("document.querySelector('#projectReel').currentTime > .2")
         check(page.locator('#projectReel').evaluate("v => !v.paused && v.duration >= 7.9 && v.duration <= 8.1"), 'Rendered 3D film plays as an eight-second loop')
-        page.locator('[data-reel-mode="projects"]').click()
-        page.wait_for_function("document.querySelector('#projectReel').currentSrc.endsWith('adarsh-project-reel.mp4') && !document.querySelector('#projectReel').paused")
-        page.locator('#reelToggle').click()
-
-        page.locator('#reelToggle').click()
-        page.wait_for_function("!document.querySelector('#projectReel').paused")
+        page.locator('button[data-reel-mode="projects"]').click()
+        # Source switches are asynchronous: wait for decoded frames, not only a pending play request.
+        # Pause/resume was already exercised above; another blind double-toggle here races scrolling
+        # to the player controls with the visibility observer.
+        page.locator('#projectReel').scroll_into_view_if_needed()
+        page.wait_for_function("(() => { const v = document.querySelector('#projectReel'); return v.currentSrc.endsWith('adarsh-project-reel.mp4') && v.readyState >= 2 && !v.paused && v.currentTime > .2; })()")
+        check(True, 'Switching from playing 3D study resumes decoded project video')
         story_height = page.locator('.motion-story').bounding_box()['height']
         page.locator('#motionButton').click()
         check(page.locator('#projectReel').evaluate('(v) => v.paused'), 'Global motion pause stops the video')

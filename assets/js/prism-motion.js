@@ -122,7 +122,7 @@
     selector.innerHTML = '<button type="button" data-reel-mode="motion" aria-pressed="false"><span aria-hidden="true">◇</span> 3D motion study</button><button type="button" data-reel-mode="projects" aria-pressed="true"><span aria-hidden="true">▤</span> Project stories</button>';
     (document.querySelector('.cinema-chamber') || reelStage).before(selector);
     selector.addEventListener('click', event => {
-      const button = event.target.closest('[data-reel-mode]');
+      const button = event.target.closest('button[data-reel-mode]');
       if (!button || !source || button.dataset.reelMode === reelMode) return;
       const wasPlaying = !video.paused;
       reelMode = button.dataset.reelMode;
