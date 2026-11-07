@@ -74,12 +74,12 @@
     attribute vec2 aMaterial;
     uniform mat3 uRotation;
     uniform float uAspect;
-    uniform float uTime;
+    uniform mediump float uTime;
     uniform float uScale;
     uniform float uScroll;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    varying vec2 vMaterial;
+    varying mediump vec3 vPosition;
+    varying mediump vec3 vNormal;
+    varying mediump vec2 vMaterial;
     void main() {
       vec3 p=aPosition;
       float motion=sin(uTime*.55+aMaterial.x*6.283185);
@@ -99,10 +99,10 @@
   `;
   const fragmentSource = `
     precision mediump float;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    varying vec2 vMaterial;
-    uniform float uTime;
+    varying mediump vec3 vPosition;
+    varying mediump vec3 vNormal;
+    varying mediump vec2 vMaterial;
+    uniform mediump float uTime;
     vec3 environment(vec3 r) {
       vec3 midnight=vec3(.024,.03,.065);
       vec3 violet=vec3(.40,.20,.86);
@@ -145,17 +145,28 @@
 
   function webglRenderer() {
     const gl = canvas.getContext('webgl', {alpha:true,antialias:true,premultipliedAlpha:false,preserveDrawingBuffer:true,powerPreference:'low-power'});
-    if (!gl) return null;
+    if (!gl) {
+      canvas.dataset.rendererError='WebGL context unavailable';
+      return null;
+    }
     function shader(type,source) {
       const s=gl.createShader(type); gl.shaderSource(s,source); gl.compileShader(s);
-      if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)) {gl.deleteShader(s);throw new Error('Shader unavailable');}
+      if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)) {
+        const message=gl.getShaderInfoLog(s)||'No compiler diagnostic';
+        gl.deleteShader(s);
+        throw new Error(`${type===gl.VERTEX_SHADER?'Vertex':'Fragment'} shader: ${message}`);
+      }
       return s;
     }
     const program=gl.createProgram();
     gl.attachShader(program,shader(gl.VERTEX_SHADER,vertexSource));
     gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragmentSource));
     gl.linkProgram(program);
-    if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error('Renderer unavailable');
+    if(!gl.getProgramParameter(program,gl.LINK_STATUS)) {
+      const message=gl.getProgramInfoLog(program)||'No linker diagnostic';
+      gl.deleteProgram(program);
+      throw new Error(`WebGL program link: ${message}`);
+    }
     gl.useProgram(program);
     const aPosition=gl.getAttribLocation(program,'aPosition'), aNormal=gl.getAttribLocation(program,'aNormal'), aMaterial=gl.getAttribLocation(program,'aMaterial');
     const uniforms=Object.fromEntries(['uRotation','uAspect','uTime','uScale','uScroll'].map(n=>[n,gl.getUniformLocation(program,n)]));
@@ -166,6 +177,7 @@
     });
     gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.clearColor(0,0,0,0);
     canvas.dataset.renderer='webgl';
+    delete canvas.dataset.rendererError;
     return {
       resize(){gl.viewport(0,0,canvas.width,canvas.height);},
       draw(){
@@ -215,7 +227,11 @@
     };
   }
   let renderer;
-  try { renderer=webglRenderer(); } catch { renderer=null; }
+  try { renderer=webglRenderer(); } catch (error) {
+    renderer=null;
+    canvas.dataset.rendererError=error.message;
+    console.warn('The portfolio 3D sculpture is using its canvas fallback.',error.message);
+  }
   if(!renderer){
     // A canvas cannot switch context type after creation.
     const fresh=canvas.cloneNode(false);canvas.replaceWith(fresh);canvas=fresh;
@@ -258,7 +274,10 @@
     targetScroll=hero?clamp(-hero.getBoundingClientRect().top/Math.max(1,hero.offsetHeight),0,1):0;
   },{passive:true});
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;sync();});
-  canvas.addEventListener('webglcontextrestored',()=>{try{renderer=webglRenderer();contextLost=false;resize();}catch{canvas.hidden=true;}});
+  canvas.addEventListener('webglcontextrestored',()=>{
+    try{renderer=webglRenderer();contextLost=false;if(renderer)resize();else canvas.hidden=true;}
+    catch(error){canvas.dataset.rendererError=error.message;console.warn('The portfolio 3D context could not be restored.',error.message);canvas.hidden=true;}
+  });
   if('IntersectionObserver'in window)new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{rootMargin:'60px',threshold:0}).observe(canvas);
   else inView=true;
   if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas);else addEventListener('resize',resize,{passive:true});
