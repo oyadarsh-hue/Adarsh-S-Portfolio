@@ -1,0 +1,52 @@
+/* Motion lives in its own layer. Reading and document geometry remain stable. */
+.prism-home .section{content-visibility:visible;contain-intrinsic-size:none}
+.prism-home .project-card,.prism-home .project-card.in-view,.prism-home .project-card:hover{animation:none;transform:none}
+.prism-home .prism-words h1>.title-line{display:block;color:var(--text);overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.title-line>span{display:block}
+.motion-ready:not(.paused) .title-line>span{animation:title-arrive 1.1s cubic-bezier(.16,1,.3,1) both}
+.motion-ready:not(.paused) .title-line:nth-child(2)>span{animation-delay:.14s}
+.motion-ready:not(.paused) .prism-hello,.motion-ready:not(.paused) .prism-description,.motion-ready:not(.paused) .prism-actions,.motion-ready:not(.paused) .prism-social,.motion-ready:not(.paused) .reel-jump{animation:ink-arrive .85s cubic-bezier(.16,1,.3,1) both}
+.motion-ready:not(.paused) .prism-description{animation-delay:.2s}.motion-ready:not(.paused) .prism-actions{animation-delay:.28s}.motion-ready:not(.paused) .prism-social{animation-delay:.35s}.motion-ready:not(.paused) .reel-jump{animation-delay:.42s}
+.prism-collage{perspective:900px;transform:rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.motion-ready .prism-portrait{animation:portrait-float 7s ease-in-out infinite}
+.motion-ready .code-sticker{animation:sticker-float 5s ease-in-out infinite}
+.motion-ready .research-sticker{animation:sticker-float 6s ease-in-out -2s infinite}
+.motion-ready .collage-square{animation:square-drift 14s ease-in-out infinite alternate}
+.motion-ready .collage-orbit{animation:orbit-drift 9s ease-in-out infinite alternate}
+.motion-ready .role-star{display:inline-block;animation:reel-spin 16s linear infinite}
+.reel-jump{display:flex;align-items:center;gap:12px;width:fit-content;margin-top:26px;font-size:12px;font-weight:600}
+.reel-jump>span{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--text);border-radius:50%;background:var(--lime);color:#242129;font-size:10px;transition:transform .3s}
+.reel-jump:hover>span{transform:rotate(-12deg) scale(1.12)}.reel-jump small{font:9px Consolas,monospace;color:var(--muted);font-weight:400}
+.showreel-section{padding:80px var(--space) 58px;background:#241c39;color:#fff7ee;overflow:hidden;position:relative;isolation:isolate;scroll-margin-top:90px}
+.showreel-section:before{content:"";position:absolute;z-index:-1;width:650px;height:650px;border:1px solid #70558e;border-radius:50%;right:-240px;top:50px;box-shadow:0 0 0 90px #a184d20a,0 0 0 180px #a184d209}
+.reel-heading{display:flex;justify-content:space-between;align-items:end;gap:35px;max-width:1350px;margin:0 auto 36px}
+.reel-heading .eyebrow{color:#d1bdf6}.reel-heading h2{font-size:clamp(44px,5.4vw,84px);font-weight:500;letter-spacing:-.06em;line-height:1.05;margin-top:14px}.reel-heading h2 em{font-family:Georgia,serif;color:#d6f277;font-weight:400}
+.reel-heading>p{font-size:13px;line-height:1.6;color:#d8cce6}.reel-stage{max-width:1100px;margin:auto;background:#17131f;border:1px solid #8b769e;border-radius:18px;overflow:hidden;transform:scale(var(--reel-scale,1));transform-origin:center center;box-shadow:0 25px 65px #0004}
+.reel-edge{padding:13px 22px;display:flex;justify-content:space-between;gap:20px;font:8px Consolas,monospace;letter-spacing:1px;color:#cdbddf}.reel-screen{position:relative;background:#241c39;aspect-ratio:16/9;overflow:hidden}.reel-screen video{display:block;width:100%;height:100%;object-fit:contain}.reel-progress{position:absolute;inset:auto 0 0;height:3px;background:#fff2;pointer-events:none}.reel-progress span{display:block;height:100%;background:#d6f277;transform:scaleX(var(--reel-progress,0));transform-origin:left}
+.reel-controls{min-height:65px;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}.reel-controls button{display:flex;align-items:center;gap:10px;border:1px solid #8b769e;background:transparent;color:#fff7ee;border-radius:40px;padding:8px 16px;font-size:11px;min-width:112px;justify-content:center}.reel-control-icon{font-size:10px}.reel-controls button:hover{background:#d6f277;color:#241c39;border-color:#d6f277}.reel-controls>span{font:9px Consolas,monospace;color:#d8cce6;letter-spacing:.8px}.reel-controls b{color:#d6f277;margin:0 14px}.reel-controls>a{font-size:11px}.reel-description{max-width:1100px;margin:22px auto 0;font:10px/1.7 Consolas,monospace;color:#c5b7d7}
+.motion-story{position:relative;background:#d6f277;color:#242129;padding:0 var(--space);overflow:clip}
+.story-sticky{padding:70px 0;position:relative;max-width:1350px;margin:auto;isolation:isolate}
+.story-meta{display:flex;justify-content:space-between;gap:24px;font:10px Consolas,monospace;letter-spacing:1px;margin-bottom:50px}.story-meta b{display:inline-block;margin-left:16px;font-size:20px;font-weight:400}
+.story-words{font-size:clamp(44px,6.9vw,108px);letter-spacing:-.065em;line-height:1.05;font-weight:500;display:block}.story-words>span{background:linear-gradient(90deg,#242129 var(--word-fill,100%),#718542 var(--word-fill,100%));-webkit-background-clip:text;background-clip:text;color:transparent}.story-words>.story-accent{font-family:Georgia,serif;font-style:italic;font-weight:400;background-image:linear-gradient(90deg,#5d31bd var(--word-fill,100%),#718542 var(--word-fill,100%))}
+.story-bottom{display:flex;align-items:center;gap:35px;margin-top:46px}.story-line{height:2px;background:#24212926;flex:1}.story-line i{display:block;height:100%;background:#242129;transform:scaleX(var(--story-progress,1));transform-origin:left}.story-bottom p{font-size:12px;line-height:1.5;color:#242129}.story-star{font-size:62px;line-height:1;transform:rotate(var(--story-turn,0deg));color:#5d31bd}.story-orbit{position:absolute;z-index:-1;right:-230px;top:20%;height:450px;width:450px;border:1px solid #24212922;border-radius:50%;box-shadow:0 0 0 60px #24212906;transform:translateY(var(--orbit-y,0px))}
+.motion-ready:not(.paused) .motion-story{height:175vh;min-height:1000px}.motion-ready:not(.paused) .story-sticky{position:sticky;top:74px;height:calc(100svh - 74px);min-height:560px;max-height:1000px;display:flex;flex-direction:column;justify-content:center;padding:36px 0}
+.motion-ready:not(.paused) .motion-story h2{margin:0}.motion-ready:not(.paused) .story-meta{margin-bottom:35px}
+.motion-ready .motion-reveal{opacity:1}.motion-ready:not(.paused) .motion-reveal.motion-entered{animation:ink-arrive .8s cubic-bezier(.16,1,.3,1) both}
+.motion-ready .project-artwork img{scale:1.08;translate:0 var(--art-y,0px)}
+.motion-ready:not(.paused) .prism-playground h2 em{display:inline-block;animation:emphasis-tilt 5s ease-in-out infinite}
+.prism-home .project-card:focus-within{border-color:var(--accent)}.prism-home .project-card .project-visual>*{transform:none}
+@keyframes title-arrive{from{transform:translateY(120%) rotate(3deg)}to{transform:translateY(0) rotate(0)}}
+@keyframes ink-arrive{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes portrait-float{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -14px;rotate:2deg}}
+@keyframes sticker-float{0%,100%{translate:0 0}50%{translate:4px 12px}}
+@keyframes square-drift{from{translate:0 0;rotate:0deg}to{translate:-20px 20px;rotate:18deg}}
+@keyframes orbit-drift{from{scale:.97;translate:0 0}to{scale:1.06;translate:15px -15px}}
+@keyframes reel-spin{to{transform:rotate(360deg)}}
+@keyframes emphasis-tilt{0%,70%,100%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}
+.paused .prism-home *,.paused .prism-home *:before,.paused .prism-home *:after{animation-play-state:paused!important}
+.paused .prism-home .title-line>span,.paused .prism-home .motion-reveal,.paused .prism-home .prism-hello,.paused .prism-home .prism-description,.paused .prism-home .prism-actions,.paused .prism-home .prism-social,.paused .prism-home .reel-jump{animation:none!important;opacity:1;transform:none}
+.paused .story-words>span{--word-fill:100%!important}.paused .story-line{--story-progress:1!important}.paused .reel-stage{transform:none}.paused .prism-collage{transform:none}
+@media(max-width:1000px){.reel-jump small{display:none}.story-words{font-size:8vw}.story-sticky{min-height:500px}.motion-ready:not(.paused) .story-sticky{min-height:500px}.story-orbit{width:300px;height:300px}}
+@media(max-width:700px){.reel-jump{margin-top:20px}.showreel-section{padding-block:50px 35px}.reel-heading{display:block;margin-bottom:25px}.reel-heading h2{font-size:47px}.reel-heading>p{font-size:12px;margin-top:18px}.reel-heading>p br{display:none}.reel-stage{border-radius:11px}.reel-edge{padding:11px 12px;font-size:6px;letter-spacing:.3px}.reel-edge>span:last-child{display:none}.reel-controls{padding:12px;gap:8px;min-height:60px}.reel-controls button{padding:9px 12px;font-size:10px;min-width:105px}.reel-controls>span{display:none}.reel-controls>a{font-size:10px}.reel-description{font-size:9px;line-height:1.7;margin-top:16px}.story-meta{font-size:8px;gap:20px}.story-meta>span:last-child{max-width:140px;text-align:right;line-height:1.6}.story-meta b{margin-left:5px;font-size:14px}.story-words{font-size:clamp(29px,8.4vw,56px);line-height:1.18;letter-spacing:-.055em}.story-bottom{gap:20px;margin-top:40px}.story-bottom p{font-size:10px}.story-star{font-size:42px}.motion-ready:not(.paused) .motion-story{height:150vh;min-height:820px}.motion-ready:not(.paused) .story-sticky{min-height:430px;height:calc(100svh - 90px);top:78px}.story-orbit{width:230px;height:230px;right:-150px}.story-sticky{padding:55px 0}.prism-home .prism-words h1>.title-line{display:block}}
+@media(prefers-reduced-motion:reduce){.motion-ready .prism-home *,.motion-ready .prism-home *:before,.motion-ready .prism-home *:after{animation:none!important;transition:none!important}.motion-story{height:auto!important;min-height:0!important}.story-sticky{position:relative!important;height:auto!important;min-height:0!important;padding:55px 0!important}.story-words>span{--word-fill:100%!important}.prism-collage,.reel-stage{transform:none!important}.project-artwork img{translate:none!important;scale:1!important}}
+@media print{.showreel-section,.motion-story,.reel-jump{display:none}.prism-home .title-line>span,.prism-home .motion-reveal{animation:none!important;opacity:1!important;transform:none!important}}

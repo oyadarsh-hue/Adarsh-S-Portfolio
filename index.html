@@ -63,6 +63,8 @@
     <script src="assets/js/main.js?v=11" defer></script>
     <link rel="stylesheet" href="assets/css/prism.css?v=2" />
     <script src="assets/js/prism.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/css/prism-motion.css?v=1" />
+    <script src="assets/js/prism-motion.js?v=1" defer></script>
   </head>
   <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -106,11 +108,12 @@
         <div class="prism-intro">
           <div class="prism-words">
             <p class="prism-hello">A curious mind. A creative approach.</p>
-            <h1 id="heroTitle">Hi, I’m<br /><span>Adarsh S<span class="coral-dot">.</span></span></h1>
+            <h1 id="heroTitle"><span class="title-line"><span>Hi, I’m</span></span><span class="title-line"><span>Adarsh S<span class="coral-dot">.</span></span></span></h1>
             <div class="role-tape"><span class="role-star" aria-hidden="true">✳</span><span id="prismRole" aria-hidden="true">Software developer</span><span class="sr-only">Software developer, full-stack builder and computer vision enthusiast.</span><span class="role-count" aria-hidden="true">01 / 03</span></div>
             <p class="prism-description">I turn curious ideas into useful software.<br />Full-stack applications, computer vision,<br class="wide-only" /> and a little research along the way.</p>
             <div class="prism-actions"><a class="prism-button solid" href="#projects">Explore my work <span aria-hidden="true">↗</span></a><a class="prism-button" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV <span aria-hidden="true">↓</span></a></div>
             <div class="prism-social"><a href="https://github.com/oyadarsh-hue" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/adarsh-s-031869355/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="mailto:oyadarsh@gmail.com">Let’s talk ↗</a></div>
+            <a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Watch the project reel <small>16 seconds of curiosity</small></a>
           </div>
           <div class="prism-collage">
             <div class="collage-orbit" aria-hidden="true"></div><div class="collage-square" aria-hidden="true"></div><div class="collage-star" aria-hidden="true">✳</div>
@@ -137,6 +140,18 @@
           </span>
         </div>
       </div>
+      <section id="showreel" class="showreel-section" aria-labelledby="reelTitle">
+        <div class="reel-heading"><div><p class="eyebrow">PRESS PLAY / MEET THE PROJECTS</p><h2 id="reelTitle">Ideas, <em>in motion.</em></h2></div><p>A quick visual tour of the problems<br />I love working on.</p></div>
+        <div class="reel-stage">
+          <div class="reel-edge" aria-hidden="true"><span>ADARSH S — SELECTED WORK</span><span>FULL STACK · VISION · SECURITY</span></div>
+          <div class="reel-screen">
+            <video id="projectReel" muted loop playsinline preload="none" controls poster="assets/images/reel-poster.webp" aria-label="Adarsh S project showcase: AssentTag, EpigraphiX-AI, AegisForge-X, Deciphera and QuietNote" aria-describedby="reelDescription"><source src="assets/video/adarsh-project-reel.mp4" data-src="assets/video/adarsh-project-reel.mp4" type="video/mp4" /><p>Your browser cannot play this video. Explore the project case studies below.</p></video>
+            <div class="reel-progress" aria-hidden="true"><span></span></div>
+          </div>
+          <div class="reel-controls"><button id="reelToggle" type="button" hidden><span class="reel-control-icon" aria-hidden="true">▶</span><span class="reel-control-label">Play reel</span></button><span>00:16 <b>✳</b> SILENT LOOP</span><a href="#projects">Explore the work ↗</a></div>
+        </div>
+        <p id="reelDescription" class="reel-description">A motion graphic introduction using conceptual project artwork. Explore each case study below for implementation details and demos.</p>
+      </section>
       <section id="about" class="section">
         <div class="section-heading">
           <p class="eyebrow">01 / A LITTLE CONTEXT</p>
@@ -170,6 +185,14 @@
             <div><strong>05</strong><span>Selected projects below</span></div>
             <div><strong>01</strong><span>IJRASET publication</span></div>
           </div>
+        </div>
+      </section>
+      <section class="motion-story" aria-labelledby="storyTitle">
+        <div class="story-sticky">
+          <div class="story-meta"><span>HOW I THINK</span><span>SCROLL TO CONNECT THE DOTS <b aria-hidden="true">↓</b></span></div>
+          <h2 id="storyTitle"><span class="sr-only">Good software starts with curiosity. And ends with something useful.</span><span class="story-words" aria-hidden="true"><span>Good</span> <span>software</span><br /><span>starts</span> <span>with</span> <span class="story-accent">curiosity.</span><br /><span>And</span> <span>ends</span> <span>with</span><br /><span>something</span> <span class="story-accent">useful.</span></span></h2>
+          <div class="story-bottom"><span class="story-line" aria-hidden="true"><i></i></span><p>From the first question<br />to the last line of code.</p><span class="story-star" aria-hidden="true">✳</span></div>
+          <div class="story-orbit" aria-hidden="true"></div>
         </div>
       </section>
       <div class="prism-playground">
