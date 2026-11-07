@@ -1,0 +1,141 @@
+/* An expressive editorial system for the content below the opening scenes. */
+.prism-home #about,.prism-home #projects,.prism-home #publication,.prism-home #skills,.prism-home #certifications,.prism-home #education,.prism-home #contact{position:relative;isolation:isolate;max-width:none;border-bottom:2px solid #271831;--text:#271831;--muted:#645568;--accent:#7136a6;--border:#27183138;--surface:#f1e7fa;--elevated:#fff9ec}
+.prism-home #about{background:#ff9277;color:#271831;padding-block:110px;grid-template-columns:.9fr 1.1fr;gap:clamp(35px,6vw,100px);overflow:clip}
+.prism-home #about:before{content:"";position:absolute;z-index:-1;width:320px;height:320px;left:-190px;bottom:-100px;border:42px solid #d75c7340;transform:rotate(35deg);box-shadow:0 0 0 20px #ffb19970}
+.prism-home #about .section-heading h2{font-size:clamp(44px,5.4vw,80px);line-height:1.02;font-weight:600;letter-spacing:-.065em;max-width:560px;color:#271831}
+.prism-home #about .section-heading h2>span{font-family:Georgia,serif;font-style:italic;font-weight:400;color:#602650}
+.prism-home #about .eyebrow{color:#602650;font-size:10px;letter-spacing:1.7px;margin-bottom:22px}
+.prism-home #about .large-copy{font-size:clamp(20px,2.1vw,29px);line-height:1.45;letter-spacing:-.5px;color:#271831;margin-bottom:25px}
+.prism-home #about .large-copy em{background:#d7fb64;color:#271831;padding:0 4px;box-shadow:4px 3px 0 #271831}
+.prism-home #about .about-grid p:not(.large-copy){font-size:14px;line-height:1.8;color:#4d2b3d}
+.prism-home #about .text-link{display:inline-flex;align-items:center;gap:20px;border-bottom:2px solid #271831;padding-bottom:8px;color:#271831;font-size:12px;font-weight:700;margin-top:15px}
+.prism-home #about .text-link:hover{color:#632b66}
+.prism-home #about .profile-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:38px;max-width:none}
+.prism-home #about .profile-facts>div{padding:15px 12px 16px;border:1px solid #271831;background:#fff1d6;box-shadow:3px 3px 0 #271831;border-radius:2px;min-width:0}
+.prism-home #about .profile-facts>div:nth-child(2){background:#d7b8fa}.prism-home #about .profile-facts>div:nth-child(3){background:#d7fb64}.prism-home #about .profile-facts>div:nth-child(4){background:#b8eadd}
+.prism-home #about .profile-facts strong{font-size:clamp(24px,2.7vw,43px);letter-spacing:-2px;line-height:1.1;color:#271831}
+.prism-home #about .profile-facts span{display:block;font-size:8px;line-height:1.5;color:#4d3d51;margin-top:8px}
+
+.prism-home .prism-playground{position:relative;background:#d7fb64;color:#271831;border-block:2px solid #271831;padding-block:64px;gap:50px;overflow:clip}
+.prism-home .prism-playground h2{font-size:clamp(40px,4.2vw,66px);letter-spacing:-.065em;line-height:1.04;color:#271831}
+.prism-home .prism-playground h2 em{font-family:Georgia,serif;color:#6c337e;font-style:italic}
+.prism-home .prism-playground .eyebrow,.prism-home .prism-playground p{color:#485429}
+.prism-home .feature-launchpad{gap:20px;align-items:stretch}
+.prism-home .feature-launchpad>a{position:relative;border:2px solid #271831;border-radius:3px;background:#fff4db;box-shadow:6px 6px 0 #271831;padding:29px;overflow:hidden;transition:box-shadow .25s,background .25s;transform:none!important;color:#271831}
+.prism-home .feature-launchpad>a:nth-child(2){background:#d8bafa}
+.prism-home .feature-launchpad>a:after{content:"";position:absolute;bottom:-20px;right:-20px;width:85px;height:85px;border:16px solid #27183112;transform:rotate(20deg);pointer-events:none}
+.prism-home .feature-launchpad>a:hover{box-shadow:9px 9px 0 #271831;background:#f7ab90}
+.prism-home .feature-launchpad>a .feature-label{color:#5b4363;font:8px Consolas,monospace;letter-spacing:.8px}
+.prism-home .feature-launchpad>a strong{font-size:clamp(20px,2vw,29px);letter-spacing:-.8px;line-height:1.15;color:#271831;margin-block:18px}
+.prism-home .feature-launchpad>a>span:last-child{font-size:11px;line-height:1.6;color:#5b4363;max-width:240px}
+
+.prism-home #projects{background:#fff5e5;color:#271831;padding-block:110px}
+.prism-home #projects .section-heading h2{font-size:clamp(46px,6.3vw,92px);letter-spacing:-.065em;color:#271831;line-height:1.02}
+.prism-home #projects .section-heading h2>span{font-family:Georgia,serif;font-style:italic;font-weight:400;color:#833577}
+.prism-home #projects .section-heading .eyebrow{color:#79526e;letter-spacing:1.6px}
+.prism-home #projects .project-tools{padding:20px 0 30px;border-bottom:1px solid #2718314d;margin-bottom:42px;color:#655368}
+.prism-home #projects .project-filter-buttons button{border-radius:5px;border:1px solid #271831;background:#fffaf2;color:#271831;font-size:10px;box-shadow:2px 2px 0 #271831;padding:11px 16px}
+.prism-home #projects .project-filter-buttons button[aria-pressed=true]{background:#271831;color:#d7fb64;box-shadow:2px 2px 0 #a5bf4f}
+.prism-home #projects .project-search-row label,.prism-home #projects .project-search-row p{color:#655368}
+.prism-home #projects .project-search-row input{border:1px solid #88718b;border-radius:4px;background:#fffdf7;color:#271831;padding:12px}
+.prism-home #projects .project-search-row input::placeholder{color:#77667c}
+.prism-home #projects .project-list{gap:38px;align-items:stretch}
+.prism-home #projects .project-card{--card-color:#d4b3f5;--card-shadow:#814c9d;--card-ink:#271831;position:relative;border:2px solid #271831;border-radius:8px;background:var(--card-color);color:var(--card-ink);box-shadow:8px 8px 0 var(--card-shadow);overflow:hidden;transition:box-shadow .3s,border-color .3s;transform:none!important}
+.prism-home #projects .project-card:nth-child(2){--card-color:#b5e6d7;--card-shadow:#468c78}.prism-home #projects .project-card:nth-child(3){--card-color:#ffac8d;--card-shadow:#ab553c}.prism-home #projects .project-card:nth-child(4){--card-color:#d9ed85;--card-shadow:#829b36}.prism-home #projects .project-card:nth-child(5){--card-color:#c1c9fb;--card-shadow:#626faa}
+.prism-home #projects .project-card:hover,.prism-home #projects .project-card:focus-within{box-shadow:11px 11px 0 var(--card-shadow);border-color:#7340a0}
+.prism-home #projects .project-card .project-visual{border-bottom:2px solid #271831;padding:20px;background:#271831;aspect-ratio:1.65}
+.prism-home #projects .project-artwork{inset:12px;border:1px solid #fff8;border-radius:3px;overflow:hidden}
+.prism-home #projects .project-artwork img{filter:saturate(1.12);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.prism-home #projects .visual-top{font-size:7px;padding:8px}.prism-home #projects .visual-top span{border-radius:2px;background:#22162cce;border:1px solid #fff4}
+.prism-home #projects .project-copy{position:relative;padding:28px 32px 32px;isolation:isolate;color:#271831}
+.prism-home #projects .project-top{align-items:center;gap:12px}.prism-home #projects .project-top .eyebrow{color:#5d4165;font-size:8px;line-height:1.5}
+.prism-home #projects .project-number{background:transparent;color:#271831;border:1px solid #271831;border-radius:4px;font-size:13px;width:35px;height:35px}
+.prism-home #projects .project-card h3{font-size:clamp(30px,3.1vw,47px);letter-spacing:-.055em;line-height:1.1;color:#271831;overflow-wrap:anywhere}
+.prism-home #projects .project-tagline{font:italic 22px/1.25 Georgia,serif;color:#513459;margin-top:13px}
+.prism-home #projects .project-copy>p:not(.project-tagline){color:#574160;font-size:12px;line-height:1.75}
+.prism-home #projects .project-copy>p.project-scope{font:9px Consolas,monospace;color:#62426d}
+.prism-home #projects .chips{gap:6px;margin-top:23px}.prism-home #projects .chips span{color:#42294c;background:#ffffff5e;border:1px solid #563a632f;border-radius:3px;padding:5px 8px;font-size:8px}
+.prism-home #projects .project-links{border-top:1px solid #2718316b;padding-top:20px;margin-top:26px;color:#271831;font-size:12px}
+.prism-home #projects .project-links a,.prism-home #projects .project-links a:hover{color:#271831}.prism-home #projects .project-links a:hover{text-decoration:underline;text-underline-offset:4px}
+.prism-home #projects .project-card:last-child .project-visual{border-bottom:0;border-right:2px solid #271831;aspect-ratio:auto}
+.prism-home #projects .project-evidence-note,.prism-home #projects .project-empty{color:#655368!important}
+
+.prism-home #publication{background:#ceb2f0;color:#271831;padding-block:110px}
+.prism-home #publication .section-heading h2{font-size:clamp(44px,5.8vw,86px);line-height:1.02;letter-spacing:-.065em;color:#271831}
+.prism-home #publication .section-heading h2>span{color:#64367c;font-family:Georgia,serif;font-style:italic;font-weight:400;text-shadow:none}
+.prism-home #publication .eyebrow{color:#5b3972}
+.prism-home #publication .publication-card{border:2px solid #271831;border-radius:5px;background:#fff6e2;box-shadow:10px 10px 0 #271831;color:#271831;overflow:hidden}
+.prism-home #publication .research-visual{border-right:2px solid #271831;min-height:510px;background:#271831}
+.prism-home #publication .publication-artwork{inset:13px;border:1px solid #ffe9f2aa;overflow:hidden}
+.prism-home #publication .publication-copy{padding:40px;min-width:0;background:#fff6e2;color:#271831}
+.prism-home #publication .publication-copy h3{font-size:26px;line-height:1.35;letter-spacing:-.7px;color:#271831}
+.prism-home #publication .publication-copy p{color:#64536b;font-size:13px;line-height:1.8}
+.prism-home #publication .publication-copy>.eyebrow{font:8px Consolas,monospace;letter-spacing:1px;color:#713a8b}
+.prism-home #publication .paper-meta{padding-block:20px;border-block:1px solid #967f9d;font-size:11px;margin-block:25px;color:#271831;overflow-wrap:anywhere}
+.prism-home #publication .paper-meta dt{color:#735c7d}.prism-home #publication .paper-meta dd{color:#271831}
+.prism-home #publication .text-link,.prism-home #publication .research-case{color:#63307c;font-size:12px;font-weight:600}
+.prism-home #publication a:hover{color:#271831;text-decoration:underline;text-underline-offset:4px}
+
+.prism-home #skills{--text:#fff2e7;--muted:#c7aed4;--accent:#d7fb64;--border:#b18ac659;--elevated:#34213f;--surface:#271831;background:#271831;color:#fff2e7;padding-block:105px}
+.prism-home #skills .section-heading h2{font-size:clamp(44px,5.8vw,86px);letter-spacing:-.065em;line-height:1.02;color:#fff2e7}
+.prism-home #skills .section-heading h2>span{font-family:Georgia,serif;font-style:italic;font-weight:400;color:#d7fb64}
+.prism-home #skills .eyebrow,.prism-home #skills .heading-split>p{color:#ceb7db}
+.prism-home #skills .skill-filters button{border:1px solid #8e6ba2;border-radius:4px;color:#e8d8f0;background:#3a2546;padding:11px 15px;font-size:10px}
+.prism-home #skills .skill-filters button[aria-pressed=true]{color:#271831;background:#d7fb64;border-color:#d7fb64}
+.prism-home #skills .skill-grid{gap:22px;margin-top:30px}
+.prism-home #skills .skill-card{position:relative;border:1px solid #9770b0;border-radius:5px;background:#362140;padding:29px;box-shadow:4px 4px 0 #150d1b;min-height:235px;transition:border-color .3s,background .3s;overflow:hidden}
+.prism-home #skills .skill-card:before{width:5px;background:#d7fb64}.prism-home #skills .skill-card:nth-child(3n+2):before{background:#ff947b}.prism-home #skills .skill-card:nth-child(3n):before{background:#c0a6fa}
+.prism-home #skills .skill-index{display:block;color:#c9a8e1;font-size:32px;font-weight:600;letter-spacing:-1px;line-height:1;margin-bottom:18px}
+.prism-home #skills .skill-card h3{color:#fff3e5;font-size:21px;letter-spacing:-.5px;margin-bottom:18px}
+.prism-home #skills .skill-card .chips{gap:7px}.prism-home #skills .skill-card .chips span{border:1px solid #b18ac650;border-radius:3px;background:#211329;color:#e9d9f5;font-size:9px;padding:6px 8px}
+.prism-home #skills .skill-card:hover{border-color:#d7fb64;background:#42294c}
+
+.prism-home #certifications{background:#fff5e5;color:#271831;padding-block:100px}
+.prism-home #certifications .section-heading h2{font-size:clamp(44px,5.8vw,82px);letter-spacing:-.06em;line-height:1.04;color:#271831}
+.prism-home #certifications .section-heading h2>span{color:#7e3a83;font-family:Georgia,serif;font-style:italic;font-weight:400}
+.prism-home #certifications .cert-grid{gap:20px}
+.prism-home #certifications .cert-card{background:#fffaf1;color:#271831;border:1px solid #57415f;border-top:5px solid #ff9277;border-radius:3px;box-shadow:4px 4px 0 #ddc8db;padding:25px;min-width:0}
+.prism-home #certifications .cert-card:nth-child(3n+2){border-top-color:#ae7ddb}.prism-home #certifications .cert-card:nth-child(3n){border-top-color:#9fbd3f}
+.prism-home #certifications .cert-card h3{color:#271831;font-size:18px;line-height:1.4;margin-block:18px}
+.prism-home #certifications .cert-card div,.prism-home #certifications .cert-card time{color:#755b7c;font-size:10px}
+.prism-home #certifications .more-credentials{color:#271831;border-color:#a68aaa}.prism-home #certifications .more-credentials summary{color:#623871;font-size:13px}
+
+.prism-home #education{background:#d7fb64;color:#271831;padding-block:100px}
+.prism-home #education .section-heading h2{font-size:clamp(44px,5.8vw,84px);line-height:1.02;letter-spacing:-.065em;color:#271831}
+.prism-home #education .section-heading h2>span{font-family:Georgia,serif;font-style:italic;font-weight:400;color:#58732f}
+.prism-home #education .education-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:0}
+.prism-home #education .education-timeline:before{display:none}
+.prism-home #education .timeline-item{border:2px solid #271831;border-radius:4px;background:#efffba;margin:0;padding:28px;display:block;min-width:0;box-shadow:5px 5px 0 #74913a;opacity:1;transform:none}
+.prism-home #education .timeline-item:before{display:none}
+.prism-home #education .time{color:#58732f;font:9px Consolas,monospace;letter-spacing:.6px;margin-bottom:24px}
+.prism-home #education .education-level{color:#6b7148;font:9px Consolas,monospace;letter-spacing:1px}
+.prism-home #education .timeline-content h3{color:#271831;font-size:26px;line-height:1.18;letter-spacing:-.8px;margin:12px 0}
+.prism-home #education .timeline-content>p:not(.education-level){color:#52633d;font-size:12px;line-height:1.7}
+.prism-home #education .grade{background:#271831;color:#d7fb64;border:0;border-radius:4px;padding:9px 12px;margin-top:20px;font:11px Consolas,monospace;display:inline-block}
+
+.prism-home #contact{background:#ff9277;color:#271831;padding-block:100px 75px;overflow:clip;border-top:2px solid #271831}
+.prism-home #contact:before{content:"";position:absolute;z-index:-1;right:-80px;top:55px;width:360px;height:360px;background:repeating-linear-gradient(45deg,#f8c5ef 0 12px,#271831 12px 15px);border:2px solid #271831;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);transform:rotate(16deg);opacity:.7}
+.prism-home #contact h2{font-size:clamp(54px,8.2vw,126px);line-height:.99;letter-spacing:-.07em;font-weight:600;max-width:1100px;color:#271831;margin-top:23px}
+.prism-home #contact h2 em{color:#623371;font-family:Georgia,serif;font-style:italic;font-weight:400;text-shadow:none}
+.prism-home #contact .eyebrow{color:#723f54;letter-spacing:1.5px}
+.prism-home #contact .contact-arrow{color:#713e79;text-shadow:none}
+.prism-home #contact .contact-bottom{border-color:#6c3d5760;gap:35px;margin-top:50px;padding-top:30px;position:relative;z-index:1}
+.prism-home #contact .contact-bottom p{color:#623b50;font-size:13px;line-height:1.8}
+.prism-home #contact .contact-bottom>a{color:#271831;font-size:clamp(19px,2.7vw,39px);letter-spacing:-1px}
+.prism-home #contact .contact-links{gap:12px}
+.prism-home #contact .contact-links a{border:1px solid #271831;border-radius:4px;background:#ffb79d;color:#271831;padding:11px 15px;font-size:11px;box-shadow:3px 3px 0 #271831}
+.prism-home #contact a:hover,.prism-home #contact a:focus-visible{color:#5d286f!important}.prism-home #contact .contact-links a:hover{background:#d7fb64}
+.prism-home footer{background:#21142c;color:#f8e9ff;padding-top:55px;border-top:0;overflow:clip}
+.prism-home footer .footer-top{border-color:#9669a15e;color:#d9bfdc;padding-bottom:35px}
+.prism-home footer .footer-top a{color:#e8d8ec;font-size:11px}.prism-home footer .footer-top a:hover{color:#d7fb64}
+.prism-home footer .footer-word{font-size:clamp(65px,15.8vw,244px);font-weight:700;letter-spacing:-.075em;line-height:1.1;margin:25px 0;color:#d7fb64;background:linear-gradient(100deg,#d7fb64 15%,#f9a78d 35%,#cea5f6 55%,#d7fb64 80%);background-size:220% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;white-space:nowrap;animation:footer-colour 16s ease-in-out infinite alternate}
+.prism-home footer .footer-word>span{display:inline-block;color:#f9a78d;font-size:.65em;-webkit-text-fill-color:#f9a78d}
+.prism-home footer .footer-bottom{border-color:#9669a15e;color:#baa2c6;font-size:9px}
+@keyframes footer-colour{from{background-position:0 50%}to{background-position:100% 50%}}
+@media(min-width:1100px){.prism-home #projects .project-card:nth-child(2){margin-top:55px}.prism-home #projects .project-card:nth-child(4){margin-top:55px}}
+@media(max-width:1000px){.prism-home #about{grid-template-columns:1fr;gap:35px;padding-block:75px}.prism-home #about .section-heading h2{max-width:700px}.prism-home #about .section-heading h2 br{display:none}.prism-home #about .profile-facts{max-width:620px}.prism-home .prism-playground{grid-template-columns:1fr;gap:30px}.prism-home #projects,.prism-home #publication,.prism-home #skills,.prism-home #education,.prism-home #certifications{padding-block:80px}.prism-home #publication .publication-copy{padding:30px}.prism-home #publication .publication-copy h3{font-size:23px}.prism-home #contact:before{width:240px;height:240px;right:-100px}.prism-home #education .timeline-content h3{font-size:23px}}
+@media(max-width:700px){.prism-home #about{padding-block:60px;gap:28px}.prism-home #about .section-heading h2{font-size:44px}.prism-home #about .section-heading h2 br{display:block}.prism-home #about .large-copy{font-size:21px;line-height:1.5}.prism-home #about .about-grid p:not(.large-copy){font-size:13px}.prism-home #about .profile-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:30px}.prism-home #about .profile-facts>div{padding:17px}.prism-home #about .profile-facts strong{font-size:34px}.prism-home #about .profile-facts span{font-size:9px}.prism-home #about .text-link{font-size:11px;gap:10px}.prism-home .prism-playground{padding-block:45px;gap:28px}.prism-home .prism-playground h2{font-size:43px}.prism-home .feature-launchpad>a{padding:25px;box-shadow:4px 4px 0 #271831}.prism-home .feature-launchpad>a strong{font-size:24px}.prism-home #projects,.prism-home #publication,.prism-home #skills,.prism-home #education,.prism-home #certifications{padding-block:62px}.prism-home #projects .section-heading h2,.prism-home #publication .section-heading h2,.prism-home #skills .section-heading h2,.prism-home #education .section-heading h2,.prism-home #certifications .section-heading h2{font-size:45px}.prism-home #projects .project-tools{padding-top:5px;padding-bottom:25px;margin-bottom:28px}.prism-home #projects .project-filter-buttons button{padding:9px 11px;font-size:9px}.prism-home #projects .project-list{gap:32px}.prism-home #projects .project-card{box-shadow:5px 5px 0 var(--card-shadow)}.prism-home #projects .project-copy{padding:23px}.prism-home #projects .project-card h3{font-size:32px}.prism-home #projects .project-tagline{font-size:21px}.prism-home #projects .project-card .project-visual{aspect-ratio:1.4}.prism-home #projects .project-card:last-child .project-visual{border-right:0;border-bottom:2px solid #271831;aspect-ratio:1.4}.prism-home #projects .project-links{font-size:11px;gap:10px}.prism-home #publication .publication-card{box-shadow:6px 6px 0 #271831}.prism-home #publication .research-visual{min-height:280px;border-right:0;border-bottom:2px solid #271831}.prism-home #publication .publication-copy{padding:25px}.prism-home #publication .publication-copy h3{font-size:21px}.prism-home #publication .paper-meta{font-size:10px}.prism-home #skills .skill-card{min-height:0;padding:25px}.prism-home #skills .skill-filters{gap:7px;flex-wrap:wrap}.prism-home #skills .skill-filters button{padding:9px 10px;font-size:9px}.prism-home #education .education-timeline{grid-template-columns:1fr;gap:22px}.prism-home #education .timeline-item{padding:25px}.prism-home #education .timeline-content h3{font-size:24px}.prism-home #contact{padding-block:65px 50px}.prism-home #contact h2{font-size:clamp(45px,12.4vw,75px);line-height:1.05}.prism-home #contact:before{width:190px;height:190px;right:-120px;top:50px;opacity:.45}.prism-home #contact .contact-bottom{margin-top:32px;gap:20px;padding-top:25px}.prism-home #contact .contact-bottom p{font-size:12px}.prism-home #contact .contact-bottom>a{font-size:clamp(18px,5.6vw,27px);letter-spacing:-.8px}.prism-home #contact .contact-links a{padding:10px;font-size:10px}.prism-home footer{padding-top:38px}.prism-home footer .footer-top{padding-bottom:25px}.prism-home footer .footer-top a{font-size:10px}.prism-home footer .footer-word{font-size:15.2vw;margin-block:25px}.prism-home footer .footer-bottom{font-size:8px;gap:12px}}
+@media(max-width:370px){.prism-home #about .section-heading h2,.prism-home #projects .section-heading h2,.prism-home #publication .section-heading h2,.prism-home #skills .section-heading h2,.prism-home #education .section-heading h2,.prism-home #certifications .section-heading h2{font-size:37px}.prism-home #projects .project-copy{padding:20px}.prism-home #projects .project-card h3{font-size:27px}.prism-home #projects .project-tagline{font-size:19px}.prism-home #projects .project-number{width:29px;height:29px;font-size:11px}.prism-home #projects .project-top .eyebrow{font-size:7px}.prism-home #publication .publication-copy{padding:21px}.prism-home #publication .publication-copy h3{font-size:19px}.prism-home #about .text-link{font-size:10px}.prism-home #contact .contact-bottom>a .social-icon{width:18px;height:18px}}
+.paused .prism-home footer .footer-word{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){.prism-home footer .footer-word{animation:none}.prism-home #projects .project-card,.prism-home #projects .project-artwork img,.prism-home .feature-launchpad>a,.prism-home #skills .skill-card{transition:none}}
+@media print{.prism-home #about,.prism-home #projects,.prism-home #publication,.prism-home #skills,.prism-home #certifications,.prism-home #education,.prism-home #contact,.prism-home footer{background:white!important;color:black!important;box-shadow:none}.prism-home #projects .project-card,.prism-home #publication .publication-card,.prism-home #skills .skill-card,.prism-home #education .timeline-item{box-shadow:none!important;background:white!important;color:black!important}.prism-home #contact:before{display:none}.prism-home footer .footer-word{background:none;-webkit-text-fill-color:black;color:black;animation:none}}

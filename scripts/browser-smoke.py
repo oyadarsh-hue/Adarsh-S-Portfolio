@@ -129,6 +129,15 @@ try:
         page.wait_for_url(expected_destination)
         check(page.url == expected_destination, 'Offscreen case study receives keyboard focus and opens with Enter')
         open_page(page, 'index.html')
+        # Verify visible film composition responds to native document scrolling.
+        check(page.locator('.cinema-letterfield[aria-hidden="true"]').count() == 1, 'Decorative film typography does not duplicate accessible content')
+        page.evaluate("window.scrollTo({top:document.querySelector('#showreel').offsetTop-innerHeight*.7,behavior:'instant'})")
+        page.wait_for_timeout(180)
+        cinema_small = page.locator('#showreel').evaluate("e => parseFloat(e.style.getPropertyValue('--cinema-scale'))")
+        page.evaluate("window.scrollTo({top:document.querySelector('#showreel').offsetTop-innerHeight*.1,behavior:'instant'})")
+        page.wait_for_timeout(180)
+        cinema_large = page.locator('#showreel').evaluate("e => parseFloat(e.style.getPropertyValue('--cinema-scale'))")
+        check(.8 <= cinema_small < cinema_large <= 1, 'Scroll expands the cinematic frame within bounded scale')
         # Exercise real media playback and the shared motion preference.
         page.locator('#projectReel').scroll_into_view_if_needed()
         page.wait_for_function("document.querySelector('#heroSculpture').dataset.motion === 'still'")
@@ -139,6 +148,7 @@ try:
         stopped = page.locator('#projectReel').evaluate('(v) => v.currentTime')
         page.wait_for_timeout(350)
         check(page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime') == stopped, 'Reel pause holds the frame')
+        check(page.locator('.cinema-state').inner_text() == 'PAUSED', 'Film timecode reflects actual paused playback')
         page.locator('#reelToggle').click()
         page.wait_for_function("!document.querySelector('#projectReel').paused")
         story_height = page.locator('.motion-story').bounding_box()['height']
