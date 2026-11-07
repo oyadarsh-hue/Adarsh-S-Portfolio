@@ -1,169 +1,30 @@
-/* A reading timeline: native scrolling, one anchored year, real experience. */
-.prism-home #experience {
-  --journey-ink: #292238;
-  --journey-muted: #655e72;
-  --journey-accent: #6844bf;
-  --journey-rule: #29223826;
-  background: radial-gradient(ellipse at 5% 45%, #e5d5ff91, transparent 49%), radial-gradient(ellipse at 100% 90%, #c9eeee91, transparent 51%), #f8f5ef;
-  color: var(--journey-ink);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-  align-items: start;
-  gap: clamp(40px, 6vw, 110px);
-  padding-block: 100px 80px;
-  content-visibility: visible;
-  contain-intrinsic-size: none;
-  isolation: isolate;
-}
-.prism-home #experience .journey-dial-panel {
-  position: sticky;
-  top: calc(var(--header-height, 88px) + 40px);
-  padding: 26px 0 40px;
-  margin: 0;
-  min-width: 0;
-  overflow: clip;
-}
-.prism-home #experience .journey-dial-panel .eyebrow { color: var(--journey-muted); }
-.prism-home #experience .journey-dial-panel h2 {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(29px, 3.05vw, 46px);
-  line-height: 1.1;
-  letter-spacing: -.045em;
-  max-width: 470px;
-}
-.prism-home #experience .journey-dial-panel h2 > span { color: var(--journey-accent); }
-.journey-dial { position: relative; padding: 32px 0 24px; isolation: isolate; }
-.journey-year {
-  display: block;
-  font-size: clamp(105px, 12vw, 180px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -.085em;
-  font-variant-numeric: tabular-nums;
-  color: var(--journey-ink);
-}
-.journey-date { position: relative; display: block; margin-top: 24px; min-height: 16px; font: 10px/1.5 Consolas, monospace; letter-spacing: 1.6px; text-transform: uppercase; color: var(--journey-muted); }
-.journey-rings {
-  position: absolute;
-  width: min(100%, 470px);
-  aspect-ratio: 1;
-  left: 0;
-  top: 45%;
-  translate: 0 -50%;
-  border: 1px solid var(--journey-rule);
-  border-radius: 50%;
-  z-index: -1;
-  transform: rotate(var(--dial-turn, 0deg));
-  background: repeating-conic-gradient(from 0deg, var(--journey-rule) 0deg 0.25deg, transparent .25deg 6deg);
-  -webkit-mask: radial-gradient(closest-side, transparent 91%, #000 91% 94%, transparent 94% 99%, #000 99%);
-  mask: radial-gradient(closest-side, transparent 91%, #000 91% 94%, transparent 94% 99%, #000 99%);
-}
-.journey-rings-inner {
-  position: absolute;
-  width: 72%;
-  aspect-ratio: 1;
-  left: 14%;
-  top: 45%;
-  translate: 0 -50%;
-  border: 1px solid var(--journey-rule);
-  border-radius: 50%;
-  z-index: -1;
-  box-shadow: 0 0 0 28px #6844bf04, 0 0 0 55px #6844bf03;
-}
-.journey-chapter {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 27px;
-  font: 12px Consolas, monospace;
-  color: var(--journey-muted);
-}
-.journey-chapter strong { color: var(--journey-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
-.journey-chapter-track { width: 145px; height: 2px; background: var(--journey-rule); }
-.journey-chapter-track i { display: block; height: 100%; background: var(--journey-accent); transform: scaleX(var(--dial-progress, .3333)); transform-origin: left; }
-.journey-dial-caption { margin-top: 21px; font-size: 11px; color: var(--journey-muted); max-width: 280px; line-height: 1.6; }
-.prism-home #experience > .timeline { padding-top: 60px; margin: 0; min-width: 0; }
-.prism-home #experience > .timeline:before { top: 62px; bottom: 80px; background: var(--journey-rule); width: 1px; }
-.prism-home #experience > .timeline:after { display: none; }
-.prism-home #experience .timeline-item {
-  padding: 0 0 80px 36px;
-  margin: 0;
-  min-height: 390px;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-content: start;
-  gap: 16px;
-  border: 0;
-  opacity: 1;
-  animation: none !important;
-  transform: none !important;
-  transition: opacity .4s ease;
-}
-.prism-home #experience .timeline-item:last-child { min-height: 330px; padding-bottom: 24px; }
-.prism-home #experience .timeline-item:before {
-  width: 9px;
-  height: 9px;
-  top: 6px;
-  left: -4px;
-  background: var(--journey-muted);
-  border: 0;
-  box-shadow: 0 0 0 6px #6844bf0d;
-}
-.prism-home #experience .timeline-item.journey-active:before { background: var(--journey-accent); box-shadow: 0 0 0 7px #6844bf1a; }
-.prism-home #experience .timeline-item .time { color: var(--journey-muted); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }
-.prism-home #experience .timeline-content { animation: none !important; opacity: 1; transform: none !important; }
-.prism-home #experience .timeline-content h3 { font-size: clamp(22px, 2vw, 30px); line-height: 1.25; letter-spacing: -.04em; color: var(--journey-ink); }
-.prism-home #experience .timeline-content .muted { color: var(--journey-muted); font-size: 13px; line-height: 1.6; margin-top: 10px; }
-.prism-home #experience .timeline-content ul { font-size: 13px; line-height: 1.8; margin-top: 24px; color: var(--journey-muted); }
-.prism-home #experience .timeline-content li + li { margin-top: 9px; }
-.prism-home #experience.journey-enhanced .timeline-item:not(.journey-active) { opacity: .62; }
-.prism-home #experience.journey-enhanced .timeline-item:focus-within { opacity: 1; }
-:root[data-theme="dark"] .prism-home #experience {
-  --journey-ink: #f6f0fc;
-  --journey-muted: #d1c3df;
-  --journey-accent: #c3a4ff;
-  --journey-rule: #f6f0fc28;
-  background: radial-gradient(ellipse at 5% 45%, #452e6466, transparent 50%), radial-gradient(ellipse at 100% 95%, #204b4c66, transparent 50%), #211b2b;
-}
-.paused .prism-home #experience .timeline-item { opacity: 1 !important; transition: none; }
-.paused .journey-rings { transform: none; }
-.paused .journey-chapter-track i { transition: none; }
-@media (max-width: 1000px) {
-  .prism-home #experience { gap: 34px; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); padding-block: 75px 55px; }
-  .prism-home #experience .journey-dial-panel { top: calc(var(--header-height, 74px) + 25px); }
-  .prism-home #experience .journey-dial-panel h2 { font-size: 30px; }
-  .journey-year { font-size: clamp(92px, 13vw, 140px); }
-  .prism-home #experience .timeline-item { padding-left: 24px; min-height: 450px; }
-}
-@media (max-width: 700px) {
-  .prism-home #experience { display: block; padding-block: 55px 35px; }
-  .prism-home #experience .journey-dial-panel { position: relative; top: auto; padding: 0 0 35px; }
-  .prism-home #experience .journey-dial-panel h2 { font-size: 35px; max-width: 420px; }
-  .journey-dial { padding: 20px 0 0; }
-  .journey-year { font-size: 110px; }
-  .journey-date { margin-top: 10px; font-size: 9px; }
-  .journey-rings { width: 240px; right: 0; left: auto; top: 60%; }
-  .journey-rings-inner { width: 175px; right: 33px; left: auto; top: 60%; }
-  .journey-chapter { margin-top: 18px; }
-  .journey-dial-caption { margin-top: 15px; }
-  .prism-home #experience > .timeline { padding-top: 20px; }
-  .prism-home #experience > .timeline:before { top: 22px; bottom: 60px; }
-  .prism-home #experience .timeline-item { padding: 0 0 50px 25px; min-height: 0; gap: 12px; }
-  .prism-home #experience .timeline-item:last-child { min-height: 0; padding-bottom: 15px; }
-  .prism-home #experience .timeline-content h3 { font-size: 24px; }
-  .prism-home #experience .timeline-content ul { font-size: 13px; margin-top: 18px; }
-}
-@media (max-height: 600px) {
-  .prism-home #experience .journey-dial-panel { position: relative; top: auto; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .prism-home #experience .timeline-item { opacity: 1 !important; transition: none; }
-  .journey-rings { transform: none !important; }
-}
-@media print {
-  .prism-home #experience { display: block; background: white; color: black; }
-  .prism-home #experience .journey-dial-panel { position: static; }
-  .journey-dial,.journey-chapter,.journey-dial-caption { display: none; }
-  .prism-home #experience .timeline-item { min-height: 0; opacity: 1 !important; padding-block: 10px; break-inside: avoid; }
-}
+/* Career constellation: the active experience draws its route through the field. */
+.prism-home #experience{--journey-ink:#faf7ff;--journey-muted:#c2b6d3;--journey-accent:#c4a5ff;--journey-rule:#faf7ff26;--career-violet:#c4a5ff;--career-cyan:#91ede0;--career-coral:#ffb39b;color:var(--journey-ink);background:radial-gradient(ellipse at 9% 36%,#62319a4d,transparent 48%),radial-gradient(ellipse at 100% 88%,#14736c33,transparent 48%),#191321;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);align-items:start;gap:clamp(40px,6vw,110px);padding-block:95px 70px;content-visibility:visible;contain-intrinsic-size:none;isolation:isolate}
+.prism-home #experience .career-panel{position:sticky;top:calc(var(--header-height,88px) + 26px);min-width:0;margin:0;padding:12px 0 20px}
+.prism-home #experience .career-panel .eyebrow{color:var(--journey-muted);letter-spacing:1.5px}
+.prism-home #experience .career-panel h2{font-size:clamp(30px,3.7vw,54px);font-weight:500;line-height:1.08;letter-spacing:-.055em;color:var(--journey-ink);margin:16px 0 0}
+.prism-home #experience .career-panel h2>span{color:var(--career-cyan);font-family:Georgia,serif;font-style:italic;font-weight:400}
+.career-field{position:relative;aspect-ratio:420/330;max-width:460px;width:100%;margin:13px auto 0;isolation:isolate}
+.career-field:before{content:"";position:absolute;inset:8% 4% 2%;z-index:-1;background:radial-gradient(ellipse at 20% 20%,#c4a5ff25,transparent 45%),radial-gradient(ellipse at 80% 50%,#91ede01a,transparent 45%),radial-gradient(ellipse at 35% 80%,#ffb39b18,transparent 48%);filter:blur(14px)}
+.career-field:after{content:"";position:absolute;inset:4% 0;z-index:-1;opacity:.35;background-image:radial-gradient(#b4a6c6 1px,transparent 1px);background-size:27px 27px;-webkit-mask-image:radial-gradient(ellipse,#000 15%,transparent 67%);mask-image:radial-gradient(ellipse,#000 15%,transparent 67%)}
+.career-route{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;pointer-events:none}
+.career-route-base{stroke:#e4d9f729;stroke-width:1.5;stroke-dasharray:3 7}
+.career-route-glow,.career-route-drawn{stroke:url(#careerRouteGradient);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--career-progress,.08));transition:stroke-dashoffset .75s cubic-bezier(.16,1,.3,1)}
+.career-route-glow{stroke-width:15;opacity:.17;filter:blur(7px)}.career-route-drawn{stroke-width:3}
+.career-marker{--node-color:var(--career-violet);position:absolute;width:122px;min-height:76px;transform:translate(-50%,-50%);border:1px solid #b3a5c23b;border-radius:14px;background:linear-gradient(150deg,#32263f,#1d1728);color:var(--journey-ink);padding:11px 12px;display:grid;grid-template-columns:25px 1fr;gap:6px;text-align:left;align-items:center;box-shadow:0 10px 20px #08040f33;transition:border-color .35s,box-shadow .4s,background .35s}
+.career-marker:disabled{cursor:default;opacity:1}.career-marker:first-of-type{left:19.52%;top:18.18%}.career-marker:nth-of-type(2){--node-color:var(--career-cyan);left:77.62%;top:50%}.career-marker:nth-of-type(3){--node-color:var(--career-coral);left:33.33%;top:81.82%}
+.career-marker>b{font:12px Consolas,monospace;color:var(--node-color);font-weight:400;align-self:start;padding-top:2px}.career-marker>span{display:flex;flex-direction:column;gap:5px;font-size:12px;line-height:1.2;letter-spacing:-.2px}.career-marker small{font:8px Consolas,monospace;letter-spacing:.2px;color:var(--journey-muted)}
+.career-marker:after{content:"";position:absolute;inset:-5px;border:1px solid var(--node-color);border-radius:18px;opacity:0;transition:opacity .35s;pointer-events:none}.career-marker.is-current{border-color:var(--node-color);background:linear-gradient(145deg,#463256,#241b32);box-shadow:0 0 25px #c4a5ff16,0 12px 25px #08040f55}.career-marker.is-current:after{opacity:.4}.career-marker.is-current>b{font-size:16px}.career-marker:hover,.career-marker:focus-visible{border-color:var(--node-color);box-shadow:0 0 0 3px #faf7ff18,0 14px 24px #08040f4d;outline:none}
+.career-node-hint{position:absolute;left:0;right:0;bottom:-9px;text-align:center;font:8px Consolas,monospace;letter-spacing:1.4px;color:#a799b9;opacity:0}.journey-enhanced .career-node-hint{opacity:1}
+.career-readout{border-top:1px solid var(--journey-rule);padding-top:24px;margin-top:31px;display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:start}.career-readout-label{font:8px Consolas,monospace;letter-spacing:1.4px;color:var(--journey-muted)}.career-chapter{grid-row:1/3;grid-column:2;font:10px Consolas,monospace;color:var(--journey-muted);padding-top:1px}.career-chapter strong{font-size:23px;font-weight:400;color:var(--career-cyan);font-variant-numeric:tabular-nums;vertical-align:-2px;margin-right:3px}.career-company{font-size:21px;font-weight:500;color:var(--journey-ink);letter-spacing:-.5px;min-height:27px;line-height:1.25}.career-date{font:9px/1.6 Consolas,monospace;color:var(--journey-muted);letter-spacing:.6px;min-height:15px;grid-column:1/-1}.career-caption{font-size:11px;line-height:1.7;color:var(--journey-muted);margin-top:20px;max-width:330px}
+.prism-home #experience>.timeline{padding-top:52px;margin:0;min-width:0}.prism-home #experience>.timeline:before{top:55px;bottom:65px;left:0;width:1px;background:linear-gradient(var(--career-violet),var(--career-cyan) 50%,var(--career-coral));opacity:.32}.prism-home #experience>.timeline:after{display:none}
+.prism-home #experience .timeline-item{--entry-color:var(--career-violet);position:relative;padding:0 0 95px 38px;margin:0;min-height:390px;display:grid;grid-template-columns:1fr;align-content:start;gap:16px;border:0;opacity:1;animation:none!important;transform:none!important}.prism-home #experience .timeline-item:nth-child(2){--entry-color:var(--career-cyan)}.prism-home #experience .timeline-item:nth-child(3){--entry-color:var(--career-coral)}.prism-home #experience .timeline-item:last-child{min-height:330px;padding-bottom:24px}
+.prism-home #experience .timeline-item:before{width:9px;height:9px;top:5px;left:-4px;background:#50465c;border:0;box-shadow:0 0 0 5px #191321;transition:background .3s,box-shadow .3s}.prism-home #experience .timeline-item.journey-active:before{background:var(--entry-color);box-shadow:0 0 0 6px #ffffff0b,0 0 24px var(--entry-color)}.prism-home #experience .timeline-item .time{color:var(--entry-color);font-size:10px;letter-spacing:1.2px;text-transform:uppercase}.prism-home #experience .timeline-content{animation:none!important;opacity:1;transform:none!important}.prism-home #experience .timeline-content h3{font-size:clamp(23px,2.3vw,33px);line-height:1.2;letter-spacing:-.045em;color:var(--journey-ink);transition:color .35s}.prism-home #experience .timeline-content .muted{color:var(--journey-muted);font-size:13px;line-height:1.6;margin-top:12px}.prism-home #experience .timeline-content ul{font-size:13px;line-height:1.8;margin-top:24px;color:var(--journey-muted)}.prism-home #experience .timeline-content li+li{margin-top:9px}.prism-home #experience.journey-enhanced .timeline-item.journey-active h3{color:var(--entry-color)}
+.paused .career-route-glow,.paused .career-route-drawn,.paused .career-marker,.paused .career-marker:after,.paused .prism-home #experience .timeline-content h3,.paused .prism-home #experience .timeline-item:before{transition:none}
+:root[data-theme="dark"] .prism-home #experience{background:radial-gradient(ellipse at 9% 36%,#62319a3a,transparent 48%),radial-gradient(ellipse at 100% 88%,#14736c29,transparent 48%),#130f1b}
+@media(max-width:1000px){.prism-home #experience{gap:34px;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);padding-block:75px 55px}.prism-home #experience .career-panel{top:calc(var(--header-height,74px) + 18px)}.prism-home #experience .career-panel h2{font-size:35px}.career-marker{width:110px;min-height:69px;padding:10px;grid-template-columns:20px 1fr;border-radius:12px}.career-marker>span{font-size:11px}.career-marker small{font-size:7px}.prism-home #experience .timeline-item{padding-left:26px;min-height:450px}}
+@media(max-width:700px){.prism-home #experience{display:block;padding-block:55px 35px}.prism-home #experience .career-panel{position:relative;top:auto;padding:0 0 35px}.prism-home #experience .career-panel h2{font-size:40px;max-width:420px}.career-field{max-width:370px;margin-top:16px}.career-marker{width:106px;min-height:64px;padding:9px;gap:4px}.career-marker>b{font-size:10px}.career-marker.is-current>b{font-size:13px}.career-marker>span{font-size:10px}.career-marker small{font-size:7px}.career-readout{margin-top:27px;padding-top:20px}.career-company{font-size:22px}.career-caption{font-size:11px;max-width:300px}.prism-home #experience>.timeline{padding-top:20px}.prism-home #experience>.timeline:before{top:22px;bottom:60px}.prism-home #experience .timeline-item{padding:0 0 50px 25px;min-height:0;gap:12px}.prism-home #experience .timeline-item:last-child{min-height:0;padding-bottom:15px}.prism-home #experience .timeline-content h3{font-size:25px}.prism-home #experience .timeline-content ul{font-size:13px;margin-top:18px}}
+@media(max-width:370px){.career-marker{width:91px;min-height:59px;padding:7px;grid-template-columns:17px 1fr}.career-marker small{font-size:6px}.career-field{margin-top:19px}.career-marker>span{font-size:9px}.career-node-hint{font-size:7px;letter-spacing:.7px}}
+@media(max-height:850px){.prism-home #experience .career-panel{position:relative;top:auto}}
+@media(prefers-reduced-motion:reduce){.career-route-glow,.career-route-drawn,.career-marker,.career-marker:after,.prism-home #experience .timeline-content h3,.prism-home #experience .timeline-item:before{transition:none!important}}
+@media print{.prism-home #experience{display:block;background:white;color:black;--journey-ink:#222;--journey-muted:#444;--career-violet:#555;--career-cyan:#555;--career-coral:#555}.prism-home #experience .career-panel{position:static}.career-field,.career-readout,.career-caption{display:none}.prism-home #experience .timeline-item{min-height:0;opacity:1!important;padding-block:10px;break-inside:avoid}}

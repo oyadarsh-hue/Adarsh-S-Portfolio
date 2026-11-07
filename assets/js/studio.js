@@ -2,35 +2,41 @@
   'use strict';
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const motion = () => !root.classList.contains('paused') && !reduced.matches;
-  // Entrance is a one-time event; the global motion switch must never replay it.
-  if (!motion()) root.classList.add('studio-entered');
-  else setTimeout(() => root.classList.add('studio-entered'), 1600);
-  const book = document.querySelector('.role-notebook');
-  const front = document.getElementById('prismRole');
-  const under = document.getElementById('nextRole');
-  const counter = document.getElementById('notebookCount');
-  const roles = ['software.', 'intelligence.', 'purpose.'];
-  let active = 0, turning = false, turnTimer;
-  function finishTurn() {
-    clearTimeout(turnTimer);
-    if (!turning) return;
-    active = (active + 1) % roles.length;
-    front.textContent = roles[active];
-    book.dataset.role = String(active);
-    counter.textContent = `${String(active+1).padStart(2,'0')} / 03`;
-    book.classList.remove('is-flipping');
-    under.textContent = roles[(active+1)%roles.length];
+  const finishEntrance = () => root.classList.add('studio-entered');
+  if (!motion()) finishEntrance();
+  else setTimeout(finishEntrance, 1800);
+
+  const word = document.getElementById('kineticWord');
+  const roles = ['software.', 'solutions.', 'possibility.'];
+  let role = 0, turning = false, wordTimer = 0, settleTimer = 0;
+  function settleWord() {
+    clearTimeout(wordTimer); clearTimeout(settleTimer);
+    if (!word) return;
+    if (turning) role = (role + 1) % roles.length;
+    word.textContent = roles[role];
+    word.parentElement.dataset.word = String(role);
+    word.classList.remove('is-leaving', 'is-arriving');
     turning = false;
   }
   setInterval(() => {
-    if (!book || !motion() || document.hidden || turning) return;
-    const bounds = book.getBoundingClientRect();
-    if (bounds.bottom < 0 || bounds.top > innerHeight) return;
+    if (!word || !motion() || document.hidden || turning) return;
+    const box = word.getBoundingClientRect();
+    if (box.bottom < 0 || box.top > innerHeight) return;
     turning = true;
-    book.classList.add('is-flipping');
-    turnTimer = setTimeout(finishTurn, 920);
-  }, 4200);
+    word.classList.add('is-leaving');
+    wordTimer = setTimeout(() => {
+      role = (role + 1) % roles.length;
+      word.textContent = roles[role];
+      word.parentElement.dataset.word = String(role);
+      turning = false;
+      word.classList.remove('is-leaving');
+      word.classList.add('is-arriving');
+      settleTimer = setTimeout(() => word.classList.remove('is-arriving'), 800);
+    }, 300);
+  }, 4300);
+
   const clock = document.getElementById('localClock');
   const time = () => { if (clock) clock.textContent = new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'}).format(new Date()); };
   time(); setInterval(time,60000);
@@ -39,33 +45,43 @@
   opener?.addEventListener('click', () => dialog.showModal());
   document.getElementById('abilityClose')?.addEventListener('click', () => dialog.close());
   dialog?.addEventListener('close', () => opener.focus({preventScroll:true}));
-  dialog?.addEventListener('click', event => { if(event.target === dialog) { const b=dialog.getBoundingClientRect(); if(event.clientX<b.left || event.clientX>b.right || event.clientY<b.top || event.clientY>b.bottom) dialog.close(); } });
-  const cord = document.getElementById('themeCord');
-  cord?.addEventListener('click', () => {
-    document.getElementById('themeButton').click();
-    cord.classList.remove('pulled');
-    requestAnimationFrame(() => cord.classList.add('pulled'));
+  dialog?.addEventListener('click', event => {
+    if(event.target !== dialog) return;
+    const b=dialog.getBoundingClientRect();
+    if(event.clientX<b.left || event.clientX>b.right || event.clientY<b.top || event.clientY>b.bottom) dialog.close();
   });
-  cord?.addEventListener('animationend', () => cord.classList.remove('pulled'));
   const person = document.querySelector('.studio-person');
+  let pointerFrame = 0;
+  person?.addEventListener('pointermove', event => {
+    if (!motion() || !fine.matches || pointerFrame) return;
+    const x = event.clientX, y = event.clientY;
+    pointerFrame = requestAnimationFrame(() => {
+      pointerFrame = 0;
+      const b = person.getBoundingClientRect();
+      person.style.setProperty('--portrait-x', `${(.5-(y-b.top)/b.height)*5}deg`);
+      person.style.setProperty('--portrait-y', `${((x-b.left)/b.width-.5)*7}deg`);
+    });
+  }, {passive:true});
+  person?.addEventListener('pointerleave', () => {
+    person.style.setProperty('--portrait-x', '0deg');
+    person.style.setProperty('--portrait-y', '0deg');
+  });
+  let scrollFrame = 0;
   const hero = document.querySelector('.studio-hero');
-  let frame = 0;
   function scroll() {
-    frame = 0;
-    if(!motion() || !person) return;
-    const box = hero.getBoundingClientRect();
-    const p = Math.max(0, Math.min(1, -box.top / box.height));
-    person.style.setProperty('--person-shift',`${-p*45}px`);
+    scrollFrame = 0;
+    if (!motion() || !hero) return;
+    const b = hero.getBoundingClientRect();
+    hero.style.setProperty('--hero-progress', Math.min(1, Math.max(.35, .72 - b.top / b.height * .3)));
   }
-  addEventListener('scroll', () => {if(!frame) frame=requestAnimationFrame(scroll);},{passive:true});
+  addEventListener('scroll', () => { if (!scrollFrame && motion()) scrollFrame=requestAnimationFrame(scroll); }, {passive:true});
   function settleMotion() {
     if (!motion()) {
-      finishTurn();
-      // Pausing during the entrance dismisses it permanently for this visit.
-      if (!root.classList.contains('studio-entered')) root.classList.add('studio-entered');
+      settleWord();
+      if (!root.classList.contains('studio-entered')) finishEntrance();
     }
   }
   new MutationObserver(settleMotion).observe(root,{attributes:true,attributeFilter:['class']});
-  reduced.addEventListener('change', settleMotion);
-  document.addEventListener('visibilitychange', () => {if(document.hidden)finishTurn();});
+  reduced.addEventListener('change',settleMotion);
+  document.addEventListener('visibilitychange', () => {if(document.hidden)settleWord();});
 })();

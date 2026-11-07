@@ -1,5 +1,10 @@
 # Adarsh S — Engineering, AI & Research
 
+## Current homepage motion
+
+The homepage uses an original kinetic studio layout: a rectangular portrait, locally rendered 3D folded geometry, changing hero typography, a native-scroll project rail and a connected internship path. There are no external animation dependencies. The canvas runs at at most 30 fps and stops outside the viewport, in hidden tabs, or when motion is paused. On small screens and with reduced motion, every showcase project is presented in normal document flow. Project case studies, CV, recruiter view and interactive tools remain available. Earlier design notes below document previous revisions.
+
+
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 
 ## Included

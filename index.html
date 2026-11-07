@@ -65,12 +65,13 @@
 
     <link rel="stylesheet" href="assets/css/prism-motion.css?v=1" />
     <script src="assets/js/prism-motion.js?v=2" defer></script>
-    <link rel="stylesheet" href="assets/css/studio.css?v=4" />
-    <script src="assets/js/studio.js?v=3" defer></script>
-    <link rel="stylesheet" href="assets/css/doors.css?v=1" />
-    <script src="assets/js/doors.js?v=1" defer></script>
-    <link rel="stylesheet" href="assets/css/journey-motion.css?v=1" />
-    <script src="assets/js/journey-motion.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/css/studio.css?v=5" />
+    <script src="assets/js/studio.js?v=4" defer></script>
+    <script src="assets/js/hero-sculpture.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/css/doors.css?v=2" />
+    <script src="assets/js/doors.js?v=2" defer></script>
+    <link rel="stylesheet" href="assets/css/journey-motion.css?v=2" />
+    <script src="assets/js/journey-motion.js?v=2" defer></script>
   </head>
   <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -108,68 +109,50 @@
         </button>
       </div>
     </header>
-    <button class="theme-cord" id="themeCord" aria-label="Pull the cord to change theme"><span class="cord-string" aria-hidden="true"></span><span class="cord-grip" aria-hidden="true"></span><span class="cord-hint" aria-hidden="true">LIGHTS</span></button>
     <dialog id="abilityDialog" aria-labelledby="abilityTitle"><button id="abilityClose" aria-label="Close developer card" autofocus>×</button><div class="ability-foil"><div class="ability-card-top"><span>DEVELOPER CARD / 001</span><span aria-hidden="true">✦</span></div><img src="assets/images/adarsh-s.jpeg" alt="" width="100" height="100" /><h2 id="abilityTitle">Adarsh S</h2><p>Software · Computer vision · Research</p><div class="ability-tags"><span>Python / Django</span><span>React</span><span>OpenCV</span><span>MySQL</span><span>Git / CI/CD</span><span>Security tooling</span></div><div class="ability-stats"><span><b>05</b>Selected projects</span><span><b>03</b>Internships</span><span><b>01</b>Publication</span></div><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download my CV ↗</a></div></dialog>
-    <div class="studio-curtain" aria-hidden="true"><span>ADARSH S<span class="curtain-star">✳</span></span><small>CODE. CURIOSITY. POSSIBILITY.</small></div>
+    <div class="studio-curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span>ADARSH S<span>IDEAS INTO REALITY.</span></span></div>
     <main id="main">
       <section id="home" class="studio-hero" aria-labelledby="heroTitle">
-        <div class="studio-ambient" aria-hidden="true"></div>
-        <div class="studio-topline"><span><i class="availability-dot"></i> SOFTWARE ENGINEER · MCA ’26</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
+        <div class="studio-grid-lines" aria-hidden="true"></div>
+        <div class="studio-topline"><span><i class="availability-dot"></i> ADARSH S / SOFTWARE ENGINEER</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
         <div class="studio-grid">
           <div class="studio-intro">
-            <p class="studio-kicker">Curiosity is my starting point.</p>
-            <h1 id="heroTitle">Hi, I’m Adarsh<span>.</span></h1>
-            <p class="studio-iam">I build with</p>
-            <div class="role-notebook" aria-label="Software, intelligence and purpose">
-              <span class="notebook-shadow" aria-hidden="true"></span>
-              <div class="notebook-under" aria-hidden="true"><span id="nextRole">intelligence.</span></div>
-              <div class="notebook-page" aria-hidden="true"><span id="prismRole">software.</span><span class="notebook-rule"></span></div>
-              <div class="notebook-rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="notebook-caption"><span>CODE / VISION / PURPOSE</span><span id="notebookCount">01 / 03</span></div>
-            </div>
-            <div class="studio-actions"><a class="studio-primary" href="#doors">Enter my world <span aria-hidden="true">↗</span></a><a class="studio-secondary" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a></div>
-            <p class="studio-description">Full-stack applications. Computer vision. Research.<br />Thoughtful software, built around people.</p>
-            <a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Watch the project reel <small>16 seconds of curiosity</small></a>
+            <p class="studio-kicker"><span aria-hidden="true">↳</span> A curious mind. A builder at heart.</p>
+            <h1 id="heroTitle" aria-label="Adarsh S — curiosity turned into software"><span class="hero-line"><span>Curiosity,</span></span><span class="hero-line"><span>turned into</span></span><span class="hero-line kinetic-line" aria-hidden="true"><span id="kineticWord">software.</span></span></h1>
+            <p class="studio-description">I’m Adarsh. I build full-stack applications, explore computer vision, and turn interesting problems into useful software.</p>
+            <div class="studio-actions"><a class="studio-primary" href="#doors">Explore my work <span aria-hidden="true">↗</span></a><a class="studio-secondary" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV <span aria-hidden="true">↓</span></a></div>
+            <a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Watch the project reel <small>00:16 / SOUND OFF</small></a>
           </div>
           <div class="studio-person">
-            <div class="portrait-halo" aria-hidden="true"><span>CREATE · LEARN · BUILD · REPEAT · </span></div>
-            <figure class="studio-photo"><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /><figcaption><span>THE HUMAN BEHIND THE CODE</span><strong>Adarsh S</strong></figcaption></figure>
-            <button id="abilityOpen" class="ability-open" aria-haspopup="dialog"><span aria-hidden="true">✦</span> My developer card <span aria-hidden="true">↗</span></button>
-            <span class="studio-scribble" aria-hidden="true">Always a work in progress.</span>
+            <canvas id="heroSculpture" aria-hidden="true"></canvas>
+            <span class="sculpture-coordinate coordinate-top" aria-hidden="true">IDEAS / IN ALL DIMENSIONS</span>
+            <figure class="studio-photo"><div class="portrait-chrome"><span>ADARSH.S</span><span aria-hidden="true">● ● ●</span></div><div class="portrait-image"><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /></div><figcaption><div><strong>Adarsh S<span>.</span></strong><span>MCA ’26 · SOFTWARE & AI</span></div><span class="portrait-monogram" aria-hidden="true">as/</span></figcaption></figure>
+            <div class="skill-float float-code" aria-hidden="true"><span>⌘</span><div>BUILD WITH PURPOSE<small>PYTHON / DJANGO / REACT</small></div></div>
+            <button id="abilityOpen" class="ability-open" aria-haspopup="dialog"><span class="card-spark" aria-hidden="true">✳</span> Meet the developer <span aria-hidden="true">↗</span></button>
+            <span class="sculpture-coordinate coordinate-bottom" aria-hidden="true">CURIOUS BY DESIGN. HUMAN BY DEFAULT.</span>
           </div>
         </div>
-        <div class="studio-foot"><span><i class="availability-dot"></i> OPEN TO OPPORTUNITIES</span><span>BUILT WITH CODE & CURIOSITY</span><a href="#doors">SCROLL TO OPEN A NEW DOOR <span aria-hidden="true">↓</span></a></div>
+        <div class="studio-foot"><span><i class="availability-dot"></i> OPEN TO OPPORTUNITIES</span><div class="hero-disciplines"><span>FULL STACK</span><b>/</b><span>COMPUTER VISION</span><b>/</b><span>RESEARCH</span></div><a href="#doors">SCROLL TO EXPLORE <span class="scroll-step" aria-hidden="true">↓</span></a></div>
       </section>
-            <section id="doors" class="doors-section" aria-labelledby="doorsTitle">
-        <div class="doors-heading">
-          <p class="eyebrow">THREE DISCIPLINES. ONE CURIOUS MIND.</p>
-          <h2 id="doorsTitle">Step inside <em>my work.</em></h2>
-          <p><span class="doors-hover-hint">Hover to open a door. Click to explore the project.</span><span class="doors-touch-hint">Pick a door. Explore the project behind it.</span></p>
+      <section id="doors" class="project-rail-section" aria-labelledby="railTitle">
+        <div class="rail-sticky">
+          <div class="rail-titlebar"><div><p class="eyebrow">SELECTED WORK / IN FULL COLOUR</p><h2 id="railTitle">Small questions.<br /><em>Interesting possibilities.</em></h2></div><p><span class="rail-scroll-hint">KEEP SCROLLING →<br /></span>Three different problems.<br />One curious approach.</p></div>
+          <div class="rail-viewport"><div class="rail-track">
+            <article class="rail-panel" aria-labelledby="railQuietNote">
+              <div class="rail-copy"><p class="rail-category">01 / FULL-STACK ENGINEERING</p><h3 id="railQuietNote">QuietNote.</h3><p class="rail-statement">A message.<br />A moment.</p><p class="rail-description">Expiring, revocable notes with PostgreSQL-enforced one-time access. Built to make short-lived sharing feel simple.</p><div class="rail-tags"><span>NEXT.JS</span><span>TYPESCRIPT</span><span>POSTGRESQL</span></div><a class="rail-case-link" href="projects/quietnote.html">Explore QuietNote <span aria-hidden="true">↗</span></a></div>
+              <figure class="rail-art"><span class="rail-number" aria-hidden="true">01</span><span class="rail-art-label" aria-hidden="true">SHARE / EXPIRE</span><img src="assets/images/project-notes.webp" alt="Concept artwork of a secure note and hourglass" width="1280" height="800" loading="lazy" /><figcaption>AI-GENERATED CONCEPT ART · NOT AN APP SCREENSHOT</figcaption></figure>
+            </article>
+            <article class="rail-panel" aria-labelledby="railAssentTag">
+              <div class="rail-copy"><p class="rail-category">02 / COMPUTER VISION</p><h3 id="railAssentTag">AssentTag.</h3><p class="rail-statement">Your face.<br />Your consent.</p><p class="rail-description">Privacy-aware photo sharing that makes facial consent part of the workflow, using recognition and selective blurring.</p><div class="rail-tags"><span>DJANGO</span><span>OPENCV</span><span>DLIB</span></div><a class="rail-case-link" href="projects/assenttag.html">Explore AssentTag <span aria-hidden="true">↗</span></a></div>
+              <figure class="rail-art"><span class="rail-number" aria-hidden="true">02</span><span class="rail-art-label" aria-hidden="true">RECOGNISE / PROTECT</span><img src="assets/images/project-assenttag.webp" alt="Concept artwork of protected faces in a photo frame" width="1280" height="800" loading="lazy" /><figcaption>AI-GENERATED CONCEPT ART · NOT AN APP SCREENSHOT</figcaption></figure>
+            </article>
+            <article class="rail-panel" aria-labelledby="railAegis">
+              <div class="rail-copy"><p class="rail-category">03 / SECURITY TOOLING</p><h3 id="railAegis">AegisForge-X.</h3><p class="rail-statement">Find the risk.<br />Keep the evidence.</p><p class="rail-description">Source-security review that connects findings to code locations and cryptographic evidence. A tool to support human review.</p><div class="rail-tags"><span>PYTHON</span><span>STATIC ANALYSIS</span><span>SHA-256</span></div><a class="rail-case-link" href="projects/aegisforge-x.html">Explore AegisForge-X <span aria-hidden="true">↗</span></a></div>
+              <figure class="rail-art"><span class="rail-number" aria-hidden="true">03</span><span class="rail-art-label" aria-hidden="true">INSPECT / UNDERSTAND</span><img src="assets/images/project-security.webp" alt="Concept artwork of source panels and a security shield" width="1280" height="800" loading="lazy" /><figcaption>AI-GENERATED CONCEPT ART · NOT AN APP SCREENSHOT</figcaption></figure>
+            </article>
+          </div></div>
+          <div class="rail-bottom"><span>BUILT WITH CURIOSITY. EXPLAINED WITH EVIDENCE.</span><div class="rail-nav" aria-label="Choose showcase project" hidden><span class="rail-position" aria-hidden="true">01 / 03</span><button type="button" data-rail-go="0" aria-label="Show QuietNote" aria-current="true">01</button><button type="button" data-rail-go="1" aria-label="Show AssentTag" aria-current="false">02</button><button type="button" data-rail-go="2" aria-label="Show AegisForge-X" aria-current="false">03</button></div><a href="#projects">All five projects ↗</a></div>
         </div>
-        <nav class="door-gallery" aria-label="Explore projects by discipline">
-          <a class="portal-link" href="projects/quietnote.html" aria-label="Open Full-stack engineering: QuietNote case study">
-            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
-              <div class="portal-preview"><img src="assets/images/project-notes.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">QuietNote<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
-              <div class="portal-leaf"><span class="portal-number">01</span><span class="portal-plaque">FULL-STACK<br />ENGINEERING</span><span class="portal-handle"></span></div>
-            </div></div>
-            <span class="portal-caption"><strong>Full-stack engineering <span aria-hidden="true">↗</span></strong><span>Interfaces, APIs and the details in between.<br />Enter QuietNote.</span></span>
-          </a>
-          <a class="portal-link" href="projects/assenttag.html" aria-label="Open Computer vision: AssentTag case study">
-            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
-              <div class="portal-preview"><img src="assets/images/project-assenttag.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">AssentTag<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
-              <div class="portal-leaf"><span class="portal-number">02</span><span class="portal-plaque">COMPUTER<br />VISION</span><span class="portal-handle"></span></div>
-            </div></div>
-            <span class="portal-caption"><strong>Computer vision <span aria-hidden="true">↗</span></strong><span>Giving images meaning, with privacy in mind.<br />Enter AssentTag.</span></span>
-          </a>
-          <a class="portal-link" href="projects/aegisforge-x.html" aria-label="Open Security tooling: AegisForge-X case study">
-            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
-              <div class="portal-preview"><img src="assets/images/project-security.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">AegisForge-X<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
-              <div class="portal-leaf"><span class="portal-number">03</span><span class="portal-plaque">SECURITY<br />TOOLING</span><span class="portal-handle"></span></div>
-            </div></div>
-            <span class="portal-caption"><strong>Security tooling <span aria-hidden="true">↗</span></strong><span>Inspect the source. Understand the evidence.<br />Enter AegisForge-X.</span></span>
-          </a>
-        </nav>
-        <div class="doors-footer"><span>BUILT WITH CURIOSITY. EXPLAINED WITH EVIDENCE.</span><a href="#projects">See all five projects ↗</a></div>
       </section>
 
       <div
@@ -541,18 +524,24 @@
         <p class="project-evidence-note">Each case study includes source links, a review scenario and scope notes. Concept artwork is labeled; implementation evidence is linked separately.</p>
       </section>
       <section id="experience" class="section">
-        <div class="section-heading journey-dial-panel">
-          <p class="eyebrow">03 / LEARNING IN PRACTICE</p>
-          <h2>Inside real<br /><span>engineering teams.</span></h2>
-          <div class="journey-dial" aria-hidden="true">
-            <span class="journey-rings"></span><span class="journey-rings-inner"></span>
-            <strong class="journey-year">2026</strong>
-            <span class="journey-date" data-journey-date>Dec 2025 – Mar 2026</span>
+        <div class="section-heading career-panel">
+          <p class="eyebrow">03 / EXPERIENCE IN ORBIT</p>
+          <h2>Different teams.<br /><span>Connected growth.</span></h2>
+          <div class="career-field" role="group" aria-label="Explore the three internships">
+            <svg class="career-route" viewBox="0 0 420 330" aria-hidden="true" focusable="false">
+              <defs><linearGradient id="careerRouteGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4a5ff"/><stop offset=".52" stop-color="#91ede0"/><stop offset="1" stop-color="#ffb39b"/></linearGradient></defs>
+              <path class="career-route-base" d="M82 60 C198 -18 402 30 326 165 S65 125 140 270"/>
+              <path class="career-route-glow" pathLength="1" d="M82 60 C198 -18 402 30 326 165 S65 125 140 270"/>
+              <path class="career-route-drawn" pathLength="1" d="M82 60 C198 -18 402 30 326 165 S65 125 140 270"/>
+            </svg>
+            <button class="career-marker is-current" type="button" data-journey-select="0" aria-label="Go to Bluegen Solutions internship" aria-current="step" disabled><b aria-hidden="true">01</b><span>Build<small>PYTHON / DJANGO</small></span></button>
+            <button class="career-marker" type="button" data-journey-select="1" aria-label="Go to The Skybrisk internship" disabled><b aria-hidden="true">02</b><span>Connect<small>REACT / APIS</small></span></button>
+            <button class="career-marker" type="button" data-journey-select="2" aria-label="Go to CODTECH IT Solutions internship" disabled><b aria-hidden="true">03</b><span>Deliver<small>DEVOPS / CI/CD</small></span></button>
+            <span class="career-node-hint" aria-hidden="true">SELECT A NODE · EXPLORE A CHAPTER</span>
           </div>
-          <div class="journey-chapter" aria-hidden="true"><span><strong data-journey-counter>01</strong> / 03</span><span class="journey-chapter-track"><i></i></span></div>
-          <p class="journey-dial-caption">Three internships. Different teams.<br />A little more perspective with every step.</p>
+          <div class="career-readout" aria-hidden="true"><span class="career-readout-label">CURRENT CHAPTER</span><span class="career-chapter"><strong data-journey-counter>01</strong> / 03</span><strong class="career-company" data-career-company>Bluegen Solutions</strong><span class="career-date" data-journey-date>Dec 2025 – Mar 2026</span></div>
+          <p class="career-caption">Backend thinking. Interfaces that connect.<br />The discipline to deliver.</p>
         </div>
-
         <div class="timeline">
           <article class="timeline-item">
             <div class="time">Dec 2025 – Mar 2026</div>
