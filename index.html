@@ -62,9 +62,15 @@
     <script src="assets/js/recruiter.js?v=1" defer></script>
     <script src="assets/js/main.js?v=11" defer></script>
     <link rel="stylesheet" href="assets/css/prism.css?v=2" />
-    <script src="assets/js/prism.js?v=1" defer></script>
+
     <link rel="stylesheet" href="assets/css/prism-motion.css?v=1" />
-    <script src="assets/js/prism-motion.js?v=1" defer></script>
+    <script src="assets/js/prism-motion.js?v=2" defer></script>
+    <link rel="stylesheet" href="assets/css/studio.css?v=1" />
+    <script src="assets/js/studio.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/css/doors.css?v=1" />
+    <script src="assets/js/doors.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/css/journey-motion.css?v=1" />
+    <script src="assets/js/journey-motion.js?v=1" defer></script>
   </head>
   <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -83,7 +89,7 @@
         Menu <span aria-hidden="true">＋</span>
       </button>
       <nav id="nav" class="nav" aria-label="Primary navigation">
-        <a href="#projects">Selected work</a><a href="#about">About me</a><a href="#experience">Journey</a><a href="#publication">Research</a><a href="recruiter.html">Recruiter view ↗</a><a class="nav-contact" href="#contact">Let’s talk ↗</a>
+        <a href="#doors">My work</a><a href="#about">About me</a><a href="#experience">Journey</a><a href="#publication">Research</a><a href="recruiter.html">Recruiter view ↗</a><a class="nav-contact" href="#contact">Let’s talk ↗</a>
       </nav>
       <div class="preferences">
         <button
@@ -102,29 +108,70 @@
         </button>
       </div>
     </header>
+    <button class="theme-cord" id="themeCord" aria-label="Pull the cord to change theme"><span class="cord-string" aria-hidden="true"></span><span class="cord-grip" aria-hidden="true"></span><span class="cord-hint" aria-hidden="true">LIGHTS</span></button>
+    <dialog id="abilityDialog" aria-labelledby="abilityTitle"><button id="abilityClose" aria-label="Close developer card" autofocus>×</button><div class="ability-foil"><div class="ability-card-top"><span>DEVELOPER CARD / 001</span><span aria-hidden="true">✦</span></div><img src="assets/images/adarsh-s.jpeg" alt="" width="100" height="100" /><h2 id="abilityTitle">Adarsh S</h2><p>Software · Computer vision · Research</p><div class="ability-tags"><span>Python / Django</span><span>React</span><span>OpenCV</span><span>MySQL</span><span>Git / CI/CD</span><span>Security tooling</span></div><div class="ability-stats"><span><b>05</b>Selected projects</span><span><b>03</b>Internships</span><span><b>01</b>Publication</span></div><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download my CV ↗</a></div></dialog>
+    <div class="studio-curtain" aria-hidden="true"><span>ADARSH S<span class="curtain-star">✳</span></span><small>CODE. CURIOSITY. POSSIBILITY.</small></div>
     <main id="main">
-      <section id="home" class="prism-hero" aria-labelledby="heroTitle">
-        <div class="prism-topline"><span><i class="availability-dot"></i> OPEN TO OPPORTUNITIES</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
-        <div class="prism-intro">
-          <div class="prism-words">
-            <p class="prism-hello">A curious mind. A creative approach.</p>
-            <h1 id="heroTitle"><span class="title-line"><span>Hi, I’m</span></span><span class="title-line"><span>Adarsh S<span class="coral-dot">.</span></span></span></h1>
-            <div class="role-tape"><span class="role-star" aria-hidden="true">✳</span><span id="prismRole" aria-hidden="true">Software developer</span><span class="sr-only">Software developer, full-stack builder and computer vision enthusiast.</span><span class="role-count" aria-hidden="true">01 / 03</span></div>
-            <p class="prism-description">I turn curious ideas into useful software.<br />Full-stack applications, computer vision,<br class="wide-only" /> and a little research along the way.</p>
-            <div class="prism-actions"><a class="prism-button solid" href="#projects">Explore my work <span aria-hidden="true">↗</span></a><a class="prism-button" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV <span aria-hidden="true">↓</span></a></div>
-            <div class="prism-social"><a href="https://github.com/oyadarsh-hue" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/adarsh-s-031869355/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="mailto:oyadarsh@gmail.com">Let’s talk ↗</a></div>
+      <section id="home" class="studio-hero" aria-labelledby="heroTitle">
+        <div class="studio-ambient" aria-hidden="true"></div>
+        <div class="studio-topline"><span><i class="availability-dot"></i> SOFTWARE ENGINEER · MCA ’26</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
+        <div class="studio-grid">
+          <div class="studio-intro">
+            <p class="studio-kicker">Curiosity is my starting point.</p>
+            <h1 id="heroTitle">Hi, I’m Adarsh<span>.</span></h1>
+            <p class="studio-iam">I build with</p>
+            <div class="role-notebook" aria-label="Software, intelligence and purpose">
+              <span class="notebook-shadow" aria-hidden="true"></span>
+              <div class="notebook-under" aria-hidden="true"><span id="nextRole">intelligence.</span></div>
+              <div class="notebook-page" aria-hidden="true"><span id="prismRole">software.</span><span class="notebook-rule"></span></div>
+              <div class="notebook-rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="notebook-caption"><span>CODE / VISION / PURPOSE</span><span id="notebookCount">01 / 03</span></div>
+            </div>
+            <div class="studio-actions"><a class="studio-primary" href="#doors">Enter my world <span aria-hidden="true">↗</span></a><a class="studio-secondary" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a></div>
+            <p class="studio-description">Full-stack applications. Computer vision. Research.<br />Thoughtful software, built around people.</p>
             <a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Watch the project reel <small>16 seconds of curiosity</small></a>
           </div>
-          <div class="prism-collage">
-            <div class="collage-orbit" aria-hidden="true"></div><div class="collage-square" aria-hidden="true"></div><div class="collage-star" aria-hidden="true">✳</div>
-            <figure class="prism-portrait"><div class="portrait-header"><span>THE PERSON BEHIND THE CODE</span><span aria-hidden="true">↗</span></div><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /><figcaption><strong>Adarsh S</strong><span>MCA ’26 · GEC Thrissur</span><span class="portrait-signature" aria-hidden="true">as.</span></figcaption></figure>
-            <div class="code-sticker" aria-hidden="true"><span>&lt;/&gt;</span><div>THINK IT.<br /><b>BUILD IT.</b></div></div>
-            <a class="research-sticker" href="#publication"><span aria-hidden="true">✦</span><span>Ideas worth<br /><b>exploring.</b></span><span aria-hidden="true">↗</span></a>
-            <p class="collage-note">Made of code & curiosity.</p>
+          <div class="studio-person">
+            <div class="portrait-halo" aria-hidden="true"><span>CREATE · LEARN · BUILD · REPEAT · </span></div>
+            <figure class="studio-photo"><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /><figcaption><span>THE HUMAN BEHIND THE CODE</span><strong>Adarsh S</strong></figcaption></figure>
+            <button id="abilityOpen" class="ability-open" aria-haspopup="dialog"><span aria-hidden="true">✦</span> My developer card <span aria-hidden="true">↗</span></button>
+            <span class="studio-scribble" aria-hidden="true">Always a work in progress.</span>
           </div>
         </div>
-        <div class="prism-foot"><span>SOFTWARE <b>✳</b> VISION <b>✳</b> RESEARCH</span><a href="#about">A little more about me <span aria-hidden="true">↓</span></a><span class="scroll-note">SCROLL TO DISCOVER</span></div>
+        <div class="studio-foot"><span><i class="availability-dot"></i> OPEN TO OPPORTUNITIES</span><span>BUILT WITH CODE & CURIOSITY</span><a href="#doors">SCROLL TO OPEN A NEW DOOR <span aria-hidden="true">↓</span></a></div>
       </section>
+            <section id="doors" class="doors-section" aria-labelledby="doorsTitle">
+        <div class="doors-heading">
+          <p class="eyebrow">THREE DISCIPLINES. ONE CURIOUS MIND.</p>
+          <h2 id="doorsTitle">Step inside <em>my work.</em></h2>
+          <p><span class="doors-hover-hint">Hover to open a door. Click to explore the project.</span><span class="doors-touch-hint">Pick a door. Explore the project behind it.</span></p>
+        </div>
+        <nav class="door-gallery" aria-label="Explore projects by discipline">
+          <a class="portal-link" href="projects/quietnote.html" aria-label="Open Full-stack engineering: QuietNote case study">
+            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
+              <div class="portal-preview"><img src="assets/images/project-notes.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">QuietNote<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
+              <div class="portal-leaf"><span class="portal-number">01</span><span class="portal-plaque">FULL-STACK<br />ENGINEERING</span><span class="portal-handle"></span></div>
+            </div></div>
+            <span class="portal-caption"><strong>Full-stack engineering <span aria-hidden="true">↗</span></strong><span>Interfaces, APIs and the details in between.<br />Enter QuietNote.</span></span>
+          </a>
+          <a class="portal-link" href="projects/assenttag.html" aria-label="Open Computer vision: AssentTag case study">
+            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
+              <div class="portal-preview"><img src="assets/images/project-assenttag.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">AssentTag<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
+              <div class="portal-leaf"><span class="portal-number">02</span><span class="portal-plaque">COMPUTER<br />VISION</span><span class="portal-handle"></span></div>
+            </div></div>
+            <span class="portal-caption"><strong>Computer vision <span aria-hidden="true">↗</span></strong><span>Giving images meaning, with privacy in mind.<br />Enter AssentTag.</span></span>
+          </a>
+          <a class="portal-link" href="projects/aegisforge-x.html" aria-label="Open Security tooling: AegisForge-X case study">
+            <div class="portal-frame" aria-hidden="true"><div class="portal-opening">
+              <div class="portal-preview"><img src="assets/images/project-security.webp" width="1280" height="800" alt="" loading="lazy" /><div class="portal-preview-copy">AegisForge-X<small>CONCEPT ART · EXPLORE THE CASE STUDY</small></div></div>
+              <div class="portal-leaf"><span class="portal-number">03</span><span class="portal-plaque">SECURITY<br />TOOLING</span><span class="portal-handle"></span></div>
+            </div></div>
+            <span class="portal-caption"><strong>Security tooling <span aria-hidden="true">↗</span></strong><span>Inspect the source. Understand the evidence.<br />Enter AegisForge-X.</span></span>
+          </a>
+        </nav>
+        <div class="doors-footer"><span>BUILT WITH CURIOSITY. EXPLAINED WITH EVIDENCE.</span><a href="#projects">See all five projects ↗</a></div>
+      </section>
+
       <div
         class="ticker"
         role="region"
@@ -494,12 +541,18 @@
         <p class="project-evidence-note">Each case study includes source links, a review scenario and scope notes. Concept artwork is labeled; implementation evidence is linked separately.</p>
       </section>
       <section id="experience" class="section">
-        <div class="section-heading">
+        <div class="section-heading journey-dial-panel">
           <p class="eyebrow">03 / LEARNING IN PRACTICE</p>
-          <h2>
-            Inside real<br /><span>engineering teams.</span>
-          </h2>
+          <h2>Inside real<br /><span>engineering teams.</span></h2>
+          <div class="journey-dial" aria-hidden="true">
+            <span class="journey-rings"></span><span class="journey-rings-inner"></span>
+            <strong class="journey-year">2026</strong>
+            <span class="journey-date" data-journey-date>Dec 2025 – Mar 2026</span>
+          </div>
+          <div class="journey-chapter" aria-hidden="true"><span><strong data-journey-counter>01</strong> / 03</span><span class="journey-chapter-track"><i></i></span></div>
+          <p class="journey-dial-caption">Three internships. Different teams.<br />A little more perspective with every step.</p>
         </div>
+
         <div class="timeline">
           <article class="timeline-item">
             <div class="time">Dec 2025 – Mar 2026</div>

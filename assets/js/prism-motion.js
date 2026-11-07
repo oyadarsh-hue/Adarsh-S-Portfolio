@@ -27,7 +27,7 @@
       }
     }
     if (reelStage) {
-      const box = reelStage.getBoundingClientRect();
+      const box = reelStage.parentElement.getBoundingClientRect();
       if (box.top < vh && box.bottom > 0) {
         reelStage.style.setProperty('--reel-scale', .94 + .06 * clamp((vh - box.top) / (vh * .8)));
       }

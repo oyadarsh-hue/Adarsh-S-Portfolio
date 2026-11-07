@@ -1,0 +1,169 @@
+/* A reading timeline: native scrolling, one anchored year, real experience. */
+.prism-home #experience {
+  --journey-ink: #292238;
+  --journey-muted: #655e72;
+  --journey-accent: #6844bf;
+  --journey-rule: #29223826;
+  background: radial-gradient(ellipse at 5% 45%, #e5d5ff91, transparent 49%), radial-gradient(ellipse at 100% 90%, #c9eeee91, transparent 51%), #f8f5ef;
+  color: var(--journey-ink);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  align-items: start;
+  gap: clamp(40px, 6vw, 110px);
+  padding-block: 100px 80px;
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+  isolation: isolate;
+}
+.prism-home #experience .journey-dial-panel {
+  position: sticky;
+  top: calc(var(--header-height, 88px) + 40px);
+  padding: 26px 0 40px;
+  margin: 0;
+  min-width: 0;
+  overflow: clip;
+}
+.prism-home #experience .journey-dial-panel .eyebrow { color: var(--journey-muted); }
+.prism-home #experience .journey-dial-panel h2 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(29px, 3.05vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -.045em;
+  max-width: 470px;
+}
+.prism-home #experience .journey-dial-panel h2 > span { color: var(--journey-accent); }
+.journey-dial { position: relative; padding: 32px 0 24px; isolation: isolate; }
+.journey-year {
+  display: block;
+  font-size: clamp(105px, 12vw, 180px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.085em;
+  font-variant-numeric: tabular-nums;
+  color: var(--journey-ink);
+}
+.journey-date { position: relative; display: block; margin-top: 24px; min-height: 16px; font: 10px/1.5 Consolas, monospace; letter-spacing: 1.6px; text-transform: uppercase; color: var(--journey-muted); }
+.journey-rings {
+  position: absolute;
+  width: min(100%, 470px);
+  aspect-ratio: 1;
+  left: 0;
+  top: 45%;
+  translate: 0 -50%;
+  border: 1px solid var(--journey-rule);
+  border-radius: 50%;
+  z-index: -1;
+  transform: rotate(var(--dial-turn, 0deg));
+  background: repeating-conic-gradient(from 0deg, var(--journey-rule) 0deg 0.25deg, transparent .25deg 6deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 91%, #000 91% 94%, transparent 94% 99%, #000 99%);
+  mask: radial-gradient(closest-side, transparent 91%, #000 91% 94%, transparent 94% 99%, #000 99%);
+}
+.journey-rings-inner {
+  position: absolute;
+  width: 72%;
+  aspect-ratio: 1;
+  left: 14%;
+  top: 45%;
+  translate: 0 -50%;
+  border: 1px solid var(--journey-rule);
+  border-radius: 50%;
+  z-index: -1;
+  box-shadow: 0 0 0 28px #6844bf04, 0 0 0 55px #6844bf03;
+}
+.journey-chapter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 27px;
+  font: 12px Consolas, monospace;
+  color: var(--journey-muted);
+}
+.journey-chapter strong { color: var(--journey-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.journey-chapter-track { width: 145px; height: 2px; background: var(--journey-rule); }
+.journey-chapter-track i { display: block; height: 100%; background: var(--journey-accent); transform: scaleX(var(--dial-progress, .3333)); transform-origin: left; }
+.journey-dial-caption { margin-top: 21px; font-size: 11px; color: var(--journey-muted); max-width: 280px; line-height: 1.6; }
+.prism-home #experience > .timeline { padding-top: 60px; margin: 0; min-width: 0; }
+.prism-home #experience > .timeline:before { top: 62px; bottom: 80px; background: var(--journey-rule); width: 1px; }
+.prism-home #experience > .timeline:after { display: none; }
+.prism-home #experience .timeline-item {
+  padding: 0 0 80px 36px;
+  margin: 0;
+  min-height: 390px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 16px;
+  border: 0;
+  opacity: 1;
+  animation: none !important;
+  transform: none !important;
+  transition: opacity .4s ease;
+}
+.prism-home #experience .timeline-item:last-child { min-height: 330px; padding-bottom: 24px; }
+.prism-home #experience .timeline-item:before {
+  width: 9px;
+  height: 9px;
+  top: 6px;
+  left: -4px;
+  background: var(--journey-muted);
+  border: 0;
+  box-shadow: 0 0 0 6px #6844bf0d;
+}
+.prism-home #experience .timeline-item.journey-active:before { background: var(--journey-accent); box-shadow: 0 0 0 7px #6844bf1a; }
+.prism-home #experience .timeline-item .time { color: var(--journey-muted); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }
+.prism-home #experience .timeline-content { animation: none !important; opacity: 1; transform: none !important; }
+.prism-home #experience .timeline-content h3 { font-size: clamp(22px, 2vw, 30px); line-height: 1.25; letter-spacing: -.04em; color: var(--journey-ink); }
+.prism-home #experience .timeline-content .muted { color: var(--journey-muted); font-size: 13px; line-height: 1.6; margin-top: 10px; }
+.prism-home #experience .timeline-content ul { font-size: 13px; line-height: 1.8; margin-top: 24px; color: var(--journey-muted); }
+.prism-home #experience .timeline-content li + li { margin-top: 9px; }
+.prism-home #experience.journey-enhanced .timeline-item:not(.journey-active) { opacity: .62; }
+.prism-home #experience.journey-enhanced .timeline-item:focus-within { opacity: 1; }
+:root[data-theme="dark"] .prism-home #experience {
+  --journey-ink: #f6f0fc;
+  --journey-muted: #d1c3df;
+  --journey-accent: #c3a4ff;
+  --journey-rule: #f6f0fc28;
+  background: radial-gradient(ellipse at 5% 45%, #452e6466, transparent 50%), radial-gradient(ellipse at 100% 95%, #204b4c66, transparent 50%), #211b2b;
+}
+.paused .prism-home #experience .timeline-item { opacity: 1 !important; transition: none; }
+.paused .journey-rings { transform: none; }
+.paused .journey-chapter-track i { transition: none; }
+@media (max-width: 1000px) {
+  .prism-home #experience { gap: 34px; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); padding-block: 75px 55px; }
+  .prism-home #experience .journey-dial-panel { top: calc(var(--header-height, 74px) + 25px); }
+  .prism-home #experience .journey-dial-panel h2 { font-size: 30px; }
+  .journey-year { font-size: clamp(92px, 13vw, 140px); }
+  .prism-home #experience .timeline-item { padding-left: 24px; min-height: 450px; }
+}
+@media (max-width: 700px) {
+  .prism-home #experience { display: block; padding-block: 55px 35px; }
+  .prism-home #experience .journey-dial-panel { position: relative; top: auto; padding: 0 0 35px; }
+  .prism-home #experience .journey-dial-panel h2 { font-size: 35px; max-width: 420px; }
+  .journey-dial { padding: 20px 0 0; }
+  .journey-year { font-size: 110px; }
+  .journey-date { margin-top: 10px; font-size: 9px; }
+  .journey-rings { width: 240px; right: 0; left: auto; top: 60%; }
+  .journey-rings-inner { width: 175px; right: 33px; left: auto; top: 60%; }
+  .journey-chapter { margin-top: 18px; }
+  .journey-dial-caption { margin-top: 15px; }
+  .prism-home #experience > .timeline { padding-top: 20px; }
+  .prism-home #experience > .timeline:before { top: 22px; bottom: 60px; }
+  .prism-home #experience .timeline-item { padding: 0 0 50px 25px; min-height: 0; gap: 12px; }
+  .prism-home #experience .timeline-item:last-child { min-height: 0; padding-bottom: 15px; }
+  .prism-home #experience .timeline-content h3 { font-size: 24px; }
+  .prism-home #experience .timeline-content ul { font-size: 13px; margin-top: 18px; }
+}
+@media (max-height: 600px) {
+  .prism-home #experience .journey-dial-panel { position: relative; top: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .prism-home #experience .timeline-item { opacity: 1 !important; transition: none; }
+  .journey-rings { transform: none !important; }
+}
+@media print {
+  .prism-home #experience { display: block; background: white; color: black; }
+  .prism-home #experience .journey-dial-panel { position: static; }
+  .journey-dial,.journey-chapter,.journey-dial-caption { display: none; }
+  .prism-home #experience .timeline-item { min-height: 0; opacity: 1 !important; padding-block: 10px; break-inside: avoid; }
+}
