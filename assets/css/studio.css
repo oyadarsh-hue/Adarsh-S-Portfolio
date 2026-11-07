@@ -1,5 +1,8 @@
 /* A tactile opening: paper, light, a portrait and a book of changing ideas. */
 :root{--header-height:88px}
+/* Anchor clearance belongs to content, not to controls in the sticky header. */
+html{scroll-padding-top:0}
+.prism-home main>section[id]{scroll-margin-top:calc(var(--header-height) + 12px)}
 .studio-hero{position:relative;isolation:isolate;overflow:clip;padding:26px var(--space) 0;background:radial-gradient(ellipse at 83% 50%,#d7ccfb 0,transparent 49%),radial-gradient(ellipse at 0 90%,#ffd2b9,transparent 55%),#f5f1ec;border-radius:0 0 38px 38px;color:#242129}
 .studio-ambient{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 75% 70%,#b8edefaa,transparent 45%);opacity:.65}
 .studio-topline{display:flex;justify-content:space-between;gap:15px;font:9px Consolas,monospace;letter-spacing:1px;color:#625e68}.studio-topline>span:first-child{display:flex;align-items:center;gap:10px}.studio-topline b{font-weight:400;margin-left:10px}
@@ -31,3 +34,4 @@
 @media(prefers-reduced-motion:reduce){.studio-curtain{display:none!important}.role-notebook.is-flipping .notebook-page{animation:none!important;transform:none!important}.studio-person{transform:none!important}.motion-ready .motion-story{height:auto;min-height:0}.motion-ready .story-sticky{position:relative;height:auto;min-height:0;top:auto;padding:50px 0}}
 @media(max-height:550px){.motion-ready .motion-story{height:auto!important;min-height:0!important}.motion-ready .story-sticky{position:relative!important;height:auto!important;min-height:0!important;top:auto!important;padding:45px 0!important}.story-words>span{--word-fill:100%!important}}
 @media print{.studio-curtain,.theme-cord,.studio-person,#abilityDialog{display:none!important}.studio-grid{display:block;min-height:0}.studio-hero{background:white}.role-notebook{transform:none}.notebook-page,.notebook-under{box-shadow:none}.studio-intro>*{animation:none!important}.studio-topline,.studio-foot{display:none}}
+@media(max-width:370px){.prism-home .brand-name{display:none}.prism-home .topbar{gap:10px}.prism-home .icon-button{width:30px;height:30px}.prism-home .preferences{gap:5px}}
