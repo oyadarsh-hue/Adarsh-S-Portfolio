@@ -44,3 +44,9 @@ body{font-family:Arial,Helvetica,sans-serif;background:var(--bg)}
 @media(max-width:700px){.prism-home .research-visual{min-height:260px}.prism-home .publication-copy{padding:25px}.prism-home .publication-copy h3{font-size:21px}}
 .prism-home .project-tools,.prism-home .project-search-row label,.prism-home .project-search-row p{color:var(--muted)}.prism-home .project-search-row label{grid-column:auto}.prism-home .project-search-row input{color:var(--text);border-color:var(--border)}.prism-home .project-search-row input::placeholder{color:var(--muted)}.prism-home .project-empty,.prism-home .project-evidence-note{color:var(--muted)!important}.prism-home .ticker{margin:0;box-shadow:none}.prism-home .publication-card{background:var(--elevated)}
 @media(max-width:1000px){.prism-home .project-search-row label{grid-column:1/-1}}
+.prism-playground p,.prism-playground .eyebrow,.prism-home .footer-word{color:#242129}.project-number{color:#242129}
+@media(max-width:1000px){.prism-home .topbar{height:auto;min-height:74px;padding-block:12px}}
+@media(max-width:370px){#prismRole{min-width:195px}}
+.prism-home .footer-word{text-shadow:none}
+@media(max-width:700px){.role-tape{width:min(100%,380px)}#prismRole{min-width:0;flex:1}.role-count{flex-shrink:0}}
+.prism-home .profile-facts>div strong{color:var(--text)}

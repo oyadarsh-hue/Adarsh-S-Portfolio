@@ -125,3 +125,11 @@ Comparison links include only validated project IDs. Job text, company and role 
 The race experiment is a deterministic interleaving model, not a database benchmark or simultaneous network requests. Every unsafe read precedes every write, exposing stale permission; the atomic model permits one conditional claim. Expired and revoked states deny all readers. The integrity tool uses Web Crypto SHA-256 over exact UTF-8 text and compares it with an in-memory baseline. It is an integrity demonstration, not encryption or proof of authorship. It requires HTTPS or localhost and shows an explicit fallback if Web Crypto is unavailable.
 
 New files: `workbench.html`, `lab.html`, `assets/css/workbench.css`, `assets/js/workbench-data.js`, `assets/js/workbench.js` and `assets/js/lab.js`. Node checks cover matching boundaries, unknown evidence, share selection validation, brief content, race invariants and SHA-256 vectors. Browser checks exercise actual controls, downloads, print, layouts, no-JavaScript content, reduced motion and restricted storage/clipboard/crypto contexts.
+
+## Colour edition — 7 November 2026
+
+The homepage now has an original portrait collage, rotating role banner, coral/violet/lime/cyan palette, a two-column project gallery and a simpler navigation. Recruiter, case-study and interactive-tool pages use the same palette. The existing project evidence, CV, search/filter deep links, theme preferences and reduced-motion controls remain available.
+
+`assets/css/prism.css` and `assets/js/prism.js` own the new homepage presentation. `assets/css/secondary-color.css` styles the other pages. The previous decorative animation scripts are no longer loaded by the homepage; the shared core and recruiter behavior remain in use.
+
+For a manual responsive check when a local browser runtime is unavailable, open `scripts/responsive-preview.html` from the served site. It embeds the real pages at 320, 390, 768 and 1440 CSS pixels. This unlinked, no-index developer preview checks responsive layout; it is not a substitute for physical-device testing.
