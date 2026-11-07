@@ -52,7 +52,7 @@ try:
         open_page(page, 'index.html')
         check(page.locator('[data-project-tags]').count() == 5, 'Five project cards')
         check(page.locator('.project-copy .typing-original').count() == 0, 'Project titles stay complete')
-        page.wait_for_function("getComputedStyle(document.querySelector('.studio-curtain')).visibility === 'hidden'")
+        page.wait_for_function("document.documentElement.classList.contains('studio-entered')")
         notebook_height = page.locator('.role-notebook').bounding_box()['height']
         first_role = page.locator('#prismRole').inner_text()
         page.wait_for_function("previous => document.querySelector('#prismRole').textContent !== previous && !document.querySelector('.role-notebook').classList.contains('is-flipping')", arg=first_role, timeout=8000)
@@ -106,6 +106,7 @@ try:
         check(page.locator('#projectReel').evaluate('(v) => v.paused'), 'Global motion pause stops the video')
         check(abs(page.locator('.motion-story').bounding_box()['height'] - story_height) < 1, 'Manual pause preserves the story section height')
         page.locator('#motionButton').click()
+        check(page.locator('.studio-curtain').evaluate("(e) => getComputedStyle(e).display") == 'none', 'Resuming motion does not replay the opening curtain')
         page.wait_for_function("!document.querySelector('#projectReel').paused")
         page.screenshot(path=str(OUT / 'reel-desktop.png'))
         page.evaluate("window.scrollTo({top:document.querySelector('.motion-story').offsetTop,behavior:'instant'})")

@@ -3,6 +3,9 @@
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const motion = () => !root.classList.contains('paused') && !reduced.matches;
+  // Entrance is a one-time event; the global motion switch must never replay it.
+  if (!motion()) root.classList.add('studio-entered');
+  else setTimeout(() => root.classList.add('studio-entered'), 1600);
   const book = document.querySelector('.role-notebook');
   const front = document.getElementById('prismRole');
   const under = document.getElementById('nextRole');
