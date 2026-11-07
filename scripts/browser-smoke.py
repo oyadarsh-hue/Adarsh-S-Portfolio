@@ -35,7 +35,7 @@ def open_page(page, path):
 
 def layout(page, label):
     check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No horizontal overflow: {label}')
-    for selector in ['.recruiter-strip', '.project-tools', '.summary-hero', '.role-card', '.proof-item', '.evidence-grid']:
+    for selector in ['.recruiter-strip', '.project-tools', '.summary-hero', '.role-card', '.proof-item', '.evidence-grid', '.skills-space', '.space-tabs', '.space-panel']:
         for el in page.locator(selector).all():
             if not el.is_visible():
                 continue
@@ -195,6 +195,33 @@ try:
         page.wait_for_function("document.querySelector('#experience').dataset.journeyStep === '3'")
         check(page.locator('[data-journey-select="2"]').get_attribute('aria-current') == 'step', 'Career constellation button selects and announces its internship')
         page.screenshot(path=str(OUT / 'journey-desktop.png'), animations='disabled')
+        # A skills link should lead to usable capabilities, not just decorative cards.
+        page.locator('#nav a[href="#skills"]').click()
+        page.wait_for_url('**#skills')
+        skill_tabs = page.locator('#skills [role="tab"]')
+        check(skill_tabs.count() == 4, 'Skills navigation reaches four capability tabs')
+        page.locator('#skill-tab-vision').click()
+        check(page.locator('#skill-panel-vision').is_visible() and page.locator('#skills [role="tabpanel"]:visible').count() == 1, 'Choosing Intelligence shows only its tools and project evidence')
+        check(page.locator('#skill-panel-vision .space-tools').inner_text().find('OpenCV') >= 0, 'Intelligence panel exposes the actual toolkit')
+        for key, name in [('ArrowRight', 'data'), ('End', 'systems'), ('Home', 'build'), ('ArrowLeft', 'systems')]:
+            page.keyboard.press(key)
+            check(page.locator(f'#skill-tab-{name}').evaluate("e => e === document.activeElement && e.getAttribute('aria-selected') === 'true' && e.tabIndex === 0")
+                  and page.locator('#skills [role="tab"][tabindex="0"]').count() == 1
+                  and page.locator(f'#skill-panel-{name}').is_visible(), f'Skills {key} selects, focuses and reveals {name}')
+        page.locator('.space-complete > summary').click()
+        check(page.locator('.space-complete .skill-card:visible').count() == 6, 'Complete toolkit expands to all six original skill groups')
+        page.locator('.space-complete [data-filter="intelligence"]').click()
+        check(page.locator('.space-complete .skill-card:visible').count() == 2
+              and page.locator('#skill-panel-systems').is_visible(), 'Original skill filter works independently of the capability tabs')
+        page.locator('.space-complete [data-filter="all"]').click()
+        page.locator('.space-complete > summary').click()
+        page.locator('#skill-tab-vision').click()
+        page.screenshot(path=str(OUT / 'skills-desktop.png'), animations='disabled')
+        skill_evidence = page.locator('#skill-panel-vision .space-proof > a').first
+        skill_destination = urljoin(page.url, skill_evidence.get_attribute('href'))
+        skill_evidence.click()
+        page.wait_for_url(skill_destination)
+        check(page.url.endswith('/projects/assenttag.html') and page.locator('.case-evidence').is_visible(), 'Skill evidence opens the real AssentTag case study')
         open_page(page, 'index.html?focus=security&q=postgresql#projects')
         check(page.locator('[data-project-tags]:visible').count() == 1, 'Role and query deep link restored')
         page.set_viewport_size({'width': 390, 'height': 844})
@@ -231,6 +258,7 @@ try:
         fallback = nojs.new_page()
         open_page(fallback, 'index.html')
         check(fallback.locator('[data-project-tags]:visible').count() == 5, 'All projects available without JavaScript')
+        check(fallback.locator('#skills .skill-card:visible').count() == 6, 'Complete original toolkit remains available without JavaScript')
         check(not fallback.locator('[data-project-tools]').is_visible(), 'Inactive search hidden without JavaScript')
         check(fallback.locator('#projectReel').evaluate('(v) => v.controls && !!v.querySelector("source").getAttribute("src")'), 'Video has native controls and source without JavaScript')
         check(fallback.locator('.rail-case-link[href]').count() == 3, 'Showcase navigation remains available without JavaScript')
@@ -250,6 +278,8 @@ try:
         check(reduced_page.locator('#kineticWord').inner_text() == reduced_role, 'Reduced motion keeps kinetic text still')
         check(reduced_page.locator('#heroSculpture').evaluate('(c) => c.toDataURL()') == reduced_canvas, 'Reduced motion keeps the sculpture frame still')
         check('rail-enhanced' not in reduced_page.locator('.project-rail-section').get_attribute('class'), 'Reduced motion presents the full showcase in normal flow')
+        reduced_page.locator('#skill-tab-data').click()
+        check(reduced_page.locator('.skills-space').evaluate("e => e.classList.contains('space-motion-off')") and reduced_page.locator('#skill-panel-data').is_visible(), 'Reduced motion disables spatial movement while keeping skills tabs usable')
         reduced_page.locator('#projectReel').scroll_into_view_if_needed()
         reduced_page.wait_for_timeout(300)
         check(reduced_page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime === 0'), 'Reduced motion prevents video autoplay')

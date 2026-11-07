@@ -1,20 +1,27 @@
-/* Scroll direction controls composition, never the user's media playback. */
+/* Scroll choreographs the film chamber; the native reel retains playback control. */
 (() => {
   'use strict';
   const section = document.getElementById('showreel');
   const video = document.getElementById('projectReel');
-  if (!section || !video) return;
+  const stage = section?.querySelector('.reel-stage');
+  if (!section || !video || !stage) return;
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const allowed = () => !root.classList.contains('paused') && !reduced.matches;
+  const allowed = () => !root.classList.contains('paused') && !root.classList.contains('motion-paused') && !reduced.matches;
   const clamp = (value,min,max) => Math.max(min,Math.min(max,value));
   const field = document.createElement('div');
   field.className = 'cinema-letterfield';
   field.setAttribute('aria-hidden','true');
-  field.innerHTML = '<span class="cinema-word cinema-word--ideas">IDEAS</span><span class="cinema-word cinema-word--motion">IN MOTION</span><span class="cinema-sunburst"><svg viewBox="0 0 100 100" focusable="false"><path d="M50 0 56 33 75 7 67 38 93 25 73 45 100 50 73 56 93 75 66 64 75 93 56 73 50 100 44 73 25 93 35 65 7 75 27 56 0 50 27 44 7 25 35 36 25 7 44 33Z"/></svg></span>';
+  field.innerHTML = '<span class="cinema-word cinema-word--ideas">IMAGINE</span><span class="cinema-word cinema-word--motion">IN MOTION</span><span class="cinema-coordinate">VISUAL STORIES / HUMAN PURPOSE</span>';
   section.prepend(field);
 
-  // The display mirrors the video's real time; it is not a separate animation.
+  const chamber = document.createElement('div');
+  chamber.className = 'cinema-chamber';
+  stage.before(chamber);
+  chamber.innerHTML = '<div class="cinema-architecture" aria-hidden="true"><div class="cinema-floor"></div><div class="cinema-frame cinema-frame--back"></div><div class="cinema-frame cinema-frame--front"></div></div><div class="cinema-index" aria-hidden="true"><i></i><span>THE MOTION GALLERY</span><b>01—05</b></div>';
+  chamber.append(stage);
+
+  // This UI mirrors actual media time. It does not start, seek, or pause the reel.
   const timecode = section.querySelector('.reel-controls>span');
   let clock, total, state;
   if (timecode) {
@@ -44,15 +51,19 @@
     if (!allowed() || document.hidden || !onScreen) return;
     const box = section.getBoundingClientRect();
     const vh = innerHeight;
-    // Measure the fixed document section, never the transformed video stage.
+    // Stable document geometry keeps transformations from feeding their own measurements.
     const enter = clamp((vh*.9 - box.top)/(vh*.8),0,1);
     const travel = clamp((vh-box.top)/(box.height+vh),0,1);
+    const tilt = 1-enter;
+    const mobile = innerWidth < 700;
     section.style.setProperty('--cinema-scale',(.8 + enter*.2).toFixed(4));
-    section.style.setProperty('--cinema-cut',`${((1-enter)*5).toFixed(3)}%`);
-    section.style.setProperty('--cinema-tilt',`${((1-enter)*8).toFixed(3)}deg`);
-    section.style.setProperty('--cinema-left',`${(-4-travel*23).toFixed(3)}vw`);
-    section.style.setProperty('--cinema-right',`${(-7+travel*31).toFixed(3)}vw`);
-    section.style.setProperty('--cinema-rotation',`${(-18+travel*95).toFixed(3)}deg`);
+    section.style.setProperty('--cinema-cut',`${(tilt*2).toFixed(3)}%`);
+    section.style.setProperty('--cinema-tilt',`${(tilt*(mobile?13:24)).toFixed(3)}deg`);
+    section.style.setProperty('--cinema-yaw',`${(tilt*(mobile?-6:-15)).toFixed(3)}deg`);
+    section.style.setProperty('--cinema-roll',`${(tilt*-3).toFixed(3)}deg`);
+    section.style.setProperty('--cinema-left',`${(6-travel*34).toFixed(3)}vw`);
+    section.style.setProperty('--cinema-right',`${(-12+travel*40).toFixed(3)}vw`);
+    section.style.setProperty('--cinema-travel',travel.toFixed(4));
   }
   function schedule() {
     if (!frame && allowed() && !document.hidden && onScreen) frame=requestAnimationFrame(render);
