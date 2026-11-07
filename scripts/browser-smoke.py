@@ -106,6 +106,16 @@ try:
             page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
             box = showcase_links.nth(index).bounding_box()
             check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Rail project {index+1} is reachable while moving both directions')
+        rail_panels = page.locator('.rail-panel')
+        rail_scroll_step = rail_panels.nth(1).bounding_box()['x'] - rail_panels.first.bounding_box()['x']
+        rail_scroll_start = page.evaluate('scrollY')
+        page.mouse.move(720, 500)
+        for index, delta in [(1, rail_scroll_step), (0, -rail_scroll_step)]:
+            page.mouse.wheel(0, delta)
+            page.wait_for_function('target => Math.abs(scrollY - target) < 2', arg=rail_scroll_start + index * rail_scroll_step)
+            page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
+            box = showcase_links.nth(index).bounding_box()
+            check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Native wheel scrolling reveals rail project {index+1}')
         rail_height = rail.bounding_box()['height']
         page.locator('#motionButton').click()
         check(abs(rail.bounding_box()['height'] - rail_height) < 1, 'Pausing preserves project rail section height')
@@ -170,7 +180,7 @@ try:
         for index in [0, 1, 2, 1, 0]:
             journey_items.nth(index).evaluate("(e) => e.scrollIntoView({block:'center',behavior:'instant'})")
             page.wait_for_function("step => document.querySelector('#experience').dataset.journeyStep === step", arg=str(index+1))
-            check(page.locator('#experience [data-journey-date]').inner_text() == journey_items.nth(index).locator('.time').inner_text(), f'Journey step {index+1} follows its internship while scrolling both directions')
+            check(page.locator('#experience [data-journey-date]').text_content().strip() == journey_items.nth(index).locator('.time').text_content().strip(), f'Journey step {index+1} follows its internship while scrolling both directions')
         page.locator('[data-journey-select="2"]').click()
         page.wait_for_function("document.querySelector('#experience').dataset.journeyStep === '3'")
         check(page.locator('[data-journey-select="2"]').get_attribute('aria-current') == 'step', 'Career constellation button selects and announces its internship')
