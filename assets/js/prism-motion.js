@@ -77,6 +77,7 @@
   const video = document.getElementById('projectReel');
   const toggle = document.getElementById('reelToggle');
   let inView = false, userPaused = false, loaded = false;
+  let reelMode = 'projects';
   const saveData = navigator.connection?.saveData === true;
   function loadVideo() {
     if (!video || loaded) return;
@@ -91,7 +92,8 @@
     const playing = !video.paused;
     toggle.querySelector('.reel-control-icon').textContent = playing ? 'Ⅱ' : '▶';
     toggle.querySelector('.reel-control-label').textContent = playing ? 'Pause reel' : 'Play reel';
-    toggle.setAttribute('aria-label', playing ? 'Pause project reel' : 'Play project reel');
+    const subject = reelMode === 'motion' ? '3D motion study' : 'project reel';
+    toggle.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${subject}`);
   }
   async function startVideo() {
     loadVideo();
@@ -104,6 +106,44 @@
     else video.pause();
   }
   if (video && toggle) {
+    const source = video.querySelector('source');
+    const description = document.getElementById('reelDescription');
+    const originalDescription = description?.textContent || '';
+    const originalLabel = video.getAttribute('aria-label') || 'Adarsh S project showcase';
+    const originalPoster = video.getAttribute('poster');
+    const modes = {
+      motion: {src:'assets/video/dimensional-loop.mp4',label:'Abstract 3D motion study: illuminated sculptural forms rotating in a midnight scene',description:'An abstract, rendered 3D motion study. A silent loop of illuminated sculptural forms; this is visual artwork, not a project demonstration.'},
+      projects: {src:'assets/video/adarsh-project-reel.mp4',label:originalLabel,description:originalDescription}
+    };
+    const selector = document.createElement('div');
+    selector.className = 'cinema-mode-picker';
+    selector.setAttribute('role','group');
+    selector.setAttribute('aria-label','Choose a film');
+    selector.innerHTML = '<button type="button" data-reel-mode="motion" aria-pressed="false"><span aria-hidden="true">◇</span> 3D motion study</button><button type="button" data-reel-mode="projects" aria-pressed="true"><span aria-hidden="true">▤</span> Project stories</button>';
+    (document.querySelector('.cinema-chamber') || reelStage).before(selector);
+    selector.addEventListener('click', event => {
+      const button = event.target.closest('[data-reel-mode]');
+      if (!button || !source || button.dataset.reelMode === reelMode) return;
+      const wasPlaying = !video.paused;
+      reelMode = button.dataset.reelMode;
+      const mode = modes[reelMode];
+      selector.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed',String(item === button)));
+      video.pause();
+      source.setAttribute('src',mode.src);
+      source.dataset.src = mode.src;
+      video.setAttribute('aria-label',mode.label);
+      video.dataset.reelMode = reelMode;
+      if (description) description.textContent = mode.description;
+      if (reelMode === 'projects' && originalPoster) video.setAttribute('poster',originalPoster);
+      else video.removeAttribute('poster');
+      reelStage.style.setProperty('--reel-progress','0');
+      loaded = false;
+      loadVideo();
+      video.controls = false;
+      // Changing the film does not override an explicit pause or motion/data preference.
+      if (wasPlaying) syncVideo();
+      else showPlayback();
+    });
     video.muted = true;
     video.controls = false;
     toggle.hidden = false;

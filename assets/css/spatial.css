@@ -54,3 +54,5 @@
 @media print{.spatial-chapter,.creative-divider{display:none}.prism-home,.prism-home .studio-hero{background:white;color:black}.prism-home #heroTitle,.prism-home .chrome-line>span{color:black;background:none;-webkit-text-fill-color:black}.depth-word{opacity:1!important;transform:none!important}}
 @media(prefers-reduced-motion:no-preference){html:not(.paused) .prism-home .hero-line:first-child{transform:translateX(calc(var(--spatial-exit,0) * -38px))}html:not(.paused) .prism-home .hero-line:nth-child(2){transform:translateX(calc(var(--spatial-exit,0) * 42px))}html:not(.paused) .prism-home .frame-back{transform:rotateY(calc(-22deg + var(--spatial-exit,0) * 32deg)) rotateZ(calc(13deg + var(--spatial-exit,0) * 15deg)) translateZ(-60px)}}
 .motion-ready:not(.paused) .depth-heading.motion-entered{animation:none}
+
+.prism-home .ability-foil img{width:100px;height:125px;border-radius:2px;clip-path:none;object-fit:cover;box-shadow:3px 4px 0 #8a76c577}

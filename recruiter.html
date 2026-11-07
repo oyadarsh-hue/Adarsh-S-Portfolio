@@ -7,7 +7,7 @@
   <title>Adarsh S — Recruiter Overview | Software Developer</title>
   <meta name="description" content="A concise overview of Adarsh S: MCA 2026, software development internships, full-stack projects, implementation evidence, research and contact details." />
   <link rel="canonical" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/recruiter.html" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#070918" />
   <meta property="og:type" content="profile" />
   <meta property="og:title" content="Adarsh S — Recruiter Overview" />
   <meta property="og:description" content="Software development, full-stack projects and inspectable source evidence. MCA 2026 · Kozhikode, Kerala." />
@@ -20,25 +20,40 @@
   <link rel="stylesheet" href="assets/css/recruiter.css?v=2" />
   <script src="assets/js/main.js?v=11" defer></script>
   <script src="assets/js/recruiter.js?v=1" defer></script>
-  <link rel="stylesheet" href="assets/css/secondary-color.css?v=1" />
+  <link rel="stylesheet" href="assets/css/recruiter-spatial.css?v=1" />
+  <script src="assets/js/hero-sculpture.js?v=4" defer></script>
+  <link rel="stylesheet" href="assets/css/secondary-motion.css?v=1" />
+  <script src="assets/js/secondary-motion.js?v=1" defer></script>
 </head>
 <body class="recruiter-page">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="topbar case-topbar">
     <a class="brand" href="index.html">A<span class="brand-dot">.</span><span class="brand-name">ADARSH S</span></a>
-    <nav class="summary-nav" aria-label="Recruiter navigation"><a href="index.html">Full portfolio ↗</a><a href="#contact">Contact</a></nav>
-    <div class="preferences"><button type="button" class="icon-button" id="themeButton" aria-label="Switch to dark theme">◐</button></div>
+    <nav class="summary-nav" aria-label="Recruiter navigation"><a href="index.html">Full portfolio ↗</a><a href="index.html#skills">Skills ↗</a><a href="#contact">Contact ↗</a></nav>
+    <div class="preferences"><button type="button" class="icon-button" id="motionButton" aria-pressed="false" aria-label="Pause animation">Ⅱ</button><button type="button" class="icon-button" id="themeButton" aria-label="Switch to dark theme">◐</button></div>
   </header>
   <main id="main" class="recruiter-main">
     <section class="summary-hero" aria-labelledby="summaryTitle">
-      <div><p class="summary-kicker">RECRUITER OVERVIEW / MCA 2026</p>
+      <div class="summary-intro"><p class="summary-kicker"><span class="summary-signal" aria-hidden="true"></span> THE PERSON BEHIND THE CODE / MCA 2026</p>
         <h1 id="summaryTitle">Adarsh S</h1>
-        <p class="summary-role">Software developer.<br />Full stack & Python.</p>
+        <p class="summary-role">Software developer.<br /><span>Full stack & Python.</span></p>
         <p class="summary-meta">Kozhikode, Kerala, India · Open to early-career opportunities</p>
+      </div>
+      <div class="summary-art" aria-label="Portrait of Adarsh S">
+        <canvas id="heroSculpture" aria-hidden="true"></canvas>
+        <div class="summary-frame-back frame-back-one" aria-hidden="true"></div><div class="summary-frame-back frame-back-two" aria-hidden="true"></div>
+        <figure class="summary-photo-frame">
+          <div class="summary-frame-label"><span>ADARSH.S / PROFILE</span><span aria-hidden="true">＋</span></div>
+          <img class="summary-portrait" src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" />
+          <figcaption><span>BUILDING WITH CURIOSITY.</span><span aria-hidden="true">as/</span></figcaption>
+        </figure>
+        <span class="summary-art-coordinate" aria-hidden="true">SOFTWARE · VISION · RESEARCH</span>
+      </div>
+      <div class="summary-detail">
         <p class="summary-description">I work on web applications, computer vision and security tools. My projects connect interfaces and APIs with data, access control and inspectable implementation details.</p>
         <div class="summary-actions"><a class="summary-primary" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a><a href="mailto:oyadarsh@gmail.com?subject=Software%20development%20opportunity">Email Adarsh ↗</a><button type="button" data-print-summary data-js-action hidden>Print / save summary</button></div>
+        <div class="summary-explore"><a href="index.html#skills">Explore my skills <span aria-hidden="true">↗</span></a><a href="index.html#showreel"><span class="summary-play" aria-hidden="true">▶</span> Watch the 3D film stage</a></div>
       </div>
-      <img class="summary-portrait" src="assets/images/adarsh-s.jpeg" width="180" height="180" alt="Adarsh S" fetchpriority="high" />
     </section>
     <dl class="summary-facts">
       <div><dt>Education</dt><dd>MCA · GEC Thrissur</dd></div>
@@ -52,7 +67,7 @@
           <a href="workbench.html"><span class="feature-label">NEW / 3 TOOLS</span><strong>Opportunity workbench <span aria-hidden="true">&rarr;</span></strong><span>Map role requirements, compare projects and build a tailored brief.</span></a>
         </nav>
     <section class="summary-section" aria-labelledby="fitHeading">
-      <h2 id="fitHeading">Where my work fits</h2>
+      <p class="summary-chapter">01 / FIND YOUR STARTING POINT</p><h2 id="fitHeading">Where my<br /><span>work fits.</span></h2>
       <p>Start with the discipline relevant to your opening, then inspect the implementation and its limits.</p>
       <div class="role-grid">
         <article class="role-card"><h3>Backend & full stack</h3><p>Python, Django, React, TypeScript, REST APIs, MySQL and PostgreSQL. Start with QuietNote and AssentTag.</p><a href="index.html?focus=web#projects">Explore web & API projects →</a></article>
@@ -61,7 +76,7 @@
       </div>
     </section>
     <section class="summary-section" aria-labelledby="proofHeading">
-      <h2 id="proofHeading">Selected engineering evidence</h2>
+      <p class="summary-chapter">02 / BEHIND THE INTERFACE</p><h2 id="proofHeading">Selected<br /><span>engineering evidence.</span></h2>
       <p>Code and test links point to reviewed repository snapshots. Test-source links show coverage intent; execution reports remain in the project repositories.</p>
       <div class="proof-list">
         <article class="proof-item"><div><h3><a href="projects/quietnote.html">QuietNote</a></h3><p class="proof-scope">Deployed assessment POC</p></div><div><p>Expiring, revocable notes with a conditional PostgreSQL update for one-time access. The test source includes two-reader and 25-request concurrency scenarios. Content is not end-to-end encrypted.</p><div class="proof-links"><a href="projects/quietnote.html">Case study →</a><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/src/server/shares.ts" target="_blank" rel="noopener noreferrer">Implementation ↗</a><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/tests/concurrency.test.ts" target="_blank" rel="noopener noreferrer">Test source ↗</a></div></div></article>
@@ -72,7 +87,7 @@
       </div>
     </section>
     <section class="summary-section" aria-labelledby="experienceHeading">
-      <h2 id="experienceHeading">Practical experience</h2>
+      <p class="summary-chapter">03 / LEARNING IN PRACTICE</p><h2 id="experienceHeading">Practical<br /><span>experience.</span></h2>
       <ul class="summary-experience">
         <li><strong>Software Development Intern · Bluegen Solutions</strong><br />Dec 2025 – Mar 2026 · Kozhikode · Python/Django, REST APIs and MySQL.</li>
         <li><strong>React.js Development Intern · The Skybrisk</strong><br />Feb 2026 – Mar 2026 · Remote · Reusable React components and API integration.</li>
@@ -81,17 +96,17 @@
       <p><a href="index.html#experience">Read the detailed experience →</a></p>
     </section>
     <section class="summary-section" aria-labelledby="researchHeading">
-      <h2 id="researchHeading">Research & education</h2>
+      <p class="summary-chapter">04 / IDEAS WORTH EXPLORING</p><h2 id="researchHeading">Research<br /><span>& education.</span></h2>
       <div class="summary-paper"><p><strong>Master of Computer Applications · Government Engineering College, Thrissur · 2026</strong></p><p>EpigraphiX-AI research publication · IJRASET, Volume 14, Issue VIII, August 2026 · DOI: 10.22214/ijraset.2026.84707.</p><p>The publication and the public software prototype are separate evidence. Published benchmark claims have not been independently reproduced here.</p><a href="https://doi.org/10.22214/ijraset.2026.84707" target="_blank" rel="noopener noreferrer">Read the publication ↗</a></div>
     </section>
     <section id="contact" class="summary-section summary-contact" aria-labelledby="contactHeading">
-      <h2 id="contactHeading">Let’s talk about the role.</h2>
+      <p class="summary-chapter">05 / THE NEXT CHAPTER</p><h2 id="contactHeading">Let’s talk<br /><span>about the role.</span></h2>
       <p><a href="mailto:oyadarsh@gmail.com">oyadarsh@gmail.com</a> · <a href="tel:+919061448229">+91 90614 48229</a></p>
       <div class="summary-actions"><a href="https://github.com/oyadarsh-hue" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/adarsh-s-031869355/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><button type="button" data-copy-email data-js-action hidden>Copy email</button><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a></div>
       <p class="copy-status" data-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
     </section>
   </main>
-  <footer class="summary-footer">Adarsh S · <a href="index.html">Explore the full portfolio</a> · Updated 15 October 2026</footer>
+  <footer class="summary-footer"><span>ADARSH S</span><div><a href="index.html">Explore the full portfolio ↗</a><a href="index.html#skills">View skills ↗</a><span>Updated 7 November 2026</span></div></footer>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfilePage","url":"https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/recruiter.html","mainEntity":{"@type":"Person","@id":"https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/#person","name":"Adarsh S","url":"https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/","sameAs":["https://github.com/oyadarsh-hue","https://www.linkedin.com/in/adarsh-s-031869355/"]}}</script>
 </body>
 </html>

@@ -149,6 +149,16 @@ try:
         page.wait_for_timeout(350)
         check(page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime') == stopped, 'Reel pause holds the frame')
         check(page.locator('.cinema-state').inner_text() == 'PAUSED', 'Film timecode reflects actual paused playback')
+        page.locator('[data-reel-mode="motion"]').click()
+        page.wait_for_function("document.querySelector('#projectReel').readyState >= 2")
+        check(page.locator('#projectReel').evaluate("v => v.paused && v.currentSrc.endsWith('dimensional-loop.mp4') && v.videoWidth === 960"), '3D film loads actual video without overriding pause')
+        page.locator('#reelToggle').click()
+        page.wait_for_function("document.querySelector('#projectReel').currentTime > .2")
+        check(page.locator('#projectReel').evaluate("v => !v.paused && v.duration >= 7.9 && v.duration <= 8.1"), 'Rendered 3D film plays as an eight-second loop')
+        page.locator('[data-reel-mode="projects"]').click()
+        page.wait_for_function("document.querySelector('#projectReel').currentSrc.endsWith('adarsh-project-reel.mp4') && !document.querySelector('#projectReel').paused")
+        page.locator('#reelToggle').click()
+
         page.locator('#reelToggle').click()
         page.wait_for_function("!document.querySelector('#projectReel').paused")
         story_height = page.locator('.motion-story').bounding_box()['height']
@@ -233,9 +243,11 @@ try:
         page.locator('#nav a[href="recruiter.html"]').click()
         page.wait_for_url('**/recruiter.html')
         check(page.locator('h1').inner_text() == 'Adarsh S', 'Recruiter navigation works without script errors')
+        check(page.locator('.summary-nav a[href="index.html#skills"]').is_visible(), 'Recruiter has a direct Skills link')
         for width in [1440, 768, 390, 320]:
             page.set_viewport_size({'width': width, 'height': 900})
             layout(page, f'Recruiter {width}px')
+            check(page.locator('.summary-portrait').evaluate("e => { const s=getComputedStyle(e), r=e.getBoundingClientRect(); return ['borderTopLeftRadius','borderTopRightRadius','borderBottomLeftRadius','borderBottomRightRadius'].every(k=>parseFloat(s[k])<=4) && s.clipPath==='none' && r.height>r.width; }"), f'Recruiter portrait is a tall straight rectangle at {width}px')
         page.set_viewport_size({'width': 1440, 'height': 1000})
         page.screenshot(path=str(OUT / 'recruiter-desktop.png'), full_page=True, animations='disabled')
         page.set_viewport_size({'width': 390, 'height': 844})
