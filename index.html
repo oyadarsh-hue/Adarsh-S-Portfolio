@@ -58,17 +58,13 @@
     />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/css/style.css?v=10" />
-    <link rel="stylesheet" href="assets/css/vibe.css?v=14" />
-    <link rel="stylesheet" href="assets/css/enhancements.css?v=19" />
     <link rel="stylesheet" href="assets/css/recruiter.css?v=2" />
     <script src="assets/js/recruiter.js?v=1" defer></script>
     <script src="assets/js/main.js?v=11" defer></script>
-    <script src="assets/js/motion.js?v=12" defer></script>
-    <script src="assets/js/choreography.js?v=12" defer></script>
-    <script src="assets/js/vibe.js?v=14" defer></script>
-    <script src="assets/js/enhancements.js?v=17" defer></script>
+    <link rel="stylesheet" href="assets/css/prism.css?v=1" />
+    <script src="assets/js/prism.js?v=1" defer></script>
   </head>
-  <body>
+  <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <div class="cursor-label" aria-hidden="true"></div>
@@ -85,11 +81,7 @@
         Menu <span aria-hidden="true">＋</span>
       </button>
       <nav id="nav" class="nav" aria-label="Primary navigation">
-        <a href="recruiter.html">Recruiter view</a><a href="#about">About</a
-        ><a href="#projects">Work</a><a href="#experience">Experience</a
-        ><a href="#publication">Research</a><a href="#skills">Toolkit</a
-        ><a href="#certifications">Credentials</a
-        ><a href="#education">Education</a><a href="#contact">Contact</a>
+        <a href="#projects">Selected work</a><a href="#about">About me</a><a href="#experience">Journey</a><a href="#publication">Research</a><a href="recruiter.html">Recruiter view ↗</a><a class="nav-contact" href="#contact">Let’s talk ↗</a>
       </nav>
       <div class="preferences">
         <button
@@ -109,224 +101,26 @@
       </div>
     </header>
     <main id="main">
-      <section id="home" class="hero color-hero">
-        <div class="vibe-mesh" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div class="hero-topline">
-          <p class="eyebrow">
-            <span class="status-dot"></span> SOFTWARE ENGINEERING / AI /
-            RESEARCH
-          </p>
-          <span class="edition">A LITTLE CODE. A LOT OF CURIOSITY. / 2026</span>
-        </div>
-        <aside class="recruiter-strip" aria-label="Career overview">
-          <div><p class="strip-label">OPEN TO EARLY-CAREER OPPORTUNITIES</p>
-          <p class="strip-title">Software development · Full stack · Python</p>
-          <p class="strip-detail">MCA 2026 · Kozhikode, Kerala · Project code, tests and research below</p></div>
-          <div class="strip-actions"><a href="recruiter.html">Recruiter view <span aria-hidden="true">↗</span></a><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV <span aria-hidden="true">↓</span></a></div>
-        </aside>
-
-        <nav class="feature-launchpad" aria-label="New interactive portfolio tools">
-          <a href="lab.html"><span class="feature-label">NEW / 2 EXPERIMENTS</span><strong>Engineering lab <span aria-hidden="true">&rarr;</span></strong><span>Race competing readers. Change evidence and check its hash.</span></a>
-          <a href="workbench.html"><span class="feature-label">NEW / 3 TOOLS</span><strong>Opportunity workbench <span aria-hidden="true">&rarr;</span></strong><span>Map role requirements, compare projects and build a tailored brief.</span></a>
-        </nav>
-        <div
-          class="creative-stage"
-          aria-label="Adarsh’s interactive introduction"
-        >
-          <p class="stage-hello">
-            <span class="motion-sr-only">Hello, world. I’m</span
-            ><span id="typed-greeting" aria-hidden="true"
-              >Hello, world. I’m</span
-            ><span class="type-caret" aria-hidden="true">|</span>
-          </p>
-          <h1 class="dimensional-name" aria-label="Adarsh S">
-            <span
-              class="drag-name"
-              role="button"
-              tabindex="0"
-              aria-label="Move Adarsh S lettering"
-              aria-describedby="drag-help"
-              data-drag-piece
-              ><i>A</i><i>D</i><i>A</i><i>R</i><i>S</i><i>H</i
-              ><i class="name-space">S</i><i>.</i></span
-            >
-          </h1>
-          <div class="stage-orbit orbit-blue" aria-hidden="true"></div>
-          <div class="stage-orbit orbit-coral" aria-hidden="true"></div>
-          <figure class="center-portrait">
-            <div class="portrait-arrival">
-              <div
-                class="portrait-depth"
-                role="button"
-                tabindex="0"
-                aria-label="Move portrait"
-                aria-describedby="drag-help"
-                data-drag-piece
-              >
-                <div class="portrait-float">
-                  <img
-                    src="assets/images/adarsh-s.jpeg"
-                    width="400"
-                    height="400"
-                    alt="Adarsh S — full-color portrait"
-                    draggable="false"
-                    fetchpriority="high"
-                  />
-                </div>
-              </div>
-            </div>
-            <figcaption>
-              ADARSH S <span>·</span> MCA ’26 <span>·</span> KOZHIKODE
-            </figcaption>
-          </figure>
-          <button
-            class="floating-label label-blue"
-            data-floating
-            aria-describedby="drag-help"
-          >
-            <span><b aria-hidden="true">&lt;/&gt;</b> FULL STACK</span>
-          </button>
-          <button
-            class="floating-label label-violet"
-            data-floating
-            aria-describedby="drag-help"
-          >
-            <span><b aria-hidden="true">✳</b> AI / ML</span>
-          </button>
-          <button
-            class="floating-label label-coral"
-            data-floating
-            aria-describedby="drag-help"
-          >
-            <span><b aria-hidden="true">↗</b> RESEARCH</span>
-          </button>
-          <button
-            class="floating-label label-green"
-            data-floating
-            aria-describedby="drag-help"
-          >
-            <span><b aria-hidden="true">◎</b> COMPUTER VISION</span>
-          </button>
-          <div class="stage-spark spark-one" aria-hidden="true">✳</div>
-          <div class="stage-spark spark-two" aria-hidden="true">+</div>
-          <p id="drag-help" class="stage-hint">
-            Drag my name, photo or labels. Or focus them and use arrow keys.
-            Escape resets.
-          </p>
-        </div>
-        <div class="hero-introduction">
-          <div>
-            <p class="typed-intro">
-              <span class="motion-sr-only"
-                >I build full-stack applications, computer vision systems and
-                research tools.</span
-              ><span aria-hidden="true"
-                >I build <span id="typed-role">full-stack applications.</span
-                ><span class="type-caret">|</span></span
-              >
-            </p>
-            <h2>
-              Serious about code.<br /><span>Curious about everything.</span>
-            </h2>
+      <section id="home" class="prism-hero" aria-labelledby="heroTitle">
+        <div class="prism-topline"><span><i class="availability-dot"></i> OPEN TO OPPORTUNITIES</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
+        <div class="prism-intro">
+          <div class="prism-words">
+            <p class="prism-hello">A curious mind. A creative approach.</p>
+            <h1 id="heroTitle">Hi, I’m<br /><span>Adarsh S<span class="coral-dot">.</span></span></h1>
+            <div class="role-tape"><span class="role-star" aria-hidden="true">✳</span><span id="prismRole" aria-hidden="true">Software developer</span><span class="sr-only">Software developer, full-stack builder and computer vision enthusiast.</span><span class="role-count" aria-hidden="true">01 / 03</span></div>
+            <p class="prism-description">I turn curious ideas into useful software.<br />Full-stack applications, computer vision,<br class="wide-only" /> and a little research along the way.</p>
+            <div class="prism-actions"><a class="prism-button solid" href="#projects">Explore my work <span aria-hidden="true">↗</span></a><a class="prism-button" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV <span aria-hidden="true">↓</span></a></div>
+            <div class="prism-social"><a href="https://github.com/oyadarsh-hue" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/adarsh-s-031869355/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="mailto:oyadarsh@gmail.com">Let’s talk ↗</a></div>
           </div>
-          <div>
-            <p class="hero-description">
-              I turn ideas into web applications, privacy-aware vision systems,
-              and tools that make complex information understandable.
-            </p>
-            <div class="actions">
-              <a class="button primary magnetic" href="#projects"
-                >Explore my work <span>↘</span></a
-              ><a
-                class="button magnetic"
-                href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf"
-                data-cursor="SAVE"
-                >Download CV <span>↓</span></a
-              >
-            </div>
-            <div class="hero-socials">
-              <a
-                class="social-link social-github"
-                href="https://github.com/oyadarsh-hue"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><svg
-                  fill="currentColor"
-                  class="social-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                  /></svg
-                ><span>GitHub ↗</span></a
-              ><a
-                class="social-link social-linkedin"
-                href="https://www.linkedin.com/in/adarsh-s-031869355/"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><svg
-                  fill="currentColor"
-                  class="social-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                  /></svg
-                ><span>LinkedIn ↗</span></a
-              ><a
-                class="social-link social-gmail"
-                href="mailto:oyadarsh@gmail.com"
-                ><svg
-                  fill="currentColor"
-                  class="social-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
-                  /></svg
-                ><span>Gmail ↗</span></a
-              >
-              <a class="social-link social-phone" href="tel:+919061448229"
-                ><svg
-                  class="social-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
-                  />
-                </svg>
-                <span>Call me</span></a
-              >
-            </div>
+          <div class="prism-collage">
+            <div class="collage-orbit" aria-hidden="true"></div><div class="collage-square" aria-hidden="true"></div><div class="collage-star" aria-hidden="true">✳</div>
+            <figure class="prism-portrait"><div class="portrait-header"><span>THE PERSON BEHIND THE CODE</span><span aria-hidden="true">↗</span></div><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /><figcaption><strong>Adarsh S</strong><span>MCA ’26 · GEC Thrissur</span><span class="portrait-signature" aria-hidden="true">as.</span></figcaption></figure>
+            <div class="code-sticker" aria-hidden="true"><span>&lt;/&gt;</span><div>THINK IT.<br /><b>BUILD IT.</b></div></div>
+            <a class="research-sticker" href="#publication"><span aria-hidden="true">✦</span><span>Ideas worth<br /><b>exploring.</b></span><span aria-hidden="true">↗</span></a>
+            <p class="collage-note">Made of code & curiosity.</p>
           </div>
         </div>
-        <div class="hero-bottom">
-          <span
-            >FULL STACK <i>/</i> COMPUTER VISION <i>/</i> DATA ANALYTICS</span
-          ><a href="#about">KEEP EXPLORING <span>↓</span></a>
-        </div>
+        <div class="prism-foot"><span>SOFTWARE <b>✳</b> VISION <b>✳</b> RESEARCH</span><a href="#about">A little more about me <span aria-hidden="true">↓</span></a><span class="scroll-note">SCROLL TO DISCOVER</span></div>
       </section>
       <div
         class="ticker"
@@ -347,7 +141,7 @@
         <div class="section-heading">
           <p class="eyebrow">01 / A LITTLE CONTEXT</p>
           <h2>
-            Curious by nature.<br /><span data-scroll-type
+            Curious by nature.<br /><span
               >Engineer by practice.</span
             >
           </h2>
@@ -378,11 +172,18 @@
           </div>
         </div>
       </section>
+      <div class="prism-playground">
+        <div><p class="eyebrow">LESS TALK. MORE TRYING THINGS.</p><h2>A little <em>hands-on.</em></h2><p>Explore the thinking behind the code.</p></div>
+        <nav class="feature-launchpad" aria-label="Interactive portfolio tools">
+          <a href="lab.html"><span class="feature-label">01 / INTERACTIVE EXPERIMENTS</span><strong>Engineering lab <span aria-hidden="true">↗</span></strong><span>Explore one-time access and evidence integrity.</span></a>
+          <a href="workbench.html"><span class="feature-label">02 / FOR RECRUITERS</span><strong>Opportunity workbench <span aria-hidden="true">↗</span></strong><span>Match role requirements to real project evidence.</span></a>
+        </nav>
+      </div>
       <section id="projects" class="section projects-section">
         <div class="section-heading heading-split">
           <div>
             <p class="eyebrow">02 / SELECTED ENGINEERING</p>
-            <h2>Ideas made<br /><span>tangible.</span></h2>
+            <h2>A few things<br /><span>I’ve built.</span></h2>
           </div>
           <p>
             Privacy. Language. Security.<br />A closer look at the problems<br />I’ve
@@ -410,10 +211,10 @@
                 <p class="eyebrow">Privacy engineering / Computer vision</p>
               </div>
               <h3 class="project-title-3d">
-                <span data-scroll-type>AssentTag</span>
+                <span>AssentTag</span>
               </h3>
               <p class="project-tagline">
-                <span data-scroll-type>Your face. Your consent.</span>
+                <span>Your face. Your consent.</span>
               </p>
               <p>
                 A privacy-first image-sharing platform that makes facial consent
@@ -460,10 +261,10 @@
                 <p class="eyebrow">Applied AI / Historical manuscripts</p>
               </div>
               <h3 class="project-title-3d">
-                <span data-scroll-type>EpigraphiX-AI</span>
+                <span>EpigraphiX-AI</span>
               </h3>
               <p class="project-tagline">
-                <span data-scroll-type
+                <span
                   >Reading the past.<br />With modern intelligence.</span
                 >
               </p>
@@ -512,10 +313,10 @@
                 <p class="eyebrow">Security tooling / Evidence integrity</p>
               </div>
               <h3 class="project-title-3d">
-                <span data-scroll-type>AegisForge-X</span>
+                <span>AegisForge-X</span>
               </h3>
               <p class="project-tagline">
-                <span data-scroll-type
+                <span
                   >Find the risk.<br />Keep the evidence.</span
                 >
               </p>
@@ -564,10 +365,10 @@
                 <p class="eyebrow">Bitcoin L2 / Explainable systems</p>
               </div>
               <h3 class="project-title-3d">
-                <span data-scroll-type>Deciphera</span>
+                <span>Deciphera</span>
               </h3>
               <p class="project-tagline">
-                <span data-scroll-type
+                <span
                   >Complex transactions.<br />Clear narratives.</span
                 >
               </p>
@@ -616,10 +417,10 @@
                 <p class="eyebrow">Full-stack engineering / Secure sharing</p>
               </div>
               <h3 class="project-title-3d">
-                <span data-scroll-type>QuietNote</span>
+                <span>QuietNote</span>
               </h3>
               <p class="project-tagline">
-                <span data-scroll-type>Share once.<br />By design.</span>
+                <span>Share once.<br />By design.</span>
               </p>
               <p>
                 Expiring, revocable note sharing with PostgreSQL-enforced
@@ -673,7 +474,7 @@
         <div class="section-heading">
           <p class="eyebrow">03 / LEARNING IN PRACTICE</p>
           <h2>
-            Inside real<br /><span data-scroll-type>engineering teams.</span>
+            Inside real<br /><span>engineering teams.</span>
           </h2>
         </div>
         <div class="timeline">
@@ -740,7 +541,7 @@
         <div class="section-heading">
           <p class="eyebrow">04 / RESEARCH & PUBLICATIONS</p>
           <h2>
-            Old scripts.<br /><span data-scroll-type>New possibilities.</span>
+            Old scripts.<br /><span>New possibilities.</span>
           </h2>
         </div>
         <article class="publication-card spotlight">
@@ -800,7 +601,7 @@
           <div>
             <p class="eyebrow">05 / THE TOOLKIT</p>
             <h2>
-              Tools follow<br /><span data-scroll-type>the problem.</span>
+              Tools follow<br /><span>the problem.</span>
             </h2>
           </div>
           <p>
