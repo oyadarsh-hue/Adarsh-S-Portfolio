@@ -58,6 +58,14 @@
     person.style.setProperty('--person-shift',`${-p*45}px`);
   }
   addEventListener('scroll', () => {if(!frame) frame=requestAnimationFrame(scroll);},{passive:true});
-  new MutationObserver(() => {if(!motion()) finishTurn();}).observe(root,{attributes:true,attributeFilter:['class']});
+  function settleMotion() {
+    if (!motion()) {
+      finishTurn();
+      // Pausing during the entrance dismisses it permanently for this visit.
+      if (!root.classList.contains('studio-entered')) root.classList.add('studio-entered');
+    }
+  }
+  new MutationObserver(settleMotion).observe(root,{attributes:true,attributeFilter:['class']});
+  reduced.addEventListener('change', settleMotion);
   document.addEventListener('visibilitychange', () => {if(document.hidden)finishTurn();});
 })();
