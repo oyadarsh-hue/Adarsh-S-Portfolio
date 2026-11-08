@@ -1,0 +1,88 @@
+/* AI-generated photographic environments, behind the existing content plane.
+   Responsive encodes are selected natively; motion never changes layout. */
+.prism-home [data-background-scene] { isolation: isolate; }
+.prism-home [data-background-scene]:not(.story-sticky) { position: relative; }
+.scene-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  background: #070918;
+}
+.scene-picture {
+  display: block;
+  position: absolute;
+  inset: -64px 0;
+  transform: translate3d(0, var(--scene-y, 0px), 0) scale(1.035);
+  transform-origin: center;
+}
+.scene-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--scene-position, center);
+  opacity: var(--scene-opacity, .72);
+}
+.scene-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--scene-shade,
+    linear-gradient(90deg, #070918b8, #0709184d 55%, #07091819),
+    linear-gradient(0deg, #070918d9, transparent 24%, transparent 76%, #07091855));
+}
+[data-background-scene][data-scene-active="true"] > .scene-backdrop .scene-picture {
+  will-change: transform;
+}
+.prism-home #home[data-background-scene] {
+  --scene-opacity: .68;
+  --scene-position: 60% center;
+}
+.prism-home .story-sticky[data-background-scene] {
+  --scene-opacity: .77;
+  --scene-position: 65% center;
+  --scene-shade: linear-gradient(90deg, #070918b8, #07091885 55%, #07091826),
+    linear-gradient(0deg, #070918b8, transparent 30%, transparent 80%, #07091866);
+}
+/* The environment follows the existing sticky panel, not the tall scroll track. */
+.prism-home .story-sticky > .scene-backdrop {
+  inset: -1px auto;
+  left: calc((100% - 100vw) / 2);
+  width: 100vw;
+}
+.prism-home .story-sticky .story-orbit { opacity: .3; }
+.prism-home .story-sticky .story-bottom p { color: #b8c1df; }
+.prism-home #publication[data-background-scene] {
+  --scene-opacity: .66;
+  --scene-position: center 70%;
+  --scene-shade: linear-gradient(90deg, #070918a6, #07091870 60%, #07091833),
+    linear-gradient(0deg, #07091899, transparent 25%, transparent 70%, #0709184d);
+}
+.prism-home #contact[data-background-scene] {
+  --scene-opacity: .88;
+  --scene-position: center 72%;
+  --scene-shade: linear-gradient(0deg, #07091838, #07091880 70%, #070918b3);
+}
+@media (max-width: 700px) {
+  .scene-picture { inset-block: -38px; }
+  .prism-home #home[data-background-scene] { --scene-position: 58% center; --scene-opacity: .5; }
+  .prism-home .story-sticky[data-background-scene] { --scene-position: 73% center; --scene-opacity: .58; }
+  .prism-home #publication[data-background-scene] { --scene-position: 62% center; --scene-opacity: .44; }
+  .prism-home #contact[data-background-scene] { --scene-position: 66% center; --scene-opacity: .7; }
+}
+/* Static, complete artwork is the no-JS, pause, and reduced-motion fallback. */
+html:not(.js) .scene-picture,
+.paused .scene-picture,
+html[data-scene-motion="still"] .scene-picture {
+  transform: none;
+  will-change: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-picture { transform: none !important; will-change: auto !important; }
+}
+@media print {
+  .scene-backdrop { display: none !important; }
+}

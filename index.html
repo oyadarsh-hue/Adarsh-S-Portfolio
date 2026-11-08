@@ -81,6 +81,8 @@
     <script src="assets/js/spatial.js?v=1" defer></script>
     <script src="assets/js/skills-space.js?v=1" defer></script>
     <script src="assets/js/cinema.js?v=2" defer></script>
+    <link rel="stylesheet" href="assets/css/background-scenes.css?v=1" />
+    <script src="assets/js/background-scenes.js?v=1" defer></script>
   </head>
   <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -121,7 +123,13 @@
     <dialog id="abilityDialog" aria-labelledby="abilityTitle"><button id="abilityClose" aria-label="Close developer card" autofocus>×</button><div class="ability-foil"><div class="ability-card-top"><span>DEVELOPER CARD / 001</span><span aria-hidden="true">✦</span></div><img src="assets/images/adarsh-s.jpeg" alt="" width="100" height="100" /><h2 id="abilityTitle">Adarsh S</h2><p>Software · Computer vision · Research</p><div class="ability-tags"><span>Python / Django</span><span>React</span><span>OpenCV</span><span>MySQL</span><span>Git / CI/CD</span><span>Security tooling</span></div><div class="ability-stats"><span><b>05</b>Selected projects</span><span><b>03</b>Internships</span><span><b>01</b>Publication</span></div><a href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download my CV ↗</a></div></dialog>
     <div class="studio-curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span>ADARSH S<span>IDEAS INTO REALITY.</span></span></div>
     <main id="main">
-      <section id="home" class="studio-hero" aria-labelledby="heroTitle">
+      <section id="home" class="studio-hero" aria-labelledby="heroTitle" data-background-scene="titanium">
+        <div class="scene-backdrop" aria-hidden="true">
+          <picture class="scene-picture">
+            <source media="(max-width: 700px)" srcset="assets/images/backgrounds/titanium-gallery-960.webp" />
+            <img src="assets/images/backgrounds/titanium-gallery-1600.webp" srcset="assets/images/backgrounds/titanium-gallery-1600.webp 1600w, assets/images/backgrounds/titanium-gallery-2560.webp 2560w, assets/images/backgrounds/titanium-gallery-3840.webp 3840w" sizes="100vw" width="3840" height="2160" alt="" loading="eager" decoding="async" fetchpriority="low" />
+          </picture>
+        </div>
         <div class="studio-grid-lines" aria-hidden="true"></div>
         <div class="studio-topline"><span><i class="availability-dot"></i> ADARSH S / SOFTWARE ENGINEER</span><span>KOZHIKODE, INDIA <b id="localClock"></b></span></div>
         <div class="studio-grid">
@@ -231,7 +239,13 @@
         </div>
       </section>
       <section class="motion-story" aria-labelledby="storyTitle">
-        <div class="story-sticky">
+        <div class="story-sticky" data-background-scene="optical" data-background-track="parent">
+        <div class="scene-backdrop" aria-hidden="true">
+          <picture class="scene-picture">
+            <source media="(max-width: 700px)" srcset="assets/images/backgrounds/optical-glass-960.webp" />
+            <img src="assets/images/backgrounds/optical-glass-1600.webp" srcset="assets/images/backgrounds/optical-glass-1600.webp 1600w, assets/images/backgrounds/optical-glass-2560.webp 2560w, assets/images/backgrounds/optical-glass-3840.webp 3840w" sizes="100vw" width="3840" height="2160" alt="" loading="lazy" decoding="async" fetchpriority="low" />
+          </picture>
+        </div>
           <div class="story-meta"><span>HOW I THINK</span><span>SCROLL TO CONNECT THE DOTS <b aria-hidden="true">↓</b></span></div>
           <h2 id="storyTitle"><span class="sr-only">Good software starts with curiosity. And ends with something useful.</span><span class="story-words" aria-hidden="true"><span>Good</span> <span>software</span><br /><span>starts</span> <span>with</span> <span class="story-accent">curiosity.</span><br /><span>And</span> <span>ends</span> <span>with</span><br /><span>something</span> <span class="story-accent">useful.</span></span></h2>
           <div class="story-bottom"><span class="story-line" aria-hidden="true"><i></i></span><p>From the first question<br />to the last line of code.</p><span class="story-star" aria-hidden="true">✳</span></div>
@@ -633,7 +647,13 @@
           </article>
         </div>
       </section>
-      <section id="publication" class="section research-section">
+      <section id="publication" class="section research-section" data-background-scene="archive">
+        <div class="scene-backdrop" aria-hidden="true">
+          <picture class="scene-picture">
+            <source media="(max-width: 700px)" srcset="assets/images/backgrounds/manuscript-study-960.webp" />
+            <img src="assets/images/backgrounds/manuscript-study-1600.webp" srcset="assets/images/backgrounds/manuscript-study-1600.webp 1600w, assets/images/backgrounds/manuscript-study-2560.webp 2560w, assets/images/backgrounds/manuscript-study-3840.webp 3840w" sizes="100vw" width="3840" height="2160" alt="" loading="lazy" decoding="async" fetchpriority="low" />
+          </picture>
+        </div>
         <div class="section-heading">
           <p class="eyebrow">04 / RESEARCH & PUBLICATIONS</p>
           <h2>
@@ -925,7 +945,7 @@
               <p class="education-level">01 / POSTGRADUATE</p>
               <h3>Master of Computer Applications</h3>
               <p>Government Engineering College, Thrissur</p>
-              <span class="grade">7.5 / 10 CGPA</span>
+              <span class="grade">7.33 / 10 CGPA</span>
             </div>
           </article>
           <article class="timeline-item">
@@ -1001,7 +1021,13 @@
           ><span>Explore my GitHub <span aria-hidden="true">↗</span></span></a
         ><span class="code-mark" aria-hidden="true">&lt;/&gt;</span>
       </section>
-      <section id="contact" class="section contact-section">
+      <section id="contact" class="section contact-section" data-background-scene="horizon">
+        <div class="scene-backdrop" aria-hidden="true">
+          <picture class="scene-picture">
+            <source media="(max-width: 700px)" srcset="assets/images/backgrounds/coastal-horizon-960.webp" />
+            <img src="assets/images/backgrounds/coastal-horizon-1600.webp" srcset="assets/images/backgrounds/coastal-horizon-1600.webp 1600w, assets/images/backgrounds/coastal-horizon-2560.webp 2560w, assets/images/backgrounds/coastal-horizon-3840.webp 3840w" sizes="100vw" width="3840" height="2160" alt="" loading="lazy" decoding="async" fetchpriority="low" />
+          </picture>
+        </div>
         <p class="eyebrow">08 / START A CONVERSATION</p>
         <h2>
           Let’s build<br />something <em>useful.</em

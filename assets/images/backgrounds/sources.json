@@ -1,0 +1,99 @@
+{
+  "date": "2026-11-09",
+  "purpose": "Decorative AI-generated concept backgrounds. Not photographs of actual locations, equipment or historical documents.",
+  "resolutionNote": "The generator returned 1672\u00d7941. 3840\u00d72160 exports are upscaled, not native 4K detail.",
+  "scenes": [
+    {
+      "name": "titanium-gallery",
+      "subject": "Dark titanium architecture, cyan edge lights and lavender reflections",
+      "section": "Home",
+      "generator": "OpenAI built-in image generation",
+      "original": {
+        "width": 1672,
+        "height": 941,
+        "sha256": "2180ff7999c62371670b2ee5e50c237045b786978303321bb81027b4141e9064"
+      },
+      "export4k": {
+        "width": 3840,
+        "height": 2160,
+        "upscaled": true,
+        "method": "Lanczos resize with centered subpixel-aspect correction; no generative retouching"
+      },
+      "responsiveWidths": [
+        960,
+        1600,
+        2560,
+        3840
+      ]
+    },
+    {
+      "name": "optical-glass",
+      "subject": "Optical prism with fiber filaments in a realistic dark laboratory",
+      "section": "How I think",
+      "generator": "OpenAI built-in image generation",
+      "original": {
+        "width": 1672,
+        "height": 941,
+        "sha256": "72092d94fdacf9c6753466683475bf7f7856ed18cffaa0efdf09339edc513204"
+      },
+      "export4k": {
+        "width": 3840,
+        "height": 2160,
+        "upscaled": true,
+        "method": "Lanczos resize with centered subpixel-aspect correction; no generative retouching"
+      },
+      "responsiveWidths": [
+        960,
+        1600,
+        2560,
+        3840
+      ]
+    },
+    {
+      "name": "manuscript-study",
+      "subject": "Palm-leaf manuscripts and a magnifying lens on a conservation table",
+      "section": "Research",
+      "generator": "OpenAI built-in image generation",
+      "original": {
+        "width": 1672,
+        "height": 941,
+        "sha256": "d09aa026dc0dbcd67bddaab7fbeedd48c0dcc7c9801b6f51247a9d32385475a9"
+      },
+      "export4k": {
+        "width": 3840,
+        "height": 2160,
+        "upscaled": true,
+        "method": "Lanczos resize with centered subpixel-aspect correction; no generative retouching"
+      },
+      "responsiveWidths": [
+        960,
+        1600,
+        2560,
+        3840
+      ]
+    },
+    {
+      "name": "coastal-horizon",
+      "subject": "Arabian Sea inspired blue-hour coastal horizon",
+      "section": "Contact",
+      "generator": "OpenAI built-in image generation",
+      "original": {
+        "width": 1672,
+        "height": 941,
+        "sha256": "745b98a197f9f2725de364ff89b284bf189fdbf3f7220e7ac3f7786842b18122"
+      },
+      "export4k": {
+        "width": 3840,
+        "height": 2160,
+        "upscaled": true,
+        "method": "Lanczos resize with centered subpixel-aspect correction; no generative retouching"
+      },
+      "responsiveWidths": [
+        960,
+        1600,
+        2560,
+        3840
+      ]
+    }
+  ]
+}
