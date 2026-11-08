@@ -24,11 +24,14 @@
   height: 100%;
   object-fit: contain;
 }
-.prism-home .organization-identity .organization-link {
+.prism-home .organization-identity .organization-link,
+.prism-home .organization-identity .organization-name {
   color: #b7e9ff;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.5;
+}
+.prism-home .organization-identity .organization-link {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -52,5 +55,6 @@
 @media print {
   .organization-logo { break-inside: avoid; }
   .prism-home .organization-identity .organization-link,
+  .prism-home .organization-identity .organization-name,
   .organization-caption { color: #222; }
 }

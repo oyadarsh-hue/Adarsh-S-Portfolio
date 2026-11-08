@@ -14,6 +14,7 @@ server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=s
 Thread(target=server.serve_forever, daemon=True).start()
 base = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
 checks, errors = [], []
+expected_logos = len(json.loads((ROOT / 'assets/images/logos/sources.json').read_text())['logos'])
 def check(condition, label):
     assert condition, label
     checks.append(label)
@@ -25,7 +26,7 @@ try:
             page = context.new_page()
             page.on('pageerror', lambda e: errors.append(str(e)))
             page.goto(base, wait_until='networkidle')
-            check(page.locator('.organization-identity').count() == 5, f'Five verified logo blocks at {width}px')
+            check(page.locator('.organization-identity').count() == expected_logos, f'Verified logo blocks at {width}px')
             for image in page.locator('.organization-logo img').all():
                 image.scroll_into_view_if_needed()
                 image.evaluate('(img) => img.decode()')
@@ -42,7 +43,7 @@ try:
         context = browser.new_context(java_script_enabled=False, viewport={'width': 390, 'height': 844})
         page = context.new_page()
         page.goto(base, wait_until='networkidle')
-        check(page.locator('.organization-logo img').count() == 5, 'All logos remain in no-JavaScript HTML')
+        check(page.locator('.organization-logo img').count() == expected_logos, 'All logos remain in no-JavaScript HTML')
         check(page.locator('#experience .timeline-item').count() == 3, 'Three experience entries preserved')
         check(page.locator('#education .timeline-item').count() == 4, 'Four education entries preserved')
         context.close()

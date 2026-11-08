@@ -46,6 +46,14 @@
       "source_page": "https://casthamarassery.ihrd.ac.in/",
       "provenance": "Downloaded directly from college official IHRD subdomain. Homepage img alt identifies College of Applied Science, Thamassery Logo. Visually inspected: red elephants/computer Electronics manpower development emblem. This is IHRD parent emblem used by college, not a unique college crest.",
       "sha256": "a0edee69f3be08c00a54e3a3bc9b9585cc9541605d0acfaee31b384c8d3d8812"
+    },
+    {
+      "organization": "MGM Higher Secondary School, Engapuzha",
+      "file": "mgm-engapuzha-original.jpeg",
+      "source_type": "user_supplied",
+      "source_page": "https://mela.kite.kerala.gov.in/2025/index.php/result/Public_result/sub_results/474",
+      "provenance": "Original user-supplied MGM LP UP HS & HSS emblem, recovered unchanged from the earlier school design materials. Verified school identity: MGM Engapuzha, school code47090. No generated artwork or redrawing.",
+      "sha256": "a2a1bbc2d672e9d19a16f40c44f67c1d295b175fd43c37486b21d886128def3d"
     }
   ],
   "pending": [
@@ -54,12 +62,6 @@
       "status": "emblem_not_verified",
       "school_code": "47072",
       "source_page": "https://sametham.kite.kerala.gov.in/publicView/schoolsLists/HS/dist/11/1"
-    },
-    {
-      "organization": "MGM Higher Secondary School, Engapuzha",
-      "status": "emblem_not_verified",
-      "school_code": "47090",
-      "source_page": "https://mela.kite.kerala.gov.in/2025/index.php/result/Public_result/sub_results/474"
     }
   ]
 }

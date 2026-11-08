@@ -104,6 +104,8 @@ try:
         for index in [0, 1, 2, 1, 0]:
             page.locator(f'[data-rail-go="{index}"]').click()
             page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
+            # aria-current can already be true before the click's rAF render completes.
+            page.wait_for_function("index => { const r = document.querySelectorAll('.rail-case-link')[index].getBoundingClientRect(); return r.width > 0 && r.left >= 0 && r.right <= innerWidth; }", arg=index)
             box = showcase_links.nth(index).bounding_box()
             check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Rail project {index+1} is reachable while moving both directions')
         rail_panels = page.locator('.rail-panel')
@@ -114,6 +116,8 @@ try:
             page.mouse.wheel(0, delta)
             page.wait_for_function('target => Math.abs(scrollY - target) < 2', arg=rail_scroll_start + index * rail_scroll_step)
             page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
+            # aria-current can already be true before the click's rAF render completes.
+            page.wait_for_function("index => { const r = document.querySelectorAll('.rail-case-link')[index].getBoundingClientRect(); return r.width > 0 && r.left >= 0 && r.right <= innerWidth; }", arg=index)
             box = showcase_links.nth(index).bounding_box()
             check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Native wheel scrolling reveals rail project {index+1}')
         rail_height = rail.bounding_box()['height']

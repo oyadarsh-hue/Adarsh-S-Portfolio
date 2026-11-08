@@ -151,7 +151,7 @@ page, engineering lab, opportunity workbench, project filters, motion controls,
 responsive layout and rendered video. New additions are authentic source-supplied
 marks for Bluegen Solutions, The Skybrisk, CODTECH IT Solutions, GEC Thrissur and
 the IHRD emblem used by CAS Thamarassery. Bluegen's official website is linked.
-The exact GHSS Thamarassery and MGM HSS Engapuzha emblems remain pending verification.
+The original MGM HSS Engapuzha emblem was recovered from user-supplied school materials and added unchanged. Only the exact GVHSS Thamarassery emblem remains pending verification.
 
 Original image URLs and byte checksums are in `assets/images/logos/sources.json`.
 Run `node scripts/check-logos.mjs` for asset provenance checks and

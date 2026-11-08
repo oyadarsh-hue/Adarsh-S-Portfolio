@@ -131,3 +131,16 @@ it is labeled accordingly. GEC's isolated crest was verified against its officia
 placement website. School identities were verified as GHSS/GVHSS Thamarassery
 (47072) and MGM Engapuzha (47090), but the exact school emblems could not be verified.
 They have not been replaced with generic government or namesake school logos.
+
+
+### Original MGM school emblem follow-up
+
+Recovered the user-supplied MGM LP UP HS & HSS crest from earlier school materials
+and added it unchanged, with full proportions preserved. The only pending emblem
+is GVHSS Thamarassery. Both the validation branch and main restoration run passed
+212 portfolio checks, 120 tool checks and 76 logo checks with no script errors.
+The first main attempt exposed an existing race in the rail assertion: an already
+current navigation marker can be read before the next animation-frame render.
+The test now waits for the actual link rectangle to enter the viewport before
+asserting, without changing the restored application's behavior. The subsequent
+workflow run validates the added MGM image and all existing interactions.
