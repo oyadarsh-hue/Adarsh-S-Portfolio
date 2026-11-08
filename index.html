@@ -67,7 +67,7 @@
     <script src="assets/js/prism-motion.js?v=4" defer></script>
     <link rel="stylesheet" href="assets/css/studio.css?v=5" />
     <script src="assets/js/studio.js?v=4" defer></script>
-    <script src="assets/js/hero-sculpture.js?v=4" defer></script>
+    <script src="assets/js/hero-sculpture.js?v=5" defer></script>
     <link rel="stylesheet" href="assets/css/doors.css?v=2" />
     <script src="assets/js/doors.js?v=2" defer></script>
     <link rel="stylesheet" href="assets/css/journey-motion.css?v=3" />
@@ -76,12 +76,12 @@
     <link rel="stylesheet" href="assets/css/spatial-content.css?v=1" />
     <link rel="stylesheet" href="assets/css/skills-space.css?v=1" />
     <link rel="stylesheet" href="assets/css/cinema.css?v=3" />
-    <link rel="stylesheet" href="assets/css/argon-hyper.css?v=1" />
+    <link rel="stylesheet" href="assets/css/argon-hyper.css?v=2" />
     <script src="assets/js/expressive.js?v=1" defer></script>
     <script src="assets/js/spatial.js?v=1" defer></script>
     <script src="assets/js/skills-space.js?v=1" defer></script>
     <script src="assets/js/cinema.js?v=2" defer></script>
-    <script src="assets/js/argon-hyper.js?v=1" defer></script>
+    <script src="assets/js/argon-hyper.js?v=2" defer></script>
   </head>
   <body class="prism-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -133,13 +133,16 @@
             <p class="hero-build-line">Human ideas. Real</p><div class="kinetic-line" aria-label="Software, solutions and possibility"><span id="kineticWord" aria-hidden="true">software.</span></div>
             <p class="studio-description">Full-stack engineering, computer vision and research. I turn complex questions into software with a human purpose.</p>
             <div class="studio-actions"><a class="studio-primary" href="#doors">Explore my work <span aria-hidden="true">↗</span></a><a class="studio-secondary" href="#skills">View skills <span aria-hidden="true">↗</span></a></div>
-            <div class="hero-minor-links"><a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Project film</a><a class="hero-cv" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a></div>
+            <div class="hero-minor-links"><a class="reel-jump" href="#showreel"><span aria-hidden="true">▶</span> Project film</a><a class="hero-cv" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf">Download CV ↓</a><button type="button" class="argon-replay-btn" id="argonReplayIntroBtn" data-open-motion-portal="true"><span aria-hidden="true">▶</span> Opening motion 3D</button></div>
           </div></div>
           <div class="studio-person">
+            <div class="argon-color-frame-outer" aria-hidden="true"></div>
             <div class="spatial-frame frame-back" aria-hidden="true"></div><div class="spatial-frame frame-middle" aria-hidden="true"></div><div class="scene-horizon" aria-hidden="true"></div>
             <canvas id="heroSculpture" aria-hidden="true"></canvas>
             <span class="sculpture-coordinate coordinate-top" aria-hidden="true">PORTRAIT / 01</span>
             <figure class="studio-photo"><div class="portrait-chrome"><span>ADARSH.S</span><span aria-hidden="true">● ● ●</span></div><div class="portrait-image"><img src="assets/images/adarsh-s.jpeg" width="400" height="400" alt="Adarsh S" fetchpriority="high" /></div><figcaption><div><strong>Adarsh S<span>.</span></strong><span>MCA ’26 · SOFTWARE & AI</span></div><span class="portrait-monogram" aria-hidden="true">as/</span></figcaption></figure>
+            <div class="argon-satellite-frame argon-satellite-top" aria-hidden="true"><img src="assets/images/frame-ai-vision.webp" alt="" width="148" height="86" loading="lazy" /><span>AI VISION · 3D FRAME</span></div>
+            <div class="argon-satellite-frame argon-satellite-bottom" aria-hidden="true"><img src="assets/images/adarsh-holo-frame.webp" alt="" width="148" height="86" loading="lazy" /><span>HOLO PORTRAIT · 01</span></div>
             <div class="skill-float float-code" aria-hidden="true"><span>⌘</span><div>ENGINEERING WITH INTENT<small>PYTHON · REACT · OPENCV</small></div></div>
             <button id="abilityOpen" class="ability-open" aria-haspopup="dialog"><span class="card-spark" aria-hidden="true">✳</span> Developer card <span aria-hidden="true">↗</span></button>
             <span class="sculpture-coordinate coordinate-bottom" aria-hidden="true">SCROLL TO CHANGE PERSPECTIVE</span>
@@ -222,6 +225,11 @@
             <a class="text-link" href="assets/docs/Adarsh_S_CV.pdf" download="Adarsh S CV.pdf"
               >Get the full picture — download CV <span>↓</span></a
             >
+          </div>
+          <div class="argon-frame-gallery" aria-hidden="true">
+            <div class="argon-frame-card"><div class="argon-frame-card-inner"><div class="argon-frame-media"><img src="assets/images/adarsh-holo-frame.webp" alt="" width="960" height="640" loading="lazy" /><span class="argon-frame-badge">FRAME 01 // HOLO STUDIO</span></div><div class="argon-frame-meta"><strong>Adarsh S · Holographic Frame</strong><span>PRISMATIC 3D PORTRAIT & CYBER TELEMETRY</span></div></div></div>
+            <div class="argon-frame-card"><div class="argon-frame-card-inner"><div class="argon-frame-media"><img src="assets/images/frame-ai-vision.webp" alt="" width="960" height="600" loading="lazy" /><span class="argon-frame-badge">FRAME 02 // NEURAL VISION</span></div><div class="argon-frame-meta"><strong>Computer Vision & AI Core</strong><span>OPENCV · DLIB · SAUVOLA OCR PIPELINES</span></div></div></div>
+            <div class="argon-frame-card"><div class="argon-frame-card-inner"><div class="argon-frame-media"><img src="assets/images/frame-fullstack-cloud.webp" alt="" width="960" height="600" loading="lazy" /><span class="argon-frame-badge">FRAME 03 // CLOUD & SECURITY</span></div><div class="argon-frame-meta"><strong>Full-Stack & Zero-Trust Matrix</strong><span>DJANGO · NEXT.JS · POSTGRESQL · SHA-256</span></div></div></div>
           </div>
           <div class="profile-facts">
             <div><strong>2026</strong><span>MCA · GEC Thrissur</span></div>
