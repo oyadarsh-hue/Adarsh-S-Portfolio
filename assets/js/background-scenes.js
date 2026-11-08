@@ -21,7 +21,7 @@
       const track = scene.dataset.backgroundTrack === 'parent' ? scene.parentElement : scene;
       const box = track.getBoundingClientRect();
       const progress = clamp((height - box.top * 2 - box.height) / (height + box.height));
-      return [scene, (progress * (compact.matches ? 20 : 42)).toFixed(2)];
+      return [scene, (progress * (compact.matches ? 90 : 120)).toFixed(2)];
     });
     positions.forEach(([scene, offset]) => scene.style.setProperty('--scene-y', `${offset}px`));
   }

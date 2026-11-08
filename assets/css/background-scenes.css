@@ -1,5 +1,5 @@
-/* AI-generated photographic environments, behind the existing content plane.
-   Responsive encodes are selected natively; motion never changes layout. */
+/* Full-contrast photographic environments. Shade the copy, not the whole image.
+   The mobile art windows keep landscape subjects out of extreme portrait crops. */
 .prism-home [data-background-scene] { isolation: isolate; }
 .prism-home [data-background-scene]:not(.story-sticky) { position: relative; }
 .scene-backdrop {
@@ -14,7 +14,7 @@
 .scene-picture {
   display: block;
   position: absolute;
-  inset: -64px 0;
+  inset: -140px 0;
   transform: translate3d(0, var(--scene-y, 0px), 0) scale(1.035);
   transform-origin: center;
 }
@@ -24,54 +24,76 @@
   height: 100%;
   object-fit: cover;
   object-position: var(--scene-position, center);
-  opacity: var(--scene-opacity, .72);
+  opacity: 1;
 }
 .scene-backdrop::after {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--scene-shade,
-    linear-gradient(90deg, #070918b8, #0709184d 55%, #07091819),
-    linear-gradient(0deg, #070918d9, transparent 24%, transparent 76%, #07091855));
+    linear-gradient(90deg, #070918a6, #07091833 50%, transparent 75%),
+    linear-gradient(0deg, #070918, transparent 20%, transparent 90%, #07091833));
 }
 [data-background-scene][data-scene-active="true"] > .scene-backdrop .scene-picture {
   will-change: transform;
 }
-.prism-home #home[data-background-scene] {
-  --scene-opacity: .68;
-  --scene-position: 60% center;
-}
+.prism-home #home[data-background-scene] { --scene-position: 72% center; }
+.prism-home #home .studio-description,
+.prism-home #home .hero-subtitle { color: #d1d6eb; text-shadow: 0 2px 12px #070918; }
+.prism-home #home .hero-title-block { text-shadow: 0 3px 24px #07091880; }
 .prism-home .story-sticky[data-background-scene] {
-  --scene-opacity: .77;
-  --scene-position: 65% center;
-  --scene-shade: linear-gradient(90deg, #070918b8, #07091885 55%, #07091826),
-    linear-gradient(0deg, #070918b8, transparent 30%, transparent 80%, #07091866);
+  --scene-position: 75% center;
+  --scene-shade: linear-gradient(90deg, #0709188c, #07091826 55%, transparent),
+    linear-gradient(0deg, #070918, transparent 20%, transparent 85%, #07091866);
 }
-/* The environment follows the existing sticky panel, not the tall scroll track. */
+/* Keep the image full bleed while the existing content panel stays sticky. */
 .prism-home .story-sticky > .scene-backdrop {
   inset: -1px auto;
   left: calc((100% - 100vw) / 2);
   width: 100vw;
 }
-.prism-home .story-sticky .story-orbit { opacity: .3; }
-.prism-home .story-sticky .story-bottom p { color: #b8c1df; }
+.prism-home .story-sticky .story-orbit { opacity: .15; }
+.prism-home .story-sticky .story-meta,
+.prism-home .story-sticky .story-bottom p { color: #dce2f5; text-shadow: 0 2px 8px #070918; }
+.prism-home .story-sticky .story-words { filter: drop-shadow(0 2px 9px #070918); }
+/* An unobstructed art window above the research card: the card no longer hides
+   the manuscript, and its opaque reading surface remains unchanged. */
 .prism-home #publication[data-background-scene] {
-  --scene-opacity: .66;
-  --scene-position: center 70%;
-  --scene-shade: linear-gradient(90deg, #070918a6, #07091870 60%, #07091833),
-    linear-gradient(0deg, #07091899, transparent 25%, transparent 70%, #0709184d);
+  --scene-position: center 78%;
+  --scene-shade: linear-gradient(0deg, #070918, transparent 22%, transparent 63%, #070918b3);
 }
+.prism-home #publication > .scene-backdrop { bottom: auto; height: clamp(650px, 57vw, 920px); }
+.prism-home #publication > .section-heading { margin-bottom: clamp(260px, 27vw, 430px); }
+.prism-home #publication > .section-heading h2 { text-shadow: 0 2px 15px #070918; }
 .prism-home #contact[data-background-scene] {
-  --scene-opacity: .88;
-  --scene-position: center 72%;
-  --scene-shade: linear-gradient(0deg, #07091838, #07091880 70%, #070918b3);
+  --scene-position: center 78%;
+  --scene-shade: linear-gradient(0deg, #07091833, #07091826 35%, #07091880 90%);
+  padding-bottom: clamp(180px, 20vw, 310px);
 }
+.prism-home #contact .contact-bottom p { color: #e0e6f7; text-shadow: 0 2px 8px #070918; }
+.prism-home #contact .contact-links a { background: #070918ad; color: #eef2ff; }
+.prism-home #contact h2,
+.prism-home #contact .contact-bottom>a { text-shadow: 0 3px 18px #070918; }
 @media (max-width: 700px) {
-  .scene-picture { inset-block: -38px; }
-  .prism-home #home[data-background-scene] { --scene-position: 58% center; --scene-opacity: .5; }
-  .prism-home .story-sticky[data-background-scene] { --scene-position: 73% center; --scene-opacity: .58; }
-  .prism-home #publication[data-background-scene] { --scene-position: 62% center; --scene-opacity: .44; }
-  .prism-home #contact[data-background-scene] { --scene-position: 66% center; --scene-opacity: .7; }
+  .scene-picture { inset-block: -110px; }
+  .prism-home #home[data-background-scene] {
+    --scene-position: 86% center;
+    --scene-shade: linear-gradient(90deg, #07091866, transparent 85%),
+      linear-gradient(0deg, #070918, transparent 24%, transparent 90%, #07091833);
+  }
+  .prism-home #home > .scene-backdrop { bottom: auto; height: 800px; max-height: 95svh; }
+  .prism-home .story-sticky[data-background-scene] {
+    --scene-position: 88% center;
+    --scene-shade: linear-gradient(0deg, #07091866, transparent 28%, #07091866 80%);
+  }
+  .prism-home #publication[data-background-scene] { --scene-position: 60% 88%; }
+  .prism-home #publication > .scene-backdrop { height: 540px; }
+  .prism-home #publication > .section-heading { margin-bottom: 245px; }
+  .prism-home #contact[data-background-scene] {
+    --scene-position: 72% bottom;
+    --scene-shade: linear-gradient(0deg, transparent, #07091833 45%, #07091880 90%);
+    padding-bottom: 210px;
+  }
 }
 /* Static, complete artwork is the no-JS, pause, and reduced-motion fallback. */
 html:not(.js) .scene-picture,
@@ -85,4 +107,6 @@ html[data-scene-motion="still"] .scene-picture {
 }
 @media print {
   .scene-backdrop { display: none !important; }
+  .prism-home #publication > .section-heading { margin-bottom: 30px; }
+  .prism-home #contact[data-background-scene] { padding-bottom: 20px; }
 }

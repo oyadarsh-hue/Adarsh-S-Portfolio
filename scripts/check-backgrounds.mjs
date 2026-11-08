@@ -78,5 +78,5 @@ observer([{target:scenes[0],isIntersecting:false},{target:scenes[1],isIntersecti
 scrollY=3950;listeners.scroll();flush();const sticky=scenes[1].values['--scene-y'];
 scrollY=4200;listeners.scroll();flush();assert.notEqual(scenes[1].values['--scene-y'],sticky);
 assert.equal(scenes[0].dataset.sceneActive,'false');
-compact.matches=true;scrollY=99999;listeners.scroll();flush();assert.equal(scenes[1].values['--scene-y'],'20.00px');
+compact.matches=true;scrollY=99999;listeners.scroll();flush();assert.equal(scenes[1].values['--scene-y'],'90.00px');
 console.log('PASS: controller batches frames, tracks only visible scenes, reverses deterministically, handles sticky tracks and honors pause/reduced-motion/save-data/hidden-tab preferences.');
