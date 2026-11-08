@@ -1,0 +1,94 @@
+{
+  "verified_on": "2026-11-08",
+  "generated_images": false,
+  "logos": [
+    {
+      "organization": "AWS",
+      "file": "aws.png",
+      "source_page": "https://aws.amazon.com/",
+      "image_url": "https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png",
+      "sha256": "bf572d19f9062f2d23e5eed63309003e877d2de200c61589372a0903536a4a56",
+      "provenance": "Official AWS organization logo, not a certification badge; original navy background. Trademark belongs to provider. Identification of course issuer only; no endorsement implied. No general redistribution license verified."
+    },
+    {
+      "organization": "Deloitte",
+      "file": "deloitte-dark.png",
+      "source_page": "https://www.deloitte.com/global/en.html",
+      "image_url": "https://www.deloitte.com/content/dam/assets-shared/logos/png/a-d/deloitte-print.png",
+      "sha256": "87acee762b87bd891bd370e62993ad2b41e0dd6aa3d34f538fcdcf6a4afde5f5",
+      "provenance": "Official black print wordmark; use on light background. Trademark belongs to provider. Identification of course issuer only; no endorsement implied. No general redistribution license verified."
+    },
+    {
+      "organization": "Simplilearn",
+      "file": "simplilearn.svg",
+      "source_page": "https://www.simplilearn.com/",
+      "image_url": "https://www.simplilearn.com/ice9/new_logo.svgz",
+      "sha256": "c33750db390b9e57b0131f365ea303a3cdca4753549b488a4b9840f3ae25ee8e",
+      "provenance": "Server serves uncompressed SVG under .svgz URL. Bytes unchanged, local extension .svg. Trademark belongs to provider. Identification of course issuer only; no endorsement implied. No general redistribution license verified."
+    },
+    {
+      "organization": "Skill India Digital Hub",
+      "file": "skill-india-digital.svg",
+      "source_page": "https://www.skillindiadigital.gov.in/",
+      "image_url": "https://www.skillindiadigital.gov.in/assets/new-ux-img/skill-india-big-logo.svg",
+      "sha256": "c36c02d7c406e49306a6c93586bc66d09912ef858fb7175c13384c7e03515336",
+      "provenance": "Actual Skill India logo used in Skill India Digital Hub production site main-AEMVOIXB.js. Trademark belongs to provider. Identification of course issuer only; no endorsement implied. No general redistribution license verified."
+    },
+    {
+      "organization": "Cisco Networking Academy",
+      "file": "cisco-netacad.svg",
+      "source_page": "https://www.netacad.com/",
+      "image_url": "https://www.netacad.com/sfa-assets/images/svg/cisco_netacad_logo.svg",
+      "sha256": "2ef8655d99f46c4825914af3936d28b5b972cb6e442d1f5b6bbb59c020c940d3",
+      "provenance": "Official color Cisco Networking Academy lockup; light background. Trademark belongs to provider. Identification of course issuer only; no endorsement implied. No general redistribution license verified."
+    },
+    {
+      "organization": "NPTEL",
+      "file": "nptel.jpg",
+      "source_page": "https://nptel.ac.in/",
+      "image_url": "https://nptel.ac.in/_app/immutable/assets/logo-m.CNHeS_sM.jpg",
+      "sha256": "91d8de7cdb752063051c92fac224c27baa5b0a448dbcc529fc53ef0d827e8240",
+      "provenance": "Official homepage logo. No IIT campus inferred. Original is 148x34 pixels; render at native aspect ratio."
+    },
+    {
+      "organization": "HackerRank",
+      "file": "hackerrank.svg",
+      "source_page": "https://www.hackerrank.com/",
+      "image_url": "https://www.hackerrank.com/_sherpa/assets/static/hr-v1/hr-logo.svg",
+      "sha256": "5dd663eae6fb58d96158c3eeab1e7d903351bb08724e1b0c4719e011d02bcde4",
+      "provenance": "Official homepage wordmark. Original unmodified SVG."
+    },
+    {
+      "organization": "ScholarHat",
+      "file": "scholarhat.png",
+      "source_page": "https://www.scholarhat.com/",
+      "image_url": "https://www.scholarhat.com/dist/user/assets/logo-CEy3TSwt.png",
+      "sha256": "48eb683af4931f8cb4a49f9ddd34e8faafa1a6f89153f133947f29a9e7cac8f6",
+      "provenance": "Official homepage teal and blue graduation-cap emblem. Applicable to both ScholarHat certificates."
+    },
+    {
+      "organization": "IBM",
+      "file": "ibm.svg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:IBM_logo.svg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+      "sha256": "e8cf75280cbf46bf015f59859182ecec0c83c1b3d3d03323e151c6e91d4c339c",
+      "provenance": "Existing Wikimedia Commons blue eight-bar IBM logo; appearance cross-checked against official IBM logo guidelines at https://www.ibm.com/design/language/ibm-logos/8-bar . Official site direct retrieval returned Site Unavailable. Not generated or redrawn."
+    },
+    {
+      "organization": "TCS iON",
+      "file": "tcs-ion.jpg",
+      "source_page": "https://www.met.edu/institute/institute_of_software_development_and_research/About_TCS_iON",
+      "image_url": "https://www.met.edu/uploadfile/images/TCS-LOGO.jpg",
+      "sha256": "52bf0962f7889551e704acec4e9f7b719b925c4cf0f75b6de865fecc07a5ff9d",
+      "provenance": "Original image unchanged, includes blue rectangular background. TCS trademark; issuer identification only, no endorsement implied; redistribution license not verified."
+    }
+  ],
+  "pending": [
+    {
+      "organization": "Fireflies",
+      "status": "issuer_identity_unverified",
+      "course": "Full Stack Development with React and Drupal",
+      "date": "January 2022"
+    }
+  ]
+}

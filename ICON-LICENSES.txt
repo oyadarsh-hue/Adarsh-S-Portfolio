@@ -59,3 +59,11 @@ GEC Thrissur's isolated crest comes from the documented Wikimedia file and was
 visually checked against the college's official placement-site logo. The MGM Engapuzha emblem is the unchanged original user-supplied school emblem.
 The exact GVHSS Thamarassery emblem is still unverified; no substitute or
 generated school crest has been used.
+
+Certificate issuer marks
+------------------------
+Original source-supplied organization logos are self-hosted for identification of
+listed course providers. Sources, provenance and exact original-byte hashes are
+recorded in assets/images/certificates/sources.json. Logos remain the property of
+their respective organizations; no affiliation or endorsement is implied. These
+are organization identifiers, not recreated or generated certification badges.

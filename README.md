@@ -156,3 +156,11 @@ The original MGM HSS Engapuzha emblem was recovered from user-supplied school ma
 Original image URLs and byte checksums are in `assets/images/logos/sources.json`.
 Run `node scripts/check-logos.mjs` for asset provenance checks and
 `python scripts/browser-logos.py` for responsive logo checks and screenshots.
+
+### Course logos and school visibility
+
+The MGM emblem has a larger, mobile-friendly presentation and no hyperlink.
+Every course from the restored site is preserved; additional credentials are
+expanded initially. Verified issuer logos appear beside each applicable course,
+including repeat providers. Original assets, sources and outstanding identity or
+retrieval gaps are documented in `assets/images/certificates/sources.json`.
