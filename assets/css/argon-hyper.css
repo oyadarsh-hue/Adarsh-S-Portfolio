@@ -238,14 +238,24 @@ h3,
 }
 
 /* --------------------------------------------------------------------------
-   3. ENHANCED 3D HOLOGRAPHIC NUMBERS (FRAME 01, 02, 03...) EVERYWHERE
+   3. ZERO NUMBERING POLICY + COMPANY & INSTITUTION 4K SHOWCASE FRAMES
    -------------------------------------------------------------------------- */
 .prism-home #projects .project-number,
+.prism-home .rail-number,
+.prism-home .rail-counter,
+.prism-home .skill-index,
+.prism-home .space-tab-index,
+.prism-home .career-chapter,
+.case-art-index,
+.argon-frame-num-pill,
+.recruiter-page .proof-item::before {
+  display: none !important;
+  content: none !important;
+}
+
 .prism-home #about .profile-facts > div strong,
 .recruiter-page .summary-facts dd,
-.career-chapter strong,
-.tool-page .race-stats dd,
-.case-art-index {
+.tool-page .race-stats dd {
   font-family: var(--font-display) !important;
   font-weight: 800 !important;
   background: linear-gradient(125deg, #ffffff 0%, #38efff 35%, #f472b6 70%, #fbbf24 100%) !important;
@@ -258,61 +268,97 @@ h3,
   animation: argonTextFlow 4s linear infinite;
 }
 
-.case-art-index {
-  background: linear-gradient(135deg, #060a1e, #16103a) !important;
-  -webkit-background-clip: border-box !important;
-  background-clip: border-box !important;
-  color: #38efff !important;
-  -webkit-text-fill-color: #38efff !important;
-  border: 2px solid #38efff !important;
-  border-radius: 12px !important;
-  box-shadow: 0 0 30px rgba(56, 239, 255, 0.65), inset 0 0 15px rgba(244, 63, 94, 0.45) !important;
+/* Internship Company & Education Institution 4K Showcase Cards */
+.argon-org-showcase,
+.argon-edu-showcase {
+  margin-bottom: 18px;
+  border-radius: 14px;
+  padding: 3px;
+  background: linear-gradient(125deg, #38efff, #a855f7, #f43f5e, #fbbf24, #34d399);
+  background-size: 280% 280%;
+  animation: argonTextFlow 4.5s linear infinite;
+  box-shadow:
+    0 0 32px rgba(56, 239, 255, 0.38),
+    0 18px 42px rgba(0, 0, 0, 0.72);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
 }
 
-.prism-home .rail-number {
-  font-family: var(--font-display) !important;
-  font-weight: 800 !important;
-  color: transparent !important;
-  -webkit-text-stroke: 2px rgba(56, 239, 255, 0.55) !important;
-  filter: drop-shadow(0 0 24px rgba(56, 239, 255, 0.4));
+.argon-org-showcase:hover,
+.argon-edu-showcase:hover {
+  transform: perspective(900px) translateY(-5px) rotateX(3deg) scale(1.015);
+  box-shadow:
+    0 0 48px rgba(56, 239, 255, 0.75),
+    0 0 85px rgba(244, 63, 94, 0.45),
+    0 24px 55px rgba(0, 0, 0, 0.85);
 }
 
-.recruiter-page .proof-item::before,
-.recruiter-page .summary-experience li::before,
-.case-spatial .case-architecture li::before,
-.case-spatial .evidence-grid > div::before,
-.space-tab-index,
-.career-marker > b {
-  font-family: var(--font-display) !important;
-  font-weight: 800 !important;
-  color: #38efff !important;
-  text-shadow: 0 0 16px rgba(56, 239, 255, 0.8), 0 0 32px rgba(244, 63, 94, 0.55) !important;
+.argon-org-logo-img,
+.argon-edu-logo-img {
+  display: block;
+  width: 100%;
+  height: clamp(165px, 21vw, 235px);
+  object-fit: cover;
+  border-radius: 11px 11px 0 0;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s;
 }
 
-/* Injected 3D Frame Number Badge (.argon-frame-num-pill) on Cards & Panels */
-.argon-frame-num-pill {
+.argon-org-showcase:hover .argon-org-logo-img,
+.argon-edu-showcase:hover .argon-edu-logo-img {
+  transform: scale(1.05);
+  filter: saturate(1.18) contrast(1.08);
+}
+
+.argon-org-bar,
+.argon-edu-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(5, 9, 24, 0.94);
+  border-radius: 0 0 11px 11px;
+  border-top: 1px solid rgba(56, 239, 255, 0.38);
+}
+
+.argon-org-badge,
+.argon-edu-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #38efff;
+  text-transform: uppercase;
+}
+
+.argon-edu-motto {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #fbbf24;
+  letter-spacing: 0.06em;
+}
+
+.argon-company-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  margin-bottom: 10px;
+  gap: 6px;
+  padding: 6px 14px;
   border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #ffffff;
-  background: linear-gradient(90deg, rgba(56, 239, 255, 0.25), rgba(168, 85, 247, 0.3), rgba(244, 63, 94, 0.25));
-  border: 1px solid #38efff;
-  box-shadow: 0 0 20px rgba(56, 239, 255, 0.4), inset 0 0 10px rgba(244, 114, 182, 0.35);
-  width: fit-content;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: #040716 !important;
+  background: linear-gradient(120deg, #38efff, #a855f7, #fbbf24);
+  box-shadow: 0 0 20px rgba(56, 239, 255, 0.65);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.argon-frame-num-pill b {
-  font-family: var(--font-display);
-  font-size: 13px;
-  color: #fbbf24;
-  text-shadow: 0 0 12px rgba(251, 191, 36, 0.85);
+.argon-company-link:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 0 30px rgba(56, 239, 255, 0.95), 0 0 45px rgba(251, 191, 36, 0.65);
 }
 
 /* Glowing Cyber-Pill Eyebrows & Kickers */
@@ -1342,12 +1388,8 @@ footer,
 }
 
 .recruiter-page .proof-item {
-  padding: 36px 32px 36px 64px !important;
+  padding: 32px !important;
   margin-bottom: 18px !important;
-}
-
-.recruiter-page .proof-item::before {
-  left: 22px !important;
 }
 
 /* 3D Perspective Tilt on Interactive Cards (keeps #project-assenttag h3 bounding box locked) */

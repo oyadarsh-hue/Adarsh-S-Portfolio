@@ -56,9 +56,9 @@
     <script src="../assets/js/main.js?v=11" defer></script>
     <link rel="stylesheet" href="../assets/css/case-spatial.css?v=2" />
     <link rel="stylesheet" href="../assets/css/secondary-motion.css?v=1" />
-    <link rel="stylesheet" href="../assets/css/argon-hyper.css?v=3" />
+    <link rel="stylesheet" href="../assets/css/argon-hyper.css?v=4" />
     <script src="../assets/js/secondary-motion.js?v=1" defer></script>
-    <script src="../assets/js/argon-hyper.js?v=3" defer></script>
+    <script src="../assets/js/argon-hyper.js?v=4" defer></script>
   </head>
   <body class="case-spatial" style="--case-color:#a7b8ff">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -119,7 +119,7 @@
             >Open live demo <span aria-hidden="true">↗</span></a
           >
         </div>
-        </div><div class="case-art-stage"><figure class="case-art"><div class="case-art-chrome"><span>FULL STACK / SECURE SHARING</span><span aria-hidden="true">● ● ●</span></div><div class="case-art-window"><img src="../assets/images/project-notes.webp" alt="Concept artwork of a secure note and hourglass" width="1280" height="800" fetchpriority="high" /></div><figcaption>AI-GENERATED CONCEPT ART · NOT AN APP SCREENSHOT</figcaption><span class="case-art-index" aria-hidden="true">05 /</span></figure><span class="case-stage-caption" aria-hidden="true">AN IDEA. AN IMPLEMENTATION. A STORY.</span></div></div>
+        </div><div class="case-art-stage"><figure class="case-art"><div class="case-art-chrome"><span>FULL STACK / SECURE SHARING</span><span aria-hidden="true">● ● ●</span></div><div class="case-art-window"><img src="../assets/images/project-notes.webp" alt="Concept artwork of a secure note and hourglass" width="1280" height="800" fetchpriority="high" /></div><figcaption>AI-GENERATED CONCEPT ART · NOT AN APP SCREENSHOT</figcaption><span class="case-art-index" aria-hidden="true"></span></figure><span class="case-stage-caption" aria-hidden="true">AN IDEA. AN IMPLEMENTATION. A STORY.</span></div></div>
       </div>
       <div class="project-visual notes" aria-hidden="true">
         <div class="visual-top">
@@ -135,7 +135,7 @@
       </div>
       <div class="case-grid">
         <section>
-          <p class="eyebrow">01 / CONTEXT</p>
+          <p class="eyebrow">CONTEXT</p>
           <h2>The problem</h2>
           <p>
             A one-time link can be opened twice if concurrent requests check its
@@ -143,7 +143,7 @@
           </p>
         </section>
         <section>
-          <p class="eyebrow">02 / RESPONSE</p>
+          <p class="eyebrow">RESPONSE</p>
           <h2>The approach</h2>
           <p>
             Authorize access with a conditional PostgreSQL update so only one
@@ -152,7 +152,7 @@
         </section>
       </div>
       <section class="case-architecture">
-        <p class="eyebrow">03 / UNDER THE HOOD</p>
+        <p class="eyebrow">UNDER THE HOOD</p>
         <h2>How it fits together.</h2>
         <ol>
           <li>
@@ -171,7 +171,7 @@
       </section>
       <div class="case-grid">
         <section>
-          <p class="eyebrow">04 / CAPABILITIES</p>
+          <p class="eyebrow">CAPABILITIES</p>
           <h2>What it does</h2>
           <ul>
             <li>Expiring and one-time share links</li>
@@ -181,7 +181,7 @@
           </ul>
         </section>
         <section>
-          <p class="eyebrow">05 / ENGINEERING CHALLENGE</p>
+          <p class="eyebrow">ENGINEERING CHALLENGE</p>
           <h2>The important detail</h2>
           <p>
             Making access rules hold under concurrent requests and avoiding
@@ -190,7 +190,7 @@
         </section>
       </div>
       <section class="case-outcome">
-        <p class="eyebrow">06 / OUTCOME</p>
+        <p class="eyebrow">OUTCOME</p>
         <h2>What came out of it.</h2>
         <p>
           A deployed proof of concept with documented database and browser
@@ -201,7 +201,7 @@
         </p>
       </section>
       <section class="case-evidence" aria-labelledby="evidenceHeading">
-        <p class="eyebrow">07 / IMPLEMENTATION EVIDENCE</p>
+        <p class="eyebrow">IMPLEMENTATION EVIDENCE</p>
         <h2 id="evidenceHeading">Go from the story to the code.</h2>
         <div class="evidence-grid">
           <div><h3>One-time access under concurrency</h3><p>Claim a share with one conditional PostgreSQL UPDATE inside a transaction. Reading metadata does not consume the note.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/src/server/shares.ts" target="_blank" rel="noopener noreferrer">Inspect atomic access code ↗</a><a href="https://github.com/oyadarsh-hue/secure-note-sharing-app/blob/b4437bcac4451c28042916e12bc23d56943317f2/tests/concurrency.test.ts" target="_blank" rel="noopener noreferrer">Inspect concurrency tests ↗</a></div></div>
