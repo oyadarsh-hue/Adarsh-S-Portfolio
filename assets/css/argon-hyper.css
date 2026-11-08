@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GEMINI 4 ARGON — PEAK-LEVEL 3D MOTION VIDEO, COLOR FRAMES & TYPOGRAPHY
+   GEMINI 4 ARGON — PEAK-LEVEL 3D MOTION VIDEO, COLOR FRAMES, LOGO & TYPOGRAPHY
    Covers: index.html, recruiter.html, lab.html, workbench.html, 404.html, projects/*.html
    ========================================================================== */
 
@@ -62,7 +62,36 @@
 }
 
 /* --------------------------------------------------------------------------
-   1. ADVANCED DISPLAY FONTS & DIRECT WORD-SPAN 3D LIQUID CHROME ANIMATIONS
+   1. NEW 3D PRISMATIC BRAND LOGO & HIGH-TECH TOPBAR
+   -------------------------------------------------------------------------- */
+.brand,
+.tool-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+}
+
+.argon-brand-logo {
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 14px rgba(56, 239, 255, 0.75))
+          drop-shadow(0 0 24px rgba(244, 63, 94, 0.45));
+  animation: argonLogoSpin3D 9s ease-in-out infinite alternate;
+}
+
+@media (max-width: 420px) {
+  .argon-brand-logo {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. ADVANCED DISPLAY FONTS & CONTINUOUS 3D WAVE TEXT ANIMATIONS
    -------------------------------------------------------------------------- */
 body,
 body.prism-home,
@@ -85,8 +114,8 @@ h1,
   font-family: var(--font-display) !important;
   letter-spacing: -0.055em !important;
   filter:
-    drop-shadow(0 2px 0 rgba(56, 239, 255, 0.42))
-    drop-shadow(0 10px 28px rgba(168, 85, 247, 0.5));
+    drop-shadow(0 2px 0 rgba(56, 239, 255, 0.5))
+    drop-shadow(0 12px 32px rgba(168, 85, 247, 0.55));
 }
 
 h2,
@@ -136,10 +165,21 @@ h3,
   background-clip: text !important;
   color: transparent !important;
   -webkit-text-fill-color: transparent !important;
-  animation: argonTextFlow 5.5s linear infinite;
+  animation: argonTextFlow 4.2s linear infinite;
 }
 
-/* Italic Serif Accent Spans & Sub-words (even when wrapped in .depth-word / .secondary-word) */
+/* Continuous 3D Kinetic Wave on Section & Subpage Words (.depth-word & .secondary-word) */
+.depth-visible .depth-word,
+.secondary-visible .secondary-word {
+  animation:
+    argonTextFlow 4.2s linear infinite,
+    argonWordWave3D 3.6s ease-in-out infinite alternate !important;
+  animation-delay:
+    0s,
+    calc(var(--word-index, var(--word-order, 0)) * 110ms) !important;
+}
+
+/* Italic Serif Accent Spans & Sub-words */
 .rail-titlebar h2 em,
 .rail-titlebar h2 em .depth-word,
 .prism-home #showreel .reel-heading h2 em,
@@ -170,7 +210,6 @@ h3,
   background-clip: text !important;
   color: transparent !important;
   -webkit-text-fill-color: transparent !important;
-  animation: argonTextFlow 4.5s linear infinite !important;
 }
 
 /* Card & Project Headings 3D Liquid Gradient */
@@ -186,8 +225,8 @@ h3,
   background: linear-gradient(
     110deg,
     #ffffff 5%,
-    #38efff 38%,
-    #e879f9 72%,
+    #38efff 35%,
+    #e879f9 68%,
     #fbbf24 98%
   ) !important;
   background-size: 240% 240% !important;
@@ -195,7 +234,85 @@ h3,
   background-clip: text !important;
   color: transparent !important;
   -webkit-text-fill-color: transparent !important;
-  animation: argonTextFlow 6s linear infinite;
+  animation: argonTextFlow 5s linear infinite;
+}
+
+/* --------------------------------------------------------------------------
+   3. ENHANCED 3D HOLOGRAPHIC NUMBERS (FRAME 01, 02, 03...) EVERYWHERE
+   -------------------------------------------------------------------------- */
+.prism-home #projects .project-number,
+.prism-home #about .profile-facts > div strong,
+.recruiter-page .summary-facts dd,
+.career-chapter strong,
+.tool-page .race-stats dd,
+.case-art-index {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  background: linear-gradient(125deg, #ffffff 0%, #38efff 35%, #f472b6 70%, #fbbf24 100%) !important;
+  background-size: 240% 240% !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 18px rgba(56, 239, 255, 0.55));
+  animation: argonTextFlow 4s linear infinite;
+}
+
+.case-art-index {
+  background: linear-gradient(135deg, #060a1e, #16103a) !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  color: #38efff !important;
+  -webkit-text-fill-color: #38efff !important;
+  border: 2px solid #38efff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 30px rgba(56, 239, 255, 0.65), inset 0 0 15px rgba(244, 63, 94, 0.45) !important;
+}
+
+.prism-home .rail-number {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  color: transparent !important;
+  -webkit-text-stroke: 2px rgba(56, 239, 255, 0.55) !important;
+  filter: drop-shadow(0 0 24px rgba(56, 239, 255, 0.4));
+}
+
+.recruiter-page .proof-item::before,
+.recruiter-page .summary-experience li::before,
+.case-spatial .case-architecture li::before,
+.case-spatial .evidence-grid > div::before,
+.space-tab-index,
+.career-marker > b {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  color: #38efff !important;
+  text-shadow: 0 0 16px rgba(56, 239, 255, 0.8), 0 0 32px rgba(244, 63, 94, 0.55) !important;
+}
+
+/* Injected 3D Frame Number Badge (.argon-frame-num-pill) on Cards & Panels */
+.argon-frame-num-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(56, 239, 255, 0.25), rgba(168, 85, 247, 0.3), rgba(244, 63, 94, 0.25));
+  border: 1px solid #38efff;
+  box-shadow: 0 0 20px rgba(56, 239, 255, 0.4), inset 0 0 10px rgba(244, 114, 182, 0.35);
+  width: fit-content;
+}
+
+.argon-frame-num-pill b {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.85);
 }
 
 /* Glowing Cyber-Pill Eyebrows & Kickers */
@@ -254,7 +371,7 @@ h3,
 }
 
 /* --------------------------------------------------------------------------
-   2. FULL-VIEWPORT FIXED 3D MOTION VIDEO + AURORA + PARTICLE MESH BACKDROP
+   4. FULL-VIEWPORT FIXED 3D MOTION VIDEO + AURORA + PARTICLE MESH BACKDROP
    -------------------------------------------------------------------------- */
 #argonGlobalBackdrop {
   position: fixed;
@@ -276,9 +393,9 @@ h3,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.38;
+  opacity: 0.4;
   mix-blend-mode: screen;
-  filter: saturate(2.1) contrast(1.18) hue-rotate(var(--argon-scroll-hue, 0deg));
+  filter: saturate(2.15) contrast(1.18) hue-rotate(var(--argon-scroll-hue, 0deg));
   transform: scale(1.05);
 }
 
@@ -370,19 +487,228 @@ footer,
   border-bottom: 1px solid rgba(56, 239, 255, 0.28) !important;
 }
 
-/* High-tech Glassmorphic Topbar */
 .prism-home .topbar,
 .recruiter-page .topbar,
 .case-spatial .topbar,
 .tool-page .tool-header {
-  background: linear-gradient(90deg, rgba(6, 10, 28, 0.82), rgba(18, 12, 42, 0.82)) !important;
-  border-bottom: 1px solid rgba(56, 239, 255, 0.38) !important;
+  background: linear-gradient(90deg, rgba(6, 10, 28, 0.84), rgba(18, 12, 42, 0.84)) !important;
+  border-bottom: 1px solid rgba(56, 239, 255, 0.42) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(56, 239, 255, 0.25) !important;
   backdrop-filter: blur(20px) !important;
 }
 
 /* --------------------------------------------------------------------------
-   3. OPENING MOTION VIDEO CURTAIN & REPLAYABLE FULL-SCREEN 3D VIDEO PORTAL
+   5. SCROLL-DRIVEN 3D VIDEO ANIMATIONS (.argon-scroll-video-banner & Pod)
+   -------------------------------------------------------------------------- */
+.argon-scroll-video-banner {
+  position: relative;
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 1240px;
+  margin: 36px auto 12px;
+  padding: 4px;
+  border-radius: 18px;
+  background: linear-gradient(125deg, #38efff, #a855f7, #f43f5e, #fbbf24, #34d399, #38efff);
+  background-size: 300% 300%;
+  animation: argonTextFlow 4s linear infinite;
+  box-shadow:
+    0 0 48px rgba(56, 239, 255, 0.45),
+    0 0 95px rgba(168, 85, 247, 0.35),
+    0 28px 65px rgba(0, 0, 0, 0.78);
+  transform: perspective(1200px) rotateX(var(--sv-rx, 10deg)) scale(var(--sv-scale, 0.95));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.argon-scroll-video-inner {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #050818;
+  height: clamp(190px, 24vw, 310px);
+}
+
+.argon-scroll-video-inner video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.65) contrast(1.15);
+  transform: scale(1.06);
+}
+
+.argon-scroll-video-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.92;
+}
+
+.argon-sv-progress {
+  margin-top: 8px;
+  width: min(320px, 65vw);
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(56, 239, 255, 0.16);
+  border: 1px solid rgba(56, 239, 255, 0.45);
+  overflow: hidden;
+}
+
+.argon-sv-bar {
+  height: 100%;
+  width: 35%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38efff, #a855f7, #f43f5e, #fbbf24);
+  box-shadow: 0 0 14px #38efff;
+  transition: width 0.15s ease-out;
+}
+
+.argon-scroll-video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: clamp(16px, 3vw, 34px);
+  background: linear-gradient(
+    90deg,
+    rgba(5, 8, 24, 0.88) 0%,
+    rgba(12, 10, 36, 0.45) 55%,
+    rgba(5, 8, 24, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+.argon-sv-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.argon-sv-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #38efff;
+  text-transform: uppercase;
+}
+
+.argon-sv-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.08;
+  background: linear-gradient(90deg, #ffffff, #38efff, #f472b6, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.argon-sv-num {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 6vw, 76px);
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(135deg, #38efff, #f472b6, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgba(56, 239, 255, 0.65));
+  flex-shrink: 0;
+}
+
+/* Floating Scroll-Synced 3D Video Telemetry Pod (#argonScrollVideoPod) */
+.argon-scroll-video-pod {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 35;
+  width: 200px;
+  border-radius: 14px;
+  padding: 3px;
+  background: linear-gradient(130deg, #38efff, #a855f7, #f43f5e, #fbbf24, #34d399);
+  background-size: 300% 300%;
+  animation: argonTextFlow 3.5s linear infinite;
+  box-shadow:
+    0 0 32px rgba(56, 239, 255, 0.55),
+    0 18px 45px rgba(0, 0, 0, 0.8);
+  transform: perspective(700px) rotateY(var(--pod-ry, 12deg)) rotateX(var(--pod-rx, 6deg));
+  transition: transform 0.2s ease-out, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.argon-scroll-video-pod:hover {
+  transform: perspective(700px) rotateY(0deg) rotateX(0deg) scale(1.05);
+  box-shadow:
+    0 0 48px rgba(56, 239, 255, 0.85),
+    0 0 80px rgba(244, 63, 94, 0.55);
+}
+
+.argon-pod-inner {
+  background: rgba(6, 9, 26, 0.94);
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.argon-pod-video-wrap {
+  position: relative;
+  height: 92px;
+  overflow: hidden;
+}
+
+.argon-pod-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.6) contrast(1.12);
+}
+
+.argon-pod-frame-tag {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(5, 8, 24, 0.88);
+  border: 1px solid #38efff;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #38efff;
+}
+
+.argon-pod-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: #d8e4ff;
+}
+
+.argon-pod-foot b {
+  color: #fbbf24;
+  font-size: 10px;
+}
+
+@media (max-width: 900px) {
+  .argon-scroll-video-pod {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. OPENING MOTION VIDEO CURTAIN & REPLAYABLE FULL-SCREEN 3D VIDEO PORTAL
    -------------------------------------------------------------------------- */
 .studio-curtain {
   overflow: hidden;
@@ -545,7 +871,7 @@ footer,
 }
 
 /* --------------------------------------------------------------------------
-   4. ADVANCED 3D COLOR FRAME MOTION ANIMATION & SATELLITE PHOTO FRAMES
+   7. ADVANCED 3D COLOR FRAME MOTION ANIMATION & SATELLITE PHOTO FRAMES
    -------------------------------------------------------------------------- */
 .argon-color-frame-outer {
   position: absolute;
@@ -726,7 +1052,7 @@ footer,
 }
 
 /* --------------------------------------------------------------------------
-   5. 3D MULTI-FRAME VISUAL SHOWCASE GALLERY (.argon-frame-gallery)
+   8. 3D MULTI-FRAME VISUAL SHOWCASE GALLERY (.argon-frame-gallery)
    -------------------------------------------------------------------------- */
 .argon-frame-gallery {
   grid-column: 1 / -1;
@@ -800,14 +1126,16 @@ footer,
   position: absolute;
   top: 10px;
   left: 10px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
-  background: rgba(6, 10, 28, 0.88);
-  border: 1px solid rgba(56, 239, 255, 0.68);
-  color: #38efff;
-  font-family: var(--font-mono);
-  font-size: 8px;
+  background: rgba(6, 10, 28, 0.92);
+  border: 1px solid #38efff;
+  color: #fbbf24;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 10px;
   letter-spacing: 0.14em;
+  box-shadow: 0 0 18px rgba(56, 239, 255, 0.55);
 }
 
 .argon-frame-meta {
@@ -855,13 +1183,13 @@ footer,
 .argon-exp-frame img {
   display: block;
   width: 100%;
-  height: 115px;
+  height: 125px;
   object-fit: cover;
   border-radius: 8px;
 }
 
 /* --------------------------------------------------------------------------
-   6. 3D NEON PRISMATIC BUTTONS & INTERACTIVE CONTROLS ACROSS ALL 10 PAGES
+   9. 3D NEON PRISMATIC BUTTONS & INTERACTIVE CONTROLS ACROSS ALL 10 PAGES
    -------------------------------------------------------------------------- */
 .prism-home a.studio-primary,
 :root[data-theme=dark] .prism-home a.studio-primary,
@@ -969,7 +1297,7 @@ footer,
 }
 
 /* --------------------------------------------------------------------------
-   7. EVERY PAGE & SECTION 3D NEON FRAMES & INTERACTIVE CARDS
+   10. EVERY PAGE & SECTION 3D NEON FRAMES & INTERACTIVE CARDS
    -------------------------------------------------------------------------- */
 .prism-home #projects .project-card,
 .prism-home .rail-panel,
@@ -993,20 +1321,20 @@ footer,
 .case-spatial .case-architecture,
 .case-spatial .evidence-grid > div,
 .case-spatial .case > .project-visual {
-  border: 1px solid rgba(56, 239, 255, 0.46) !important;
+  border: 1px solid rgba(56, 239, 255, 0.48) !important;
   border-radius: 12px !important;
   background:
     radial-gradient(
       580px circle at var(--spot-x, 50%) var(--spot-y, 20%),
-      rgba(56, 239, 255, 0.2),
+      rgba(56, 239, 255, 0.22),
       rgba(168, 85, 247, 0.14) 45%,
       transparent 75%
     ),
-    linear-gradient(145deg, rgba(12, 17, 40, 0.84), rgba(8, 11, 28, 0.88)) !important;
+    linear-gradient(145deg, rgba(12, 17, 40, 0.85), rgba(8, 11, 28, 0.88)) !important;
   box-shadow:
-    0 0 30px rgba(56, 239, 255, 0.2),
+    0 0 32px rgba(56, 239, 255, 0.22),
     0 22px 55px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
 }
 
 .prism-home #experience .timeline-content {
@@ -1083,12 +1411,28 @@ footer,
 }
 
 /* --------------------------------------------------------------------------
-   8. KEYFRAME ANIMATIONS & REDUCED-MOTION / PAUSED SAFEGUARDS
+   11. KEYFRAME ANIMATIONS & REDUCED-MOTION / PAUSED SAFEGUARDS
    -------------------------------------------------------------------------- */
 @keyframes argonTextFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+@keyframes argonWordWave3D {
+  0% {
+    transform: perspective(600px) translateY(0) rotateX(0deg);
+    filter: drop-shadow(0 0 8px rgba(56, 239, 255, 0.25));
+  }
+  100% {
+    transform: perspective(600px) translateY(-5px) rotateX(10deg);
+    filter: drop-shadow(0 6px 18px rgba(244, 63, 94, 0.55));
+  }
+}
+
+@keyframes argonLogoSpin3D {
+  0% { transform: perspective(400px) rotateY(-18deg) rotateZ(-6deg) scale(1); }
+  100% { transform: perspective(400px) rotateY(18deg) rotateZ(6deg) scale(1.08); }
 }
 
 @keyframes argonAuroraSpin {
@@ -1166,6 +1510,10 @@ footer,
   .argon-satellite-frame,
   .argon-frame-gallery,
   .argon-exp-frame,
+  .argon-scroll-video-banner,
+  .argon-scroll-video-pod,
+  .argon-frame-num-pill,
+  .argon-brand-logo,
   .argon-replay-btn,
   .tool-page #match,
   .tool-page #compare,

@@ -15,10 +15,51 @@
   const isSubpage = location.pathname.includes('/projects/');
   const assetPrefix = isSubpage ? '../' : '';
   const videoLoopSrc = `${assetPrefix}assets/video/dimensional-loop.mp4`;
+  const videoReelSrc = `${assetPrefix}assets/video/adarsh-project-reel.mp4`;
+  const logo3dSrc = `${assetPrefix}assets/images/adarsh-logo-3d.svg`;
   const imgHolo = `${assetPrefix}assets/images/adarsh-holo-frame.webp`;
   const imgVision = `${assetPrefix}assets/images/frame-ai-vision.webp`;
   const imgCloud = `${assetPrefix}assets/images/frame-fullstack-cloud.webp`;
   const imgCyber = `${assetPrefix}assets/images/frame-cyber-sec.webp`;
+
+  // -------------------------------------------------------------------------
+  // 0. NEW 3D PRISMATIC BRAND EMBLEM & ENHANCED FRAME NUMBER PILLS (01, 02, 03)
+  // -------------------------------------------------------------------------
+  document.querySelectorAll('.brand, .tool-brand').forEach((brandEl) => {
+    if (!brandEl.querySelector('.argon-brand-logo')) {
+      const logoImg = document.createElement('img');
+      logoImg.className = 'argon-brand-logo';
+      logoImg.src = logo3dSrc;
+      logoImg.alt = '';
+      logoImg.width = 36;
+      logoImg.height = 36;
+      logoImg.setAttribute('aria-hidden', 'true');
+      brandEl.prepend(logoImg);
+    }
+  });
+
+  const frameNumberGroups = [
+    '.rail-copy',
+    '.project-copy',
+    '.recruiter-page .role-card',
+    '#experience .timeline-content',
+    '#education .timeline-content',
+    '.tool-page .tool-section',
+    '.case-spatial .case-grid > section',
+    '.case-spatial .evidence-grid > div'
+  ];
+
+  frameNumberGroups.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el, idx) => {
+      if (el.querySelector('.argon-frame-num-pill')) return;
+      const pill = document.createElement('span');
+      pill.className = 'argon-frame-num-pill';
+      pill.setAttribute('aria-hidden', 'true');
+      const numStr = String(idx + 1).padStart(2, '0');
+      pill.innerHTML = `FRAME // <b>${numStr}</b>`;
+      el.prepend(pill);
+    });
+  });
 
   // -------------------------------------------------------------------------
   // 1. FULL-VIEWPORT 3D MOTION VIDEO + INTERACTIVE AURORA & PARTICLE CANVAS
@@ -27,8 +68,6 @@
   let bgCanvas = null;
   let bgCtx = null;
   let bgRaf = 0;
-  let pointerX = 0.5;
-  let pointerY = 0.35;
 
   if (document.body && !document.getElementById('argonGlobalBackdrop')) {
     const backdrop = document.createElement('div');
@@ -58,8 +97,8 @@
   const nodes = Array.from({ length: 36 }, (_, i) => ({
     x: ((i * 73) % 100) / 100,
     y: ((i * 41) % 100) / 100,
-    vx: ((i % 2 === 0 ? 1 : -1) * (0.00018 + (i % 5) * 0.00005)),
-    vy: ((i % 3 === 0 ? 1 : -1) * (0.00015 + (i % 4) * 0.00004)),
+    vx: (i % 2 === 0 ? 1 : -1) * (0.00018 + (i % 5) * 0.00005),
+    vy: (i % 3 === 0 ? 1 : -1) * (0.00015 + (i % 4) * 0.00004),
     r: 1.8 + (i % 4) * 1.1,
     hue: [188, 275, 342, 43, 158][i % 5]
   }));
@@ -73,69 +112,228 @@
   resizeBgCanvas();
   window.addEventListener('resize', resizeBgCanvas, { passive: true });
 
+  // -------------------------------------------------------------------------
+  // 2. SCROLL-REACTIVE 3D VIDEO CINEMA BANNERS & FLOATING SCROLL VIDEO POD
+  // -------------------------------------------------------------------------
+  const scrollBanners = [];
+
+  function createScrollVideoBanner(frameNum, kicker, title, videoSrc) {
+    const banner = document.createElement('div');
+    banner.className = 'argon-scroll-video-banner';
+    banner.setAttribute('aria-hidden', 'true');
+    const numStr = String(frameNum).padStart(2, '0');
+    banner.innerHTML = `
+      <div class="argon-scroll-video-inner">
+        <video src="${videoSrc}" muted loop playsinline preload="metadata"></video>
+        <canvas class="argon-scroll-video-canvas" width="640" height="220"></canvas>
+        <div class="argon-scroll-video-overlay">
+          <div class="argon-sv-copy">
+            <span class="argon-sv-kicker">${kicker} · <b data-sv-pct>FRAME ${numStr} // 100% STREAM</b></span>
+            <strong class="argon-sv-title">${title}</strong>
+            <div class="argon-sv-progress"><div class="argon-sv-bar" data-sv-bar></div></div>
+          </div>
+          <span class="argon-sv-num">FRAME ${numStr}</span>
+        </div>
+      </div>
+    `;
+    const vid = banner.querySelector('video');
+    const cvs = banner.querySelector('canvas');
+    const ctx = cvs ? cvs.getContext('2d') : null;
+    const bar = banner.querySelector('[data-sv-bar]');
+    const pct = banner.querySelector('[data-sv-pct]');
+    scrollBanners.push({ banner, vid, cvs, ctx, bar, pct, frameNum });
+    return banner;
+  }
+
+  // Inject Scroll Video Cinema Banners across pages
+  const projectsSec = document.getElementById('projects');
+  const skillsSec = document.getElementById('skills');
+  const expSec = document.getElementById('experience');
+  const proofSec = document.querySelector('.recruiter-page [aria-labelledby="proofHeading"]');
+  const caseEvidenceSec = document.querySelector('.case-spatial .case-evidence, .case-page .case-evidence');
+  const toolSecs = document.querySelectorAll('.tool-page .tool-section');
+
+  if (projectsSec && projectsSec.parentNode) {
+    projectsSec.parentNode.insertBefore(
+      createScrollVideoBanner(
+        1,
+        'SCROLL VIDEO STREAM // 01',
+        '3D SPATIAL ARCHITECTURE & ATOMIC SYSTEMS',
+        videoLoopSrc
+      ),
+      projectsSec
+    );
+  }
+  if (skillsSec && skillsSec.parentNode) {
+    skillsSec.parentNode.insertBefore(
+      createScrollVideoBanner(
+        2,
+        'SCROLL VIDEO STREAM // 02',
+        'COMPUTER VISION, DLIB & SAUVOLA OCR ENGINE',
+        videoReelSrc
+      ),
+      skillsSec
+    );
+  }
+  if (expSec && expSec.parentNode) {
+    expSec.parentNode.insertBefore(
+      createScrollVideoBanner(
+        3,
+        'SCROLL VIDEO STREAM // 03',
+        'ZERO-TRUST AST SECURITY & CLOUD MATRIX',
+        videoLoopSrc
+      ),
+      expSec
+    );
+  }
+  if (proofSec && proofSec.parentNode) {
+    proofSec.parentNode.insertBefore(
+      createScrollVideoBanner(
+        1,
+        'SCROLL VIDEO STREAM // 01',
+        'VERIFIED ENGINEERING PROOF & 3D TELEMETRY',
+        videoLoopSrc
+      ),
+      proofSec
+    );
+  }
+  if (caseEvidenceSec && caseEvidenceSec.parentNode) {
+    caseEvidenceSec.parentNode.insertBefore(
+      createScrollVideoBanner(
+        1,
+        'SCROLL VIDEO STREAM // 01',
+        '3D CASE ARCHITECTURE & VERIFIED EVIDENCE',
+        videoLoopSrc
+      ),
+      caseEvidenceSec
+    );
+  }
+  if (toolSecs.length > 1 && toolSecs[1].parentNode) {
+    toolSecs[1].parentNode.insertBefore(
+      createScrollVideoBanner(
+        1,
+        'SCROLL VIDEO STREAM // 01',
+        'LIVE INTERACTIVE 3D DIAGNOSTIC ENGINE',
+        videoLoopSrc
+      ),
+      toolSecs[1]
+    );
+  }
+
+  // Floating 3D Scroll-Synced Video Telemetry Pod (#argonScrollVideoPod)
+  let scrollPod = document.getElementById('argonScrollVideoPod');
+  let podVideo = null;
+  let podFrameEl = null;
+  let podPctEl = null;
+  if (document.body && !scrollPod) {
+    scrollPod = document.createElement('div');
+    scrollPod.id = 'argonScrollVideoPod';
+    scrollPod.className = 'argon-scroll-video-pod';
+    scrollPod.setAttribute('aria-hidden', 'true');
+    scrollPod.setAttribute('data-open-motion-portal', 'true');
+    scrollPod.innerHTML = `
+      <div class="argon-pod-inner">
+        <div class="argon-pod-video-wrap">
+          <video src="${videoLoopSrc}" muted loop playsinline preload="metadata"></video>
+          <span class="argon-pod-frame-tag" data-pod-frame>FRAME // 01</span>
+        </div>
+        <div class="argon-pod-foot">
+          <span>3D SCROLL STREAM</span>
+          <b data-pod-pct>00%</b>
+        </div>
+      </div>
+    `;
+    document.body.append(scrollPod);
+    podVideo = scrollPod.querySelector('video');
+    podFrameEl = scrollPod.querySelector('[data-pod-frame]');
+    podPctEl = scrollPod.querySelector('[data-pod-pct]');
+  }
+
+  let currentScrollRatio = 0;
+
   function drawBgFrame(now) {
     bgRaf = 0;
-    if (!bgCtx || !bgCanvas) return;
-    const w = bgCanvas.width;
-    const h = bgCanvas.height;
     const t = now * 0.001;
 
-    bgCtx.clearRect(0, 0, w, h);
+    if (bgCtx && bgCanvas) {
+      const w = bgCanvas.width;
+      const h = bgCanvas.height;
+      bgCtx.clearRect(0, 0, w, h);
 
-    // Draw 2 flowing 3D cyber-aurora energy ribbons
-    const ribbonColors = [
-      'rgba(56, 239, 255, 0.14)',
-      'rgba(168, 85, 247, 0.14)',
-      'rgba(244, 63, 94, 0.11)'
-    ];
-    for (let r = 0; r < ribbonColors.length; r++) {
-      bgCtx.beginPath();
-      const baseY = h * (0.28 + r * 0.24);
-      bgCtx.moveTo(0, baseY);
-      for (let x = 0; x <= w; x += Math.max(24, w / 28)) {
-        const nx = x / w;
-        const wave =
-          Math.sin(nx * 4.2 + t * (1.1 + r * 0.3) + r) * (h * 0.07) +
-          Math.cos(nx * 2.4 - t * 0.8) * (h * 0.04);
-        bgCtx.lineTo(x, baseY + wave);
+      const ribbonColors = [
+        'rgba(56, 239, 255, 0.14)',
+        'rgba(168, 85, 247, 0.14)',
+        'rgba(244, 63, 94, 0.11)'
+      ];
+      for (let r = 0; r < ribbonColors.length; r++) {
+        bgCtx.beginPath();
+        const baseY = h * (0.28 + r * 0.24);
+        bgCtx.moveTo(0, baseY);
+        for (let x = 0; x <= w; x += Math.max(24, w / 28)) {
+          const nx = x / w;
+          const wave =
+            Math.sin(nx * 4.2 + t * (1.1 + r * 0.3) + r + currentScrollRatio * 6) * (h * 0.07) +
+            Math.cos(nx * 2.4 - t * 0.8) * (h * 0.04);
+          bgCtx.lineTo(x, baseY + wave);
+        }
+        bgCtx.strokeStyle = ribbonColors[r];
+        bgCtx.lineWidth = Math.max(2, h * 0.045);
+        bgCtx.stroke();
       }
-      bgCtx.strokeStyle = ribbonColors[r];
-      bgCtx.lineWidth = Math.max(2, h * 0.045);
-      bgCtx.stroke();
+
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (allowed()) {
+          n.x = (n.x + n.vx + 1) % 1;
+          n.y = (n.y + n.vy + 1) % 1;
+        }
+        const px = n.x * w;
+        const py = n.y * h;
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const m = nodes[j];
+          const dx = (n.x - m.x) * w;
+          const dy = (n.y - m.y) * h;
+          const distSq = dx * dx + dy * dy;
+          const maxDist = Math.min(w, h) * 0.18;
+          if (distSq < maxDist * maxDist) {
+            const alpha = (1 - Math.sqrt(distSq) / maxDist) * 0.22;
+            bgCtx.strokeStyle = `hsla(${n.hue}, 95%, 68%, ${alpha.toFixed(3)})`;
+            bgCtx.lineWidth = 1;
+            bgCtx.beginPath();
+            bgCtx.moveTo(px, py);
+            bgCtx.lineTo(m.x * w, m.y * h);
+            bgCtx.stroke();
+          }
+        }
+
+        bgCtx.fillStyle = `hsla(${n.hue}, 98%, 70%, 0.78)`;
+        bgCtx.beginPath();
+        bgCtx.arc(px, py, n.r, 0, Math.PI * 2);
+        bgCtx.fill();
+      }
     }
 
-    // Draw interactive 3D neon constellation nodes
-    for (let i = 0; i < nodes.length; i++) {
-      const n = nodes[i];
-      if (allowed()) {
-        n.x = (n.x + n.vx + 1) % 1;
-        n.y = (n.y + n.vy + 1) % 1;
+    // Draw 3D scroll-reactive tunnel rings inside each Scroll Video Banner canvas
+    for (let b = 0; b < scrollBanners.length; b++) {
+      const item = scrollBanners[b];
+      if (!item.ctx || !item.cvs) continue;
+      const cw = item.cvs.width;
+      const ch = item.cvs.height;
+      item.ctx.clearRect(0, 0, cw, ch);
+      const cx = cw * 0.52;
+      const cy = ch * 0.5;
+      for (let ring = 0; ring < 5; ring++) {
+        const phase = (t * 0.85 + currentScrollRatio * 3.5 + ring * 0.2) % 1;
+        const rx = phase * cw * 0.46;
+        const ry = phase * ch * 0.44;
+        const hue = (188 + ring * 38 + currentScrollRatio * 140) % 360;
+        item.ctx.strokeStyle = `hsla(${hue}, 98%, 68%, ${(1 - phase) * 0.72})`;
+        item.ctx.lineWidth = 2 + phase * 2.5;
+        item.ctx.beginPath();
+        item.ctx.ellipse(cx, cy, Math.max(4, rx), Math.max(4, ry), 0, 0, Math.PI * 2);
+        item.ctx.stroke();
       }
-      const px = n.x * w;
-      const py = n.y * h;
-
-      // Connect nearby nodes
-      for (let j = i + 1; j < nodes.length; j++) {
-        const m = nodes[j];
-        const dx = (n.x - m.x) * w;
-        const dy = (n.y - m.y) * h;
-        const distSq = dx * dx + dy * dy;
-        const maxDist = Math.min(w, h) * 0.18;
-        if (distSq < maxDist * maxDist) {
-          const alpha = (1 - Math.sqrt(distSq) / maxDist) * 0.22;
-          bgCtx.strokeStyle = `hsla(${n.hue}, 95%, 68%, ${alpha.toFixed(3)})`;
-          bgCtx.lineWidth = 1;
-          bgCtx.beginPath();
-          bgCtx.moveTo(px, py);
-          bgCtx.lineTo(m.x * w, m.y * h);
-          bgCtx.stroke();
-        }
-      }
-
-      bgCtx.fillStyle = `hsla(${n.hue}, 98%, 70%, 0.78)`;
-      bgCtx.beginPath();
-      bgCtx.arc(px, py, n.r, 0, Math.PI * 2);
-      bgCtx.fill();
     }
 
     if (allowed() && !document.hidden) {
@@ -144,14 +342,22 @@
   }
 
   function syncBackgroundMedia() {
+    const canPlay = allowed() && !document.hidden;
     if (bgVideo) {
-      if (allowed() && !document.hidden) {
-        bgVideo.play().catch(() => {});
-      } else {
-        bgVideo.pause();
-      }
+      if (canPlay) bgVideo.play().catch(() => {});
+      else bgVideo.pause();
     }
-    if (allowed() && !document.hidden) {
+    if (podVideo) {
+      if (canPlay) podVideo.play().catch(() => {});
+      else podVideo.pause();
+    }
+    scrollBanners.forEach((item) => {
+      if (!item.vid) return;
+      if (canPlay) item.vid.play().catch(() => {});
+      else item.vid.pause();
+    });
+
+    if (canPlay) {
       if (!bgRaf) bgRaf = requestAnimationFrame(drawBgFrame);
     } else if (bgRaf) {
       cancelAnimationFrame(bgRaf);
@@ -160,7 +366,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 2. OPENING CURTAIN 3D WARP PORTAL + REPLAYABLE FULL-SCREEN VIDEO MODAL
+  // 3. OPENING CURTAIN 3D WARP PORTAL + REPLAYABLE FULL-SCREEN VIDEO MODAL
   // -------------------------------------------------------------------------
   const curtain = document.querySelector('.studio-curtain');
   if (curtain && !curtain.querySelector('.curtain-canvas')) {
@@ -189,7 +395,7 @@
       const t = now * 0.003;
       cCtx.clearRect(0, 0, cw, ch);
       for (let k = 0; k < 7; k++) {
-        const progress = ((t + k / 7) % 1);
+        const progress = (t + k / 7) % 1;
         const rad = progress * Math.hypot(cx, cy) * 0.9;
         const hue = (k * 52 + now * 0.08) % 360;
         cCtx.strokeStyle = `hsla(${hue}, 96%, 65%, ${(1 - progress) * 0.85})`;
@@ -203,7 +409,6 @@
     if (allowed()) requestAnimationFrame(renderCurtain);
   }
 
-  // Full-Screen Replayable Opening Motion Video Portal (#argonIntroModal)
   let introModal = document.getElementById('argonIntroModal');
   let introVideo = null;
   if (document.body && !introModal) {
@@ -256,10 +461,7 @@
       openIntroPortal();
       return;
     }
-    if (
-      e.target.closest('[data-close-intro]') ||
-      e.target === introModal
-    ) {
+    if (e.target.closest('[data-close-intro]') || e.target === introModal) {
       closeIntroPortal();
     }
   });
@@ -270,7 +472,6 @@
     }
   });
 
-  // Add "Opening Motion 3D" trigger button to Hero minor links / explore bars if not present
   const heroLinksHost = document.querySelector(
     '.hero-minor-links, .summary-explore, .case-links, .tool-actions'
   );
@@ -285,7 +486,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 3. MULTI-RING 3D COLOR FRAME MOTION & FLOATING SATELLITE PHOTO FRAMES
+  // 4. MULTI-RING 3D COLOR FRAME MOTION & FLOATING SATELLITE PHOTO FRAMES
   // -------------------------------------------------------------------------
   document.querySelectorAll('.studio-person, .summary-art, .case-art-stage').forEach((stage) => {
     if (!stage.querySelector('.argon-color-frame-outer')) {
@@ -302,19 +503,19 @@
       const satTop = document.createElement('div');
       satTop.className = 'argon-satellite-frame argon-satellite-top';
       satTop.setAttribute('aria-hidden', 'true');
-      satTop.innerHTML = `<img src="${imgVision}" alt="" width="148" height="86" loading="lazy" /><span>AI VISION · 3D FRAME</span>`;
+      satTop.innerHTML = `<img src="${imgVision}" alt="" width="148" height="86" loading="lazy" /><span>FRAME 02 · AI VISION</span>`;
 
       const satBottom = document.createElement('div');
       satBottom.className = 'argon-satellite-frame argon-satellite-bottom';
       satBottom.setAttribute('aria-hidden', 'true');
-      satBottom.innerHTML = `<img src="${imgHolo}" alt="" width="148" height="86" loading="lazy" /><span>HOLO PORTRAIT · 01</span>`;
+      satBottom.innerHTML = `<img src="${imgHolo}" alt="" width="148" height="86" loading="lazy" /><span>FRAME 01 · HOLO CORE</span>`;
 
       stage.append(satTop, satBottom);
     }
   });
 
   // -------------------------------------------------------------------------
-  // 4. 3D MULTI-FRAME VISUAL SHOWCASE GALLERY IN #about / RECRUITER / SUBPAGES
+  // 5. 3D MULTI-FRAME VISUAL SHOWCASE GALLERY IN #about / RECRUITER / SUBPAGES
   // -------------------------------------------------------------------------
   const galleryHost =
     document.querySelector('#about .about-grid') ||
@@ -331,11 +532,11 @@
         <div class="argon-frame-card-inner">
           <div class="argon-frame-media">
             <img src="${imgHolo}" alt="" width="960" height="640" loading="lazy" />
-            <span class="argon-frame-badge">FRAME 01 // HOLO STUDIO</span>
+            <span class="argon-frame-badge">FRAME 01 // HOLO CORE</span>
           </div>
           <div class="argon-frame-meta">
-            <strong>Adarsh S · Holographic Frame</strong>
-            <span>PRISMATIC 3D PORTRAIT & CYBER TELEMETRY</span>
+            <strong>Frame 01 · Holographic Command Core</strong>
+            <span>PRISMATIC 3D ARCHITECTURE & SPATIAL TELEMETRY</span>
           </div>
         </div>
       </div>
@@ -346,7 +547,7 @@
             <span class="argon-frame-badge">FRAME 02 // NEURAL VISION</span>
           </div>
           <div class="argon-frame-meta">
-            <strong>Computer Vision & AI Core</strong>
+            <strong>Frame 02 · Computer Vision & AI Core</strong>
             <span>OPENCV · DLIB · SAUVOLA OCR PIPELINES</span>
           </div>
         </div>
@@ -355,10 +556,10 @@
         <div class="argon-frame-card-inner">
           <div class="argon-frame-media">
             <img src="${imgCloud}" alt="" width="960" height="600" loading="lazy" />
-            <span class="argon-frame-badge">FRAME 03 // CLOUD & SECURITY</span>
+            <span class="argon-frame-badge">FRAME 03 // CLOUD MATRIX</span>
           </div>
           <div class="argon-frame-meta">
-            <strong>Full-Stack & Zero-Trust Matrix</strong>
+            <strong>Frame 03 · Full-Stack & Zero-Trust Matrix</strong>
             <span>DJANGO · NEXT.JS · POSTGRESQL · SHA-256</span>
           </div>
         </div>
@@ -372,7 +573,6 @@
     }
   }
 
-  // Experience Internship Framed Visual Previews
   const expImages = [imgCloud, imgVision, imgCyber];
   document.querySelectorAll('#experience .timeline-content').forEach((content, idx) => {
     if (content.querySelector('.argon-exp-frame')) return;
@@ -384,7 +584,7 @@
   });
 
   // -------------------------------------------------------------------------
-  // 5. 3D INTERACTIVE CARD SPOTLIGHT & TILT (EXCLUDING #project-assenttag)
+  // 6. 3D INTERACTIVE CARD SPOTLIGHT & TILT (EXCLUDING #project-assenttag)
   // -------------------------------------------------------------------------
   const tiltCards = document.querySelectorAll(
     '.argon-frame-card, .role-card, .summary-paper, .feature-launchpad > a, #education .timeline-item, #publication .publication-card, .case-spatial .case-grid > section, .case-spatial .evidence-grid > div'
@@ -420,15 +620,54 @@
   }
 
   // -------------------------------------------------------------------------
-  // 6. SCROLL-DRIVEN HUE SHIFT & MOTION STATE SYNCHRONIZATION
+  // 7. SCROLL-DRIVEN 3D VIDEO CHOREOGRAPHY, FRAME TELEMETRY & HUE SHIFT
   // -------------------------------------------------------------------------
   let scrollRaf = 0;
   function onScroll() {
     scrollRaf = 0;
-    if (!allowed()) return;
-    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const vh = Math.max(1, window.innerHeight);
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
     const ratio = clamp(window.scrollY / maxScroll, 0, 1);
-    root.style.setProperty('--argon-scroll-hue', `${Math.round(ratio * 140)}deg`);
+    currentScrollRatio = ratio;
+
+    if (allowed()) {
+      root.style.setProperty('--argon-scroll-hue', `${Math.round(ratio * 140)}deg`);
+    }
+
+    // Update Floating 3D Scroll Video Pod telemetry & 3D tilt
+    const activeFrameIdx = Math.min(5, Math.max(1, Math.ceil(ratio * 5 + 0.01)));
+    const pctNum = Math.round(ratio * 100);
+    if (podFrameEl) {
+      podFrameEl.textContent = `FRAME // 0${activeFrameIdx}`;
+    }
+    if (podPctEl) {
+      podPctEl.textContent = `${String(pctNum).padStart(2, '0')}%`;
+    }
+    if (scrollPod && allowed()) {
+      const rx = ((0.5 - ratio) * 16).toFixed(2);
+      const ry = (Math.sin(ratio * Math.PI * 2) * 14).toFixed(2);
+      scrollPod.style.setProperty('--pod-rx', `${rx}deg`);
+      scrollPod.style.setProperty('--pod-ry', `${ry}deg`);
+    }
+
+    // Update In-Flow 3D Scroll Video Cinema Banners perspective & progress
+    for (let i = 0; i < scrollBanners.length; i++) {
+      const item = scrollBanners[i];
+      const rect = item.banner.getBoundingClientRect();
+      const centerDist = (rect.top + rect.height * 0.5 - vh * 0.5) / (vh * 0.65);
+      const clampedDist = clamp(centerDist, -1, 1);
+      const progress = clamp(1 - Math.abs(clampedDist), 0.15, 1);
+      if (allowed()) {
+        item.banner.style.setProperty('--sv-rx', `${(clampedDist * 14).toFixed(2)}deg`);
+        item.banner.style.setProperty('--sv-scale', (0.94 + progress * 0.06).toFixed(3));
+      }
+      if (item.bar) {
+        item.bar.style.width = `${Math.round(progress * 100)}%`;
+      }
+      if (item.pct) {
+        item.pct.textContent = `FRAME 0${item.frameNum} // ${Math.round(progress * 100)}% SYNC`;
+      }
+    }
   }
 
   window.addEventListener(
@@ -445,5 +684,6 @@
     attributeFilter: ['class', 'data-theme']
   });
 
+  onScroll();
   syncBackgroundMedia();
 })();
