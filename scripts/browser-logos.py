@@ -52,6 +52,8 @@ try:
                 check(image.evaluate('(img) => getComputedStyle(img).objectFit === "contain"'), f'Uncropped course mark at {width}px')
                 box = image.bounding_box()
                 check(box['width'] >= 90 and box['x'] >= 0 and box['x'] + box['width'] <= width + 1, f'Course logo visible within viewport at {width}px')
+                badge = image.locator('..').bounding_box()
+                check(box['x'] >= badge['x'] and box['y'] >= badge['y'] and box['x'] + box['width'] <= badge['x'] + badge['width'] and box['y'] + box['height'] <= badge['y'] + badge['height'], f'Course logo stays inside its badge at {width}px')
             for card in page.locator('#certifications .cert-card').all():
                 provider, title, date = [card.locator(s).bounding_box() for s in ['.certificate-provider', 'h3', 'time']]
                 overlap = lambda a, b: min(a['x']+a['width'], b['x']+b['width']) - max(a['x'], b['x']) > 1 and min(a['y']+a['height'], b['y']+b['height']) - max(a['y'], b['y']) > 1

@@ -32,11 +32,11 @@
     {
       "organization": "Government Engineering College, Thrissur",
       "website": "https://gectcr.ac.in/",
-      "file": "gec-thrissur.jpg",
-      "image_url": "https://upload.wikimedia.org/wikipedia/en/f/f0/GEC_Thrissur_Logo.JPG",
-      "source_page": "https://en.wikipedia.org/wiki/File:GEC_Thrissur_Logo.JPG",
-      "provenance": "Wikipedia file explicitly identifies Government Engineering College, Thrissur and cites college alumni source http://gectalumni.org/images/Logo.JPG. Main official website timed out with 522. Image visually inspected: triangular black-and-white crest with coconut tree, engineering symbols and Sanskrit motto.",
-      "sha256": "a7faaf78a0deefbad4973bfe11c12324e5d5cb811bae9f161a0d0f32474cd4bd"
+      "file": "gec-thrissur-user.png",
+      "source_page": "https://gectcr.ac.in/",
+      "provenance": "Exact original GEC Thrissur emblem uploaded and selected by the portfolio owner on 8 November 2026. Original 320 x 320 PNG bytes preserved; no generated image or redrawing.",
+      "sha256": "bef5a53645da993dcbdcc9073efb2e4499d4cabf3664f7cb5f35623a64cdfa45",
+      "source_type": "user_supplied"
     },
     {
       "organization": "College of Applied Science IHRD, Thamarassery",
