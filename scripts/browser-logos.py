@@ -36,9 +36,14 @@ try:
                 check(box['x'] >= 0 and box['x'] + box['width'] <= width + 1, f'Logo within viewport at {width}px')
             check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No overflow at {width}px')
             check(page.locator('a.organization-link[href="https://bluegensolutions.com/"]').count() == 1, f'Visible Bluegen website link at {width}px')
+            journal = page.locator('#publication .journal-identity img')
+            check(journal.count() == 1 and journal.bounding_box()['width'] >= 90, f'IJRASET emblem visible in publication at {width}px')
+            check(page.locator('#publication .text-link').get_attribute('href').startswith('https://www.ijraset.com/'), f'Publication link preserved at {width}px')
             check(page.locator('#education-mgm a').count() == 0, f'MGM has no hyperlink at {width}px')
             mgm = page.locator('#education-mgm .organization-logo img')
             check(mgm.bounding_box()['width'] >= 140, f'MGM emblem is large enough to see at {width}px')
+            gvhss = page.locator('#education-gvhss .organization-logo img')
+            check(gvhss.count() == 1 and gvhss.bounding_box()['width'] >= 80, f'Original GVHSS gate emblem visible at {width}px')
             details = page.locator('.more-credentials')
             check(details.get_attribute('open') is not None, f'Additional course logos visible initially at {width}px')
             certificate_images = page.locator('.certificate-mark img')
@@ -64,7 +69,7 @@ try:
             check(details.get_attribute('open') is not None, f'Additional courses reopen at {width}px')
             check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No course overflow at {width}px')
             if width in [390, 1440]:
-                for section in ['experience', 'education', 'certifications']:
+                for section in ['experience', 'education', 'certifications', 'publication']:
                     page.locator('#' + section).screenshot(path=str(OUT / f'{section}-logos-{width}.png'), animations='disabled')
             context.close()
         context = browser.new_context(java_script_enabled=False, viewport={'width': 390, 'height': 844})

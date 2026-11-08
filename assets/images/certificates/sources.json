@@ -81,14 +81,15 @@
       "image_url": "https://www.met.edu/uploadfile/images/TCS-LOGO.jpg",
       "sha256": "52bf0962f7889551e704acec4e9f7b719b925c4cf0f75b6de865fecc07a5ff9d",
       "provenance": "Original image unchanged, includes blue rectangular background. TCS trademark; issuer identification only, no endorsement implied; redistribution license not verified."
-    }
-  ],
-  "pending": [
+    },
     {
       "organization": "Fireflies",
-      "status": "issuer_identity_unverified",
-      "course": "Full Stack Development with React and Drupal",
-      "date": "January 2022"
+      "file": "fireflies.svg",
+      "source_page": "https://www.fireflies.lu/",
+      "image_url": "https://www.fireflies.lu/favicon.svg",
+      "sha256": "dcf88d3915301c03c55dc572c6d81b870ebb1858952c762b6508922fb4624286",
+      "provenance": "Unmodified official favicon SVG. Scalable black standalone firefly symbol. Original image URL linked by the official homepage. Issuer website explicitly identified by the portfolio owner."
     }
-  ]
+  ],
+  "pending": []
 }

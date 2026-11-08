@@ -54,14 +54,24 @@
       "source_page": "https://mela.kite.kerala.gov.in/2025/index.php/result/Public_result/sub_results/474",
       "provenance": "Original user-supplied MGM LP UP HS & HSS emblem, recovered unchanged from the earlier school design materials. Verified school identity: MGM Engapuzha, school code47090. No generated artwork or redrawing.",
       "sha256": "a2a1bbc2d672e9d19a16f40c44f67c1d295b175fd43c37486b21d886128def3d"
+    },
+    {
+      "organization": "IJRASET",
+      "website": "https://www.ijraset.com/",
+      "file": "ijraset.png",
+      "image_url": "https://live.staticflickr.com/65535/50812795278_9c6bcdb6a0_o.png",
+      "source_page": "https://www.ijraset.com/",
+      "provenance": "Official homepage header and navigation both embed this exact image URL, with alt texts IJRASET Logo and IJRASET - Logo. Viewed original pixels. Red IJRASET wordmark with red/blue circular science emblem at left, including gear, atom and journal name around the rim. Transparent background. None. Original downloaded bytes retained without cropping, redrawing or regeneration.",
+      "sha256": "50fad103e724a10bd005444f017ad7e6bde0bc045968e2415b557eb97ef5aac7"
+    },
+    {
+      "organization": "Government Vocational Higher Secondary School, Thamarassery",
+      "file": "gvhss-thamarassery-original-crop.png",
+      "source_type": "user_supplied",
+      "source_page": "https://www.facebook.com/GovtVHSSThamarassery/",
+      "provenance": "Lossless 36 x 36 pixel crop of the emblem at the left of the school gate sign in the photo supplied by the portfolio owner. The sign explicitly names Govt. Vocational Higher Secondary School Thamarassery. Crop coordinates x61 y193 from the 480 x 640 original. No students or other photo content included; no generated details, sharpening, redrawing or reconstruction. Low-resolution source retained faithfully.",
+      "sha256": "0b655d13ec79ad98dec8e8c4b37e030a0c0313b6aeecc4b2b4a13e3158e7ea7b"
     }
   ],
-  "pending": [
-    {
-      "organization": "Government Higher Secondary School, Thamarassery",
-      "status": "emblem_not_verified",
-      "school_code": "47072",
-      "source_page": "https://sametham.kite.kerala.gov.in/publicView/schoolsLists/HS/dist/11/1"
-    }
-  ]
+  "pending": []
 }

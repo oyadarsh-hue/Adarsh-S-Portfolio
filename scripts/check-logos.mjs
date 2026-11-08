@@ -6,8 +6,8 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/images/logos/sources.json'), 'utf8'));
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-assert.equal(manifest.logos.length, 6, 'Expected three employers and three verified institutions');
-assert.equal(new Set(manifest.logos.map(x => x.organization)).size, 6, 'Each organization needs its own record');
+assert.equal(manifest.logos.length, 8, 'Expected three employers, four verified institutions and the publication journal');
+assert.equal(new Set(manifest.logos.map(x => x.organization)).size, 8, 'Each organization needs its own record');
 for (const logo of manifest.logos) {
   assert(logo.source_page.startsWith('https://'), `Missing source page: ${logo.organization}`);
   if (logo.source_type !== "user_supplied") assert(logo.image_url.startsWith('https://'), `Missing image source: ${logo.organization}`);
@@ -17,12 +17,17 @@ for (const logo of manifest.logos) {
   assert.equal(createHash('sha256').update(bytes).digest('hex'), logo.sha256, `Original image changed: ${file}`);
   assert(html.includes(`src="${file}"`), `Logo not displayed: ${file}`);
 }
-assert.equal((html.match(/class="organization-identity(?: [^"]*)?"/g) || []).length, 6, 'Expected six verified logo blocks');
+assert.equal((html.match(/class="organization-identity(?: [^"]*)?"/g) || []).length, 8, 'Expected eight verified logo blocks');
 assert(html.includes('href="https://bluegensolutions.com/"'), 'Bluegen website missing');
 assert(!html.includes('argon-hyper'), 'Do not reintroduce the superseded redesign');
 const mgm = html.match(/<article class="timeline-item" id="education-mgm">([\s\S]*?)<\/article>/)?.[1];
 assert(mgm && !mgm.includes('<a '), 'MGM emblem must be image-only, without a link');
 assert(mgm.includes('school-identity'), 'School emblem needs the larger responsive layout');
+const gvhss = html.match(/<article class="timeline-item" id="education-gvhss">([\s\S]*?)<\/article>/)?.[1];
+assert(gvhss?.includes('gvhss-thamarassery-original-crop.png'), 'GVHSS must use the supplied gate emblem crop');
+const publication = html.match(/<section id="publication"[\s\S]*?<\/section>/)?.[0];
+assert(publication?.includes('journal-identity'), 'Journal emblem must be in the paper publication section');
+assert(publication.includes('10.22214/ijraset.2026.84707'), 'Preserve the existing publication DOI');
 
 const certificates = JSON.parse(fs.readFileSync(path.join(root, 'assets/images/certificates/sources.json'), 'utf8'));
 const section = html.match(/<section id="certifications"[\s\S]*?<\/section>/)?.[0];
@@ -52,4 +57,4 @@ for (const logo of certificates.logos) {
   assert.equal(createHash('sha256').update(bytes).digest('hex'), logo.sha256, `Issuer asset modified: ${logo.organization}`);
   if (logo.file.endsWith('.svg')) assert(!/<script|<foreignObject|(?:href|src)=["']https?:/i.test(bytes.toString()), `External or active SVG content: ${logo.file}`);
 }
-console.log(`PASS: six organization marks and ${certificates.logos.length} authentic course providers on ${displayed}/15 cards; original hashes, larger unlinked MGM and Bluegen link.`);
+console.log(`PASS: eight organization marks and ${certificates.logos.length} authentic course providers on ${displayed}/15 cards; source hashes, school/publication emblems, unlinked MGM and Bluegen link.`);

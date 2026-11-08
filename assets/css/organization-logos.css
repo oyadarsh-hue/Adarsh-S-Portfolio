@@ -41,6 +41,23 @@
   outline-offset: 4px;
 }
 .prism-home .organization-identity .organization-link:hover { color: #fff; }
+.prism-home #publication .journal-identity {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.prism-home #publication .journal-identity .organization-logo {
+  flex: 0 1 240px;
+  width: 240px;
+  max-width: 100%;
+  min-width: 0;
+  height: 80px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.prism-home #publication .journal-identity img { min-width: 0; min-height: 0; }
+.prism-home #publication .journal-identity .eyebrow { margin: 0; line-height: 1.7; }
 .organization-caption {
   display: block;
   margin-top: 5px;
@@ -74,6 +91,11 @@
 .prism-home #education .school-identity .organization-name {
   font-size: 15px;
   line-height: 1.5;
+}
+.prism-home #education .school-identity .source-photo-emblem {
+  flex-basis: 96px;
+  width: 96px;
+  height: 96px;
 }
 #education-mgm, #education-gvhss {
   scroll-margin-top: calc(var(--header-height, 88px) + 24px);
