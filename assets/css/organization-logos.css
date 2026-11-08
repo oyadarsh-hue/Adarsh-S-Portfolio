@@ -1,0 +1,56 @@
+/* Source-supplied marks retain their original colors and proportions. */
+.organization-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 22px;
+  min-width: 0;
+}
+.organization-logo {
+  display: grid;
+  place-items: center;
+  flex: 0 0 84px;
+  width: 84px;
+  height: 84px;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #dce2ef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.organization-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.prism-home .organization-identity .organization-link {
+  color: #b7e9ff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.organization-logo:focus-visible,
+.organization-link:focus-visible {
+  outline: 3px solid #91ede0;
+  outline-offset: 4px;
+}
+.prism-home .organization-identity .organization-link:hover { color: #fff; }
+.organization-caption {
+  display: block;
+  margin-top: 5px;
+  color: #a6acc4;
+  font-size: 11px;
+  line-height: 1.5;
+}
+@media (max-width: 420px) {
+  .organization-identity { gap: 12px; }
+  .organization-logo { flex-basis: 72px; width: 72px; height: 72px; }
+}
+@media print {
+  .organization-logo { break-inside: avoid; }
+  .prism-home .organization-identity .organization-link,
+  .organization-caption { color: #222; }
+}

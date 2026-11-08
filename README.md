@@ -138,3 +138,21 @@ The homepage now has an original portrait collage, rotating role banner, coral/v
 `assets/css/prism.css` and `assets/js/prism.js` own the new homepage presentation. `assets/css/secondary-color.css` styles the other pages. The previous decorative animation scripts are no longer loaded by the homepage; the shared core and recruiter behavior remain in use.
 
 For a manual responsive check when a local browser runtime is unavailable, open `scripts/responsive-preview.html` from the served site. It embeds the real pages at 320, 390, 768 and 1440 CSS pixels. This unlinked, no-index developer preview checks responsive layout; it is not a substitute for physical-device testing.
+
+## Restored 7 November edition and original logos
+
+The complete site is restored from commit `8163bcf12aab30a559056692d5e6e176f7eb5290`,
+the latest committed edition on 7 November 2026. The subsequent 8 November
+revision remains recoverable on branch `backup/pre-restore-20261108` at
+`55fe66969cf2e24c5914ad43cbcbab3bd1744898`; history was not rewritten.
+
+The restoration retains the original portrait, all five case studies, recruiter
+page, engineering lab, opportunity workbench, project filters, motion controls,
+responsive layout and rendered video. New additions are authentic source-supplied
+marks for Bluegen Solutions, The Skybrisk, CODTECH IT Solutions, GEC Thrissur and
+the IHRD emblem used by CAS Thamarassery. Bluegen's official website is linked.
+The exact GHSS Thamarassery and MGM HSS Engapuzha emblems remain pending verification.
+
+Original image URLs and byte checksums are in `assets/images/logos/sources.json`.
+Run `node scripts/check-logos.mjs` for asset provenance checks and
+`python scripts/browser-logos.py` for responsive logo checks and screenshots.

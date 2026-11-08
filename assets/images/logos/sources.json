@@ -1,0 +1,65 @@
+{
+  "verified_on": "2026-11-08",
+  "generated_images": false,
+  "logos": [
+    {
+      "organization": "Bluegen Solutions",
+      "website": "https://bluegensolutions.com/",
+      "image_url": "https://bluegensolutions.com/assets/img/bluegen%20logo%201.png",
+      "provenance": "Official homepage header img, alt bluegen solutions. Visually inspected blue BG ring emblem with BLUEGEN SOLUTIONS text.",
+      "sha256": "0763057a0eb7ea0b56f6880a4f1866826cedc23e2637010f90fb1dbb1e25cbc7",
+      "file": "bluegen-solutions.png",
+      "source_page": "https://bluegensolutions.com/"
+    },
+    {
+      "organization": "CODTECH IT Solutions",
+      "website": "https://codtechitsolutions.com/",
+      "image_url": "https://codtechitsolutions.com/logo-header.png",
+      "provenance": "Official website JavaScript /assets/index-Da8cxLL7.js uses this image as CodTech Logo in header. Visually inspected black/orange CT gear mark; prefer this over logo-final.png, which has a baked checkerboard background.",
+      "sha256": "31dba58d3e04268e6be5929d4c3ebb8c0b155539092daa0eccb22c08408faf18",
+      "file": "codtech-it-solutions.png",
+      "source_page": "https://codtechitsolutions.com/"
+    },
+    {
+      "organization": "The Skybrisk",
+      "website": "https://www.theskybrisk.com/",
+      "image_url": "https://i.postimg.cc/d0Jc0sFF/LOGO.jpg",
+      "provenance": "Official homepage favicon and its JavaScript /assets/index-qj9_Dan8.js header both reference this exact image, alt The Skybrisk Logo. Visually inspected dark teal curved wing/swirl on white. No generated image used.",
+      "sha256": "46c69cadee11bc7dd0c5ebaeee3a37eae27f8f619176287573fcb65f324995d3",
+      "file": "the-skybrisk.jpg",
+      "source_page": "https://www.theskybrisk.com/"
+    },
+    {
+      "organization": "Government Engineering College, Thrissur",
+      "website": "https://gectcr.ac.in/",
+      "file": "gec-thrissur.jpg",
+      "image_url": "https://upload.wikimedia.org/wikipedia/en/f/f0/GEC_Thrissur_Logo.JPG",
+      "source_page": "https://en.wikipedia.org/wiki/File:GEC_Thrissur_Logo.JPG",
+      "provenance": "Wikipedia file explicitly identifies Government Engineering College, Thrissur and cites college alumni source http://gectalumni.org/images/Logo.JPG. Main official website timed out with 522. Image visually inspected: triangular black-and-white crest with coconut tree, engineering symbols and Sanskrit motto.",
+      "sha256": "a7faaf78a0deefbad4973bfe11c12324e5d5cb811bae9f161a0d0f32474cd4bd"
+    },
+    {
+      "organization": "College of Applied Science IHRD, Thamarassery",
+      "website": "https://casthamarassery.ihrd.ac.in/",
+      "file": "cas-thamarassery.png",
+      "image_url": "https://casthamarassery.ihrd.ac.in/assets/images/logo.png",
+      "source_page": "https://casthamarassery.ihrd.ac.in/",
+      "provenance": "Downloaded directly from college official IHRD subdomain. Homepage img alt identifies College of Applied Science, Thamassery Logo. Visually inspected: red elephants/computer Electronics manpower development emblem. This is IHRD parent emblem used by college, not a unique college crest.",
+      "sha256": "a0edee69f3be08c00a54e3a3bc9b9585cc9541605d0acfaee31b384c8d3d8812"
+    }
+  ],
+  "pending": [
+    {
+      "organization": "Government Higher Secondary School, Thamarassery",
+      "status": "emblem_not_verified",
+      "school_code": "47072",
+      "source_page": "https://sametham.kite.kerala.gov.in/publicView/schoolsLists/HS/dist/11/1"
+    },
+    {
+      "organization": "MGM Higher Secondary School, Engapuzha",
+      "status": "emblem_not_verified",
+      "school_code": "47090",
+      "source_page": "https://mela.kite.kerala.gov.in/2025/index.php/result/Public_result/sub_results/474"
+    }
+  ]
+}

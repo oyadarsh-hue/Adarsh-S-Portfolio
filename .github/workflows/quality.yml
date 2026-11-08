@@ -19,6 +19,8 @@ jobs:
           done
       - name: Check pages, assets, anchors and metadata
         run: node scripts/check-site.mjs
+      - name: Check original organization logos and sources
+        run: node scripts/check-logos.mjs
       - name: Check project discovery behavior
         run: node scripts/check-recruiter.mjs
       - name: Check new tools and experiment invariants
@@ -42,6 +44,8 @@ jobs:
         run: python scripts/browser-smoke.py
       - name: Verify interactive workbench and engineering lab
         run: python scripts/browser-tools.py
+      - name: Verify original organization logos and responsive layout
+        run: python scripts/browser-logos.py
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

@@ -54,7 +54,7 @@
     const vertices = [], indices = [];
     const points = [[0,.29,0],[.17,.06,.15],[-.17,.06,.15],[-.17,.06,-.15],[.17,.06,-.15],[0,-.23,0]];
     const faces = [[0,1,2],[0,2,3],[0,3,4],[0,4,1],[5,2,1],[5,3,2],[5,4,3],[5,1,4]];
-    const locations = [[1.1,.88,.25,.9],[-1.06,-.95,.15,.8],[-1.16,.61,-.15,.42],[1.08,-.72,-.22,.56],[0.15,1.28,-.18,.38]];
+    const locations = [[1.1,.88,.25,.9],[-1.06,-.95,.15,.8],[-1.16,.61,-.15,.42]];
     for (const [cx,cy,cz,s] of locations) {
       for (const face of faces) {
         const p = face.map(i => add(mul(points[i],s),[cx,cy,cz]));
@@ -104,22 +104,20 @@
     varying mediump vec2 vMaterial;
     uniform mediump float uTime;
     vec3 environment(vec3 r) {
-      vec3 midnight=vec3(.02,.025,.06);
-      vec3 violet=vec3(.52,.24,.98);
-      vec3 cyan=vec3(.12,.92,.98);
-      vec3 coral=vec3(1.0,.38,.52);
-      vec3 lime=vec3(.78,.98,.28);
-      vec3 light=mix(midnight,vec3(.24,.30,.46),smoothstep(-.35,.8,r.y));
-      light+=violet*pow(max(0.0,dot(r,normalize(vec3(-.8,.3,.5)))),3.8)*1.85;
-      light+=cyan*pow(max(0.0,dot(r,normalize(vec3(.85,.3,.25)))),6.2)*1.75;
-      light+=coral*pow(max(0.0,dot(r,normalize(vec3(-.2,-.8,.35)))),7.0)*1.35;
-      light+=lime*pow(max(0.0,dot(r,normalize(vec3(.45,.75,-.35)))),9.0)*.75;
+      vec3 midnight=vec3(.024,.03,.065);
+      vec3 violet=vec3(.40,.20,.86);
+      vec3 cyan=vec3(.20,.80,.88);
+      vec3 coral=vec3(1.0,.46,.33);
+      vec3 light=mix(midnight,vec3(.23,.28,.40),smoothstep(-.35,.8,r.y));
+      light+=violet*pow(max(0.0,dot(r,normalize(vec3(-.8,.3,.5)))),4.0)*1.6;
+      light+=cyan*pow(max(0.0,dot(r,normalize(vec3(.85,.3,.25)))),7.0)*1.5;
+      light+=coral*pow(max(0.0,dot(r,normalize(vec3(-.2,-.8,.35)))),8.0)*1.1;
       // Broad photographic light strips create the unmistakable chrome finish.
-      float softbox=pow(max(0.0,dot(r,normalize(vec3(-.32,.88,1.0)))),24.0);
-      float edge=pow(max(0.0,dot(r,normalize(vec3(.85,-.15,.7)))),52.0);
-      light+=vec3(1.2,1.24,1.38)*softbox*2.15+vec3(.65,1.28,1.42)*edge*2.55;
+      float softbox=pow(max(0.0,dot(r,normalize(vec3(-.32,.88,1.0)))),26.0);
+      float edge=pow(max(0.0,dot(r,normalize(vec3(.85,-.15,.7)))),58.0);
+      light+=vec3(1.15,1.19,1.3)*softbox*2.0+vec3(.7,1.2,1.35)*edge*2.4;
       float band=pow(max(0.0,1.0-abs(r.y-.25)*4.0),18.0);
-      light+=vec3(.78,.72,.98)*band*.32;
+      light+=vec3(.72,.7,.95)*band*.25;
       return light;
     }
     void main() {
@@ -128,18 +126,18 @@
       if(dot(N,V)<0.0)N=-N;
       vec3 R=reflect(-V,N);
       float facing=max(dot(N,V),0.0);
-      float fresnel=pow(1.0-facing,2.8);
+      float fresnel=pow(1.0-facing,3.0);
       vec3 colour=environment(R);
-      vec3 film=.55+.45*cos(vec3(.0,2.1,4.2)+facing*8.5+vMaterial.x*6.28318+uTime*.08);
-      colour=mix(colour,colour*film*1.78,.28+fresnel*.28);
-      colour+=vec3(.18,.10,.30)*max(dot(N,normalize(vec3(-.5,.9,1.0))),0.0);
-      colour+=vec3(.22,.78,.92)*fresnel*.26;
-      if(vMaterial.y>.5&&vMaterial.y<1.5)colour=mix(colour,vec3(.46,.62,.98),.24)*.88;
+      vec3 film=.55+.45*cos(vec3(.0,2.1,4.2)+facing*8.0+vMaterial.x*5.0+uTime*.08);
+      colour=mix(colour,colour*film*1.65,.23+fresnel*.22);
+      colour+=vec3(.16,.09,.25)*max(dot(N,normalize(vec3(-.5,.9,1.0))),0.0);
+      colour+=vec3(.26,.65,.8)*fresnel*.19;
+      if(vMaterial.y>.5&&vMaterial.y<1.5)colour=mix(colour,vec3(.42,.55,.9),.2)*.82;
       if(vMaterial.y>1.5){
-        colour=environment(R)*.82+film*.18+vec3(.22,.34,.52)*fresnel;
-        colour+=vec3(.85,.96,1.0)*pow(max(dot(N,normalize(vec3(-.4,.8,1.0))),0.0),42.0)*1.6;
+        colour=environment(R)*.75+film*.13+vec3(.18,.25,.4)*fresnel;
+        colour+=vec3(.8,.94,1.0)*pow(max(dot(N,normalize(vec3(-.4,.8,1.0))),0.0),45.0)*1.4;
       }
-      colour=colour/(colour+vec3(.74));
+      colour=colour/(colour+vec3(.78));
       colour=pow(colour,vec3(.4545));
       gl_FragColor=vec4(colour,1.0);
     }

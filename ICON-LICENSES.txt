@@ -45,3 +45,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 Brand icons: Simple Icons, https://simpleicons.org, CC0-1.0. Brand names and marks remain property of their respective owners.
+
+ORGANIZATION LOGOS (8 November 2026)
+----------------------------------
+The five files in assets/images/logos are unchanged existing organization marks,
+not generated artwork. They identify the internship organizations and educational
+institutions already named in this portfolio. All trademarks and logo copyrights
+remain with their respective owners; no endorsement or license grant is implied.
+The IHRD emblem is the parent-organization mark used by the College of Applied
+Science Thamarassery on its own website. Exact download URLs, source pages and
+original SHA-256 checksums are recorded in assets/images/logos/sources.json.
+GEC Thrissur's isolated crest comes from the documented Wikimedia file and was
+visually checked against the college's official placement-site logo. The two
+school emblems are not included because their exact identity could not be
+verified; no substitute or generated school crest has been used.

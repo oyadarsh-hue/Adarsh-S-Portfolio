@@ -106,3 +106,28 @@ Verified typing completion, deletion and repetition while visible; individual 3D
 ## Visible contact icons and replayable headings
 
 Verified four labeled inline SVG links in the introduction, destination URLs, two heading animation re-entry cycles, mobile contact layout, six responsive widths, pause/reduced motion, CV download, and zero automated accessibility violations across the homepage and five case studies. No runtime errors. Brand glyphs and phone licensing are documented in ICON-LICENSES.txt.
+
+## 7 November snapshot restoration (8 November 2026)
+
+Restore baseline: `8163bcf12aab30a559056692d5e6e176f7eb5290`.
+Recovery branch for the replaced version: `backup/pre-restore-20261108` at
+`55fe66969cf2e24c5914ad43cbcbab3bd1744898`. Restoration uses a new descendant commit,
+not a forced reset of main. Source content and original portrait/project media are
+restored; additions are limited to sourced organization marks, website links,
+provenance documentation and their regression checks.
+
+Local validation passed: 10 pages, 246 local references, JSON metadata, CV signature,
+all JavaScript syntax, role/search checks, tool invariants, scroll geometry and
+five logo checksums. The new responsive logo browser test covers 320, 390, 768 and
+1440 pixels, decoded images, uncropped proportions, overflow, Bluegen link,
+no-JavaScript content and runtime errors. The workflow also runs the existing
+complete browser and interactive-tool regression suites. Their exact result is
+recorded in the GitHub Actions run for the restoration commit, with screenshots
+and machine-readable reports in the portfolio-browser-evidence artifact.
+
+No images were generated for this restoration. Original company marks came from
+the organizations' website assets. CAS Thamarassery uses the IHRD parent emblem;
+it is labeled accordingly. GEC's isolated crest was verified against its official
+placement website. School identities were verified as GHSS/GVHSS Thamarassery
+(47072) and MGM Engapuzha (47090), but the exact school emblems could not be verified.
+They have not been replaced with generic government or namesake school logos.
