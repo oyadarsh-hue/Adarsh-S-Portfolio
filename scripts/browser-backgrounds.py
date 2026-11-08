@@ -105,6 +105,8 @@ try:
             check(page.locator(f'{selector} .scene-picture img').evaluate('(i)=>i.currentSrc.endsWith("-960.webp")'), f'High-DPR phone uses compact 960px artwork: {name}')
             check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No mobile horizontal overflow: {name}')
             check(page.locator(f'{selector} .scene-picture img').evaluate('(i)=>getComputedStyle(i).opacity') == '1', f'Mobile artwork keeps full image contrast: {name}')
+            if name == 'story':
+                check(page.locator('#storyTitle').evaluate('(e)=>getComputedStyle(e).backgroundColor.includes("7, 9, 24")'), 'Story copy has a local reading scrim instead of dimming all scenery')
             if name == 'research':
                 check(page.locator('#publication').evaluate('(e)=>{const h=e.querySelector(".section-heading").getBoundingClientRect(), c=e.querySelector(".publication-card").getBoundingClientRect(); return c.top-h.bottom>=230;}'), 'Manuscript has a visible art window before the opaque reading card')
                 scroll(page, page.locator(selector).evaluate('(e)=>e.getBoundingClientRect().top+scrollY')-74)

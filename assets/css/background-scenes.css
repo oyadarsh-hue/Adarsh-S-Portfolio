@@ -55,7 +55,19 @@
 .prism-home .story-sticky .story-orbit { opacity: .15; }
 .prism-home .story-sticky .story-meta,
 .prism-home .story-sticky .story-bottom p { color: #dce2f5; text-shadow: 0 2px 8px #070918; }
-.prism-home .story-sticky .story-words { filter: drop-shadow(0 2px 9px #070918); }
+.prism-home .story-sticky #storyTitle {
+  width: fit-content;
+  max-width: 100%;
+  padding: clamp(14px, 2vw, 28px);
+  border-radius: 4px;
+  background: #070918b8;
+}
+.prism-home .story-sticky .story-words>span {
+  background-image: linear-gradient(90deg, #fff var(--word-fill, 100%), #bac5e0 var(--word-fill, 100%));
+}
+.prism-home .story-sticky .story-words>.story-accent {
+  background-image: linear-gradient(90deg, #d0bdff var(--word-fill, 100%), #b7accf var(--word-fill, 100%));
+}
 /* An unobstructed art window above the research card: the card no longer hides
    the manuscript, and its opaque reading surface remains unchanged. */
 .prism-home #publication[data-background-scene] {
