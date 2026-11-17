@@ -4,18 +4,20 @@ import hashlib
 from pathlib import Path
 
 from playwright.sync_api import expect
-from browser_fixture import run_suite
+from browser_fixture import ROOT, run_suite
 
 PROJECTS = ("assenttag", "epigraphix-ai", "aegisforge-x", "deciphera", "quietnote")
 SCHOOLS = {"mca": "Thrissur", "bsc": "Thamarassery", "hse": "Thamarassery", "sslc": "Engapuzha"}
 COMPANIES = {"bluegen": "Bluegen", "skybrisk": "Skybrisk", "codtech": "CODTECH"}
 CLIPS = (*PROJECTS, *SCHOOLS, *COMPANIES, "publication")
 LONG = {"projects": "project-film", "journey": "journey-film"}
+# Each independent frame pairs a scored remaster with the original download.
 ARCHIVE = {
-    "original-project": ("adarsh-project-reel.mp4", 16),
-    "original-loop": ("dimensional-loop.mp4", 8),
+    "orbit": ("orbit-reel", "orbit-score", "assets/field/film.mp4", 15),
+    "landscape": ("landscape-reel", "landscape-score", "assets/field/landscape.mp4", 9),
+    "original-project": ("original-project-reel", "teaser-remaster", "assets/video/adarsh-project-reel.mp4", 16),
+    "original-loop": ("original-loop-reel", "loop-remaster", "assets/video/dimensional-loop.mp4", 8),
 }
-REELS = {"orbit": ("orbit-reel", "film", 15), "landscape": ("landscape-reel", "landscape", 9)}
 
 
 def frame_for(page, slug):
@@ -105,6 +107,34 @@ def play(frame):
     frame.locator("video").evaluate("v => v.play()")
 
 
+def verify_audible(video, start, label, test):
+    # Measure actual decoded PCM; an audio track can contain silence.
+    stats = video.evaluate("""async (v, start) => {
+        v.currentTime = start;
+        const ctx = window.portfolioAudioTest ||= new AudioContext();
+        if (!v._testAnalyser) {
+            v._testAnalyser = ctx.createAnalyser();
+            v._testAnalyser.fftSize = 2048;
+            ctx.createMediaElementSource(v).connect(v._testAnalyser);
+            v._testAnalyser.connect(ctx.destination);
+        }
+        await ctx.resume(); await v.play();
+        const data = new Float32Array(v._testAnalyser.fftSize);
+        let rms = 0;
+        for (let i=0; i<50 && rms<.009; i++) {
+            await new Promise(r => setTimeout(r, 65));
+            v._testAnalyser.getFloatTimeDomainData(data);
+            rms = Math.max(rms, Math.sqrt(data.reduce((sum,x) => sum+x*x,0) / data.length));
+        }
+        v.pause();
+        return {rms, muted:v.muted, volume:v.volume};
+    }""", start)
+    test.check(
+        stats["rms"] > 0.003 and not stats["muted"] and stats["volume"] > 0,
+        f"{label}: decoded audio is audible (sample RMS {stats['rms']:.4f})",
+    )
+
+
 def verify_audio_and_captions(frame, slug, test):
     video = frame.locator("video")
     track = video.locator('track[kind="captions"]')
@@ -129,32 +159,7 @@ def verify_audio_and_captions(frame, slug, test):
         f"{slug}: captions are local to this film’s timeline",
     )
 
-    # An audio track can contain silence. Measure browser-decoded PCM during the first spoken cue.
-    stats = video.evaluate("""async v => {
-        const t = v.querySelector('track[kind="captions"]').track;
-        v.currentTime = t.cues[0].startTime + .12;
-        const ctx = window.portfolioAudioTest ||= new AudioContext();
-        if (!v._testAnalyser) {
-            v._testAnalyser = ctx.createAnalyser();
-            v._testAnalyser.fftSize = 2048;
-            ctx.createMediaElementSource(v).connect(v._testAnalyser);
-            v._testAnalyser.connect(ctx.destination);
-        }
-        await ctx.resume(); await v.play();
-        const data = new Float32Array(v._testAnalyser.fftSize);
-        let rms = 0;
-        for (let i=0; i<50 && rms<.009; i++) {
-            await new Promise(r => setTimeout(r, 65));
-            v._testAnalyser.getFloatTimeDomainData(data);
-            rms = Math.max(rms, Math.sqrt(data.reduce((sum,x) => sum+x*x,0) / data.length));
-        }
-        v.pause();
-        return {rms, muted:v.muted, volume:v.volume};
-    }""")
-    test.check(
-        stats["rms"] > 0.003 and not stats["muted"] and stats["volume"] > 0,
-        f"{slug}: decoded narration is audible (sample RMS {stats['rms']:.4f})",
-    )
+    verify_audible(video, timeline[0][0] + .12, slug, test)
     cue = timeline[len(timeline) // 2]
     video.evaluate("(v, n) => {v.currentTime = n}", (cue[0] + cue[1]) / 2)
     until_video(frame, "Array.from(v.textTracks[0].activeCues || []).some(c => c.text === arg)", cue[2])
@@ -246,7 +251,7 @@ def check_placement(page, test):
                 .lower(),
                 f"{slug}: film belongs to the correct institution or employer",
             )
-    for slug, target in {**LONG, **{s: v[0] for s, v in REELS.items()}}.items():
+    for slug, target in {**LONG, **{s: v[0] for s, v in ARCHIVE.items()}}.items():
         frame = frame_for(page, slug)
         test.check(
             frame.get_attribute("id") == target and frame.evaluate('e => !!e.closest("#showreel")'),
@@ -254,7 +259,7 @@ def check_placement(page, test):
         )
     test.check(
         page.locator("#showreel .screen-card").count() == 6,
-        "The theatre contains both narrated films, two 4K silent reels, and both archive originals",
+        "The theatre contains both narrated films and four separate scored archive editions",
     )
     for width in (1440, 768, 390, 320):
         page.set_viewport_size({"width": width, "height": 900})
@@ -358,36 +363,29 @@ with run_suite("backgrounds") as (browser, test):
                 f"{slug}: returning to HD preserves pause and position",
             )
 
-        for slug, (_, stem, length) in REELS.items():
+        for slug, (_, stem, original, seconds) in ARCHIVE.items():
             frame = frame_for(page, slug)
-            play(frame)
-            verify_stream(frame, True, stem + "-720.mp4", test)
-            quality(frame).select_option("uhd")
-            verify_stream(frame, False, stem + ".mp4", test)
-            test.check(
-                abs(frame.locator("video").evaluate("v=>v.duration") - length) < 0.2,
-                f"{slug}: original visual reel duration",
-            )
-            frame.locator("video").evaluate("v=>v.pause()")
-
-        for slug, (filename, length) in ARCHIVE.items():
-            frame = frame_for(page, slug)
-            test.check(
-                frame.evaluate('e=>!!e.closest("#showreel")'),
-                f"{slug}: original occupies its own theatre frame",
-            )
             video = frame.locator("video")
-            expect(video.locator("source")).to_have_attribute("src", "assets/video/" + filename)
-            expect(frame.locator(f'a[href="assets/video/{filename}"]')).to_be_visible()
-            play(frame)
-            until_video(
-                frame, "v.readyState>=2 && v.videoWidth===960 && v.videoHeight===540 && v.currentTime>0"
-            )
-            test.check(
-                abs(video.evaluate("v=>v.duration") - length) < 0.1,
-                f"{slug}: the original 960×540 film decodes for its original duration",
-            )
-            video.evaluate("v=>v.pause()")
+            original_link = frame.locator("[data-original]")
+            expect(original_link).to_have_attribute("href", original)
+            expect(original_link).to_be_visible()
+            uri = "assets/archive/" + stem
+            expect(video.locator("source")).to_have_attribute("src", uri + "-hd.mp4")
+            expect(frame.locator("[data-uhd]")).to_have_attribute("href", uri + ".mp4")
+            for mode, suffix in (("hd", "-hd.mp4"), ("uhd", ".mp4")):
+                quality(frame).select_option(mode)
+                play(frame)
+                verify_stream(frame, mode == "hd", uri + suffix, test)
+                test.check(abs(video.evaluate("v => v.duration") - seconds) < .2,
+                           f"{slug}: {mode} preserves the original running time")
+                verify_audible(video, seconds * .35, f"{slug} {mode} soundtrack", test)
+            expect(original_link).to_have_attribute("href", original)
+            with page.expect_download() as original_download:
+                original_link.click()
+            with (ROOT / original).open("rb") as expected, Path(original_download.value.path()).open("rb") as saved:
+                test.check(hashlib.file_digest(saved, "sha256").digest() == hashlib.file_digest(expected, "sha256").digest(),
+                           f"{slug}: original download preserves the approved source bytes")
+
         for slug in CLIPS:
             frame = frame_for(page, slug)
             video = frame.locator("video")

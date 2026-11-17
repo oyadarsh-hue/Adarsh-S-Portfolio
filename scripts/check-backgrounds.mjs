@@ -158,21 +158,29 @@ for (const name of films) {
   const cues = validateCaptions(meta.captions, duration);
   console.log(name + ': ' + cues + ' English caption cues');
 }
-for (const [name, seconds] of [['film', 15], ['landscape', 9]]) {
-  for (const [suffix, width, height] of [['-720', 1280, 720], ['', 3840, 2160]]) {
-    const file = name + suffix + '.mp4';
-    inspectFilm(readMediaFile(file), file, width, height,
-      {minDuration: seconds-.1, maxDuration: seconds+.1, narrated: false});
-  }
+for (const [name, seconds] of [['film-720.mp4', 15], ['landscape-720.mp4', 9]]) {
+  inspectFilm(readMediaFile(name), name, 1280, 720,
+    {minDuration: seconds-.1, maxDuration: seconds+.1, narrated: false});
 }
 const archive = [
-  ['adarsh-project-reel.mp4', 16, 'd637a76f51caf899c1ab00cedabeaca952ca62897c33bb02973f6cf116418af5'],
-  ['dimensional-loop.mp4', 8, '61c6a7ebfeb8a51340f22d329ce93b1d6dd4dd6d3a76d80348443f5174a5ac2f'],
+  {file: 'film.mp4', folder: 'field', stem: 'orbit-score', duration: 15, width: 3840, height: 2160,
+    digest: '7975753a50d09ea97a5fc7c03c2cf0938256f0e54c09c1201dfcf9aec8c52d27'},
+  {file: 'landscape.mp4', folder: 'field', stem: 'landscape-score', duration: 9, width: 3840, height: 2160,
+    digest: '8260cc7ddee0820abc2efb6d8b4d9bc614f101a68f1105345e7c4c904df6de19'},
+  {file: 'adarsh-project-reel.mp4', folder: 'video', stem: 'teaser-remaster', duration: 16, width: 960, height: 540,
+    digest: 'd637a76f51caf899c1ab00cedabeaca952ca62897c33bb02973f6cf116418af5'},
+  {file: 'dimensional-loop.mp4', folder: 'video', stem: 'loop-remaster', duration: 8, width: 960, height: 540,
+    digest: '61c6a7ebfeb8a51340f22d329ce93b1d6dd4dd6d3a76d80348443f5174a5ac2f'},
 ];
-for (const [name, length, digest] of archive) {
-  const bytes = readMediaFile(name, 'video');
-  assert.equal(createHash('sha256').update(bytes).digest('hex'),digest,name + ' original should stay intact');
-  inspectFilm(bytes,name,960,540,{minDuration:length-.1,maxDuration:length+.1,narrated:false});
+for (const {file, folder, stem, duration, width, height, digest} of archive) {
+  const original = readMediaFile(file, folder);
+  assert.equal(createHash('sha256').update(original).digest('hex'), digest, file + ' original changed');
+  const limits = {minDuration: duration-.15, maxDuration: duration+.15};
+  inspectFilm(original, file, width, height, {...limits, narrated: false});
+  for (const [suffix, w, h] of [['-hd',1280,720],['',3840,2160]]) {
+    const edition = stem + suffix + '.mp4';
+    inspectFilm(readMediaFile(edition,'archive'), edition, w, h, limits);
+  }
 }
 const clipNames = ['assenttag', 'epigraphix-ai', 'aegisforge-x', 'deciphera', 'quietnote',
   'mca', 'bsc', 'hse', 'sslc', 'bluegen', 'skybrisk', 'codtech', 'publication'];

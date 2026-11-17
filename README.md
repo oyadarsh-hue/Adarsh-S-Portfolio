@@ -4,7 +4,7 @@
 
 The homepage gives each project, internship, education stage and paper its own film frame. Each of the thirteen section films has an independent UHD MP4, 720p MP4, local captions and poster under `assets/clips/`. The five dedicated project pages also link and play their respective walkthrough. Only the selected film plays sound.
 
-The screening room presents *The projects* and *My journey* as two separate narrated productions. Four earlier films have independent archive frames, including the original 540p teaser and dimensional loop. Each supported frame has its own quality selector. The two longer documentaries retain their downloadable and full-detail 4K editions and their chapter navigation and transcripts.
+The screening room presents *The projects* and *My journey* as two separate narrated productions. Four archive reels have individual players, HD and 4K editions, and new instrumental scores. Each frame also links to its original silent file, including the early 540p project teaser and dimensional loop. The two longer documentaries retain their downloadable and full-detail 4K editions and their chapter navigation and transcripts.
 
 The portrait sits over three selectable Kerala-inspired photographs. Headings and a horizontal discipline strip move with native scrolling, with a pause control and system reduced-motion support. LinkedIn, GitHub, Gmail and telephone contact buttons link to the supplied accounts and contact details. Asset sources are in `ICON-LICENSES.txt`.
 
