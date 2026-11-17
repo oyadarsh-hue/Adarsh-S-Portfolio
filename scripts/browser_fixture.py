@@ -5,6 +5,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
+import re
 from threading import Thread
 
 from playwright.sync_api import sync_playwright
@@ -22,12 +23,49 @@ class PagesHandler(SimpleHTTPRequestHandler):
         self.path = '/' + self.path[len(PREFIX):]
         super().do_GET()
 
+    def send_head(self):
+        # Match GitHub Pages byte-range requests used for long-video seeking.
+        self.remaining_bytes = None
+        path = Path(self.translate_path(self.path))
+        byte_range = self.headers.get('Range')
+        if path.suffix != '.mp4' or not byte_range or not path.is_file():
+            return super().send_head()
+        match = re.fullmatch(r'bytes=(\d*)-(\d*)', byte_range.strip())
+        size = path.stat().st_size
+        if not match or not any(match.groups()):
+            return super().send_head()
+        left, right = match.groups()
+        start = int(left) if left else max(0, size - int(right))
+        end = min(int(right), size - 1) if left and right else size - 1
+        if not 0 <= start <= end < size:
+            self.send_response(416)
+            self.send_header('Content-Range', f'bytes */{size}')
+            self.end_headers()
+            return None
+        stream = path.open('rb')
+        stream.seek(start)
+        self.remaining_bytes = end - start + 1
+        self.send_response(206)
+        self.send_header('Content-Type', 'video/mp4')
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('Content-Length', str(self.remaining_bytes))
+        self.send_header('Content-Range', f'bytes {start}-{end}/{size}')
+        self.end_headers()
+        return stream
+
     def log_message(self, *_):
         pass
 
     def copyfile(self, source, destination):
         try:
-            super().copyfile(source, destination)
+            if self.remaining_bytes is None:
+                return super().copyfile(source, destination)
+            while self.remaining_bytes:
+                chunk = source.read(min(65_536, self.remaining_bytes))
+                if not chunk:
+                    break
+                destination.write(chunk)
+                self.remaining_bytes -= len(chunk)
         except (ConnectionResetError, BrokenPipeError):
             pass  # Seeking or navigating can cancel an in-flight media request.
 

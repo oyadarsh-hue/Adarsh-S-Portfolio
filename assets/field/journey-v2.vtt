@@ -1,0 +1,121 @@
+WEBVTT
+
+00:00:00.280 --> 00:00:03.260
+How does a developer get from biology classes
+in Kerala
+
+00:00:03.260 --> 00:00:05.970
+to reading the marks on a centuries-old palm
+leaf?
+
+00:00:05.970 --> 00:00:08.490
+For Adarsh, the journey began in school.
+
+00:00:09.113 --> 00:00:11.874
+He completed high school at MGM in Engapuzha,
+
+00:00:11.874 --> 00:00:16.475
+then studied biology at Government Higher
+Secondary School in Thamarassery.
+
+00:00:17.113 --> 00:00:20.043
+At the College of Applied Science in
+Thamarassery,
+
+00:00:20.043 --> 00:00:22.153
+he earned a computer science degree.
+
+00:00:22.153 --> 00:00:26.321
+Programming and databases became his
+foundation for building software.
+
+00:00:26.947 --> 00:00:29.826
+His master's at Government Engineering
+College,
+
+00:00:29.826 --> 00:00:32.276
+Thrissur, brought those skills together.
+
+00:00:32.276 --> 00:00:36.886
+He applied computer vision to photo privacy
+and to reading handwritten manuscripts.
+
+00:00:37.488 --> 00:00:40.759
+At Bluegen Solutions, he built Django
+endpoints for
+
+00:00:40.759 --> 00:00:44.351
+authenticated requests and designed linked
+MySQL tables.
+
+00:00:44.351 --> 00:00:48.368
+Debugging with the team taught him to trace an
+issue from request to database.
+
+00:00:48.988 --> 00:00:52.130
+At The Skybrisk, he built React components for
+
+00:00:52.130 --> 00:00:55.409
+product catalogs, purchase orders, and
+invoices.
+
+00:00:55.409 --> 00:00:59.814
+He connected them to APIs, managed state with
+Redux Toolkit,
+
+00:00:59.814 --> 00:01:02.016
+and added PDF invoice exports.
+
+00:01:02.655 --> 00:01:06.800
+His DevOps internship at CODTECH took him into
+software delivery.
+
+00:01:06.800 --> 00:01:10.082
+He automated builds and tests in GitHub
+Actions,
+
+00:01:10.082 --> 00:01:14.800
+configured Kubernetes deployments, and added
+baseline security scans.
+
+00:01:15.405 --> 00:01:18.081
+His published paper asks how software can read
+
+00:01:18.081 --> 00:01:20.874
+inkless writing carved into damaged palm
+leaves.
+
+00:01:20.874 --> 00:01:23.990
+It describes checking the leaf's surface and
+using adaptive
+
+00:01:23.990 --> 00:01:26.842
+thresholding to separate faint grooves from
+the grain.
+
+00:01:27.447 --> 00:01:30.665
+The paper explores transformer-based
+transcription.
+
+00:01:30.665 --> 00:01:35.145
+The public prototype uses geometric features
+and a Malayalam word list.
+
+00:01:35.145 --> 00:01:38.294
+A next step is to test a trained recognizer on
+
+00:01:38.294 --> 00:01:41.717
+held-out manuscripts and measure character
+errors.
+
+00:01:42.322 --> 00:01:46.607
+Across these experiences, Adarsh learned to
+connect an interface,
+
+00:01:46.607 --> 00:01:50.101
+a database, an image pipeline, and a release
+process.
+
+00:01:50.101 --> 00:01:53.353
+He wants to bring those skills to a software
+engineering team.

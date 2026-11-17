@@ -76,6 +76,31 @@
     });
     document.querySelectorAll("main h1, main h2, .role-card, .evidence-grid > div").forEach(el => entrances.observe(el));
   }
+  const scene = document.querySelector(".interior-scene");
+  if (scene && "IntersectionObserver" in window) {
+    const stage = scene.parentElement;
+    let visible = false;
+    let frame = 0;
+    function paintPhoto() {
+      frame = 0;
+      if (!visible || reduced.matches || paused) return;
+      const rect = stage.getBoundingClientRect();
+      const fraction = Math.min(1, Math.max(0, -rect.top / Math.max(1, rect.height)));
+      scene.style.setProperty("--photo-y", (fraction * Math.min(24, rect.height * .035)).toFixed(2) + "px");
+    }
+    function queuePhoto() {
+      if (visible && !frame && !reduced.matches && !paused) frame = requestAnimationFrame(paintPhoto);
+    }
+    const visibility = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      queuePhoto();
+    });
+    visibility.observe(stage);
+    addEventListener("scroll", queuePhoto, {passive:true});
+    addEventListener("resize", queuePhoto, {passive:true});
+    motion?.addEventListener("click", queuePhoto);
+    reduced.addEventListener("change", queuePhoto);
+  }
   for (const [stageSelector, printSelector] of [
     [".case-art-stage", ".case-art"],
     [".summary-art", ".summary-photo-frame"],

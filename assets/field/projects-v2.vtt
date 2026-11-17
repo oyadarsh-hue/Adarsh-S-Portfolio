@@ -1,0 +1,119 @@
+WEBVTT
+
+00:00:00.230 --> 00:00:02.670
+AssentTag starts with a group photo.
+
+00:00:02.670 --> 00:00:07.242
+OpenCV finds faces and Dlib compares
+them with enrolled identities.
+
+00:00:07.598 --> 00:00:09.789
+A face match still needs permission.
+
+00:00:09.789 --> 00:00:13.266
+The Django app blurs the face until it
+has consent.
+
+00:00:13.266 --> 00:00:14.884
+MySQL stores the records.
+
+00:00:15.265 --> 00:00:18.306
+Next, evaluate missed faces and masking
+failures
+
+00:00:18.306 --> 00:00:21.255
+on a representative, consented dataset.
+
+00:00:21.938 --> 00:00:24.918
+On a palm leaf, faint writing can
+resemble grain.
+
+00:00:24.918 --> 00:00:28.704
+EpigraphiX-AI uses adaptive thresholds
+to separate the two.
+
+00:00:29.057 --> 00:00:32.590
+Python and OpenCV isolate connected
+marks as glyphs.
+
+00:00:32.590 --> 00:00:36.549
+A Malayalam lexicon helps review likely
+character sequences.
+
+00:00:36.890 --> 00:00:39.566
+Next, connect a trained recognition
+model
+
+00:00:39.566 --> 00:00:43.283
+and measure character and word errors
+on unseen manuscripts.
+
+00:00:43.938 --> 00:00:47.619
+AegisForge-X makes a security finding
+traceable to the source.
+
+00:00:47.973 --> 00:00:50.960
+Python masks comments while preserving
+positions.
+
+00:00:50.960 --> 00:00:53.393
+Language rules flag potential issues,
+
+00:00:53.393 --> 00:00:57.145
+and hashes link evidence to the
+reviewed input for human inspection.
+
+00:00:57.515 --> 00:01:00.258
+Next, use labeled examples to measure
+false alarms
+
+00:01:00.258 --> 00:01:03.306
+and missed cases for each language and
+rule.
+
+00:01:03.980 --> 00:01:07.471
+Deciphera is a browser simulator for
+Bitcoin transfers.
+
+00:01:07.848 --> 00:01:10.421
+JavaScript models an off-chain
+transaction,
+
+00:01:10.421 --> 00:01:13.356
+then turns the same event into three
+explanations:
+
+00:01:13.356 --> 00:01:16.960
+one for a client, one for an auditor,
+and one for a technical reader.
+
+00:01:17.307 --> 00:01:19.933
+Next, add tests that compare each
+narrative
+
+00:01:19.933 --> 00:01:22.712
+with an explicitly defined transaction
+state.
+
+00:01:23.397 --> 00:01:24.905
+QuietNote tackles a race:
+
+00:01:24.905 --> 00:01:27.564
+two readers opening a one-time link
+together.
+
+00:01:27.932 --> 00:01:30.448
+Next.js and Hono handle the request.
+
+00:01:30.448 --> 00:01:34.623
+One conditional PostgreSQL update lets
+a single reader claim the note.
+
+00:01:34.623 --> 00:01:37.741
+Owners can also set expiry or revoke
+access.
+
+00:01:38.098 --> 00:01:42.668
+Next, add retention controls and test
+the counters under heavier traffic.
+

@@ -41,4 +41,4 @@ with run_suite('logos') as (browser, test):
         test.check(fallback.locator('#certifications article:visible').count() == 15,
                    'All courses remain available without JavaScript')
         test.check(fallback.locator('#experience details').count() == 3 and
-                   fallback.locator('#education img').count() == 4, 'Career and education entries retained')
+                   fallback.locator('#education img[src*="/logos/"]').count() == 4, 'Career and education entries retained')

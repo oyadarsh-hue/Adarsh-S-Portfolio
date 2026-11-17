@@ -2,9 +2,9 @@
 
 ## Current visual design
 
-The homepage pairs two original Kerala-inspired landscape images with a framed portrait. Its scroll effects move photo layers and typography inside stable sections. Visitors can switch the landscape, pause animation, and choose a light or dark theme. Those preferences carry between the homepage, case studies and interactive tools.
+The homepage presents the original portrait in a large, animated rectangular mount on mobile and desktop. Scroll-linked studio, archive, mountain and coastal photographs frame the case studies and career story. The theme switch and motion controls persist across pages.
 
-Two silent films are available in the reel section. *Project orbit* is a 15-second camera move through five project images. *3D landscape study* is a nine-second depth-based animation of the mountain and coastal scenes. Each has a 1280 × 720 web encode and a 3840 × 2160 UHD encode. New visual assets, local fonts and their licenses live in `assets/field/`.
+The film player features two narrated productions. *The projects* explains how all five applications work, their technologies and possible improvements. *My journey* follows four stages of education, three internships and the EpigraphiX-AI publication. Each film has chapter navigation, an English caption track, a readable transcript, mobile HD and downloadable 3840 × 2160 UHD H.264/AAC versions. Playback starts on request. Choosing Ultra HD loads the full-quality master in verified byte parts, with a smaller progressive 4K file available for direct downloads and fallback playback. Media and local typefaces live in `assets/field/`.
 
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 

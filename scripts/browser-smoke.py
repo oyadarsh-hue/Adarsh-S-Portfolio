@@ -72,6 +72,29 @@ with run_suite('portfolio') as (browser, test):
         for width in (1440, 900, 768, 390, 320):
             page.set_viewport_size({'width': width, 'height': 900})
             test.layout(page, f'home / {width}')
+            hero_portrait = page.locator('.portrait-mat img')
+            hero_portrait.scroll_into_view_if_needed()
+            hero_portrait.evaluate('i => i.decode()')
+            picture = hero_portrait.bounding_box()
+            test.check(picture is not None and picture['width'] >= (295 if width >= 1200 else 160)
+                       and picture['height'] >= 145 and picture['x'] >= -1
+                       and picture['x'] + picture['width'] <= width + 1,
+                       f'Color portrait fits and remains legible at {width}px')
+            test.check(hero_portrait.evaluate('i => !!i.alt.trim() && !getComputedStyle(i).filter.includes("grayscale")'),
+                       'The profile photo retains its color and accessible name')
+            about_image = page.locator('.lo-portrait-print > img')
+            about_image.scroll_into_view_if_needed()
+            about_image.evaluate('i => i.decode()')
+            about_box = about_image.bounding_box()
+            min_width = 290 if width >= 1200 else 180 if width >= 390 else 145
+            test.check(about_box is not None and about_box['width'] >= min_width,
+                       f'About page portrait is legible at {width}px')
+        for selector in ('.work-cover .window-photo', '#experience .lo-scene-photo', '#education .lo-scene-photo'):
+            photo = page.locator(selector)
+            photo.scroll_into_view_if_needed()
+            photo.evaluate('i => i.decode()')
+            test.check(photo.evaluate('i => i.naturalWidth >= 640 && i.getBoundingClientRect().height >= 120'),
+                       f'Visible photographic background: {selector}')
         page.locator('#menuButton').click()
         expect(page.locator('#menuButton')).to_have_attribute('aria-expanded', 'true')
         page.keyboard.press('Escape')
@@ -99,8 +122,8 @@ with run_suite('portfolio') as (browser, test):
         test.check(page.locator('a[href$=".pdf"]:visible').count() > 0, 'CV is reachable without JavaScript')
         test.check(page.locator('#portfolioFilm').evaluate("v => v.controls && (v.getAttribute('src') || v.querySelector('source[src]')) !== null"),
                    'Native video controls and source work without JavaScript')
-        expect(page.locator('#showreel a[href="assets/field/landscape.mp4"]')).to_be_visible()
-        test.check(True, 'Landscape film also has a native no-JavaScript playback link')
+        expect(page.locator('#showreel a[href="assets/field/journey-v2.mp4"]')).to_be_visible()
+        test.check(True, 'Journey film also has a native no-JavaScript playback link')
         test.layout(page, 'no JavaScript')
     with browser.new_context(color_scheme='dark', reduced_motion='reduce') as context:
         context.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw Error('blocked')}})")

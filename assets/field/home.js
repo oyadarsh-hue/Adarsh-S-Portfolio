@@ -63,7 +63,7 @@
 
   const hero = document.querySelector('.hero');
   const watches = new Set();
-  const frames = [...document.querySelectorAll('.card-image')];
+  const frames = [...document.querySelectorAll('.card-image,.scene-window')];
   let scheduled = false;
   function paint() {
     scheduled = false;
@@ -76,8 +76,14 @@
     watches.forEach(frame => {
       // The frame stays in normal flow. Only its child photograph is translated.
       const box = frame.getBoundingClientRect();
-      const drift = still ? 0 : Math.max(-4, Math.min(4, (innerHeight / 2 - box.top - box.height / 2) * .018));
-      frame.style.setProperty('--drift', drift.toFixed(2) + 'px');
+      const drift = still ? 0 : Math.max(-1, Math.min(1, (innerHeight - 2 * box.top - box.height) / (innerHeight + box.height))) * box.height * .045;
+      if (frame.classList.contains('scene-window')) {
+        const progress = (innerHeight / 2 - box.top - box.height / 2) / (innerHeight + box.height);
+        const dy = still ? 0 : Math.max(-1, Math.min(1, progress * 2)) * box.height * .065;
+        frame.style.setProperty('--window-y', dy.toFixed(2) + 'px');
+      } else {
+        frame.style.setProperty('--drift', drift.toFixed(2) + 'px');
+      }
     });
   }
   function queuePaint() {
@@ -151,53 +157,146 @@
   const film = byId('portfolioFilm');
   const quality = byId('filmQuality');
   const filmStatus = byId('filmStatus');
-  const films = {
-    projects: { web:'film-720.mp4', '4k':'film.mp4', poster:'poster.webp', time:'00:15', label:'Project orbit, five project artworks framed against Kerala landscapes' },
-    landscape: { web:'landscape-720.mp4', '4k':'landscape.mp4', poster:'landscape-poster.webp', time:'00:09', label:'3D landscape study through the Western Ghats and Malabar coast' }
-  };
-  const filmBase = 'assets/field/';
-  const filmButtons = [...document.querySelectorAll('[data-film]')];
-  let activeFilm = 'projects';
-  let restorePlayback;
-  let targetTime = 0;
-  let shouldResume = false;
-  function switchSource(next, reset) {
-    if (film.readyState > 0 || !restorePlayback) {
-      targetTime = film.currentTime;
-      shouldResume = !film.paused && !film.ended;
-    }
-    if (reset) targetTime = 0;
-    activeFilm = next;
-    const choice = films[next];
-    filmButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.film === next)));
-    byId('filmDownload').href = filmBase + choice['4k'];
-    byId('filmTime').textContent = choice.time;
-    film.setAttribute('aria-label', choice.label);
-    film.poster = filmBase + choice.poster;
-    filmStatus.textContent = '';
-    if (restorePlayback) film.removeEventListener('loadedmetadata', restorePlayback);
-    restorePlayback = () => {
-      if (targetTime > 0) film.currentTime = Math.min(targetTime, film.duration || targetTime);
-      restorePlayback = null;
-    };
-    film.addEventListener('loadedmetadata', restorePlayback, {once:true});
-    film.src = filmBase + choice[quality.value];
-    // Metadata is needed to restore a paused film after switching resolution.
-    film.preload = targetTime > 0 ? 'metadata' : 'none';
-    film.load();
-    if (shouldResume) film.play().catch(() => {});
+  const films = JSON.parse(byId('filmInfo').textContent);
+  const base = 'assets/field/';
+  const choices = [...document.querySelectorAll('[data-film]')];
+  const chapters = byId('filmChapters');
+  const captionTrack = byId('filmCaptions');
+  let current = 'projects';
+  let pendingTime = null;
+  let captionMode = captionTrack.track.mode;
+  const stamp = seconds => Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2,'0');
+  function highlight() {
+    const position = pendingTime ?? film.currentTime;
+    const items = films[current].chapters;
+    const index = items.findLastIndex(item => position + .04 >= item.start);
+    Array.from(chapters.children).forEach((button,i) => {
+      if (i === index) button.setAttribute('aria-current', 'true');
+      else button.removeAttribute('aria-current');
+    });
   }
-  quality.addEventListener('change', () => switchSource(activeFilm, false));
-  filmButtons.forEach(button => button.addEventListener('click', () => {
-    if (activeFilm !== button.dataset.film) switchSource(button.dataset.film, true);
-  }));
-  film.addEventListener('error', () => {
-    filmStatus.textContent = 'This browser couldn’t play this version. Try HD or download the 4K film.';
+  function writeProgram() {
+    const entry = films[current];
+    byId('programTitle').textContent = entry.title;
+    byId('filmTime').textContent = stamp(Math.round(entry.duration));
+    byId('filmDownload').setAttribute('href',base + entry['4k']);
+    film.setAttribute('aria-label',entry.title + ', with English narration');
+    choices.forEach(button => button.setAttribute('aria-pressed',String(button.dataset.film === current)));
+    chapters.replaceChildren(...entry.chapters.map(item => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.start = item.start;
+      const time = document.createElement('time');
+      time.textContent = stamp(item.start);
+      button.append(time,document.createTextNode(item.title));
+      return button;
+    }));
+    byId('filmTranscriptText').replaceChildren(...entry.transcript.map(text => {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      return paragraph;
+    }));
+    highlight();
+  }
+  function start() {
+    film.play().catch(() => { /* Native controls remain available if playback needs another gesture. */ });
+  }
+  let masterRequest = null;
+  let cachedMaster = null;
+  const download = byId('filmDownload');
+
+  function loadVideo(src, position, playing, preload) {
+    pendingTime = position;
+    film.src = src;
+    film.preload = preload;
+    film.load();
+    if (playing) start();
+  }
+
+  async function prepareMaster(id, request) {
+    const entry = films[id];
+    try {
+      const pieces = await Promise.all(entry.parts.map(async name => {
+        const response = await fetch(base + name, {signal:request.signal});
+        if (!response.ok) throw new Error('Film part unavailable');
+        return response.blob();
+      }));
+      if (request.signal.aborted) return;
+      const movie = new Blob(pieces, {type:'video/mp4'});
+      if (movie.size !== entry.masterBytes) throw new Error('Incomplete film');
+      const old = cachedMaster;
+      cachedMaster = {id,url:URL.createObjectURL(movie)};
+      download.href = cachedMaster.url;
+      loadVideo(cachedMaster.url, pendingTime ?? film.currentTime, !film.paused && !film.ended, 'metadata');
+      filmStatus.textContent = '';
+      if (old) URL.revokeObjectURL(old.url);
+    } catch {
+      if (request.signal.aborted) return;
+      request.abort();
+      loadVideo(base + entry['4k'], pendingTime ?? film.currentTime, !film.paused && !film.ended, 'metadata');
+      filmStatus.textContent = 'Using the smaller 4K edition.';
+    }
+  }
+
+  function setSource(id, reset) {
+    masterRequest?.abort();
+    masterRequest = null;
+    const playing = !film.paused && !film.ended;
+    const position = reset ? 0 : (pendingTime ?? film.currentTime);
+    const changingFilm = id !== current;
+    if (changingFilm) captionMode = captionTrack.track.mode;
+    current = id;
+    const entry = films[id];
+    filmStatus.textContent = '';
+    film.poster = base + entry.poster;
+    if (changingFilm) {
+      captionTrack.src = base + entry.captions;
+      captionTrack.track.mode = captionMode;
+      byId('filmTranscript').open = false;
+    }
+    writeProgram();
+    download.download = id + '-4k.mp4';
+    if (quality.value === '4k' && cachedMaster?.id === id) {
+      download.href = cachedMaster.url;
+      loadVideo(cachedMaster.url,position,playing,'metadata');
+      return;
+    }
+    if (changingFilm || quality.value === 'web') {
+      loadVideo(base + entry.web,position,playing,position > 0 ? 'metadata' : 'none');
+    }
+    if (quality.value === '4k') {
+      filmStatus.textContent = 'Preparing full-detail 4K…';
+      masterRequest = new AbortController();
+      prepareMaster(id,masterRequest);
+    }
+  }
+  film.addEventListener('loadedmetadata', () => {
+    if (pendingTime !== null && pendingTime > 0) film.currentTime = Math.min(pendingTime, film.duration);
+    pendingTime = null;
+    highlight();
   });
+  film.addEventListener('timeupdate', highlight);
+  film.addEventListener('error', () => { filmStatus.textContent = 'Playback failed. Try HD or download the selected film.'; });
+  chapters.addEventListener('click', event => {
+    const button = event.target.closest('button[data-start]');
+    if (!button) return;
+    const seek = Number(button.dataset.start);
+    if (film.readyState >= 1) film.currentTime = seek;
+    else pendingTime = seek;
+    highlight();
+    start();
+  });
+  quality.addEventListener('change', () => setSource(current,false));
+  choices.forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.film !== current) setSource(button.dataset.film,true);
+  }));
   document.querySelectorAll('[data-play-film]').forEach(link => {
     link.addEventListener('click', () => {
-      if (activeFilm !== 'projects') switchSource('projects', true);
-      film.play().catch(() => {});
+      if (current !== 'projects') setSource('projects',true);
+      start();
     });
   });
+  const linkedFilm = new URLSearchParams(location.search).get('film');
+  if (linkedFilm === 'journey') setSource('journey',true);
+  else writeProgram();
 })();

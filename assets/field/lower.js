@@ -15,3 +15,38 @@
   });
   filters.hidden = false;
 })();
+
+(() => {
+  const frames = [...document.querySelectorAll('.lo-scene-frame')];
+  if (!frames.length || !('IntersectionObserver' in window)) return;
+
+  const visible = new Set();
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let pendingFrame = 0;
+  function updatePhotos() {
+    pendingFrame = 0;
+    const still = reduceMotion.matches || document.documentElement.classList.contains('paused');
+    for (const frame of visible) {
+      const bounds = frame.getBoundingClientRect();
+      const progress = Math.max(-1, Math.min(1,
+        (innerHeight - bounds.height - 2 * bounds.top) / (innerHeight + bounds.height)
+      ));
+      const distance = Math.min(42, bounds.height * .065);
+      frame.style.setProperty('--lo-pan', (still ? 0 : progress * distance).toFixed(1) + 'px');
+    }
+  }
+  function schedulePhotoUpdate() {
+    if (visible.size && !pendingFrame) pendingFrame = requestAnimationFrame(updatePhotos);
+  }
+  const viewport = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (isIntersecting) visible.add(target);
+      else visible.delete(target);
+    }
+    schedulePhotoUpdate();
+  });
+  frames.forEach(frame => viewport.observe(frame));
+  new MutationObserver(schedulePhotoUpdate).observe(document.documentElement, {attributes: true, attributeFilter: ['class']});
+  addEventListener('scroll', schedulePhotoUpdate, {passive:true});
+  addEventListener('resize', schedulePhotoUpdate, {passive:true});
+})();
