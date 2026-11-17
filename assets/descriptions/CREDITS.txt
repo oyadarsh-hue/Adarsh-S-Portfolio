@@ -30,7 +30,16 @@ Piper voice references
   https://huggingface.co/rhasspy/piper-voices/blob/main/fa/fa_IR/amir/medium/MODEL_CARD
 
 The Kuwaiti Arabic descriptions have separate Kuwaiti wording and use the same Arabic voice as the standard Arabic descriptions.
-Tamil, Sinhala and Amharic were synthesized with eSpeak NG.
+Tamil is read by the Rasa Female neural voice published by tinisoft under CC BY 4.0, trained on AI4Bharat Rasa.
+https://huggingface.co/tinisoft/piper-ta_IN-rasa_female-medium
+https://huggingface.co/datasets/ai4bharat/Rasa
+https://creativecommons.org/licenses/by/4.0/
+
+Sinhala uses chan4lk’s Sinhala Medium neural voice, published under MIT and trained on the OpenSLR 30 Sinhala corpus.
+https://huggingface.co/chan4lk/piper-tts-sinhala
+https://www.openslr.org/30/
+
+Amharic uses eSpeak NG.
 https://github.com/espeak-ng/espeak-ng
 
 Spanish voice data is credited to OHF-Voice. Bengali sources include OpenSLR 37 and the CMU Indic corpus.

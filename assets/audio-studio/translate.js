@@ -1,4 +1,4 @@
-import {translationCode} from './languages.js';
+import {translationCode,equivalentTag} from './languages.js?v=6';
 const encoder=new TextEncoder();
 // The provider caps each query at 500 UTF-8 bytes. Cut on whitespace when possible.
 export function chunks(text,limit=470){
@@ -29,15 +29,19 @@ function decodeEntities(text){
 }
 export async function translateText(text,from,to,{engine,consent,onProgress,signal}){
   const sourceLanguage=translationCode(from),targetLanguage=translationCode(to);
-  if(from===to) return {text,method:'Source and output languages match. The original text is ready.'};
-  if(sourceLanguage===targetLanguage) return {text,method:'Using standard '+sourceLanguage+' for this language pair. The original text is ready.'};
+  if(equivalentTag(from)===equivalentTag(to)) return {text,language:to,method:'Source and output languages match. The original text is ready.'};
+  if(sourceLanguage===targetLanguage) throw Error('The translation engine uses the same language for both dialects. Enter the intended regional wording in Translated text.');
   if(engine==='local'){
     if(!globalThis.Translator) throw Error('On-device translation is unavailable in this browser. Select the online text service or enter the translation yourself.');
     const options={sourceLanguage,targetLanguage};
-    const availability=await Translator.availability(options);
-    if(availability==='unavailable') throw Error('This language pair is unavailable on this device. Choose online translation or enter the translation yourself.');
-    const translator=await Translator.create({...options,signal,monitor(m){m.addEventListener('downloadprogress',event=>onProgress('Downloading the browser language pack · '+Math.round(event.loaded*100)+'%'));}});
-    try {onProgress('Translating on this device…'); return {text:await translator.translate(text,{signal}),method:'Translated on this device.'};}
+    let translator;
+    try{
+      translator=await Translator.create({...options,signal,monitor(m){m.addEventListener('downloadprogress',event=>onProgress('Downloading the browser language pack · '+Math.round(event.loaded*100)+'%'));}});
+    }catch(error){
+      if(error.name==='AbortError')throw error;
+      throw Error('The local language pair could not start. Choose MyMemory or enter the translation yourself. '+error.message);
+    }
+    try {onProgress('Translating on this device…'); return {text:await translator.translate(text,{signal}),language:targetLanguage,method:'Translated on this device.'};}
     finally{translator.destroy();}
   }
   if(!consent) throw Error('Give permission to send the transcript text and language pair to MyMemory.');
@@ -56,5 +60,5 @@ export async function translateText(text,from,to,{engine,consent,onProgress,sign
     const leading=segment.match(/^\s*/u)[0], trailing=segment.match(/\s*$/u)[0];
     output.push(leading+decodeEntities(data.responseData.translatedText.trim())+trailing);
   }
-  return {text:output.join(''),method:'Translated by MyMemory. Review the wording before exporting.'};
+  return {text:output.join(''),language:targetLanguage,method:'Translated by MyMemory. Review the wording before exporting.'};
 }

@@ -1,45 +1,85 @@
-import {catalog,language,languageName,voiceFor,whisperFor,deviceVoice,translationCode} from './languages.js';
-import {decode,whisperSamples,wavBlob} from './audio.js';
-import {synthesizeWav,workerJob} from './speech.js';
-import {translateText} from './translate.js';
+import {catalog,language,languageName,voiceFor,voiceLabel,whisperFor,deviceVoice,translationCode,equivalentTag,writingHint} from './languages.js?v=6';
+import {decode,whisperSamples,wavBlob} from './audio.js?v=6';
+import {synthesizeWav,workerJob} from './speech.js?v=6';
+import {translateText} from './translate.js?v=6';
+import {filmTrack} from './film-track.js?v=6';
 const $=id=>document.getElementById(id);
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);
 let decoded=null,fileToken=0,originalURL='',resultURL='',busy=null,speaking=false,speakEpoch=0;
 let sourceRevision=0,languageEpoch=0,film=null,autoOutput=null,shownRecording='';
+const site=new URL('../../',import.meta.url);
+const drafts=new Map();
+let activeTag='',resultLang='',origin='',engineState='unavailable';
+let machineSource=null;
+const localeChecks=new Map();
 function authored(tag=to()){
   if(!film || from()!=='en' || source()!==film.original.trim())return null;
-  const base=tag.split('-')[0];
-  const translations=film.mode==='description'?film.info.translations:film.dubs;
-  const record=translations?.[tag] ?? translations?.[base];
-  if(film.mode==='description'){
-    const text=record || (tag==='en'?film.original:'');
-    if(!text)return null;
-    const sprite=film.info.audio?.[tag] ?? film.info.audio?.[base];
-    if(sprite?.src && Number.isFinite(sprite.start) && Number.isFinite(sprite.end) && sprite.end>sprite.start){
-      return {text,src:new URL('../../'+sprite.src,import.meta.url).href,start:sprite.start,end:sprite.end};
-    }
-    return {text};
+  return filmTrack(film.info,film.dubs,film.mode,tag,site);
+}
+function effectiveEngine(){
+  return $('engine').value==='auto' ? (engineState==='unavailable'?'online':'local') : $('engine').value;
+}
+function setOutput(text,code,description,automatic=false){
+  $('output').value=text || '';
+  resultLang=code || to();origin=description || '';autoOutput=automatic ? text : null;
+  machineSource=null;
+}
+function repaintOrigin(){
+  $('output').lang=resultLang || to();
+  $('sourceText').lang=from() || '';
+  const bundle=authored();
+  const hint=bundle?.src && bundle.text.trim()===output() ? '' : writingHint(output(),resultLang || to());
+  $('outputOrigin').textContent=output() ? [origin,hint].filter(Boolean).join(' ') : '';
+  $('compare').hidden=!source() || !output();
+  if(!$('compare').hidden){
+    $('compareFrom').textContent=languageName(from())+' original';
+    $('compareTo').textContent=languageName(resultLang || to())+' translation';
+    $('compareSource').textContent=source();$('compareSource').lang=from();
+    $('compareTarget').textContent=output();$('compareTarget').lang=resultLang || to();
   }
-  if(tag==='en')return {text:film.original};
-  if(!record)return null;
-  const src=record.src ? new URL('../dubs-v5/'+record.src,import.meta.url).href : '';
-  return record.text ? {text:record.text,src} : null;
+}
+function changeTarget(){
+  cancel();stopSpeaking();resetRender();
+  const tag=to();
+  if(activeTag!==tag){
+    if(activeTag && output() && autoOutput===null){
+      drafts.set(activeTag,{text:$('output').value,lang:resultLang,origin,source:machineSource});
+    }
+    activeTag=tag;const saved=drafts.get(tag);
+    if(saved && (!saved.source || (saved.source.text===source() && saved.source.tag===from()))){
+      setOutput(saved.text,saved.lang,saved.origin);machineSource=saved.source;
+    }else setOutput('',tag,'');
+  }
+  applyAuthored();refresh();engineDescription();
+}
+function sourceChanged(){
+  cancel();stopSpeaking();resetRender();
+  if(machineSource && (machineSource.text!==source() || machineSource.tag!==from()))setOutput('',to(),'');
+  applyAuthored();refresh();engineDescription();
+}
+function sourceChangedAfterRecognition(){
+  if(machineSource)setOutput('',to(),'');
+  applyAuthored();engineDescription();
+}
+function bundleLabel(entry){
+  const name=languageName(entry.textCode);
+  return name+' · bundled '+film.mode+(entry.textCode!==to()?' (regional wording unavailable).':'.');
 }
 function displayRecording(){
   const entry=authored();
-  const src=entry?.text.trim()===output() && entry.end===undefined ? entry.src : '';
+  const src=entry?.text.trim()===output() && entry.end===null ? entry.src : '';
   if(!src || shownRecording===src || resultURL)return;
   shownRecording=src;$('resultAudio').src=src;
-  $('saveWav').href=src;$('saveWav').download=film.slug+'-'+to()+'.'+(new URL(src).pathname.split('.').pop() || 'm4a');
+  $('saveWav').href=src;$('saveWav').download=film.slug+'-'+entry.textCode+'.'+(new URL(src).pathname.split('.').pop() || 'm4a');
   $('saveWav').textContent='Download recorded narration ↓';$('result').hidden=false;
 }
 function applyAuthored(){
   const entry=authored();
   const safeToFill=!output() || (autoOutput!==null && $('output').value===autoOutput);
   if(!safeToFill)return;
-  resetRender();autoOutput=entry?.text ?? null;$('output').value=autoOutput ?? '';
-  if(entry){displayRecording();report('Portfolio '+film.mode+' available in '+languageName(to())+'.');}
+  resetRender();setOutput(entry?.text,entry?.textCode,entry ? bundleLabel(entry):'',!!entry);
+  if(entry){displayRecording();report('Portfolio '+film.mode+' available in '+languageName(entry.textCode)+'.');}
 }
 function report(message){$('status').textContent=message;}
 function nameForFile(){return ($('file').files[0]?.name || 'recording').replace(/\.[^.]*$/,'') || 'recording';}
@@ -59,38 +99,64 @@ function stopSpeaking(){
   speaking=false;
 }
 function refresh(){
-  const a=from(),b=to(),voice=voiceFor(b),local=deviceVoice(b),bundle=authored(b);
+  const a=from(),b=to(),spoken=resultLang || b,voice=voiceFor(spoken),local=deviceVoice(spoken),bundle=authored(b);
+  const recorded=bundle?.src && bundle.text.trim()===output();
+  const same=a && b && equivalentTag(a)===equivalentTag(b), service=effectiveEngine();
+  const dialectRewrite=!same && a && b && translationCode(a)===translationCode(b);
+  const canTranslate=same || bundle || (!dialectRewrite && (service==='online' ? $('consent').checked : engineState!=='unavailable' && engineState!=='checking'));
   $('sourceWav').disabled=!!busy || !decoded;
   $('transcribe').disabled=!!busy || !decoded || !whisperFor(a);
-  $('translate').disabled=!!busy || !a || !b || !source() || ($('engine').value==='online' && a!==b && !bundle && !$('consent').checked);
+  $('translate').disabled=!!busy || !a || !b || !source() || !canTranslate;
   $('saveText').disabled=!!busy || !b || !output();
-  $('render').disabled=!!busy || (!voice && !(bundle?.src && bundle.text.trim()===output())) || !output();
+  $('render').disabled=!!busy || (!voice && !recorded) || !output();
   $('speak').disabled=!!busy || !local || !output();
   $('speak').textContent=speaking?'Stop voice':'Play device voice';
   $('cancel').hidden=!busy;document.querySelector('.activity').classList.toggle('working',!!busy);
-  $('sourceCap').textContent=a ? languageName(a)+' · '+(whisperFor(a)?'Whisper transcription available'+(a.includes('-')?' using '+languageName(language(whisperFor(a))):'')+'.':'Transcript input only. Whisper has no trained language token for this selection.'):'Enter a valid source language tag.';
-  $('targetName').textContent=b ? languageName(b)+(b==='ar-KW'?' · Translation and WAV use standard Arabic. A Kuwaiti dialect voice depends on your device.':''):'Enter a valid output language tag.';
-  const recorded=bundle?.src && bundle.text.trim()===output();
-  $('voiceCap').textContent=recorded ? 'A recorded '+languageName(b)+' track is available. Create a WAV from its original audio.' : voice ? 'Downloadable WAV · '+languageName(language(voice))+' voice from eSpeak NG.' : 'Downloadable speech is unavailable for this language. You can export its text.';
-  $('deviceCap').textContent=local ? 'Device playback uses '+local.name+' ('+local.lang+').' : 'This device currently offers no matching local playback voice.';
+  const model=whisperFor(a);
+  $('sourceCap').textContent=a ? languageName(a)+' · '+(model?'Speech recognition uses '+(model==='ar'?'Arabic':languageName(language(model)))+'.':'Enter the transcript manually. Whisper has no matching recognition setting.'):'Enter a valid source language.';
+  $('targetName').textContent=b ? languageName(b)+(equivalentTag(b)==='ar-KW' ? (bundle?.textCode==='ar-KW'?' · Kuwaiti wording is included for this film.':' · Automatic translation uses standard Arabic. Enter your own wording for Kuwaiti Arabic.'):''):'Enter a valid output language.';
+  $('voiceCap').textContent=recorded ? 'Recorded '+film.mode+' · '+(bundle.voice || languageName(bundle.textCode))+'.' : voice ? 'Downloadable WAV · '+voiceLabel(voice)+' · eSpeak NG synthetic voice.' : 'No matching WAV voice. You can enter and export a translation as text.';
+  $('deviceCap').textContent=local ? 'Device playback uses '+local.name+' ('+local.lang+').' : 'No matching local playback voice on this device.';
+  repaintOrigin();
+}
+function checkBrowserPair(a,b){
+  const sourceLanguage=translationCode(a),targetLanguage=translationCode(b),key=sourceLanguage+'|'+targetLanguage;
+  if(!localeChecks.has(key)){
+    // Some browsers expose this API before first-run services can answer.
+    const probe=new Promise(resolve=>{
+      const timeout=setTimeout(()=>resolve('unknown'),1600);
+      Promise.resolve().then(()=>Translator.availability({sourceLanguage,targetLanguage})).then(state=>{
+        clearTimeout(timeout);localeChecks.set(key,Promise.resolve(state));resolve(state);
+      }).catch(()=>{
+        clearTimeout(timeout);localeChecks.delete(key);resolve('unavailable');
+      });
+    });
+    localeChecks.set(key,probe);
+  }
+  return localeChecks.get(key);
 }
 async function engineDescription(){
-  const version=++languageEpoch,selection=$('engine').value,a=from(),b=to();$('onlineBox').hidden=selection!=='online';
-  if(authored()){
-    $('onlineBox').hidden=true;$('engineInfo').textContent='A translated portfolio track is bundled with this film and works offline.';return;
-  }
-  if(selection==='online'){
-    $('engineInfo').textContent='An online service with variable language coverage and a daily free quota.';return;
-  }
-  if(a && b && translationCode(a)===translationCode(b)){$('engineInfo').textContent='These language selections share the same output language.';return;}
-  if(!globalThis.Translator){$('engineInfo').textContent='This browser does not offer the on-device Translator API. Choose MyMemory above to translate online.';return;}
-  if(!a || !b){$('engineInfo').textContent='Enter two valid languages to check this device.';return;}
-  $('engineInfo').textContent='Checking language support on this device…';
+  const version=++languageEpoch,a=from(),b=to();engineState='unavailable';
+  function describe(message,online=false){$('engineInfo').textContent=message;$('onlineBox').hidden=!online;refresh();}
+  if(authored()){describe('The portfolio includes this translation. No online service is needed.');return;}
+  if(a && b && equivalentTag(a)===equivalentTag(b)){describe('Both selections use the same language. You can copy the source to the output.');return;}
+  if(!a || !b){describe('Enter source and output languages.');return;}
+  if(translationCode(a)===translationCode(b)){describe('These engines cannot rewrite between these dialects. Enter the regional wording in Translated text.');return;}
+  const cloud=$('engine').value==='online',auto=$('engine').value==='auto';
+  if(cloud){describe('MyMemory checks coverage when you submit this pair. Its free daily quota applies.',true);return;}
+  const unavailable=auto?'On-device translation is unavailable for this pair. MyMemory can translate after you allow text sharing.':'This browser cannot translate this pair locally. Select MyMemory or enter the translation yourself.';
+  if(!globalThis.Translator){describe(unavailable,auto);return;}
+  engineState='checking';describe('Checking this device for the selected language pair…');
   try{
-    const state=await Translator.availability({sourceLanguage:translationCode(a),targetLanguage:translationCode(b)});
+    const state=await checkBrowserPair(a,b);
     if(version!==languageEpoch)return;
-    $('engineInfo').textContent=({available:'Ready for this language pair.',downloadable:'Your browser can download the required language pack.',downloading:'Your browser is downloading the language pack.',unavailable:'This device does not offer this pair. You can select MyMemory above.'})[state] || 'Availability is determined when you translate.';
-  }catch{if(version===languageEpoch)$('engineInfo').textContent='This device cannot verify this pair. Try translating or select MyMemory.';}
+    if(state==='unknown'){
+      engineState=auto?'unavailable':'unknown';
+      describe(auto?'This device could not confirm a local translator. You can approve online text translation or select the local engine explicitly.':'This device has not confirmed the language pair. You can try a local translation.',auto);return;
+    }
+    engineState=state;
+    describe(({available:'This language pair is ready on your device.',downloadable:'Your browser can download this language pair.',downloading:'Your browser is downloading the language pack.'})[state] || unavailable,state==='unavailable' && auto);
+  }catch{if(version===languageEpoch){engineState='unavailable';describe(unavailable,auto);}}
 }
 function cancel(reason='Cancelled. Your text is available for editing.'){
   if(!busy)return;
@@ -115,10 +181,10 @@ const media=matchMedia('(prefers-color-scheme: dark)');
 setTheme(document.documentElement.dataset.theme || (media.matches?'dark':'light'));
 $('theme').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark',true));
 media.addEventListener?.('change',e=>{try{if(!localStorage.getItem('adarsh-theme-v2'))setTheme(e.matches?'dark':'light');}catch{}});
-$('from').addEventListener('input',()=>{cancel();applyAuthored();refresh();engineDescription();});
-$('to').addEventListener('input',()=>{cancel();stopSpeaking();resetRender();applyAuthored();refresh();engineDescription();});
-$('sourceText').addEventListener('input',()=>{sourceRevision++;cancel();applyAuthored();refresh();engineDescription();});
-$('output').addEventListener('input',()=>{autoOutput=null;cancel();stopSpeaking();resetRender();displayRecording();refresh();});
+$('from').addEventListener('input',sourceChanged);
+$('to').addEventListener('input',changeTarget);
+$('sourceText').addEventListener('input',()=>{sourceRevision++;sourceChanged();});
+$('output').addEventListener('input',()=>{autoOutput=null;machineSource=null;resultLang=to();origin='Manually edited · '+languageName(to())+'.';if(!output())drafts.delete(to());cancel();stopSpeaking();resetRender();displayRecording();refresh();});
 $('engine').addEventListener('change',()=>{cancel();$('consent').checked=false;engineDescription();refresh();});
 $('consent').addEventListener('change',()=>{cancel();refresh();});
 $('cancel').addEventListener('click',()=>cancel());
@@ -148,22 +214,26 @@ $('transcribe').addEventListener('click',()=>work(async({signal,onProgress})=>{
   onProgress('Preparing mono 16 kHz audio on this device…');
   const samples=await whisperSamples(decoded);signal.throwIfAborted();
   const text=await workerJob('asr-worker.js',{samples,language:whisperFor(from())},{signal,onProgress,transfer:[samples.buffer]});
-  signal.throwIfAborted();$('sourceText').value=text;sourceRevision++;applyAuthored();engineDescription();onProgress('Transcription ready. Review the words before translating.');
+  signal.throwIfAborted();$('sourceText').value=text;sourceRevision++;sourceChangedAfterRecognition();onProgress('Transcription ready. Review the words before translating.');
 }));
 $('translate').addEventListener('click',()=>work(async({signal,onProgress})=>{
   const bundled=authored();
   if(bundled){
-    resetRender();$('output').value=bundled.text;autoOutput=bundled.text;displayRecording();
-    onProgress('Loaded the bundled '+languageName(to())+' text for this film.');return;
+    resetRender();setOutput(bundled.text,bundled.textCode,bundleLabel(bundled),true);displayRecording();
+    onProgress('Loaded the bundled '+languageName(bundled.textCode)+' text for this film.');return;
   }
-  const result=await translateText(source(),from(),to(),{signal,onProgress,engine:$('engine').value,consent:$('consent').checked});
-  signal.throwIfAborted();resetRender();autoOutput=null;$('output').value=result.text;onProgress(result.method);
+  const result=await translateText(source(),from(),to(),{signal,onProgress,engine:effectiveEngine(),consent:$('consent').checked});
+  signal.throwIfAborted();resetRender();
+  const provider=equivalentTag(from())===equivalentTag(to())?'Source copy':effectiveEngine()==='online'?'MyMemory':'On-device translator';
+  const identical=source()===result.text.trim() && from()!==to()?' The wording matches the source. Check it before exporting.':'';
+  setOutput(result.text,result.language || to(),provider+' · '+languageName(result.language || to())+'.'+identical);
+  machineSource={text:source(),tag:from()};onProgress(result.method+identical);
 }));
 $('saveText').addEventListener('click',()=>{
-  download(new Blob([$('output').value],{type:'text/plain;charset=utf-8'}),'translation-'+to()+'.txt');report('Translation exported as UTF-8 text.');
+  download(new Blob([$('output').value],{type:'text/plain;charset=utf-8'}),'translation-'+(resultLang || to())+'.txt');report('Translation exported as UTF-8 text.');
 });
 $('render').addEventListener('click',()=>work(async({signal,onProgress})=>{
-  const tag=to(),entry=authored();
+  const tag=resultLang || to(),entry=authored();
   let blob;
   if(entry?.src && entry.text.trim()===output()){
     onProgress('Converting the recorded narration to PCM WAV…');
@@ -180,23 +250,27 @@ $('render').addEventListener('click',()=>work(async({signal,onProgress})=>{
 }));
 $('speak').addEventListener('click',()=>{
   if(speaking){stopSpeaking();refresh();report('Device playback stopped.');return;}
-  const voice=deviceVoice(to());if(!voice)return;
+  const voice=deviceVoice(resultLang || to());if(!voice)return;
   const epoch=++speakEpoch;
   const utterance=new SpeechSynthesisUtterance(output());utterance.voice=voice;utterance.lang=voice.lang;
   utterance.onend=()=>{if(epoch!==speakEpoch)return;speaking=false;refresh();report('Device playback finished.');};
   utterance.onerror=event=>{if(epoch!==speakEpoch)return;speaking=false;refresh();report('This device could not play the selected voice. '+event.error);};
+  $('originalAudio').pause();$('resultAudio').pause();
   speaking=true;refresh();window.speechSynthesis.speak(utterance);report('Playing the selected local device voice.');
 });
+for(const [playing,other] of [['originalAudio','resultAudio'],['resultAudio','originalAudio']]){
+  $(playing).addEventListener('play',()=>{$(other).pause();stopSpeaking();refresh();});
+}
 window.speechSynthesis?.addEventListener('voiceschanged',refresh);
 window.addEventListener('pagehide',()=>{cancel();stopSpeaking();});
 const params=new URLSearchParams(location.search);
 if(params.get('lang') && language(params.get('lang'))) $('to').value=language(params.get('lang'));
-refresh();engineDescription();
+activeTag=to();refresh();engineDescription();
 if(params.get('film')){
   const revision=sourceRevision,mode=params.get('mode')==='narration'?'narration':'description';
   try{
     const loadJSON=async path=>{const response=await fetch(new URL(path,import.meta.url));if(!response.ok)throw Error();return response.json();};
-    const [catalog,dubs]=await Promise.all([loadJSON('../field/film-text-v5.json'),mode==='narration'?loadJSON('../dubs-v5/manifest.json').catch(()=>({})):{}]);
+    const [catalog,dubs]=await Promise.all([loadJSON('../field/film-text-v5.json?v=6'),mode==='narration'?loadJSON('../dubs-v5/manifest.json?v=6').catch(()=>({})):{}]);
     const slug=params.get('film'),selected=catalog[slug];
     if(!selected || typeof selected[mode]!=='string' || !selected[mode].trim())throw Error();
     if(revision===sourceRevision){

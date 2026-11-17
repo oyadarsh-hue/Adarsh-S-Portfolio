@@ -55,18 +55,21 @@
       name="twitter:image"
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
-    <link rel="icon" href="../assets/field/mark.svg?v=5" type="image/svg+xml" />
+    <link rel="icon" href="../assets/field/mark.svg?v=6" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/field/interior.css?v=5" />
     <script defer src="../assets/field/interior.js?v=5"></script>
-    <link rel="stylesheet" href="../assets/field/screens.css?v=5" />
+    <link rel="stylesheet" href="../assets/field/screens.css?v=6" />
     <script defer src="../assets/field/screens.js?v=5"></script>
-  <script defer src="../assets/field/film-audio.js?v=5"></script>
-  </head>
+  <script defer src="../assets/field/film-audio.js?v=6"></script>
+    <link rel="stylesheet" href="../assets/field/project-frames-v6.css?v=6" />
+    <link rel="stylesheet" href="../assets/field/gallery-v6.css">
+  <script defer src="../assets/field/gallery-v6.js"></script>
+</head>
   <body class="case-spatial edition-v5" style="--case-color:#62e7f0">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class="folio-head">
-      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=5" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=6" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="case-navigation" aria-label="Portfolio navigation"><a href="../index.html">Portfolio</a> <a href="../index.html#skills">Skills</a> <a href="../index.html#projects">All projects</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -76,8 +79,8 @@
     <main id="main" class="case case-v3" data-project="assenttag">
       <header class="case-splash" data-ed-stage>
         <figure class="cover-image">
-          <img class="ed-picture" src="../assets/field/privacy.webp" width="1600" height="900" alt="A lens viewed through overlapping translucent filters" fetchpriority="high" />
-          <figcaption>Optical study · AI-generated artwork</figcaption>
+          <img class="ed-picture" src="../assets/field/v6-assenttag.webp" width="1774" height="887" alt="A silhouette appears behind fluted privacy glass with a single circular opening." fetchpriority="high" />
+          <figcaption>Face privacy · AI-generated concept artwork</figcaption>
         </figure>
         <div class="cover-copy">
           <p class="ed-kicker">CASE STUDY / 01 / Privacy engineering / Computer vision</p>
@@ -93,6 +96,7 @@
       </div>
       <nav class="case-jump" aria-label="Case study chapters">
         <a href="#film">Film</a>
+        <a href="#system">System view</a>
         <a href="#stack">Stack</a>
         <a href="#workflow">Workflow</a>
         <a href="#features">Features</a>
@@ -113,6 +117,13 @@
           </video>
           <figcaption><strong>AssentTag walkthrough</strong><span class="screen-actions"><label class="screen-quality" hidden>Quality <select aria-label="AssentTag walkthrough quality"><option value="hd">HD</option><option value="uhd">4K</option></select></label><a href="../assets/clips/assenttag.mp4" data-uhd download>4K ↓</a></span></figcaption>
         </figure>
+      </section>
+      <section id="system" class="chapter pf-case-frame" data-pf="assenttag" aria-labelledby="system-title">
+        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 id="system-title">Photo privacy</h2><p>Checks who is uploading a photo and masks protected faces before the image is shared.</p></div><div class="pf-diagram" data-system="assenttag">
+        <p class="pf-label">Masking decision</p><h3>Who stays visible?</h3>
+        <div class="pf-mask-map"><div class="pf-origin">Detected face</div><dl><div><dt>Identity</dt><dd>Compare with enrolled faces.</dd></div><div><dt>Privacy</dt><dd>Keep protected regions blurred.</dd></div></dl></div>
+        <a class="pf-evidence-link" href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/face_privacy.py" target="_blank" rel="noopener noreferrer">Inspect implementation <span aria-hidden="true">↗</span></a>
+      </div>
       </section>
       <section id="stack" class="chapter stack-chapter" aria-labelledby="stack-title">
         <div class="stack-aperture"><img class="ed-picture" src="../assets/field/studio-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 id="stack-title">Technology stack</h2></div>

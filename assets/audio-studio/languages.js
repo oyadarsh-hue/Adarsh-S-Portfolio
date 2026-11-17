@@ -1,31 +1,115 @@
+import {voiceList} from './voice-list.js?v=6';
 // Primary language tags that the bundled multilingual Whisper tiny checkpoint recognizes.
 const whisper = new Set('en zh de es ru ko fr ja pt tr pl ca nl ar sv it id hi fi vi he uk el ms cs ro da hu ta no th ur hr bg lt la mi ml cy sk te fa lv bn sr az sl kn et mk br eu is hy ne mn bs kk sq sw gl mr pa si km sn yo so af oc ka be tg sd gu am yi lo uz fo ht ps tk nn mt sa lb my bo tl mg as tt haw ln ha ba jw su'.split(' '));
-const voices = new Set('af am an ar as az ba be bg bn bpy bs ca ca-ba ca-nw ca-va chr-US-Qaaa-x-west cmn cmn-latn-pinyin cs cv cy da de el en-029 en-gb en-gb-scotland en-gb-x-gbclan en-gb-x-gbcwmd en-gb-x-rp en-us en-us-nyc eo es es-419 et eu fa fa-latn fi fo fr-be fr-ch fr-fr ga gd gn grc gu hak haw he hi hr ht hu hy hyw ia id io is it ja jbo ka kaa kk kl kn ko kok ku ky la lb lfn lt ltg lv mi mk ml mr ms mt mto my nb nci ne nl nog om or pa pap piqd pl pt pt-br py qdb qu quc qya ro ru ru-cl ru-lv sd shn si sjn sk sl smj sq sr sv sw ta te th ti tk tn tr tt ug uk ur uz vi vi-vn-x-central vi-vn-x-south xex yue'.toLowerCase().split(' '));
-const fallbacks = {en:'en-us',fr:'fr-fr',zh:'cmn',no:'nb'};
-const extra = 'arc am syr aii swb ar-KW ar-SA ar-EG ar-AE ar-IQ ar-QA ar-LB ar-MA fa-IR fa-AF ml-IN ta-IN ta-LK en-IN en-US en-GB en-AU en-CA es-ES es-MX es-US bn-BD bn-IN ur-PK ur-IN si-LK pt-BR pt-PT zh-CN zh-TW zh-HK fil jv ak av ay bm ce ch co cr dv dz ee ff fj fy gv ho hz ig ii ik iu kg ki kj kr ks kv kw lg li lu mh na nd ng nr nv ny oj os rn rw sc se sg sm ss st to ts tw ty ve vo wa wo xh za zu ckb haw ceb lus bho doi mai mni sat nso tsn gaa chr tet ace'.split(' ');
-const overrides = {'ar-KW':'Kuwaiti Arabic','arc':'Aramaic','syr':'Syriac','aii':'Assyrian Neo-Aramaic','am':'Amharic','bn':'Bangla (Bengali)','si':'Sinhala','ml':'Malayalam','fa':'Persian','cmn':'Mandarin Chinese','yue':'Cantonese'};
-let names; try { names = new Intl.DisplayNames(['en'],{type:'language'}); } catch {}
+const extra = 'hak-Latn uz-Cyrl hr-Cyrl ja-Hira ja-Kana arc syr syc tru aii cld ar-KW ar-AE ar-SA ar-EG ar-IQ ar-QA ar-LB ar-MA fa-IR fa-AF ml-IN ta-IN ta-LK en-IN en-US en-GB en-AU en-CA es-ES es-MX es-US bn-BD bn-IN ur-PK ur-IN si-LK pt-BR pt-PT zh-CN zh-TW zh-HK yue zh-Latn-pinyin pa-PK pa-IN sr-Latn sr-Cyrl fil jv ak av ay bm ce ch co cr dv dz ee ff fj fy gv ho hz ig ii ik iu kg ki kj kr ks kv kw lg li lu mh na nd ng nr nv ny oj os rn rw sc se sg sm ss st to ts tw ty ve vo wa wo xh za zu ckb haw ceb lus bho doi mai mni sat nso tsn gaa chr tet ace'.split(' ');
+let names;try{names=new Intl.DisplayNames(['en'],{type:'language'});}catch{}
+const overrides = {
+  ar:'Standard Arabic','ar-KW':'Kuwaiti Arabic',arc:'Aramaic',syr:'Syriac',syc:'Classical Syriac',
+  tru:'Turoyo',aii:'Assyrian Neo-Aramaic',cld:'Chaldean Neo-Aramaic',am:'Amharic',
+  bn:'Bangla (Bengali)',si:'Sinhala',ml:'Malayalam',fa:'Persian','fa-AF':'Dari (Afghanistan)',
+  yue:'Cantonese', 'zh-HK':'Chinese (Hong Kong)', fil:'Filipino',jv:'Javanese'
+};
+const normalizeName = value=>value.trim().normalize('NFKC').toLocaleLowerCase();
+function canonical(value){
+  try{return Intl.getCanonicalLocales(value.trim().replaceAll('_','-'))[0] || '';}catch{return '';}
+}
+export function languageName(code){
+  if(!code)return '';
+  try{return overrides[code] || names?.of(code) || code;}catch{return code;}
+}
+const voiceByCode=new Map(voiceList.map(([key,label])=>[key,label]));
+export const catalog=[...new Set([...extra,...whisper,...voiceByCode.keys()].map(canonical).filter(Boolean))]
+  .sort((a,b)=>languageName(a).localeCompare(languageName(b)));
+const named=new Map(catalog.map(code=>[normalizeName(languageName(code)),code]));
+for(const [name,tag] of Object.entries({arabic:'ar',bengali:'bn',bangla:'bn',farsi:'fa',persian:'fa',malayalam:'ml',sinhalese:'si',tamil:'ta',kwaiti:'ar-KW', 'kuwaiti arabic':'ar-KW','mandarin':'zh', 'mandarin chinese':'zh',dari:'fa-AF',syriac:'syr','മലയാളം':'ml','தமிழ்':'ta','हिन्दी':'hi','বাংলা':'bn','සිංහල':'si','اردو':'ur','العربية':'ar','فارسی':'fa','አማርኛ':'am','español':'es'}))named.set(normalizeName(name),tag);
 export function language(value){
-  try { return Intl.getCanonicalLocales(value.trim().replaceAll('_','-'))[0] || ''; } catch {return '';}
+  if(!value)return '';
+  return named.get(normalizeName(value)) || canonical(value);
 }
-export function languageName(code){try{return overrides[code] || names?.of(code) || code;}catch{return code;}}
-export const catalog = [...new Set([...extra,...whisper,...voices].map(language).filter(Boolean))].sort((a,b)=>languageName(a).localeCompare(languageName(b)));
+function locale(code){try{return new Intl.Locale(code);}catch{return null;}}
+function script(code){return locale(code)?.maximize().script || '';}
+function privateOrVariant(code){
+  const tag=locale(code);
+  return !tag || code.split('-').length > [tag.language,tag.script,tag.region].filter(Boolean).length;
+}
+export function equivalentTag(code){
+  const tag=locale(code);
+  if(!tag || !tag.script || privateOrVariant(code))return code;
+  const regional=tag.language+(tag.region?'-'+tag.region:'');
+  return script(regional)===tag.script ? regional : code;
+}
+function ambiguousSpokenLanguage(tag){
+  return (tag.language==='fa' && tag.region==='AF') || (tag.language==='zh' && ['HK','MO'].includes(tag.region));
+}
+export function baseFallback(code){
+  const tag=locale(code);
+  if(!tag || privateOrVariant(code) || ambiguousSpokenLanguage(tag)) return '';
+  return script(code)===script(tag.language) ? tag.language : '';
+}
+const aliases = new Map();
+for(const [key,,codes] of voiceList){
+  for(const code of codes){
+    if(!aliases.has(code))aliases.set(code,key);
+  }
+}
+const defaultVoice={en:'en-us',fr:'fr-fr',zh:'cmn',no:'nb',pt:'pt'};
+const latinAmerica=new Set('AR BO BR BZ CL CO CR CU DO EC GT HN MX NI PA PE PR PY SV UY VE US 419'.split(' '));
 export function voiceFor(code){
-  const lower = code.toLowerCase();
-  if(voices.has(lower)) return lower;
-  const primary=lower.split('-')[0];
-  if(voices.has(primary)) return primary;
-  return fallbacks[primary] || '';
+  const tag=locale(code);
+  if(!tag)return '';
+  const raw=equivalentTag(code).toLowerCase();
+  if(tag.language==='hak')return tag.script==='Latn' && !privateOrVariant(code) ? 'hak' : '';
+  if(['bs','hr','lfn','mk','sr','uz'].includes(tag.language) && ['Latn','Cyrl'].includes(tag.script) && !privateOrVariant(code))return tag.language;
+  if(tag.language==='ja' && ['Hira','Kana','Hrkt'].includes(tag.script) && !privateOrVariant(code))return 'ja';
+  if(voiceByCode.has(raw))return raw;
+  if(raw==='zh-latn-pinyin')return 'cmn-latn-pinyin';
+  if(ambiguousSpokenLanguage(tag))return '';
+  if(tag.language==='zh' && !privateOrVariant(code) && ['Hans','Hant'].includes(script(code)))return 'cmn';
+  if(aliases.has(raw) && !defaultVoice[raw])return aliases.get(raw);
+  const base=baseFallback(code);
+  if(!base)return '';
+  if(base==='es' && latinAmerica.has(tag.region))return 'es-419';
+  const fallback=defaultVoice[base] || base;
+  return voiceByCode.has(fallback) ? fallback : '';
 }
+export function voiceLabel(code){return ({ar:'Standard Arabic',cmn:'Mandarin Chinese','cmn-latn-pinyin':'Mandarin Chinese (Pinyin)'})[code] || voiceByCode.get(code) || languageName(code);}
 export function whisperFor(code){
-  const primary=code.toLowerCase().split('-')[0];
-  const mapped=({cmn:'zh',nb:'no',fil:'tl',jv:'jw'})[primary] || primary;
+  const tag=locale(code);
+  if(!tag || privateOrVariant(code) || ambiguousSpokenLanguage(tag))return '';
+  // Whisper predicts its native writing system; it cannot produce an arbitrary requested transliteration.
+  if(script(code)!==script(tag.language) && !(tag.language==='zh' && ['Hans','Hant'].includes(script(code))))return '';
+  const mapped=({nb:'no',fil:'tl',jv:'jw'})[tag.language] || tag.language;
   return whisper.has(mapped) ? mapped : '';
 }
-export function translationCode(code){return code === 'ar-KW' ? 'ar' : code;}
-export function deviceVoice(code){
-  if(!code || !globalThis.speechSynthesis) return null;
-  const match = code.toLowerCase(), primary=match.split('-')[0];
-  const local=globalThis.speechSynthesis.getVoices().filter(v=>v.localService);
-  return local.find(v=>v.lang.toLowerCase().replaceAll('_','-')===match) || local.find(v=>v.lang.toLowerCase().split(/[-_]/)[0]===primary) || null;
+export function translationCode(code){const plain=equivalentTag(code);return plain==='ar-KW' ? 'ar' : plain;}
+export function deviceVoices(code, list=globalThis.speechSynthesis?.getVoices() || []){
+  if(!code)return [];
+  const candidates=list.filter(v=>v.localService).map(v=>({voice:v,tag:canonical(v.lang)})).filter(v=>v.tag);
+  const exact=candidates.filter(v=>equivalentTag(v.tag)===equivalentTag(code));
+  const base=baseFallback(code);
+  const compatible=base ? candidates.filter(v=>!exact.includes(v) && (v.tag===base || (code===base && baseFallback(v.tag)===base))) : [];
+  return [...exact,...compatible].map(v=>v.voice);
+}
+export function deviceVoice(code){return deviceVoices(code)[0] || null;}
+// Detect clear writing-system mismatches without guessing a language from names, digits or acronyms.
+const supportedScripts={
+  Arab:'Arabic',Armn:'Armenian',Beng:'Bengali',Cyrl:'Cyrillic',Deva:'Devanagari',Ethi:'Ethiopic',Grek:'Greek',
+  Gujr:'Gujarati',Guru:'Gurmukhi',Hebr:'Hebrew',Knda:'Kannada',Latn:'Latin',Mlym:'Malayalam',Orya:'Oriya',
+  Sinh:'Sinhala',Taml:'Tamil',Telu:'Telugu',Thai:'Thai'
+};
+const scriptPatterns=new Map(Object.entries(supportedScripts).map(([code,name])=>[code,new RegExp('\\p{Script='+name+'}','u')]));
+export function writingHint(text,code){
+  if(!text || !voiceFor(code))return '';
+  const voice=voiceFor(code);
+  if(voice==='ar' && /[ء-ي]/u.test(text) && !/[ً-ْ]/u.test(text))return 'eSpeak NG expects fully vowelled Arabic. Add tashkīl for more reliable pronunciation.';
+  if(voice==='ja' && /\p{Script=Han}/u.test(text))return 'The bundled Japanese voice reads kana. Enter the kana reading for kanji before rendering.';
+  if(voice==='hak')return 'The Hakka voice reads Pha̍k-fa-sṳ romanization in the Sixian accent.';
+  const expected=script(code),pattern=scriptPatterns.get(expected);
+  if(!pattern)return '';
+  let count=0,match=0;
+  for(const letter of text.slice(0,1200)){
+    if(!/\p{L}/u.test(letter))continue;
+    count++;if(pattern.test(letter))match++;
+  }
+  return count>=6 && match===0 ? 'The selected voice expects '+supportedScripts[expected]+' script. Check the text or choose a matching language and script before creating audio.' : '';
 }

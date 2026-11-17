@@ -11,6 +11,7 @@
   ];
   const rtl = new Set(['ur','ar','ar-KW','fa','arc']);
   const resources = new Map();
+  const deepLink = new URLSearchParams(location.search);
   let active = null;
   function json(url) {
     if (!resources.has(url)) resources.set(url,fetch(new URL(url,site)).then(reply=>{
@@ -51,10 +52,11 @@
     if (active && e.target instanceof HTMLVideoElement && (!active.synced||e.target!==active.video)) stop();
   },true);
   window.addEventListener('pagehide',stop);
-  const modules={speech:()=>import(new URL('../audio-studio/speech.js',path).href), audio:()=>import(new URL('../audio-studio/audio.js',path).href)};
+  const modules={speech:()=>import(new URL('../audio-studio/speech.js?v=6',path).href), audio:()=>import(new URL('../audio-studio/audio.js?v=6',path).href)};
   for (const card of document.querySelectorAll('.screen-card[data-clip]')) {
     const video=card.querySelector('video');
     const slug=card.dataset.clip;
+    const linked=deepLink.get('film')===slug && (deepLink.has('lang') || deepLink.has('track'));
     const panel=element('details');panel.className='film-language';
     panel.append(element('summary','Language & audio description'));
     const body=element('div');body.className='film-language-body';
@@ -64,26 +66,58 @@
       if (!panel.open || loaded || busy) return;
       busy=true;body.textContent='Loading audio options…';
       try {
-        const [catalog,dubs]=await Promise.all([json('assets/field/film-text-v5.json'),json('assets/dubs-v5/manifest.json')]);
+        const [catalog,dubs,tracks,locales]=await Promise.all([
+          json('assets/field/film-text-v5.json?v=6'),json('assets/dubs-v5/manifest.json?v=6'),
+          import(new URL('../audio-studio/film-track.js?v=6',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href)
+        ]);
         if (!catalog[slug]) throw Error('The audio catalog has no entry for this film.');
-        build(catalog[slug],dubs[slug]||{});
+        build(catalog[slug],dubs[slug] || {},tracks.filmTrack,locales);
         loaded=true;
       } catch(error) { body.textContent=error.message; }
       finally {busy=false;}
     });
-    function build(film,dubs) {
+    if(linked) panel.open=true;
+    const targetsFrame=deepLink.get('film')===slug && (!location.hash || location.hash==='#showreel' || location.hash==='#'+card.id);
+    if(targetsFrame){
+      // Image and font metrics can settle after the browser applies an old #showreel fragment.
+      let interacted=false;
+      const watch=new AbortController();
+      const userMoved=()=>{interacted=true;watch.abort();};
+      for(const event of ['wheel','touchstart','pointerdown','keydown']){
+        window.addEventListener(event,userMoved,{once:true,passive:true,signal:watch.signal});
+      }
+      const loaded=document.readyState==='complete' ? Promise.resolve() : new Promise(resolve=>window.addEventListener('load',resolve,{once:true}));
+      loaded.then(()=>document.fonts?.ready).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        if(!interacted)(linked?panel:card).scrollIntoView({behavior:'instant',block:linked?'center':'start'});
+        watch.abort();
+      })));
+    }
+    function build(film,dubs,filmTrack,{language,languageName,voiceFor,voiceLabel,writingHint}) {
       body.replaceChildren();
       const hasNarration=Boolean(film.narration);
       const modes=hasNarration?[['narration','Film narration'],['description','Visual description']]:[['description','Visual description']];
       const fields=element('div');fields.className='film-language-fields';
       const [modeField,mode]=select('Track',modes);
       const [langField,lang]=select('Language',languages);
+      if(linked){
+        const preference=language(deepLink.get('lang') || '');
+        if(preference){
+          if(![...lang.options].some(o=>o.value===preference))lang.add(new Option(languageName(preference),preference));
+          lang.value=preference;
+        }
+        const track=deepLink.get('track');
+        if(modes.some(([value])=>value===track))mode.value=track;
+      }
       fields.append(modeField,langField);
       const availability=element('p');
       const controls=element('div');controls.className='film-audio-actions';
       const note=element('p');note.setAttribute('role','status');
-      const copy=element('details');copy.append(element('summary','Read this track'));
-      const transcript=element('p');copy.append(transcript);
+      const copy=element('details'),copyTitle=element('summary','Read this track');
+      const pair=element('div');pair.className='film-text-pair';
+      const originalBlock=element('div'),original=element('p');
+      original.lang='en';originalBlock.append(element('strong','English original'),original);
+      const targetBlock=element('div'),targetTitle=element('strong'),transcript=element('p');
+      targetBlock.append(targetTitle,transcript);pair.append(originalBlock,targetBlock);copy.append(copyTitle,pair);
       const studio=element('a','Open in Audio Studio · more languages ↗');
       const listen=button('Listen',()=>play(false));
       const together=button('Play with film',()=>play(true));
@@ -100,7 +134,6 @@
       uploadLabel.append(upload);personal.append(uploadLabel);
       body.append(fields,availability,controls,copy,personal,studio,note);
       let record,request,ownUrl,exportUrl,revision=0;
-      const makeURL=src=>new URL(src,site).href;
       function release() {
         request?.abort();
         if (active?.panel===panel) stop();
@@ -109,49 +142,51 @@
         ownUrl=exportUrl=null;
       }
       function display() {
-        release();revision++;note.textContent='';upload.value='';
+        release();revision++;note.textContent='';upload.value='';prepare.disabled=false;exportBtn.disabled=false;
         const code=lang.value;
         const desc=mode.value==='description';
-        const dub=dubs[code];
-        const sprite=film.audio?.[code];
-        const words=desc ? (film.translations?.[code]||(code==='en'?film.description:'')) : (dub?.text||(code==='en'?film.narration:''));
-        const native=!desc&&code==='en';
-        record={words,native,src:null,start:0,end:null};
-        if (desc&&sprite) Object.assign(record,{src:makeURL(sprite.src),start:sprite.start,end:sprite.end});
-        if (!desc&&dub?.src) record.src=new URL(dub.src,new URL('assets/dubs-v5/',site)).href;
-        const mapped=(code==='ar-KW')?' The local voice uses Standard Arabic pronunciation.':'';
-        availability.textContent=record.src ? ((desc?'Recorded visual overview.':'Recorded narration.')+mapped) : native ? 'The film includes its original English narration.' : words ? 'Generate a local voice for this translation.'+mapped : 'A bundled version of this track is unavailable in this language. Audio Studio shows the available translation and voice options.';
-        transcript.lang=code;transcript.dir=rtl.has(code)?'rtl':'auto';transcript.textContent=words||'';
-        copy.hidden=!words;
-        prepare.hidden=Boolean(record.src||native||!words);
-        listen.hidden=!record.src;
-        together.hidden=desc||(!native&&!record.src);
-        exportBtn.hidden=!sprite||!desc;
+        record=filmTrack(film,dubs,mode.value,code,site) || {text:'',textCode:code,src:null,start:0,end:null,native:false};
+        const {text,src,native,textCode,voice}=record;
+        const synth=voiceFor(textCode),name=languageName(textCode);
+        const dialect=code==='ar-KW' ? 'Kuwaiti wording. ' : '';
+        availability.textContent=src ? (desc?'Recorded visual overview':'Recorded narration')+' · '+dialect+voice+'.'
+          : native ? 'Original English narration in the film.'
+          : text && synth ? dialect+'Generate a synthetic '+voiceLabel(synth)+' voice for the '+name+' text. '+writingHint(text,textCode)
+          : text ? 'Read the translation or add your own voice recording.'
+          : 'No portfolio translation or voice for '+languageName(code)+'. Read the English original, add your own recording, or enter a translation in Audio Studio.';
+        original.textContent=desc?film.description:film.narration;
+        targetTitle.textContent=name+' translation';
+        transcript.lang=textCode;transcript.dir=rtl.has(textCode)?'rtl':'auto';transcript.textContent=text;
+        targetBlock.hidden=!text || textCode==='en';
+        copyTitle.textContent=targetBlock.hidden?'Read the English original':'Compare original and translation';
+        prepare.hidden=Boolean(src || native || !text || !synth);
+        listen.hidden=!src;together.hidden=desc || (!native && !src);
+        exportBtn.hidden=!src || record.end===null;
         download.hidden=!(record.src&&record.end===null);
         if (!download.hidden) {download.href=record.src;download.download=slug+'-'+code+(/\.m4a(?:$|\?)/.test(record.src)?'.m4a':'.mp3');}
         halt.hidden=true;
         const target=new URL('audio-studio.html',site);
-        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code});
+        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,v:'6'});
         studio.href=target.href;
       }
       async function generate() {
         const version=revision;
-        request=new AbortController();prepare.disabled=true;note.textContent='Preparing the local voice…';
+        const controller=new AbortController();request=controller;prepare.disabled=true;note.textContent='Preparing the local voice…';
         try {
           const speech=await modules.speech();
-          const blob=await speech.synthesizeWav(record.words,lang.value,{signal:request.signal,onProgress:text=>{if(version===revision)note.textContent=text;}});
+          const blob=await speech.synthesizeWav(record.text,record.textCode,{signal:controller.signal,onProgress:text=>{if(version===revision)note.textContent=text;}});
           if(version!==revision)return;
           ownUrl=URL.createObjectURL(blob);record.src=ownUrl;
           listen.hidden=false;together.hidden=mode.value==='description';prepare.hidden=true;
           download.hidden=false;download.href=ownUrl;download.download=slug+'-'+lang.value+'.wav';note.textContent='Voice ready to play or download.';
         } catch(error) { if(version===revision) note.textContent=error.message; }
-        finally {prepare.disabled=false;}
+        finally {if(version===revision)prepare.disabled=false;}
       }
       async function excerpt() {
-        const version=revision;exportBtn.disabled=true;note.textContent='Preparing this description as a WAV…';
+        const version=revision,controller=new AbortController();request=controller;exportBtn.disabled=true;note.textContent='Preparing this description as a WAV…';
         try {
           const {decode,wavBlob}=await modules.audio();
-          const response=await fetch(record.src);
+          const response=await fetch(record.src,{signal:controller.signal});
           if(!response.ok)throw Error('Audio could not be downloaded. Try again.');
           const buffer=await decode(await response.blob());
           if(version!==revision)return;
@@ -162,7 +197,7 @@
           download.href=exportUrl;download.download=slug+'-description-'+lang.value+'.wav';
           download.hidden=false;exportBtn.hidden=true;note.textContent='Your description is ready to download.';
         } catch(error) {if(version===revision)note.textContent=error.message;}
-        finally {exportBtn.disabled=false;}
+        finally {if(version===revision)exportBtn.disabled=false;}
       }
       async function play(synced) {
         stop();

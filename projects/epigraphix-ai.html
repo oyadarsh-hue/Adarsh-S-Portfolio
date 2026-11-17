@@ -58,18 +58,21 @@
       name="twitter:image"
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
-    <link rel="icon" href="../assets/field/mark.svg?v=5" type="image/svg+xml" />
+    <link rel="icon" href="../assets/field/mark.svg?v=6" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/field/interior.css?v=5" />
     <script defer src="../assets/field/interior.js?v=5"></script>
-    <link rel="stylesheet" href="../assets/field/screens.css?v=5" />
+    <link rel="stylesheet" href="../assets/field/screens.css?v=6" />
     <script defer src="../assets/field/screens.js?v=5"></script>
-  <script defer src="../assets/field/film-audio.js?v=5"></script>
-  </head>
+  <script defer src="../assets/field/film-audio.js?v=6"></script>
+    <link rel="stylesheet" href="../assets/field/project-frames-v6.css?v=6" />
+    <link rel="stylesheet" href="../assets/field/gallery-v6.css">
+  <script defer src="../assets/field/gallery-v6.js"></script>
+</head>
   <body class="case-spatial edition-v5" style="--case-color:#b9e99b">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class="folio-head">
-      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=5" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=6" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="case-navigation" aria-label="Portfolio navigation"><a href="../index.html">Portfolio</a> <a href="../index.html#skills">Skills</a> <a href="../index.html#projects">All projects</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -79,8 +82,8 @@
     <main id="main" class="case case-v3" data-project="epigraphix-ai">
       <header class="case-splash" data-ed-stage>
         <figure class="cover-image">
-          <img class="ed-picture" src="../assets/field/script.webp" width="1600" height="900" alt="Incised writing across an ochre palm-leaf manuscript" fetchpriority="high" />
-          <figcaption>Manuscript study · AI-generated artwork</figcaption>
+          <img class="ed-picture" src="../assets/field/v6-epigraphix-ai.webp" width="1774" height="887" alt="A brass magnifier enlarges one line of characters incised into a palm leaf." fetchpriority="high" />
+          <figcaption>Manuscript imaging · AI-generated concept artwork</figcaption>
         </figure>
         <div class="cover-copy">
           <p class="ed-kicker">CASE STUDY / 02 / Applied AI / Historical manuscripts</p>
@@ -95,6 +98,7 @@
       </div>
       <nav class="case-jump" aria-label="Case study chapters">
         <a href="#film">Film</a>
+        <a href="#system">System view</a>
         <a href="#stack">Stack</a>
         <a href="#workflow">Workflow</a>
         <a href="#features">Features</a>
@@ -115,6 +119,13 @@
           </video>
           <figcaption><strong>EpigraphiX-AI walkthrough</strong><span class="screen-actions"><label class="screen-quality" hidden>Quality <select aria-label="EpigraphiX-AI walkthrough quality"><option value="hd">HD</option><option value="uhd">4K</option></select></label><a href="../assets/clips/epigraphix-ai.mp4" data-uhd download>4K ↓</a></span></figcaption>
         </figure>
+      </section>
+      <section id="system" class="chapter pf-case-frame" data-pf="epigraphix-ai" aria-labelledby="system-title">
+        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 id="system-title">Manuscript research</h2><p>Restores degraded Malayalam palm-leaf images and extracts candidate glyphs for transcription.</p></div><div class="pf-diagram" data-system="epigraphix-ai">
+        <p class="pf-label">Recognition pipeline</p><h3>From groove to glyph</h3>
+        <ol class="pf-glyph-map"><li><span class="pf-sample sample-leaf" aria-hidden="true">അ</span><strong>Leaf image</strong></li><li><span class="pf-sample sample-ink" aria-hidden="true">അ</span><strong>Binary mask</strong></li><li><span class="pf-sample sample-box" aria-hidden="true">അ</span><strong>Glyph region</strong></li></ol>
+        <a class="pf-evidence-link" href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/trocr_transformer_engine.py" target="_blank" rel="noopener noreferrer">Inspect implementation <span aria-hidden="true">↗</span></a>
+      </div>
       </section>
       <section id="stack" class="chapter stack-chapter" aria-labelledby="stack-title">
         <div class="stack-aperture"><img class="ed-picture" src="../assets/field/archive-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 id="stack-title">Technology stack</h2></div>

@@ -2,13 +2,11 @@
 
 ## Current visual design
 
-The opening portrait spread uses a new AS monogram and a generated Kerala tea-valley panorama. The photo story advances through three photographic studies on native scroll. Its controls also jump between scenes. With reduced motion or animation pause enabled, the three studies appear as static, readable panels.
+The homepage pairs a framed portrait with a Kerala tea-valley panorama and a linked photographic index. Each project has its own concept image, a source-linked explanation of its workflow, a technology stack, a case study and an independent film. The images are illustrative. The portrait shows Adarsh.
 
-The two featured films are *Five Projects in Motion* (36 seconds) and *Chroma Orrery* (16 seconds). Each has a separate player, poster, stereo score and HD and 3840 × 2160 editions. Thirteen individual education, project, internship and publication clips, the two longer documentaries and four archive reels remain available in their sections. Each archive frame has a download for its original silent edition.
+Each of the 21 film players includes three selectable frames extracted from its own footage, with timecodes for seeking. The two premieres, thirteen topic films, two long documentaries and four archive reels all have HD and 3840 × 2160 versions. The project case pages use the same film and frame controls.
 
-Each film offers a visual description. Narrated films also offer a transcript and a language selector. Audio Studio opens from the header or from an individual film with its transcript or visual description selected. The studio can decode uploaded recordings to WAV, transcribe speech locally after a model download, translate text and render supported voices. Available translation, speech recognition and voice capabilities vary by language and browser.
-
-LinkedIn, GitHub, Gmail and phone actions use the supplied contact details. Icon provenance is in `ICON-LICENSES.txt`.
+Audio Studio and the film panels share language and recording selection. The panels distinguish translated wording, the voice and its region, show both the English and selected scripts, and can open Audio Studio for exports. Where available, packaged narration plays directly. Translation of uploaded recordings, transcription and additional synthesized voices depend on the language and browser. The description and narration credits are in the audio asset folders, and `ICON-LICENSES.txt` identifies the contact icons.
 
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 

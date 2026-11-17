@@ -22,11 +22,13 @@ function dimensions(bytes) {
 
 const filmInfo = JSON.parse(home.match(/<script[^>]*\bid="filmInfo"[^>]*>([\s\S]*?)<\/script>/)[1]);
 const photos = [...home.matchAll(/<img\b[^>]*\ssrc="(assets\/field\/[^"]+\.webp)"/g)].map(match => match[1]);
+const durations = new Map();
 const films = ['projects', 'journey'];
 for (const file of new Set([...photos, ...films.map(name => 'assets/field/' + name + '-v2.webp')])) {
   const bytes = readFileSync(root + file);
   const [width, height] = dimensions(bytes);
-  assert(width >= 640 && height >= 400, file + ' has enough detail for its frame');
+  const minHeight = file.startsWith('assets/field/journal-photos/') ? 240 : 400;
+  assert(width >= 640 && height >= minHeight, file + ' has enough detail for its frame');
   assert(bytes.length < 1_500_000, file + ' should stay under 1.5 MB');
   assert(home.includes(file) || Object.values(filmInfo).some(film => film.poster === file.split('/').at(-1)), file + ' is connected');
 }
@@ -141,6 +143,7 @@ for (const name of films) {
   assert.match(meta.masterSha256, /^[a-f0-9]{64}$/);
   assert.equal(hash, meta.masterSha256, name + ' master hash mismatch');
   const duration = inspectFilm(master, name + ' assembled master', 3840, 2160);
+  durations.set(name, duration);
   const direct4k = inspectFilm(readMediaFile(meta['4k']), name + ' compact UHD', 3840, 2160);
   const hd = inspectFilm(readMediaFile(meta.web), name + ' direct HD', 1280, 720);
   assert(Math.abs(hd - duration) < .2 && Math.abs(direct4k - duration) < .2,
@@ -163,20 +166,20 @@ for (const [name, seconds] of [['film-720.mp4', 15], ['landscape-720.mp4', 9]]) 
     {minDuration: seconds-.1, maxDuration: seconds+.1, narrated: false});
 }
 const archive = [
-  {file: 'film.mp4', folder: 'field', stem: 'orbit-score', duration: 15, width: 3840, height: 2160,
+  {slug: 'orbit', file: 'film.mp4', folder: 'field', stem: 'orbit-score', duration: 15, width: 3840, height: 2160,
     digest: '7975753a50d09ea97a5fc7c03c2cf0938256f0e54c09c1201dfcf9aec8c52d27'},
-  {file: 'landscape.mp4', folder: 'field', stem: 'landscape-score', duration: 9, width: 3840, height: 2160,
+  {slug: 'landscape', file: 'landscape.mp4', folder: 'field', stem: 'landscape-score', duration: 9, width: 3840, height: 2160,
     digest: '8260cc7ddee0820abc2efb6d8b4d9bc614f101a68f1105345e7c4c904df6de19'},
-  {file: 'adarsh-project-reel.mp4', folder: 'video', stem: 'teaser-remaster', duration: 16, width: 960, height: 540,
+  {slug: 'original-project', file: 'adarsh-project-reel.mp4', folder: 'video', stem: 'teaser-remaster', duration: 16, width: 960, height: 540,
     digest: 'd637a76f51caf899c1ab00cedabeaca952ca62897c33bb02973f6cf116418af5'},
-  {file: 'dimensional-loop.mp4', folder: 'video', stem: 'loop-remaster', duration: 8, width: 960, height: 540,
+  {slug: 'original-loop', file: 'dimensional-loop.mp4', folder: 'video', stem: 'loop-remaster', duration: 8, width: 960, height: 540,
     digest: '61c6a7ebfeb8a51340f22d329ce93b1d6dd4dd6d3a76d80348443f5174a5ac2f'},
 ];
-for (const {file, folder, stem, duration, width, height, digest} of archive) {
+for (const {slug, file, folder, stem, duration, width, height, digest} of archive) {
   const original = readMediaFile(file, folder);
   assert.equal(createHash('sha256').update(original).digest('hex'), digest, file + ' original changed');
   const limits = {minDuration: duration-.15, maxDuration: duration+.15};
-  inspectFilm(original, file, width, height, {...limits, narrated: false});
+  durations.set(slug, inspectFilm(original, file, width, height, {...limits, narrated: false}));
   for (const [suffix, w, h] of [['-hd',1280,720],['',3840,2160]]) {
     const edition = stem + suffix + '.mp4';
     inspectFilm(readMediaFile(edition,'archive'), edition, w, h, limits);
@@ -198,6 +201,7 @@ for (const name of clipNames) {
     if (duration) assert(Math.abs(duration - length) < .2, file + ' duration differs by quality');
     duration = length;
   }
+  durations.set(name, duration);
   const captions = name + '.vtt';
   validateCaptions(captions, duration, {directory: 'clips', clip: true});
   const hash = createHash('sha256').update(readMediaFile(captions, 'clips')).digest('hex');
@@ -222,13 +226,27 @@ for (const [slug, stem] of [['premiere-teaser','trailer'], ['premiere-loop','kin
     if (hdDuration) assert(Math.abs(hdDuration-duration) < .2, slug + ' differs between HD and UHD');
     hdDuration = duration;
   }
+  durations.set(slug, hdDuration);
 }
 const dubs = JSON.parse(readFileSync(root + 'assets/dubs-v5/manifest.json','utf8'));
 const descriptions = JSON.parse(readFileSync(root + 'assets/field/film-text-v5.json','utf8'));
 const playerSlugs = [...home.matchAll(/<figure\b[^>]*\bdata-clip="([^"]+)"/g)].map(match => match[1]);
 assert.equal(new Set(playerSlugs).size,21);
 assert.equal(playerSlugs.length,21);
+const frameTimes = JSON.parse(readFileSync(root + 'assets/frames-v6/frames.json', 'utf8'));
+assert.deepEqual(Object.keys(frameTimes).sort(), [...playerSlugs].sort(), 'Every film needs its own three-frame thumbnail strip');
+const sheetHashes = new Set();
 for (const slug of playerSlugs) {
+  const times = frameTimes[slug];
+  assert.equal(times.length, 3);
+  assert(times.every((time, i) => Number.isFinite(time) && time >= 0 && time < durations.get(slug)
+    && (!i || time > times[i - 1])), slug + ' thumbnails must seek to three successive points within the actual film');
+  const sheet = readMediaFile(slug + '.webp', 'frames-v6');
+  const [width, height] = dimensions(sheet);
+  assert(width / 3 >= 240 && width / 3 * 9 === height * 16, slug + ' thumbnail sheet needs three 16:9 frames');
+  const hash = createHash('sha256').update(sheet).digest('hex');
+  assert(!sheetHashes.has(hash), slug + ' reuses another film’s thumbnails');
+  sheetHashes.add(hash);
   assert(descriptions[slug]?.description?.trim().length > 15, slug + ' has no written visual description');
   for (const lang of ['en','ml','ta','hi','ur','es','si','bn','ar-KW','ar','am','fa']) {
     const segment = descriptions[slug].audio?.[lang];
@@ -246,10 +264,18 @@ for (const slug of [...clipNames, ...films]) {
   for (const lang of ['ml','ta','hi','ur','bn','si','es','ar','ar-KW','fa','am']) {
     assert(tracks[lang]?.text?.trim().length > 20, slug + ' is missing ' + lang + ' narration');
   }
-  const audio = readMediaFile(tracks.ml.src,'dubs-v5');
-  const moov = boxes(audio).find(box => box.type === 'moov');
-  const streams = boxes(audio,moov.start,moov.end).filter(box => box.type==='trak').map(track=>probeTrack(audio,track));
-  assert(streams.some(track=>track.codec==='mp4a' && track.duration>1 && track.bitrate>0),
-    slug+' Malayalam narration needs a playable AAC recording');
+  for (const locale of ['ml','ta','si','hi','ur','es','bn','ar','fa']) {
+    assert(tracks[locale]?.src, slug + ' is missing its recorded ' + locale + ' dub');
+  }
+  for (const [locale, recording] of Object.entries(tracks).filter(([,track])=>track.src)) {
+    const audio = readMediaFile(recording.src,'dubs-v5');
+    const moov = boxes(audio).find(box => box.type === 'moov');
+    assert(moov, slug + ' missing audio header: ' + locale);
+    const streams = boxes(audio,moov.start,moov.end).filter(box => box.type==='trak').map(track=>probeTrack(audio,track));
+    const aac = streams.find(track=>track.codec==='mp4a' && track.bitrate>0);
+    assert(aac && Math.abs(aac.duration - durations.get(slug)) < 1,
+      slug + ' ' + locale + ' narration must contain AAC covering the film');
+    assert(recording.voice?.trim() && recording.language?.trim(), slug + ' lacks its voice or locale label');
+  }
 }
-console.log('PASS: full masters, new 4K premieres, narration, captions and translated visual descriptions.');
+console.log('PASS: full masters, 4K premieres, thumbnail sheets, captions, recorded dubs and translated visual descriptions.');

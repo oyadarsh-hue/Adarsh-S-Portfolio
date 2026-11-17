@@ -3,6 +3,7 @@
 import hashlib
 import re
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 from playwright.sync_api import expect
 from browser_fixture import ROOT, run_suite
@@ -259,6 +260,32 @@ def verify_program(frame, slug, test):
     details.locator("summary").click()
 
 
+def verify_still_seek(frame, index, test):
+    slug = frame.get_attribute("data-clip")
+    button = frame.locator(".still-options button").nth(index)
+    expect(button).to_be_visible()
+    button.scroll_into_view_if_needed()
+    frame.page.wait_for_function(
+        """slug => getComputedStyle(document.querySelector('[data-sheet="'+slug+'"] button')).backgroundImage.includes('/'+slug+'.webp')""",
+        arg=slug)
+    start = float(button.get_attribute("data-frame-time"))
+    button.focus()
+    frame.page.keyboard.press("Enter")
+    until_video(frame, "!v.paused && !v.seeking && v.currentTime >= arg-.15 && v.currentTime < arg+1.5", start)
+    expect(button).to_have_attribute("aria-current","true")
+    test.check(True, f"{slug}: thumbnail {index + 1} loads the right sheet and starts its own film at {start}s")
+
+
+def verify_recording_link(panel, slug, lang, test):
+    link = panel.locator(".film-audio-actions a[download]")
+    expect(link).to_be_visible()
+    url = urlsplit(link.get_attribute("href"))
+    loader = panel.page.locator('script[src*="/film-audio.js"]').get_attribute("src")
+    version = parse_qs(urlsplit(loader).query).get("v")
+    test.check(url.path.endswith(f"/{slug}-{lang}.m4a") and version and parse_qs(url.query).get("v")==version,
+               f"{slug}: {lang} download uses the current recorded soundtrack")
+
+
 def verify_language_panels(page, test):
     expect(page.locator(".screen-card .film-language")).to_have_count(21)
     panels = {}
@@ -270,16 +297,16 @@ def verify_language_panels(page, test):
         expect(languages).to_be_visible()
         if slug != "premiere-loop":
             languages.select_option("ml")
-            expect(panel.locator(".film-audio-actions a[download]")).to_have_attribute("href",re.compile(r"-ml[.]m4a$"))
+            verify_recording_link(panel,slug,"ml",test)
             listen = panel.get_by_role("button", name="Listen", exact=True)
             listen.click()
             expect(panel.get_by_role("status")).to_contain_text("Playing", timeout=15000)
             panel.get_by_role("button", name="Stop audio").click()
         modes.select_option("description")
         languages.select_option("en")
-        transcript = panel.locator("details").filter(has=page.get_by_text("Read this track",exact=True))
+        transcript = panel.locator("details:has(.film-text-pair)")
         transcript.locator("summary").click()
-        words = transcript.locator("p")
+        words = transcript.locator('p[lang="en"]').first
         expect(words).to_be_visible()
         test.check(len(words.inner_text().strip()) > 25, f"{slug}: written visual description")
         expect(words).to_have_attribute("lang","en")
@@ -290,7 +317,9 @@ def verify_language_panels(page, test):
             expect(panel.get_by_role("status")).to_contain_text("Playing",timeout=15000)
             panel.get_by_role("button",name="Stop audio").click()
             languages.select_option("ml")
-            expect(words).to_have_attribute("lang","ml")
+            translation = transcript.locator('p[lang="ml"]')
+            expect(translation).to_be_visible()
+            test.check(len(translation.inner_text().strip()) > 20, "Malayalam wording appears beside the English original")
             panel.get_by_role("button",name="Prepare WAV").click()
             download = panel.locator(".film-audio-actions a[download]")
             expect(download).to_have_attribute("download","premiere-loop-description-ml.wav",timeout=15000)
@@ -305,10 +334,24 @@ def verify_language_panels(page, test):
     panel = panels["assenttag"]
     panel.get_by_role("combobox",name="Track",exact=True).select_option("narration")
     panel.get_by_role("combobox",name="Language",exact=True).select_option("ur")
-    words = panel.locator("details").filter(has=page.get_by_text("Read this track",exact=True)).locator("p")
-    expect(words).to_have_attribute("lang","ur")
+    words = panel.locator('.film-text-pair p[lang="ur"]')
+    expect(words).to_be_visible()
     expect(words).to_have_attribute("dir","rtl")
     test.check(len(words.inner_text().strip()) > 30,"Urdu narration transcript survives a mode and language change")
+    language = panel.get_by_role("combobox", name="Language", exact=True)
+    language.select_option("hi")
+    verify_recording_link(panel,"assenttag","hi",test)
+    panel.get_by_role("button",name="Play with film").click()
+    expect(panel.get_by_role("status")).to_contain_text("Playing translated",timeout=15000)
+    video = frame_for(page,"assenttag").locator("video")
+    test.check(video.evaluate("v=>!v.paused && v.muted"),"Recorded Hindi plays in sync with the muted original")
+    language.select_option("es")
+    verify_recording_link(panel,"assenttag","es",test)
+    test.check(video.evaluate("v=>v.paused && !v.muted"),"Changing to Spanish stops the preceding dub and restores original audio")
+    language.select_option("arc")
+    expect(panel.get_by_role("button",name="Play with film")).to_be_hidden()
+    expect(panel.locator(".film-text-pair p").first).to_have_attribute("lang","en")
+    expect(panel.get_by_role("link",name=re.compile("Open in Audio Studio"))).to_have_attribute("href",re.compile(r"lang=arc"))
 
 
 def check_placement(page, test):
@@ -376,6 +419,10 @@ with run_suite("backgrounds") as (browser, test):
         )
         test.visit(page)
         test.check(not requests, "Video and master parts wait for a play or quality action")
+        far_still = frame_for(page,"sslc").locator(".still-options button").first
+        expect(far_still).to_be_attached()
+        test.check(far_still.evaluate("b=>getComputedStyle(b).backgroundImage==='none'"),
+                   "Off-screen thumbnail sheets wait until a film approaches the viewport")
         scenes = page.locator(".hero-image[data-scene]")
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
@@ -436,6 +483,13 @@ with run_suite("backgrounds") as (browser, test):
         test.capture(page, "photographic-hero")
         verify_scroll_text(page, test)
         check_placement(page, test)
+        expect(page.locator(".screen-card .still-options")).to_have_count(21)
+        expect(page.locator(".screen-card .still-options button")).to_have_count(63)
+        verify_still_seek(frame_for(page,"premiere-teaser"),1,test)
+        verify_still_seek(frame_for(page,"epigraphix-ai"),2,test)
+        test.check(frame_for(page,"premiere-teaser").locator("video").evaluate("v=>v.paused"),
+                   "Starting a second film from a thumbnail pauses the first film")
+        frame_for(page,"epigraphix-ai").locator("video").evaluate("v=>v.pause()")
         for width in (1440,390):
             page.set_viewport_size({"width":width,"height":900})
             verify_story(page,test)
@@ -527,6 +581,17 @@ with run_suite("backgrounds") as (browser, test):
         )
         b.locator("video").evaluate("v => v.pause()")
         verify_language_panels(page,test)
+        test.visit(page,"projects/assenttag.html")
+        verify_still_seek(frame_for(page,"assenttag"),2,test)
+        test.visit(page,"audio-studio.html?film=assenttag&mode=narration&lang=es-MX")
+        expect(page.locator("#output")).to_have_attribute("lang","es")
+        expect(page.locator("#outputOrigin")).to_contain_text("regional wording unavailable")
+        expect(page.locator("#voiceCap")).to_contain_text(re.compile(r"European Spanish|Spain",re.I))
+        test.visit(page,"audio-studio.html?film=assenttag&mode=description&lang=ar-KW")
+        expect(page.locator("#output")).to_have_attribute("lang","ar-KW")
+        expect(page.locator("#targetName")).to_contain_text("Kuwaiti wording")
+        expect(page.locator("#voiceCap")).to_contain_text("Jordanian Arabic")
+        test.check(True,"Studio deep links preserve regional wording and identify the recorded voice")
 
     with browser.new_context(viewport={"width": 390, "height": 844}, reduced_motion="reduce") as context:
         page = test.page(context)

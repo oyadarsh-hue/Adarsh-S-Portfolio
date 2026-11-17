@@ -699,3 +699,55 @@ html.paused .lo-scene-photo { transform:none; }
 @media (max-width:370px) {
   .lo-chapter .lo-head .lo-title { font-size: 2.95rem; }
 }
+
+/* Source photographs accompany each individual film. */
+[data-lo-record="publication"] { --lo-record-color:#edba69; --lo-print-position:50% 49%; }
+[data-lo-record="bluegen"] { --lo-record-color:#ff9478; --lo-print-position:55% 62%; }
+[data-lo-record="skybrisk"] { --lo-record-color:#c9b8ff; --lo-print-position:47% 58%; }
+[data-lo-record="codtech"] { --lo-record-color:#9be9de; --lo-print-position:58% 51%; }
+[data-lo-record="mca"] { --lo-record-color:#a3d7fa; --lo-print-position:50% 40%; }
+[data-lo-record="bsc"] { --lo-record-color:#b5db85; --lo-print-position:52% 52%; }
+[data-lo-record="hse"] { --lo-record-color:#e7bd96; --lo-print-position:46% 49%; }
+[data-lo-record="sslc"] { --lo-record-color:#bda7dd; --lo-print-position:45% 54%; }
+.lo-school[data-lo-record], .lo-employer[data-lo-record] {
+  position:relative; border-top:5px solid var(--lo-record-color);
+}
+.lo-school[data-lo-record] .lo-org-mark,
+.lo-employer[data-lo-record] .lo-org-mark {
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--lo-record-color) 58%,var(--line)), 3px 3px 0 var(--lo-record-color);
+}
+figure[data-lo-photo-frame] {
+  padding:5px; border:1px solid var(--line); border-radius:3px;
+  background:var(--lo-record-color,#f2cf87); color:#fff;
+}
+.lo-film-print {
+  isolation:isolate; position:relative; width:100%; height:clamp(90px,8.3vw,147px); overflow:hidden;
+  background:#252d2e; border-bottom:4px solid var(--lo-record-color);
+}
+.lo-film-print > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:var(--lo-print-position,center); }
+.lo-film-print::after {
+  position:absolute; inset:0; z-index:0; content:""; pointer-events:none;
+  background:linear-gradient(92deg,rgba(9,16,21,.82) 0,rgba(9,16,21,.23) 67%,rgba(9,16,21,.06) 100%);
+}
+.lo-print-caption {
+  position:absolute; z-index:1; inset:auto auto 12px 14px; display:grid; gap:4px;
+  max-width:calc(100% - 60px); text-align:left; color:#fff; text-shadow:0 1px 4px #101519;
+}
+.lo-print-caption span { font:600 .57rem/1.25 var(--mono,monospace); text-transform:uppercase; letter-spacing:.12em; color:#fff; }
+.lo-print-caption b { font:600 clamp(1.05rem,1.75vw,1.7rem)/1.04 var(--display,sans-serif); letter-spacing:-.035em; }
+.lo-print-credit {
+  display:grid; place-items:center; position:absolute; z-index:2; top:5px; right:5px; width:28px; height:28px;
+  font:500 17px/1 Arial,sans-serif; color:white; background:#182122bd; border-radius:50%; text-decoration:none;
+}
+.lo-print-credit:hover,.lo-print-credit:focus-visible { color:#111; background:#fff; }
+figure[data-lo-photo-frame] > video { border:1px solid #191f26; }
+figure[data-lo-photo-frame] > figcaption { border-top:3px solid var(--lo-record-color); }
+figure[data-lo-photo-frame] > .screen-program { background:#171d27; }
+@media (max-width:680px) {
+  .lo-schools,.lo-positions { gap:23px; }
+  .lo-school[data-lo-record],.lo-employer[data-lo-record] { border-top-width:4px; }
+  figure[data-lo-photo-frame] { padding:4px; }
+  .lo-film-print { height:clamp(94px,27vw,138px); }
+  .lo-print-caption { inset:auto auto 11px 12px; }
+  .lo-print-caption b { font-size:clamp(1.1rem,5.6vw,1.54rem); }
+}

@@ -1,4 +1,4 @@
-import {wavBlob} from './audio.js';
+import {wavBlob} from './audio.js?v=6';
 const progress=message=>self.postMessage({status:'progress',message});
 async function unpack(n){
   const response=await fetch(new URL('./vendor/voice-'+n+'.gz',import.meta.url));

@@ -1,0 +1,37 @@
+Multilingual portfolio narration
+
+The scripts are adapted from the English captions for Adarsh S’s project and career films. Each recording uses a synthetic voice. Full-length tracks follow the original film’s chapter order.
+
+Piper model cards for the recorded voices
+
+Malayalam (Meera)
+https://huggingface.co/rhasspy/piper-voices/blob/main/ml/ml_IN/meera/medium/MODEL_CARD
+
+Hindi (Priyamvada)
+https://huggingface.co/rhasspy/piper-voices/blob/main/hi/hi_IN/priyamvada/medium/MODEL_CARD
+
+Urdu (Fasih)
+https://huggingface.co/rhasspy/piper-voices/blob/main/ur/ur_PK/fasih/medium/MODEL_CARD
+
+Bengali (bn-BD, speaker 0)
+https://huggingface.co/rhasspy/piper-voices/blob/main/bn/bn_BD/google/medium/MODEL_CARD
+
+Spanish (DaveFX)
+https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_ES/davefx/medium/MODEL_CARD
+
+Modern Standard Arabic (Kareem)
+https://huggingface.co/rhasspy/piper-voices/blob/main/ar/ar_JO/kareem/medium/MODEL_CARD
+
+Persian (Amir)
+https://huggingface.co/rhasspy/piper-voices/blob/main/fa/fa_IR/amir/medium/MODEL_CARD
+
+Tamil (Rasa, female voice, tinisoft)
+https://huggingface.co/tinisoft/piper-ta_IN-rasa_female-medium
+Licensed under Creative Commons Attribution 4.0 International.
+https://creativecommons.org/licenses/by/4.0/
+Training data: AI4Bharat Rasa. Varadhan, Sankar, Raju and Khapra, “Rasa: Building Expressive Speech Synthesis Systems for Indian Languages in Low-resource Settings,” INTERSPEECH 2024.
+
+Sinhala (chan4lk)
+https://huggingface.co/chan4lk/piper-tts-sinhala
+MIT-licensed voice model, trained on OpenSLR 30.
+https://www.openslr.org/30/
