@@ -4,6 +4,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Thread
 import json
+from os import environ
 from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,14 +40,14 @@ def layout(page, label):
 
 try:
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, executable_path=environ.get('PORTFOLIO_CHROMIUM'))
         context = browser.new_context(viewport={'width':1440,'height':1000})
         page = context.new_page()
         page.on('pageerror', lambda error: errors.append(str(error)))
         for entrance in ['index.html','recruiter.html']:
             visit(page, entrance)
-            check(page.locator('.feature-launchpad a[href="lab.html"]').is_visible(), f'Lab entrance: {entrance}')
-            check(page.locator('.feature-launchpad a[href="workbench.html"]').is_visible(), f'Workbench entrance: {entrance}')
+            check(page.locator('main a[href="lab.html"]:visible').count() > 0, f'Lab entrance: {entrance}')
+            check(page.locator('main a[href="workbench.html"]:visible').count() > 0, f'Workbench entrance: {entrance}')
             for width in [1440,390,320]:
                 page.set_viewport_size({'width':width,'height':900})
                 layout(page, f'{entrance} {width}')

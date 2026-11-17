@@ -1,9 +1,10 @@
 # Adarsh S — Engineering, AI & Research
 
-## Current homepage motion
+## Current visual design
 
-The homepage uses an original kinetic studio layout: a rectangular portrait, locally rendered 3D folded geometry, changing hero typography, a native-scroll project rail and a connected internship path. There are no external animation dependencies. The canvas runs at at most 30 fps and stops outside the viewport, in hidden tabs, or when motion is paused. On small screens and with reduced motion, every showcase project is presented in normal document flow. Project case studies, CV, recruiter view and interactive tools remain available. Earlier design notes below document previous revisions.
+The homepage pairs two original Kerala-inspired landscape images with a framed portrait. Its scroll effects move photo layers and typography inside stable sections. Visitors can switch the landscape, pause animation, and choose a light or dark theme. Those preferences carry between the homepage, case studies and interactive tools.
 
+Two silent films are available in the reel section. *Project orbit* is a 15-second camera move through five project images. *3D landscape study* is a nine-second depth-based animation of the mountain and coastal scenes. Each has a 1280 × 720 web encode and a 3840 × 2160 UHD encode. New visual assets, local fonts and their licenses live in `assets/field/`.
 
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 
@@ -19,10 +20,6 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Five case studies: AssentTag, EpigraphiX-AI, AegisForge-X, Deciphera and QuietNote.
 - Verified IJRASET publication link and DOI metadata.
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
-- Dimensional multicolor hero lettering, cursor-driven perspective, floating draggable labels, 3D project-card tilt, reveals, ticker, conceptual project diagrams, pointer spotlight, magnetic buttons, contextual cursor labels and scroll progress.
-- Draggable name and portrait, staggered letter waves, stronger portrait float, scroll-linked depth and two typewriter introductions. Drag with mouse/touch, use arrow keys, or press Escape/Enter/Space to reset the name and photo.
-- Coral portrait frame with a blue 3D edge, top-down portrait entrance, drag lift and release wobble, ordered experience reveals, a progressing timeline and four scroll-triggered typing headings.
-- Section, portrait, experience and typing animations replay after scrolling away and returning.
 - System reduced-motion support and a persistent animation-pause button.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.
@@ -43,9 +40,8 @@ Optional structural verification, using Node.js:
 node scripts/check-site.mjs
 node scripts/check-recruiter.mjs
 node scripts/check-tools.mjs
-node --check assets/js/main.js
-node --check assets/js/motion.js
-node --check assets/js/choreography.js
+node --check assets/field/home.js
+node --check assets/field/interior.js
 ```
 
 ## GitHub Pages
@@ -62,8 +58,8 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 | File | Purpose |
 |---|---|
 | `index.html` | Homepage and structured data |
-| `assets/css/style.css` | Design tokens, themes, layout and motion |
-| `assets/js/main.js` | Optional interaction enhancements |
+| `assets/field/home.css`, `lower.css`, `interior.css` | Current design, typography and motion |
+| `assets/field/home.js`, `lower.js`, `interior.js` | Theme switches, film player and interactions |
 | `assets/js/motion.js` | Portrait tilt, scroll depth and typewriter motion |
 | `assets/js/choreography.js` | Drag spring, sequential experience and heading typing |
 | `assets/images/adarsh-s.jpeg` | Original supplied portrait |

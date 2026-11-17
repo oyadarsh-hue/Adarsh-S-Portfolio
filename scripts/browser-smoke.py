@@ -1,332 +1,112 @@
-"""Browser smoke checks for the static site, served under a repository subpath.
+"""End-to-end checks for the public portfolio, its links, and saved preferences."""
+from playwright.sync_api import expect
+from browser_fixture import ROOT, run_suite
 
-Run with Python 3.12+, Playwright 1.58.0 and its Chromium browser installed.
-No application accounts, messages or external mutations are used.
-"""
-from functools import partial
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
-from threading import Thread
-from urllib.parse import urljoin
-import json
-from playwright.sync_api import sync_playwright
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'qa-artifacts'
-OUT.mkdir(exist_ok=True)
+def check_theme(page, test, expected):
+    expect(page.locator('html')).to_have_attribute('data-theme', expected)
+    button = page.locator('#themeToggle')
+    expect(button).to_have_attribute('aria-pressed', str(expected == 'dark').lower())
+    test.check(bool(button.get_attribute('aria-label') or button.inner_text().strip()),
+               'Theme control has an accessible name')
 
-class QuietHandler(SimpleHTTPRequestHandler):
-    def log_message(self, *_args):
-        pass
 
-server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(ROOT.parent)))
-Thread(target=server.serve_forever, daemon=True).start()
-BASE = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
-checks = []
-errors = []
-
-def check(condition, message):
-    assert condition, message
-    checks.append(message)
-
-def open_page(page, path):
-    response = page.goto(BASE + path, wait_until='networkidle')
-    check(response.status == 200, f'HTTP 200: {path}')
-
-def layout(page, label):
-    check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No horizontal overflow: {label}')
-    for selector in ['.recruiter-strip', '.project-tools', '.summary-hero', '.role-card', '.proof-item', '.evidence-grid', '.skills-space', '.space-tabs', '.space-panel']:
-        for el in page.locator(selector).all():
-            if not el.is_visible():
-                continue
-            box = el.bounding_box()
-            check(box['x'] >= -1 and box['x'] + box['width'] <= page.viewport_size['width'] + 1,
-                  f'Content inside viewport: {label} {selector}')
-
-try:
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(viewport={'width': 1440, 'height': 1000})
-        page = context.new_page()
-        page.on('pageerror', lambda error: errors.append(str(error)))
-        open_page(page, 'index.html')
-        check(page.locator('[data-project-tags]').count() == 5, 'Five project cards')
-        check(page.locator('.project-copy .typing-original').count() == 0, 'Project titles stay complete')
-        page.wait_for_function("document.documentElement.classList.contains('studio-entered')")
-        title_height = page.locator('#heroTitle').bounding_box()['height']
-        first_role = page.locator('#kineticWord').inner_text()
-        page.wait_for_function("previous => { const word = document.querySelector('#kineticWord'); return word.textContent !== previous && !word.classList.contains('is-leaving') && !word.classList.contains('is-arriving'); }", arg=first_role, timeout=8000)
-        check(abs(page.locator('#heroTitle').bounding_box()['height'] - title_height) < 1, 'Kinetic text changes without shifting the headline layout')
-        check(page.locator('#kineticWord').inner_text() in ['software.', 'solutions.', 'possibility.'], 'Kinetic text settles on a complete word')
-        check(page.locator('.studio-photo').evaluate("(e) => {const s=getComputedStyle(e); return ['borderTopLeftRadius','borderTopRightRadius','borderBottomLeftRadius','borderBottomRightRadius'].every(k=>parseFloat(s[k])<=12) && s.clipPath==='none';}"), 'Portrait uses a rectangular frame rather than a round crop')
-        check(page.locator('.studio-photo img').evaluate('(i) => i.complete && i.naturalWidth > 0'), 'Original portrait image is loaded')
-        canvas = page.locator('#heroSculpture')
-        page.wait_for_function("document.querySelector('#heroSculpture').dataset.motion === 'running'")
-        canvas_frame = canvas.evaluate('(c) => c.toDataURL()')
-        page.wait_for_function("previous => document.querySelector('#heroSculpture').toDataURL() !== previous", arg=canvas_frame, timeout=3000)
-        check(True, 'Canvas sculpture produces changing rendered frames')
-        hero_height = page.locator('.studio-hero').bounding_box()['height']
-        page.locator('#motionButton').click()
-        page.wait_for_function("document.querySelector('#heroSculpture').dataset.motion === 'still'")
-        frozen_canvas = canvas.evaluate('(c) => c.toDataURL()')
-        page.wait_for_timeout(350)
-        check(canvas.evaluate('(c) => c.toDataURL()') == frozen_canvas, 'Motion pause freezes the actual sculpture frame')
-        check(abs(page.locator('.studio-hero').bounding_box()['height'] - hero_height) < 1, 'Pausing preserves hero geometry')
-        page.locator('#motionButton').click()
-        page.wait_for_function("document.querySelector('#heroSculpture').dataset.motion === 'running'")
-        page.locator('#abilityOpen').click()
-        check(page.locator('#abilityDialog').evaluate('(d) => d.open && d.contains(document.activeElement)'), 'Developer card opens as a focused modal')
-        page.keyboard.press('Escape')
-        check(not page.locator('#abilityDialog').evaluate('(d) => d.open'), 'Escape dismisses the developer card')
-        check(page.locator('#abilityOpen').evaluate('(b) => b === document.activeElement'), 'Closing the card restores keyboard focus')
-        page.locator('#abilityOpen').click()
-        page.locator('#abilityClose').click()
-        check(not page.locator('#abilityDialog').evaluate('(d) => d.open'), 'Developer card close button works')
+with run_suite('portfolio') as (browser, test):
+    with browser.new_context(viewport={'width': 1440, 'height': 950}, color_scheme='light') as context:
+        page = test.page(context)
+        test.visit(page)
+        check_theme(page, test, 'light')
+        light_background = page.evaluate('getComputedStyle(document.body).backgroundColor')
+        portrait = page.locator('#about img[src$="adarsh-s.jpeg"]')
+        portrait.scroll_into_view_if_needed()
+        portrait.evaluate('i => i.decode()')
+        test.check(portrait.evaluate('''i => {
+            const frame = i.closest('figure');
+            const style = getComputedStyle(frame);
+            return i.naturalWidth > 0 && parseFloat(style.borderTopLeftRadius) < 16
+                && style.clipPath === 'none';
+        }'''), 'Original portrait decodes inside a rectangular frame')
+        page.locator('#themeToggle').focus()
+        page.keyboard.press('Space')
+        check_theme(page, test, 'dark')
+        test.check(page.evaluate('getComputedStyle(document.body).backgroundColor') != light_background,
+                   'The theme switch changes the painted page background')
+        page.reload()
+        check_theme(page, test, 'dark')
+        test.capture(page, 'portfolio-dark')
+        test.visit(page, 'projects/assenttag.html')
+        expect(page.locator('html')).to_have_attribute('data-theme', 'dark')
         page.locator('#themeButton').click()
-        check(page.locator('html').get_attribute('data-theme') == 'dark', 'Hero theme control switches to dark')
-        page.locator('#themeButton').click()
-        check(page.locator('html').get_attribute('data-theme') == 'light', 'Hero theme control restores light')
-        for width in [1440, 768, 390, 320]:
-            page.set_viewport_size({'width': width, 'height': 900})
-            layout(page, f'Homepage {width}px')
-        page.set_viewport_size({'width': 844, 'height': 390})
-        layout(page, 'Homepage short landscape')
-        check(page.locator('.story-sticky').evaluate("(e) => getComputedStyle(e).position") == 'relative', 'Short landscape releases the story from sticky positioning')
-        check(page.locator('.career-panel').evaluate("(e) => getComputedStyle(e).position") == 'relative', 'Short landscape releases the career panel')
-        check('rail-enhanced' not in page.locator('.project-rail-section').get_attribute('class'), 'Short landscape keeps every project in normal flow')
-        page.set_viewport_size({'width': 1440, 'height': 1000})
-        page.screenshot(path=str(OUT / 'homepage-desktop.png'), animations='disabled')
-        rail = page.locator('.project-rail-section')
-        showcase_links = page.locator('.rail-case-link')
-        check(showcase_links.count() == 3, 'Project rail contains three native case-study links')
-        for link in showcase_links.all():
-            check(bool(link.get_attribute('href')), 'Showcase has a native navigation destination')
-        for index in [0, 1, 2, 1, 0]:
-            page.locator(f'[data-rail-go="{index}"]').click()
-            page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
-            # aria-current can already be true before the click's rAF render completes.
-            page.wait_for_function("index => { const r = document.querySelectorAll('.rail-case-link')[index].getBoundingClientRect(); return r.width > 0 && r.left >= 0 && r.right <= innerWidth; }", arg=index)
-            box = showcase_links.nth(index).bounding_box()
-            check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Rail project {index+1} is reachable while moving both directions')
-        rail_panels = page.locator('.rail-panel')
-        rail_scroll_step = rail_panels.nth(1).bounding_box()['x'] - rail_panels.first.bounding_box()['x']
-        rail_scroll_start = page.evaluate('scrollY')
-        page.mouse.move(720, 500)
-        for index, delta in [(1, rail_scroll_step), (0, -rail_scroll_step)]:
-            page.mouse.wheel(0, delta)
-            page.wait_for_function('target => Math.abs(scrollY - target) < 2', arg=rail_scroll_start + index * rail_scroll_step)
-            page.wait_for_function("index => document.querySelector(`[data-rail-go='${index}']`).getAttribute('aria-current') === 'true'", arg=index)
-            # aria-current can already be true before the click's rAF render completes.
-            page.wait_for_function("index => { const r = document.querySelectorAll('.rail-case-link')[index].getBoundingClientRect(); return r.width > 0 && r.left >= 0 && r.right <= innerWidth; }", arg=index)
-            box = showcase_links.nth(index).bounding_box()
-            check(box['x'] >= 0 and box['x'] + box['width'] <= 1440, f'Native wheel scrolling reveals rail project {index+1}')
-        rail_height = rail.bounding_box()['height']
-        page.locator('#motionButton').click()
-        check(abs(rail.bounding_box()['height'] - rail_height) < 1, 'Pausing preserves project rail section height')
-        check(page.locator('.rail-track').evaluate("(e) => getComputedStyle(e).transform") == 'none', 'Paused rail makes all projects available in a vertical layout')
-        page.locator('#motionButton').click()
-        expected_destination = urljoin(page.url, showcase_links.last.get_attribute('href'))
-        showcase_links.last.focus()
-        page.wait_for_function("document.querySelector('[data-rail-go=\"2\"]').getAttribute('aria-current') === 'true'")
-        page.screenshot(path=str(OUT / 'project-rail-desktop.png'), animations='disabled')
-        page.keyboard.press('Enter')
-        page.wait_for_url(expected_destination)
-        check(page.url == expected_destination, 'Offscreen case study receives keyboard focus and opens with Enter')
-        open_page(page, 'index.html')
-        # Verify visible film composition responds to native document scrolling.
-        check(page.locator('.cinema-letterfield[aria-hidden="true"]').count() == 1, 'Decorative film typography does not duplicate accessible content')
-        page.evaluate("window.scrollTo({top:document.querySelector('#showreel').offsetTop-innerHeight*.7,behavior:'instant'})")
-        page.wait_for_timeout(180)
-        cinema_small = page.locator('#showreel').evaluate("e => parseFloat(e.style.getPropertyValue('--cinema-scale'))")
-        page.evaluate("window.scrollTo({top:document.querySelector('#showreel').offsetTop-innerHeight*.1,behavior:'instant'})")
-        page.wait_for_timeout(180)
-        cinema_large = page.locator('#showreel').evaluate("e => parseFloat(e.style.getPropertyValue('--cinema-scale'))")
-        check(.8 <= cinema_small < cinema_large <= 1, 'Scroll expands the cinematic frame within bounded scale')
-        # Exercise real media playback and the shared motion preference.
-        page.locator('#projectReel').scroll_into_view_if_needed()
-        page.wait_for_function("document.querySelector('#heroSculpture').dataset.motion === 'still'")
-        check(True, 'Offscreen hero sculpture stops animation work')
-        page.wait_for_function("document.querySelector('#projectReel').currentTime > 0.2")
-        check(page.locator('#projectReel').evaluate('(v) => v.muted && v.playsInline && v.videoWidth === 960'), 'Muted inline H.264 reel plays')
-        page.locator('#reelToggle').click()
-        stopped = page.locator('#projectReel').evaluate('(v) => v.currentTime')
-        page.wait_for_timeout(350)
-        check(page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime') == stopped, 'Reel pause holds the frame')
-        check(page.locator('.cinema-state').inner_text() == 'PAUSED', 'Film timecode reflects actual paused playback')
-        page.locator('button[data-reel-mode="motion"]').click()
-        page.wait_for_function("document.querySelector('#projectReel').readyState >= 2")
-        check(page.locator('#projectReel').evaluate("v => v.paused && v.currentSrc.endsWith('dimensional-loop.mp4') && v.videoWidth === 960"), '3D film loads actual video without overriding pause')
-        page.locator('#reelToggle').click()
-        page.wait_for_function("document.querySelector('#projectReel').currentTime > .2")
-        check(page.locator('#projectReel').evaluate("v => !v.paused && v.duration >= 7.9 && v.duration <= 8.1"), 'Rendered 3D film plays as an eight-second loop')
-        page.locator('button[data-reel-mode="projects"]').click()
-        # Source switches are asynchronous: wait for decoded frames, not only a pending play request.
-        # Pause/resume was already exercised above; another blind double-toggle here races scrolling
-        # to the player controls with the visibility observer.
-        page.locator('#projectReel').scroll_into_view_if_needed()
-        page.wait_for_function("(() => { const v = document.querySelector('#projectReel'); return v.currentSrc.endsWith('adarsh-project-reel.mp4') && v.readyState >= 2 && !v.paused && v.currentTime > .2; })()")
-        check(True, 'Switching from playing 3D study resumes decoded project video')
-        story_height = page.locator('.motion-story').bounding_box()['height']
-        page.locator('#motionButton').click()
-        check(page.locator('#projectReel').evaluate('(v) => v.paused'), 'Global motion pause stops the video')
-        check(abs(page.locator('.motion-story').bounding_box()['height'] - story_height) < 1, 'Manual pause preserves the story section height')
-        page.locator('#motionButton').click()
-        check(page.locator('.studio-curtain').evaluate("(e) => getComputedStyle(e).display") == 'none', 'Resuming motion does not replay the opening curtain')
-        page.wait_for_function("!document.querySelector('#projectReel').paused")
-        page.screenshot(path=str(OUT / 'reel-desktop.png'))
-        page.evaluate("window.scrollTo({top:document.querySelector('.motion-story').offsetTop,behavior:'instant'})")
-        page.wait_for_timeout(120)
-        first_fill = page.locator('.story-words>span').first.evaluate("(e) => e.style.getPropertyValue('--word-fill')")
-        page.evaluate("window.scrollBy({top:innerHeight * .6,behavior:'instant'})")
-        page.wait_for_timeout(120)
-        last_fill = page.locator('.story-words>span').last.evaluate("(e) => e.style.getPropertyValue('--word-fill')")
-        check(float(first_fill.rstrip('%')) > 0 and float(last_fill.rstrip('%')) > 0, 'Story text fills progressively with native scrolling')
-        check(page.locator('#projectReel').evaluate('(v) => v.paused'), 'Offscreen video stops decoding')
-        page.screenshot(path=str(OUT / 'scroll-story-desktop.png'))
+        expect(page.locator('html')).to_have_attribute('data-theme', 'light')
+        test.visit(page)
+        check_theme(page, test, 'light')
+
+        cards = page.locator('[data-project-tags]:visible')
+        expect(cards).to_have_count(5)
         page.locator('[data-project-filter="web"]').click()
-        check(page.locator('[data-project-tags]:visible').count() == 2, 'Web filter shows two projects')
-        page.locator('#projectSearch').fill('PostgreSQL')
-        check(page.locator('[data-project-tags]:visible').count() == 1, 'Combined filter and query')
-        check(page.locator('#project-quietnote').is_visible(), 'Correct project matched')
-        page.locator('#projectSearch').fill('no-such-project-zz')
-        check(page.locator('#projectEmpty').is_visible(), 'Empty result explained')
+        expect(cards).to_have_count(2)
+        page.locator('#projectSearch').fill('postgresql')
+        expect(cards).to_have_count(1)
+        expect(cards).to_contain_text('QuietNote')
+        page.locator('#projectSearch').fill('zzzz no such project')
+        expect(page.locator('#projectEmpty')).to_be_visible()
+        expect(cards).to_have_count(0)
         page.locator('#projectSearch').fill('')
         page.locator('[data-project-filter="all"]').click()
-        check(page.locator('[data-project-tags]:visible').count() == 5, 'All work restores cards')
-        check(page.locator('#projectResults').inner_text() == 'Showing 5 of 5 projects.', 'Accessible result status')
-        page.locator('#projects').scroll_into_view_if_needed()
-        before = page.locator('#project-assenttag h3').bounding_box()
-        page.wait_for_timeout(3600)
-        after = page.locator('#project-assenttag h3').bounding_box()
-        check(abs(before['y'] - after['y']) < 1 and abs(before['height'] - after['height']) < 1, f'Project heading remains stable while reading: {before} → {after}')
-        page.screenshot(path=str(OUT / 'projects-desktop.png'), animations='disabled')
-        journey_items = page.locator('#experience .timeline > .timeline-item')
-        check(journey_items.count() == 3, 'Journey retains all three internships')
-        for index in [0, 1, 2, 1, 0]:
-            journey_items.nth(index).evaluate("(e) => e.scrollIntoView({block:'center',behavior:'instant'})")
-            page.wait_for_function("step => document.querySelector('#experience').dataset.journeyStep === step", arg=str(index+1))
-            check(page.locator('#experience [data-journey-date]').text_content().strip() == journey_items.nth(index).locator('.time').text_content().strip(), f'Journey step {index+1} follows its internship while scrolling both directions')
-        page.locator('[data-journey-select="2"]').click()
-        page.wait_for_function("document.querySelector('#experience').dataset.journeyStep === '3'")
-        check(page.locator('[data-journey-select="2"]').get_attribute('aria-current') == 'step', 'Career constellation button selects and announces its internship')
-        page.screenshot(path=str(OUT / 'journey-desktop.png'), animations='disabled')
-        # A skills link should lead to usable capabilities, not just decorative cards.
-        page.locator('#nav a[href="#skills"]').click()
-        page.wait_for_url('**#skills')
-        skill_tabs = page.locator('#skills [role="tab"]')
-        check(skill_tabs.count() == 4, 'Skills navigation reaches four capability tabs')
-        page.locator('#skill-tab-vision').click()
-        check(page.locator('#skill-panel-vision').is_visible() and page.locator('#skills [role="tabpanel"]:visible').count() == 1, 'Choosing Intelligence shows only its tools and project evidence')
-        check(page.locator('#skill-panel-vision .space-tools').inner_text().find('OpenCV') >= 0, 'Intelligence panel exposes the actual toolkit')
-        for key, name in [('ArrowRight', 'data'), ('End', 'systems'), ('Home', 'build'), ('ArrowLeft', 'systems')]:
-            page.keyboard.press(key)
-            check(page.locator(f'#skill-tab-{name}').evaluate("e => e === document.activeElement && e.getAttribute('aria-selected') === 'true' && e.tabIndex === 0")
-                  and page.locator('#skills [role="tab"][tabindex="0"]').count() == 1
-                  and page.locator(f'#skill-panel-{name}').is_visible(), f'Skills {key} selects, focuses and reveals {name}')
-        page.locator('.space-complete > summary').click()
-        check(page.locator('.space-complete .skill-card:visible').count() == 6, 'Complete toolkit expands to all six original skill groups')
-        page.locator('.space-complete [data-filter="intelligence"]').click()
-        check(page.locator('.space-complete .skill-card:visible').count() == 2
-              and page.locator('#skill-panel-systems').is_visible(), 'Original skill filter works independently of the capability tabs')
-        page.locator('.space-complete [data-filter="all"]').click()
-        page.locator('.space-complete > summary').click()
-        page.locator('#skill-tab-vision').click()
-        page.screenshot(path=str(OUT / 'skills-desktop.png'), animations='disabled')
-        skill_evidence = page.locator('#skill-panel-vision .space-proof > a').first
-        skill_destination = urljoin(page.url, skill_evidence.get_attribute('href'))
-        skill_evidence.click()
-        page.wait_for_url(skill_destination)
-        check(page.url.endswith('/projects/assenttag.html') and page.locator('.case-evidence').is_visible(), 'Skill evidence opens the real AssentTag case study')
-        open_page(page, 'index.html?focus=security&q=postgresql#projects')
-        check(page.locator('[data-project-tags]:visible').count() == 1, 'Role and query deep link restored')
-        page.set_viewport_size({'width': 390, 'height': 844})
-        page.locator('#menuButton').click()
-        check(page.locator('#menuButton').get_attribute('aria-expanded') == 'true', 'Mobile menu opens')
-        page.keyboard.press('Escape')
-        check(page.locator('#menuButton').get_attribute('aria-expanded') == 'false', 'Escape closes mobile menu')
-        page.locator('#menuButton').click()
-        page.locator('#nav a[href="recruiter.html"]').click()
-        page.wait_for_url('**/recruiter.html')
-        check(page.locator('h1').inner_text() == 'Adarsh S', 'Recruiter navigation works without script errors')
-        check(page.locator('.summary-nav a[href="index.html#skills"]').is_visible(), 'Recruiter has a direct Skills link')
-        for width in [1440, 768, 390, 320]:
+        expect(cards).to_have_count(5)
+        expect(page.locator('#projectResults')).to_contain_text('5')
+        test.check(True, 'Project filters, search, empty state and reset work')
+        for query, expected_id in [('focus=vision&q=epigraph', 'project-epigraphix-ai'),
+                                   ('focus=security&q=quietnote', 'project-quietnote')]:
+            test.visit(page, 'index.html?' + query + '#projects')
+            expect(cards).to_have_count(1)
+            expect(cards).to_have_id(expected_id)
+        test.visit(page)
+        page.locator('[data-lo-filter="intelligence"]').click()
+        expect(page.locator('[data-lo-category]:visible')).to_have_count(2)
+        expect(page.locator('#skills')).to_contain_text('OpenCV')
+        page.locator('[data-lo-filter="all"]').click()
+        expect(page.locator('[data-lo-category]:visible')).to_have_count(6)
+        test.check(True, 'All disciplines restore after filtering the toolkit')
+
+        for width in (1440, 900, 768, 390, 320):
             page.set_viewport_size({'width': width, 'height': 900})
-            layout(page, f'Recruiter {width}px')
-            check(page.locator('.summary-portrait').evaluate("e => { const s=getComputedStyle(e), r=e.getBoundingClientRect(); return ['borderTopLeftRadius','borderTopRightRadius','borderBottomLeftRadius','borderBottomRightRadius'].every(k=>parseFloat(s[k])<=4) && s.clipPath==='none' && r.height>r.width; }"), f'Recruiter portrait is a tall straight rectangle at {width}px')
-        page.set_viewport_size({'width': 1440, 'height': 1000})
-        page.screenshot(path=str(OUT / 'recruiter-desktop.png'), full_page=True, animations='disabled')
-        page.set_viewport_size({'width': 390, 'height': 844})
-        page.screenshot(path=str(OUT / 'recruiter-mobile.png'), full_page=True, animations='disabled')
-        page.locator('#themeButton').click()
-        check(page.locator('html').get_attribute('data-theme') == 'dark', 'Dark theme toggles')
-        page.reload(wait_until='networkidle')
-        check(page.locator('html').get_attribute('data-theme') == 'dark', 'Theme persists after reload')
-        page.screenshot(path=str(OUT / 'recruiter-dark-mobile.png'), full_page=True, animations='disabled')
-        page.locator('#themeButton').click()
+            test.layout(page, f'home / {width}')
+        page.locator('#menuButton').click()
+        expect(page.locator('#menuButton')).to_have_attribute('aria-expanded', 'true')
+        page.keyboard.press('Escape')
+        expect(page.locator('#menuButton')).to_have_attribute('aria-expanded', 'false')
+        page.locator('#menuButton').click()
+        page.locator('#nav a[href="#skills"]').click()
+        expect(page.locator('#menuButton')).to_have_attribute('aria-expanded', 'false')
+        test.check(page.url.endswith('#skills'), 'Mobile navigation reaches the selected section')
+        page.evaluate('window.scrollTo({top:0,behavior:"instant"})')
+        test.capture(page, 'portfolio-mobile')
+
+        for case in sorted((ROOT / 'projects').glob('*.html')):
+            test.visit(page, f'projects/{case.name}')
+            expect(page.locator('.case-evidence')).to_be_visible()
+            test.layout(page, case.stem + ' mobile')
+        test.visit(page, 'recruiter.html')
+        test.check(page.locator('a[href="index.html#skills"]').count() > 0, 'Recruiter view links to skills')
         page.emulate_media(media='print')
-        page.pdf(path=str(OUT / 'recruiter-print.pdf'), print_background=True)
-        check(page.locator('#contact').is_visible(), 'Contact remains visible when printing')
-        page.emulate_media(media='screen')
-        for path in sorted((ROOT / 'projects').glob('*.html')):
-            open_page(page, 'projects/' + path.name)
-            check(page.locator('.case-evidence').is_visible(), f'Implementation evidence: {path.name}')
-            layout(page, f'Case study {path.name} mobile')
-        nojs = browser.new_context(java_script_enabled=False, viewport={'width': 390, 'height': 844})
-        fallback = nojs.new_page()
-        open_page(fallback, 'index.html')
-        check(fallback.locator('[data-project-tags]:visible').count() == 5, 'All projects available without JavaScript')
-        check(fallback.locator('#skills .skill-card:visible').count() == 6, 'Complete original toolkit remains available without JavaScript')
-        check(not fallback.locator('[data-project-tools]').is_visible(), 'Inactive search hidden without JavaScript')
-        check(fallback.locator('#projectReel').evaluate('(v) => v.controls && !!v.querySelector("source").getAttribute("src")'), 'Video has native controls and source without JavaScript')
-        check(fallback.locator('.rail-case-link[href]').count() == 3, 'Showcase navigation remains available without JavaScript')
-        check(fallback.locator('.rail-track').evaluate("(e) => getComputedStyle(e).transform") == 'none', 'Without JavaScript all showcase projects remain in document flow')
-        open_page(fallback, 'recruiter.html')
-        check(fallback.locator('a[download]').first.is_visible(), 'CV available without JavaScript')
-        reduced = browser.new_context(reduced_motion='reduce', viewport={'width':390,'height':844})
-        reduced_page = reduced.new_page()
-        open_page(reduced_page, 'index.html')
-        check('paused' in (reduced_page.locator('html').get_attribute('class') or ''), 'System reduced motion respected')
-        check(reduced_page.locator('#motionButton').is_disabled(), 'Reduced-motion control announced')
-        check(reduced_page.locator('.studio-curtain').evaluate("(e) => getComputedStyle(e).display") == 'none', 'Reduced motion skips the entrance curtain')
-        check(reduced_page.locator('.story-sticky').evaluate("(e) => getComputedStyle(e).position") == 'relative', 'Reduced motion keeps the story in normal document flow')
-        reduced_role = reduced_page.locator('#kineticWord').inner_text()
-        reduced_canvas = reduced_page.locator('#heroSculpture').evaluate('(c) => c.toDataURL()')
-        reduced_page.wait_for_timeout(4400)
-        check(reduced_page.locator('#kineticWord').inner_text() == reduced_role, 'Reduced motion keeps kinetic text still')
-        check(reduced_page.locator('#heroSculpture').evaluate('(c) => c.toDataURL()') == reduced_canvas, 'Reduced motion keeps the sculpture frame still')
-        check('rail-enhanced' not in reduced_page.locator('.project-rail-section').get_attribute('class'), 'Reduced motion presents the full showcase in normal flow')
-        reduced_page.locator('#skill-tab-data').click()
-        check(reduced_page.locator('.skills-space').evaluate("e => e.classList.contains('space-motion-off')") and reduced_page.locator('#skill-panel-data').is_visible(), 'Reduced motion disables spatial movement while keeping skills tabs usable')
-        reduced_page.locator('#projectReel').scroll_into_view_if_needed()
-        reduced_page.wait_for_timeout(300)
-        check(reduced_page.locator('#projectReel').evaluate('(v) => v.paused && v.currentTime === 0'), 'Reduced motion prevents video autoplay')
-        touch = browser.new_context(viewport={'width':390,'height':844}, is_mobile=True, has_touch=True)
-        touch_page = touch.new_page()
-        touch_page.on('pageerror', lambda error: errors.append(str(error)))
-        open_page(touch_page, 'index.html')
-        for panel in touch_page.locator('.rail-panel').all():
-            panel.scroll_into_view_if_needed()
-            layout(touch_page, 'Touch project showcase')
-            box = panel.bounding_box()
-            check(box['x'] >= 0 and box['x'] + box['width'] <= 390, 'Touch project fits the viewport')
-        touch_link = touch_page.locator('.rail-case-link').last
-        touch_destination = urljoin(touch_page.url, touch_link.get_attribute('href'))
-        touch_page.screenshot(path=str(OUT / 'project-showcase-touch.png'), animations='disabled')
-        touch_link.tap()
-        touch_page.wait_for_url(touch_destination)
-        check(touch_page.url == touch_destination, 'Touch case-study link opens with one tap')
-        restricted = browser.new_context(viewport={'width':390,'height':844})
-        restricted.add_init_script("Object.defineProperty(window, 'localStorage', {get(){throw new Error('Storage blocked')}}); Object.defineProperty(navigator, 'clipboard', {value:undefined});")
-        restricted_page = restricted.new_page()
-        restricted_page.on('pageerror', lambda error: errors.append(str(error)))
-        open_page(restricted_page, 'recruiter.html')
-        restricted_page.locator('[data-copy-email]').click()
-        check('oyadarsh@gmail.com' in restricted_page.locator('[data-copy-status]').inner_text(), 'Clipboard fallback exposes the address')
-        check(errors == [], f'No browser script errors: {errors}')
-        browser.close()
-    report = {'passed': len(checks), 'checks': checks, 'browser_errors': errors}
-    (OUT / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf8')
-    print(json.dumps({'passed': len(checks), 'browser_errors': errors}), flush=True)
-finally:
-    server.shutdown()
-    server.server_close()
+        expect(page.locator('#contact')).to_be_visible()
+    with browser.new_context(java_script_enabled=False, viewport={'width': 390, 'height': 844}) as context:
+        page = test.page(context)
+        test.visit(page)
+        expect(page.locator('[data-project-tags]:visible')).to_have_count(5)
+        expect(page.locator('[data-lo-category]:visible')).to_have_count(6)
+        test.check(page.locator('a[href$=".pdf"]:visible').count() > 0, 'CV is reachable without JavaScript')
+        test.check(page.locator('#portfolioFilm').evaluate("v => v.controls && (v.getAttribute('src') || v.querySelector('source[src]')) !== null"),
+                   'Native video controls and source work without JavaScript')
+        expect(page.locator('#showreel a[href="assets/field/landscape.mp4"]')).to_be_visible()
+        test.check(True, 'Landscape film also has a native no-JavaScript playback link')
+        test.layout(page, 'no JavaScript')
+    with browser.new_context(color_scheme='dark', reduced_motion='reduce') as context:
+        context.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw Error('blocked')}})")
+        page = test.page(context)
+        test.visit(page)
+        check_theme(page, test, 'dark')
+        page.locator('#themeToggle').click()
+        check_theme(page, test, 'light')
+        test.check(True, 'Theme still switches with storage disabled')

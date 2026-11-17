@@ -1,154 +1,121 @@
-"""Focused visual, responsive, motion and fallback checks for photographic scenes."""
-from functools import partial
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
-from threading import Thread
-import json
-from playwright.sync_api import sync_playwright
+"""Check photography, geometry, motion preferences, and actual UHD playback."""
+from playwright.sync_api import expect
+from browser_fixture import run_suite
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / 'qa-artifacts'
-OUT.mkdir(exist_ok=True)
-class QuietHandler(SimpleHTTPRequestHandler):
-    def log_message(self, *_args): pass
-server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(ROOT.parent)))
-Thread(target=server.serve_forever, daemon=True).start()
-BASE = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
-checks, errors = [], []
-def check(value, message):
-    assert value, message
-    checks.append(message)
-def settle(page):
-    page.wait_for_timeout(150)
+
 def scroll(page, y):
-    page.evaluate('(y) => scrollTo({top:y,behavior:"instant"})', y)
-    settle(page)
-def loaded(page, selector):
-    page.wait_for_function('(selector) => { const i=document.querySelector(selector); return i.complete && i.naturalWidth>0; }', arg=selector)
-def screenshot(page, name):
-    page.screenshot(path=str(OUT / f'background-{name}.png'), animations='disabled')
-def painted(page, selector):
-    backdrop = page.locator(f'{selector} > .scene-backdrop')
-    before = backdrop.screenshot(animations='disabled')
-    page.locator(f'{selector} .scene-picture img').evaluate('(i)=>i.style.visibility="hidden"')
-    after = backdrop.screenshot(animations='disabled')
-    page.locator(f'{selector} .scene-picture img').evaluate('(i)=>i.style.removeProperty("visibility")')
-    return before != after
-try:
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(viewport={'width':1440,'height':1000}, device_scale_factor=1)
-        page = context.new_page()
-        page.on('pageerror', lambda e: errors.append(str(e)))
-        page.goto(BASE, wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("studio-entered")')
-        loaded(page, '#home .scene-picture img')
-        check(page.locator('.scene-backdrop[aria-hidden="true"] img[alt=""]').count() == 4, 'Four decorative images are excluded from accessible content')
-        check(page.locator('#home .scene-picture img').evaluate('(i)=>i.currentSrc.endsWith("-1600.webp")'), 'Desktop loads a 1600px image, not a forced 4K download')
-        check(page.locator('.scene-picture img[loading="lazy"]').count() == 3, 'All below-fold environments are lazy loaded')
-        screenshot(page, 'hero-desktop')
-        scroll(page, 100)
-        first = page.locator('#home').evaluate('(e)=>e.style.getPropertyValue("--scene-y")')
-        scroll(page, 350)
-        second = page.locator('#home').evaluate('(e)=>e.style.getPropertyValue("--scene-y")')
-        check(first != second and first and second, 'Scrolling updates the hero background transform')
-        scroll(page, 100)
-        check(page.locator('#home').evaluate('(e)=>e.style.getPropertyValue("--scene-y")') == first, 'Reverse scrolling restores the same background position')
-        page.locator('#motionButton').click()
-        check(page.locator('html').get_attribute('data-scene-motion') == 'still', 'Existing pause control stops background motion')
-        scroll(page, 350)
-        check(page.locator('.scene-picture').evaluate_all('(items)=>items.every(e=>getComputedStyle(e).transform==="none")'), 'Paused artwork remains static through scrolling')
-        page.locator('#motionButton').click()
-        check(page.locator('html').get_attribute('data-scene-motion') == 'scroll', 'Resume restores scroll motion')
-        story_top = page.locator('.motion-story').evaluate('(e)=>e.getBoundingClientRect().top+scrollY')
-        scroll(page, story_top+150)
-        loaded(page, '.story-sticky .scene-picture img')
-        check(page.locator('.story-sticky').evaluate('(e)=>getComputedStyle(e).position') == 'sticky', 'Photographic background preserves the existing sticky story')
-        before = page.locator('.story-sticky').evaluate('(e)=>e.style.getPropertyValue("--scene-y")')
-        scroll(page, story_top+400)
-        check(page.locator('.story-sticky').evaluate('(e)=>e.style.getPropertyValue("--scene-y")') != before, 'Story artwork progresses while its content stays sticky')
-        screenshot(page, 'story-desktop')
-        page.set_viewport_size({'width':1920,'height':1080})
-        settle(page)
-        check(page.locator('.story-sticky > .scene-backdrop').evaluate('(e)=>{const r=e.getBoundingClientRect();return r.left<=1 && r.right>=document.documentElement.clientWidth-1;}'), 'Story image fills the viewport beyond the 1350px content maximum')
-        screenshot(page, 'story-wide-desktop')
-        page.set_viewport_size({'width':1440,'height':1000})
-        for name, selector in [('research','#publication'),('contact','#contact')]:
-            page.locator(selector).scroll_into_view_if_needed()
-            loaded(page, f'{selector} .scene-picture img')
-            settle(page)
-            screenshot(page, f'{name}-desktop')
-        check(page.locator('#home').get_attribute('data-scene-active') == 'false', 'Offscreen scenes release will-change promotion')
-        page.locator('#motionButton').click()
-        # Confirm image pixels actually affect the rendered output, not merely DOM visibility.
-        # The screenshot is compared with only that image hidden, all motion paused.
-        for selector in ['#home', '.story-sticky', '#publication', '#contact']:
-            page.locator(selector).scroll_into_view_if_needed()
-            loaded(page, f'{selector} .scene-picture img')
-            settle(page)
-            check(painted(page, selector), f'Artwork paints above its parent background: {selector}')
-        page.locator('#motionButton').click()
-        check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Desktop has no horizontal overflow')
-        page.locator('#themeButton').click()
-        page.locator('#motionButton').click()
-        check(painted(page, '#contact'), 'Artwork remains painted after changing theme')
-        context.close()
-        mobile = browser.new_context(viewport={'width':390,'height':844},device_scale_factor=3,is_mobile=True,has_touch=True)
-        page = mobile.new_page()
-        page.on('pageerror', lambda e: errors.append(str(e)))
-        page.goto(BASE, wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("studio-entered")')
-        for name, selector in [('hero','#home'),('story','.story-sticky'),('research','#publication'),('contact','#contact')]:
-            if name == 'hero': scroll(page, 0)
-            else: page.locator(selector).scroll_into_view_if_needed()
-            loaded(page, f'{selector} .scene-picture img')
-            check(page.locator(f'{selector} .scene-picture img').evaluate('(i)=>i.currentSrc.endsWith("-960.webp")'), f'High-DPR phone uses compact 960px artwork: {name}')
-            check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), f'No mobile horizontal overflow: {name}')
-            check(page.locator(f'{selector} .scene-picture img').evaluate('(i)=>getComputedStyle(i).opacity') == '1', f'Mobile artwork keeps full image contrast: {name}')
-            if name == 'story':
-                check(page.locator('#storyTitle').evaluate('(e)=>getComputedStyle(e).backgroundColor.includes("7, 9, 24")'), 'Story copy has a local reading scrim instead of dimming all scenery')
-            if name == 'research':
-                check(page.locator('#publication').evaluate('(e)=>{const h=e.querySelector(".section-heading").getBoundingClientRect(), c=e.querySelector(".publication-card").getBoundingClientRect(); return c.top-h.bottom>=230;}'), 'Manuscript has a visible art window before the opaque reading card')
-                scroll(page, page.locator(selector).evaluate('(e)=>e.getBoundingClientRect().top+scrollY')-74)
-            screenshot(page, f'{name}-mobile')
+    page.evaluate("y => window.scrollTo({top:y,behavior:'instant'})", y)
+    page.evaluate("() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
+
+
+def hero_bounds(page):
+    return page.locator('.hero').evaluate('e => [e.offsetTop, e.offsetHeight]')
+
+
+with run_suite('backgrounds') as (browser, test):
+    with browser.new_context(viewport={'width': 1440, 'height': 900}) as context:
+        page = test.page(context)
+        videos = []
+        page.on('request', lambda request: videos.append(request.url) if '.mp4' in request.url else None)
+        test.visit(page)
+        test.check(not videos, 'No video is downloaded for the first screen')
+        scenes = page.locator('.hero-image[data-scene]')
+        test.check(scenes.count() == 2, 'Two photographic hero scenes')
+        active = page.locator('.hero-image[data-active="true"]')
+        expect(active).to_have_count(1)
+        active.evaluate('i => i.decode()')
+        first = active.get_attribute('data-scene')
+        forward = page.locator('[data-scene-step]').last
+        forward.click()
+        expect(active).not_to_have_attribute('data-scene', first)
+        active.evaluate('i => i.decode()')
+        forward.click()
+        expect(active).to_have_attribute('data-scene', first)
+        test.check(True, 'Frame switcher cycles through both photographs and back')
+        def motion_values():
+            return page.locator('.hero').evaluate("""e => ['--scene-shift','--scene-turn','--title-slide']
+                .map(name => parseFloat(getComputedStyle(e).getPropertyValue(name)))""")
+
+        bounds = hero_bounds(page)
+        positions = []
+        for position in (80, 220, 80, 0):
+            scroll(page, position)
+            test.check(hero_bounds(page) == bounds, 'Reversible scrolling preserves hero geometry')
+            positions.append(motion_values())
+        test.check(positions[0] == positions[2] and all(b > a for a, b in zip(positions[0], positions[1])),
+                   'Scrolling moves the photo, angle and title and restores them on reverse')
+        motion = page.locator('#motionToggle')
+        motion.click()
+        scroll(page, 180)
+        expect(motion).to_have_attribute('aria-pressed', 'true')
+        test.check(motion_values() == [0, 0, 0], 'Pause freezes parallax, rotation and text motion')
+        motion.click()
         scroll(page, 0)
-        start = float(page.locator('#home').evaluate('(e)=>parseFloat(e.style.getPropertyValue("--scene-y"))'))
-        screenshot(page, 'mobile-scroll-start')
-        scroll(page, 350)
-        end = float(page.locator('#home').evaluate('(e)=>parseFloat(e.style.getPropertyValue("--scene-y"))'))
-        check(end - start >= 25, 'Phone parallax moves at least 25px over a 350px scroll')
-        screenshot(page, 'mobile-scroll-end')
-        scroll(page, 0)
-        check(abs(float(page.locator('#home').evaluate('(e)=>parseFloat(e.style.getPropertyValue("--scene-y"))')) - start) < .1, 'Phone reverse scroll restores the same background')
-        page.set_viewport_size({'width':320,'height':740})
-        scroll(page,0)
-        check(page.evaluate('document.documentElement.scrollWidth <= innerWidth'), '320px layout remains inside viewport')
-        screenshot(page,'hero-320')
-        mobile.close()
-        reduced = browser.new_context(viewport={'width':1440,'height':1000},reduced_motion='reduce')
-        page = reduced.new_page()
-        page.goto(BASE,wait_until='networkidle')
-        check(page.locator('html').get_attribute('data-scene-motion') == 'still', 'System reduced motion keeps scenes static')
-        check(page.locator('.scene-picture').evaluate_all('(items)=>items.every(e=>getComputedStyle(e).transform==="none")'), 'Reduced motion removes every background transform')
-        screenshot(page,'reduced-motion')
-        reduced.close()
-        noscript = browser.new_context(viewport={'width':390,'height':844},java_script_enabled=False)
-        page = noscript.new_page()
-        page.goto(BASE,wait_until='networkidle')
-        loaded(page,'#home .scene-picture img')
-        check(painted(page, '#home'), 'No-JavaScript visitors receive painted hero artwork')
-        check(page.locator('.scene-picture').evaluate_all('(items)=>items.every(e=>getComputedStyle(e).transform==="none")'), 'No-JavaScript images are static')
-        screenshot(page,'no-javascript')
-        noscript.close()
-        saving = browser.new_context(viewport={'width':1440,'height':1000})
-        saving.add_init_script('Object.defineProperty(navigator,"connection",{value:{saveData:true}})')
-        page = saving.new_page()
-        page.goto(BASE,wait_until='networkidle')
-        check(page.locator('html').get_attribute('data-scene-motion') == 'still', 'Data-saving preference disables the additional motion')
-        saving.close()
-        check(not errors, f'No JavaScript errors: {errors}')
-        browser.close()
-    (OUT/'background-report.json').write_text(json.dumps({'checks':checks,'errors':errors},indent=2))
-    print(f'PASS: {len(checks)} background scene checks; screenshots saved in qa-artifacts.')
-finally:
-    server.shutdown()
+        expect(motion).to_have_attribute('aria-pressed', 'false')
+        test.capture(page, 'photographic-hero')
+
+        video = page.locator('#portfolioFilm')
+        quality = page.locator('#filmQuality')
+        test.check(video.get_attribute('preload') == 'none', 'Film only loads on demand')
+        page.locator('[data-play-film]').first.click()
+        video.scroll_into_view_if_needed()
+        page.wait_for_function("document.querySelector('#portfolioFilm').videoWidth === 1280")
+        page.wait_for_function("document.querySelector('#portfolioFilm').currentTime > 0.05")
+        test.check(video.evaluate('v => v.videoHeight === 720 && v.playsInline'), 'Default 720p film decodes inline')
+        # Switch from a known playback position, allowing a small decode-time delta.
+        video.evaluate("v => { v.currentTime = 4 }")
+        page.wait_for_function("!document.querySelector('#portfolioFilm').seeking")
+        quality.select_option('4k')
+        page.wait_for_function("document.querySelector('#portfolioFilm').videoWidth === 3840")
+        test.check(video.evaluate('v => v.videoHeight === 2160 && v.duration > 0'), 'UHD film decodes at 3840 × 2160')
+        page.wait_for_function("(v => !v.paused && v.currentTime >= 3.9)(document.querySelector('#portfolioFilm'))")
+        test.check(True, 'Switching to 4K retains playback and position')
+        video.evaluate('v => v.pause()')
+        quality.select_option('web')
+        page.wait_for_function("document.querySelector('#portfolioFilm').videoWidth === 1280")
+        test.check(video.evaluate('v => v.paused && v.currentTime >= 3.9'), 'Switching to HD preserves pause and position')
+        project_poster = video.get_attribute('poster')
+        download = page.locator('#filmDownload')
+        expect(download).to_have_attribute('href', 'assets/field/film.mp4')
+        page.locator('[data-film="landscape"]').click()
+        expect(page.locator('[data-film="landscape"]')).to_have_attribute('aria-pressed', 'true')
+        expect(download).to_have_attribute('href', 'assets/field/landscape.mp4')
+        expect(video).to_have_attribute('poster', 'assets/field/landscape-poster.webp')
+        test.check(video.evaluate('''async v => {
+            const image = new Image();
+            image.src = v.poster;
+            await image.decode();
+            return image.naturalWidth >= 800;
+        }'''), 'Landscape title loads its own photographic poster')
+        video.evaluate('v => v.play()')
+        page.wait_for_function("""(v => v.currentSrc.endsWith('/landscape-720.mp4') &&
+            v.videoWidth === 1280 && v.videoHeight === 720 && v.currentTime > 0)
+            (document.querySelector('#portfolioFilm'))""")
+        test.check(video.evaluate("v => v.duration >= 8.9 && v.duration <= 9.1"),
+                   'The second title plays a distinct nine-second landscape film in HD')
+        quality.select_option('4k')
+        page.wait_for_function("""(v => v.currentSrc.endsWith('/landscape.mp4') &&
+            v.videoWidth === 3840 && v.videoHeight === 2160 && !v.paused)
+            (document.querySelector('#portfolioFilm'))""")
+        test.check(True, 'The landscape film decodes at 3840 × 2160')
+        page.locator('[data-film="projects"]').click()
+        expect(page.locator('[data-film="projects"]')).to_have_attribute('aria-pressed', 'true')
+        expect(download).to_have_attribute('href', 'assets/field/film.mp4')
+        expect(video).to_have_attribute('poster', project_poster)
+        video.evaluate('v => v.play()')
+        page.wait_for_function("""(v => v.currentSrc.endsWith('/film.mp4') &&
+            v.videoWidth === 3840 && v.currentTime > 0)(document.querySelector('#portfolioFilm'))""")
+        test.check(video.evaluate("v => v.duration >= 14.9 && v.duration <= 15.1"),
+                   'Returning to the project reel restores its own UHD source and duration')
+    with browser.new_context(reduced_motion='reduce', viewport={'width': 390, 'height': 844}) as context:
+        page = test.page(context)
+        test.visit(page)
+        test.check(page.evaluate("getComputedStyle(document.documentElement).scrollBehavior !== 'smooth'"),
+                   'System reduced motion disables smooth scrolling')
+        expect(page.locator('#motionToggle')).to_be_disabled()
+        test.check(page.locator('.hero-image[data-active="true"]').evaluate("e => getComputedStyle(e).transform === 'none'"),
+                   'System reduced motion leaves the photograph still')
+        page.locator('#showreel').scroll_into_view_if_needed()
+        test.check(page.locator('#portfolioFilm').evaluate('v => v.paused && v.currentTime === 0'),
+                   'Reduced-motion mode never autoplays the film')
+        test.layout(page, 'film / mobile')

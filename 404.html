@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>Page not found | Adarsh S</title>
-    <style>
-      *{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:8vw;background:radial-gradient(ellipse at 80% 30%,#46326866,transparent 50%),#070918;color:#f3f4ff;font:1rem/1.7 Arial,sans-serif;overflow:hidden}main{position:relative;width:min(100%,1000px)}main:before,main:after{content:'';position:absolute;right:-5%;top:-60%;width:50vw;max-width:540px;aspect-ratio:1;border:1px solid #886cff70;transform:perspective(900px) rotateY(-35deg) rotateZ(25deg);z-index:-1;animation:orbit 16s ease-in-out infinite alternate}main:after{transform:perspective(900px) rotateY(35deg) rotateZ(-20deg);border-color:#62e7f044;right:-10%;top:-40%;animation-delay:-8s}main>p:first-child{font:10px Consolas,monospace;letter-spacing:3px;color:#b9a6ff}h1{font-size:clamp(50px,9vw,140px);line-height:1;letter-spacing:-.07em;margin:35px 0;background:linear-gradient(140deg,#fff,#b4b9d6 40%,#ac96ee 70%,#6fe0eb);background-clip:text;color:transparent}p{max-width:440px;color:#aab5d4}a{display:inline-block;padding:14px 22px;margin-top:20px;background:#bcadff;color:#141329;text-decoration:none;border:1px solid #ddd4ff;border-radius:3px}@keyframes orbit{to{rotate:12deg;translate:0 25px}}@media(prefers-reduced-motion:reduce){main:before,main:after{animation:none}}
-    </style>
+  <script>
+      (() => {
+        const root = document.documentElement;
+        const systemTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.dataset.theme = systemTheme;
+        try {
+          const saved = localStorage.getItem('adarsh-theme-v2');
+          if (saved === 'dark' || saved === 'light') root.dataset.theme = saved;
+          if (localStorage.getItem('adarsh-motion') === 'paused') root.classList.add('paused');
+        } catch {}
+      })();
+    </script>
+  <link rel="stylesheet" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/field/interior.css" />
+    <script defer src="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/field/interior.js"></script>
   </head>
-  <body>
-    <main>
-      <p>ADARSH S / 404</p>
+  <body class="lost-page">
+    <main><a class="folio-brand" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/" aria-label="Adarsh S, portfolio home"><img src="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/field/mark.svg" width="34" height="34" alt="" />Adarsh S</a>
+      <p>ERROR 404</p>
       <h1>A small detour.</h1>
       <p>This page isn’t here. Let’s get you back to the work.</p>
-      <a href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/"
+      <a class="return-home" href="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/"
         >Return to portfolio →</a
       >
     </main>

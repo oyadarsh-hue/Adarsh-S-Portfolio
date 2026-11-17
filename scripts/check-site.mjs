@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import {execFileSync} from "node:child_process";
 import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 
@@ -16,6 +17,7 @@ const pages = [
     .map((f) => `projects/${f}`),
 ];
 let checked = 0;
+const linkedScripts = new Set();
 for (const page of pages) {
   const file = path.join(root, page);
   const source = fs.readFileSync(file, "utf8");
@@ -26,7 +28,14 @@ for (const page of pages) {
   );
   const ids = [...source.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
   assert(new Set(ids).size === ids.length, `Duplicate IDs: ${page}`);
-  for (const [, href] of source.matchAll(/(?:href|src)="([^"]+)"/g)) {
+  const references = [...source.matchAll(/\s(?:href|src|poster)="([^"]+)"/g)].map(match => match[1]);
+  for (const [, srcset] of source.matchAll(/\ssrcset="([^"]+)"/g)) {
+    references.push(...srcset.split(",").map(item => item.trim().split(/\s+/)[0]));
+  }
+  for (const img of source.matchAll(/<img\b[^>]*>/gi)) {
+    assert(/\salt="[^"]*"/.test(img[0]), `Missing image alternative: ${page}`);
+  }
+  for (const href of references) {
     if (/^(https?:|mailto:|tel:|data:)/.test(href)) continue;
     assert(
       !href.startsWith("/"),
@@ -41,6 +50,7 @@ for (const page of pages) {
         fs.readFileSync(target, "utf8").includes(`id="${anchor}"`),
         `Missing anchor: ${page} → ${href}`,
       );
+    if (target.endsWith(".js")) linkedScripts.add(target);
     checked++;
   }
   for (const [, json] of source.matchAll(
@@ -48,9 +58,10 @@ for (const page of pages) {
   ))
     JSON.parse(json);
 }
+for (const script of linkedScripts) execFileSync(process.execPath, ["--check", script]);
 const cv = fs.readFileSync(path.join(root, "assets/docs/Adarsh_S_CV.pdf"));
 assert(cv.subarray(0, 5).toString() === "%PDF-", "CV is not a PDF");
 assert(cv.length > 100000, "Expected the supplied full CV");
 console.log(
-  `PASS: ${pages.length} pages, ${checked} local references, metadata JSON and replacement CV.`,
+  `PASS: ${pages.length} pages, ${checked} local references, linked script syntax, metadata JSON and original CV.`,
 );
