@@ -1,0 +1,39 @@
+Portfolio film audio descriptions
+
+The descriptions were written for the portfolio artwork and rendered as synthetic speech.
+The English film transcripts were extracted from the existing video caption tracks.
+
+Piper voice references
+
+  en_US-lessac-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/en/en_US/lessac/medium/MODEL_CARD
+
+  ml_IN-meera-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/ml/ml_IN/meera/medium/MODEL_CARD
+
+  hi_IN-priyamvada-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/hi/hi_IN/priyamvada/medium/MODEL_CARD
+
+  ur_PK-fasih-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/ur/ur_PK/fasih/medium/MODEL_CARD
+
+  es_ES-davefx-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/es/es_ES/davefx/medium/MODEL_CARD
+
+  bn_BD-google-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/bn/bn_BD/google/medium/MODEL_CARD
+
+  ar_JO-kareem-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/ar/ar_JO/kareem/medium/MODEL_CARD
+
+  fa_IR-amir-medium
+  https://huggingface.co/rhasspy/piper-voices/blob/main/fa/fa_IR/amir/medium/MODEL_CARD
+
+The Kuwaiti Arabic descriptions have separate Kuwaiti wording and use the same Arabic voice as the standard Arabic descriptions.
+Tamil, Sinhala and Amharic were synthesized with eSpeak NG.
+https://github.com/espeak-ng/espeak-ng
+
+Spanish voice data is credited to OHF-Voice. Bengali sources include OpenSLR 37 and the CMU Indic corpus.
+https://www.openslr.org/37/
+https://festvox.org/cmu_indic/
+Hindi voice training is credited to PravalX and the AI4Bharat Indic corpus.

@@ -1,6 +1,7 @@
 """Verify independent films, their actual media streams, photography and scroll effects."""
 
 import hashlib
+import re
 from pathlib import Path
 
 from playwright.sync_api import expect
@@ -11,6 +12,7 @@ SCHOOLS = {"mca": "Thrissur", "bsc": "Thamarassery", "hse": "Thamarassery", "ssl
 COMPANIES = {"bluegen": "Bluegen", "skybrisk": "Skybrisk", "codtech": "CODTECH"}
 CLIPS = (*PROJECTS, *SCHOOLS, *COMPANIES, "publication")
 LONG = {"projects": "project-film", "journey": "journey-film"}
+PREMIERES = {"premiere-teaser": ("project-premiere","trailer"), "premiere-loop": ("dimension-premiere","kinetic")}
 # Each independent frame pairs a scored remaster with the original download.
 ARCHIVE = {
     "orbit": ("orbit-reel", "orbit-score", "assets/field/film.mp4", 15),
@@ -87,6 +89,40 @@ def verify_scroll_text(page, test, reduced=False):
             states[0]["progress"] == states[2]["progress"] and states[0]["paint"] == states[2]["paint"],
             "Reversing scroll restores the same word position and angle",
         )
+
+
+def verify_story(page, test, static=False):
+    story = page.locator("#photo-story")
+    slides = story.locator(".story-slide")
+    expect(slides).to_have_count(3)
+    if static:
+        expect(story).not_to_have_class(re.compile(r"story-running"))
+        for slide in slides.all():
+            slide.scroll_into_view_if_needed()
+            test.check(slide.evaluate("s=>!s.inert && getComputedStyle(s).opacity==='1' && s.offsetHeight>=200"),
+                       "Paused or reduced-motion photo chapter stays readable")
+        return
+    region = story.locator(".story-scroll")
+    top, distance, height = region.evaluate("""e=>[Math.round(e.getBoundingClientRect().top + scrollY),
+        e.offsetHeight-e.querySelector('.story-stage').offsetHeight,e.offsetHeight]""")
+    test.check(distance > 0, "Three-chapter photographic story has native scroll space")
+    for index in (0, 1, 2, 1, 0):
+        scroll(page, top + round(distance * (index + .45) / 3))
+        active = story.locator(".story-slide.current")
+        expect(active).to_have_attribute("data-step", str(index))
+        image = active.locator("img")
+        image.evaluate("i=>i.decode()")
+        test.check(active.evaluate("""s=>!s.inert && s.querySelector('img').naturalWidth>=640 &&
+            s.getBoundingClientRect().height>=220 && s.getBoundingClientRect().top<innerHeight"""),
+                   f"Photo chapter {index + 1} is visible with loaded artwork")
+        test.check(region.evaluate("e=>e.offsetHeight")==height
+                   and abs(region.evaluate("e=>e.getBoundingClientRect().top+scrollY")-top) <= 1,
+                   "Photo story retains its anchor and height during forward and reverse scrolling")
+    button = story.locator('[data-story-to="2"]')
+    button.focus()
+    page.keyboard.press("Enter")
+    expect(story.locator(".story-slide.current")).to_have_attribute("data-step","2")
+    expect(button).to_have_attribute("aria-current","true")
 
 
 def verify_stream(frame, hd, source, test):
@@ -223,11 +259,67 @@ def verify_program(frame, slug, test):
     details.locator("summary").click()
 
 
+def verify_language_panels(page, test):
+    expect(page.locator(".screen-card .film-language")).to_have_count(21)
+    panels = {}
+    for slug in ("assenttag", "journey", "premiere-loop"):
+        panel = frame_for(page, slug).locator(".film-language")
+        panel.locator(":scope > summary").click()
+        modes = panel.get_by_role("combobox",name="Track", exact=True)
+        languages = panel.get_by_role("combobox",name="Language",exact=True)
+        expect(languages).to_be_visible()
+        if slug != "premiere-loop":
+            languages.select_option("ml")
+            expect(panel.locator(".film-audio-actions a[download]")).to_have_attribute("href",re.compile(r"-ml[.]m4a$"))
+            listen = panel.get_by_role("button", name="Listen", exact=True)
+            listen.click()
+            expect(panel.get_by_role("status")).to_contain_text("Playing", timeout=15000)
+            panel.get_by_role("button", name="Stop audio").click()
+        modes.select_option("description")
+        languages.select_option("en")
+        transcript = panel.locator("details").filter(has=page.get_by_text("Read this track",exact=True))
+        transcript.locator("summary").click()
+        words = transcript.locator("p")
+        expect(words).to_be_visible()
+        test.check(len(words.inner_text().strip()) > 25, f"{slug}: written visual description")
+        expect(words).to_have_attribute("lang","en")
+        studio = panel.get_by_role("link", name=re.compile("Open in Audio Studio"))
+        expect(studio).to_have_attribute("href",re.compile("film="+slug))
+        if slug == "premiere-loop":
+            panel.get_by_role("button",name="Listen",exact=True).click()
+            expect(panel.get_by_role("status")).to_contain_text("Playing",timeout=15000)
+            panel.get_by_role("button",name="Stop audio").click()
+            languages.select_option("ml")
+            expect(words).to_have_attribute("lang","ml")
+            panel.get_by_role("button",name="Prepare WAV").click()
+            download = panel.locator(".film-audio-actions a[download]")
+            expect(download).to_have_attribute("download","premiere-loop-description-ml.wav",timeout=15000)
+            header = download.evaluate("""async a=>{
+                const bytes=await (await fetch(a.href)).arrayBuffer();
+                return [new TextDecoder().decode(bytes.slice(0,4)),new TextDecoder().decode(bytes.slice(8,12)),bytes.byteLength];
+            }""")
+            test.check(header[:2]==["RIFF","WAVE"] and header[2]>10000,
+                       "The selected Malayalam visual description exports as a real WAV")
+        panels[slug] = panel
+    # Right-to-left text must be announced and painted using the selected language.
+    panel = panels["assenttag"]
+    panel.get_by_role("combobox",name="Track",exact=True).select_option("narration")
+    panel.get_by_role("combobox",name="Language",exact=True).select_option("ur")
+    words = panel.locator("details").filter(has=page.get_by_text("Read this track",exact=True)).locator("p")
+    expect(words).to_have_attribute("lang","ur")
+    expect(words).to_have_attribute("dir","rtl")
+    test.check(len(words.inner_text().strip()) > 30,"Urdu narration transcript survives a mode and language change")
+
+
 def check_placement(page, test):
     test.check(
-        page.locator(".screen-card[data-clip]").count() == 19,
-        "Nineteen independent frames on the homepage",
+        page.locator(".screen-card[data-clip]").count() == 21,
+        "Twenty-one independent frames on the homepage",
     )
+    for slug, (identifier, _) in PREMIERES.items():
+        frame = frame_for(page, slug)
+        expect(frame).to_have_id(identifier)
+        test.check(frame.evaluate("e=>!!e.closest('#new-films')"), f"{slug}: dedicated premiere player")
     for slug in CLIPS:
         frame = frame_for(page, slug)
         expect(frame).to_have_count(1)
@@ -268,7 +360,7 @@ def check_placement(page, test):
         })""")
         test.check(
             all(a >= -2 and b <= width + 2 and c > 140 for a, b, c in sizes),
-            f"All nineteen film frames fit at {width}px",
+            f"All twenty-one film frames fit at {width}px",
         )
         test.layout(page, f"theatre and inline players / {width}")
     page.set_viewport_size({"width": 1440, "height": 900})
@@ -289,8 +381,8 @@ with run_suite("backgrounds") as (browser, test):
         expect(active).to_have_count(1)
         expect(scenes).to_have_count(3)
         test.check(
-            "monsoon-v3.webp" in active.get_attribute("src"),
-            "New monsoon photograph opens the three-scene hero",
+            "valley-v5.webp" in active.get_attribute("src"),
+            "New valley photograph opens the three-scene hero",
         )
         active.evaluate("img => img.decode()")
         first = active.get_attribute("data-scene")
@@ -305,12 +397,17 @@ with run_suite("backgrounds") as (browser, test):
         hero = page.locator(".hero")
         bounds = hero.evaluate("e => [e.offsetTop,e.offsetHeight]")
         positions = []
+        lettering = []
+        role = page.locator(".hero-role")
+        first_letter = page.locator(".name-segment b").first
         for pos in (80, 220, 80, 0):
             scroll(page, pos)
             test.check(
                 hero.evaluate("e => [e.offsetTop,e.offsetHeight]") == bounds,
                 "Reversing scroll preserves hero geometry",
             )
+            lettering.append((role.evaluate("e=>getComputedStyle(e).transform"),
+                              first_letter.evaluate("e=>getComputedStyle(e).translate")))
             positions.append(
                 hero.evaluate(
                     """e => ['--scene-shift','--scene-turn','--title-slide'].map(k=>parseFloat(getComputedStyle(e).getPropertyValue(k)))"""
@@ -320,6 +417,8 @@ with run_suite("backgrounds") as (browser, test):
             positions[0] == positions[2] and all(b > a for a, b in zip(positions[0], positions[1])),
             "Scrolling moves and restores the background, title and angle",
         )
+        test.check(lettering[0] == lettering[2] and lettering[0][0] != lettering[1][0]
+                   and lettering[0][1] != lettering[1][1], "Role and name lettering visibly track scroll and reverse")
         motion = page.locator("#motionToggle")
         motion.click()
         page.reload()
@@ -331,11 +430,16 @@ with run_suite("backgrounds") as (browser, test):
             ),
             "Manual pause persists and freezes scene motion",
         )
+        verify_story(page,test,static=True)
         motion.click()
         scroll(page, 0)
         test.capture(page, "photographic-hero")
         verify_scroll_text(page, test)
         check_placement(page, test)
+        for width in (1440,390):
+            page.set_viewport_size({"width":width,"height":900})
+            verify_story(page,test)
+        page.set_viewport_size({"width":1440,"height":900})
 
         # The hero opens the original overview and starts it only after this gesture.
         page.locator("[data-play-film]").first.click()
@@ -362,6 +466,18 @@ with run_suite("backgrounds") as (browser, test):
                 video.evaluate("v => v.paused && v.currentTime >= 3.85 && v.currentTime < 9"),
                 f"{slug}: returning to HD preserves pause and position",
             )
+
+        for slug, (_, stem) in PREMIERES.items():
+            frame = frame_for(page, slug)
+            video = frame.locator("video")
+            prefix = "assets/premieres/" + stem
+            expect(video).to_have_attribute("poster", prefix + ".webp")
+            expect(frame.locator("[data-uhd]")).to_have_attribute("href", prefix + ".mp4")
+            for mode, suffix in (("hd", "-hd.mp4"), ("uhd", ".mp4")):
+                quality(frame).select_option(mode)
+                play(frame)
+                verify_stream(frame, mode == "hd", prefix + suffix, test)
+                verify_audible(video, 2.0, f"{slug} {mode} stereo score", test)
 
         for slug, (_, stem, original, seconds) in ARCHIVE.items():
             frame = frame_for(page, slug)
@@ -410,6 +526,7 @@ with run_suite("backgrounds") as (browser, test):
             "Starting another clip pauses the first narration",
         )
         b.locator("video").evaluate("v => v.pause()")
+        verify_language_panels(page,test)
 
     with browser.new_context(viewport={"width": 390, "height": 844}, reduced_motion="reduce") as context:
         page = test.page(context)
@@ -433,6 +550,7 @@ with run_suite("backgrounds") as (browser, test):
             "Reduced-motion photograph is static",
         )
         verify_scroll_text(page, test, reduced=True)
+        verify_story(page,test,static=True)
         test.check(
             page.locator("video").evaluate_all("videos=>videos.every(v=>v.paused&&v.currentTime===0)"),
             "Scrolling to a film never starts narration automatically",

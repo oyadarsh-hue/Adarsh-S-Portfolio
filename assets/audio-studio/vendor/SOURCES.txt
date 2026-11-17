@@ -1,0 +1,11 @@
+eSpeak NG browser engine and language data
+@echogarden/espeak-ng-emscripten 0.3.5, GPL-3.0. See COPYING-espeak.txt.
+https://www.npmjs.com/package/@echogarden/espeak-ng-emscripten/v/0.3.5
+Build instructions: https://github.com/echogarden-project/espeak-ng-emscripten
+Corresponding eSpeak NG fork and source: https://github.com/echogarden-project/espeak-ng/tree/fork
+Unmodified espeak-ng.js published here as espeak-ng.mjs. voice-1.gz to voice-3.gz contain the unmodified espeak-ng.data split in consecutive sections and gzip-compressed.
+
+Hugging Face Transformers.js 3.8.1, Apache-2.0. See LICENSE-transformers.txt.
+https://github.com/huggingface/transformers.js/tree/3.8.1
+The browser distribution transformers.min.js is published here as transformers.mjs.
+The runtime fetches matching ONNX Runtime browser assets from jsDelivr and the multilingual Xenova/whisper-tiny checkpoint from Hugging Face on the first transcription request.

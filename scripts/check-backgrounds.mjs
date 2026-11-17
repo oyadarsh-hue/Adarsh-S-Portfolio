@@ -206,4 +206,50 @@ for (const name of clipNames) {
   const [width, height] = dimensions(readMediaFile(name + '.webp', 'clips'));
   assert(width >= 640 && width > height, name + ' needs a landscape poster');
 }
-console.log('PASS: original full masters, compact 4K files, independent narrated clips, audio, timings and local captions.');
+// Each new premiere ships independently of the original projects and archive.
+for (const [slug, stem] of [['premiere-teaser','trailer'], ['premiere-loop','kinetic']]) {
+  assert(home.includes('data-clip="' + slug + '"'), slug + ' is missing its player');
+  const poster = 'assets/premieres/' + stem + '.webp';
+  assert(home.includes(poster));
+  const [posterWidth, posterHeight] = dimensions(readFileSync(root + poster));
+  assert(posterWidth >= 800 && posterWidth > posterHeight);
+  let hdDuration;
+  for (const [suffix, width, height] of [['-hd',1280,720],['',3840,2160]]) {
+    const filename = stem + suffix + '.mp4';
+    assert(home.includes('assets/premieres/' + filename));
+    const duration = inspectFilm(readMediaFile(filename,'premieres'), filename, width, height,
+      {minDuration:8, maxDuration:120});
+    if (hdDuration) assert(Math.abs(hdDuration-duration) < .2, slug + ' differs between HD and UHD');
+    hdDuration = duration;
+  }
+}
+const dubs = JSON.parse(readFileSync(root + 'assets/dubs-v5/manifest.json','utf8'));
+const descriptions = JSON.parse(readFileSync(root + 'assets/field/film-text-v5.json','utf8'));
+const playerSlugs = [...home.matchAll(/<figure\b[^>]*\bdata-clip="([^"]+)"/g)].map(match => match[1]);
+assert.equal(new Set(playerSlugs).size,21);
+assert.equal(playerSlugs.length,21);
+for (const slug of playerSlugs) {
+  assert(descriptions[slug]?.description?.trim().length > 15, slug + ' has no written visual description');
+  for (const lang of ['en','ml','ta','hi','ur','es','si','bn','ar-KW','ar','am','fa']) {
+    const segment = descriptions[slug].audio?.[lang];
+    assert(segment && descriptions[slug].translations?.[lang]?.trim().length > 10,
+      slug + ' needs its ' + lang + ' visual description and soundtrack');
+
+    const bytes = readFileSync(root + segment.src);
+    assert(bytes.length > 1000 && segment.start >= 0 && segment.end > segment.start,
+      slug + ' has an invalid ' + lang + ' description segment');
+  }
+}
+for (const slug of [...clipNames, ...films]) {
+  const tracks = dubs[slug];
+  assert(tracks, slug + ' is missing its language catalog');
+  for (const lang of ['ml','ta','hi','ur','bn','si','es','ar','ar-KW','fa','am']) {
+    assert(tracks[lang]?.text?.trim().length > 20, slug + ' is missing ' + lang + ' narration');
+  }
+  const audio = readMediaFile(tracks.ml.src,'dubs-v5');
+  const moov = boxes(audio).find(box => box.type === 'moov');
+  const streams = boxes(audio,moov.start,moov.end).filter(box => box.type==='trak').map(track=>probeTrack(audio,track));
+  assert(streams.some(track=>track.codec==='mp4a' && track.duration>1 && track.bitrate>0),
+    slug+' Malayalam narration needs a playable AAC recording');
+}
+console.log('PASS: full masters, new 4K premieres, narration, captions and translated visual descriptions.');

@@ -107,30 +107,50 @@
     addEventListener("resize", queueChapter, {passive:true});
     markChapter();
   }
-  const scene = document.querySelector(".interior-scene");
-  if (scene && "IntersectionObserver" in window) {
-    const stage = scene.parentElement;
-    let visible = false;
+  // Update only the visible cover and chapter artwork. Transform descendants so the
+  // section's scroll position and the bounds of its controls remain stable.
+  const scenes = document.querySelectorAll("[data-ed-stage], main .chapter, main .summary-section, main .tool-section");
+  if (scenes.length && "IntersectionObserver" in window) {
+    const visible = new Set();
     let frame = 0;
-    function paintPhoto() {
+    function render() {
       frame = 0;
-      if (!visible || reduced.matches || paused) return;
-      const rect = stage.getBoundingClientRect();
-      const fraction = Math.min(1, Math.max(0, -rect.top / Math.max(1, rect.height)));
-      scene.style.setProperty("--photo-y", (fraction * Math.min(24, rect.height * .035)).toFixed(2) + "px");
+      if (paused || reduced.matches) return;
+      const shortScreen = innerWidth <= 600;
+      const updates = Array.from(visible, el => ({el, rect:el.getBoundingClientRect()}));
+      for (const {el, rect} of updates) {
+        if (el.hasAttribute("data-ed-stage")) {
+          const gone = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height)));
+          el.style.setProperty("--title-x", (gone * (shortScreen ? 22 : 70)).toFixed(1) + "px");
+          el.style.setProperty("--title-y", (-gone * (shortScreen ? 22 : 39)).toFixed(1) + "px");
+          const photoOffset = (gone * Math.min(24, rect.height * .034)).toFixed(1) + "px";
+          el.style.setProperty("--cover-shift", photoOffset);
+          el.style.setProperty("--photo-y", photoOffset);
+        } else {
+          const through = Math.max(0, Math.min(1, (innerHeight - rect.top) / (innerHeight + rect.height)));
+          const phase = 2 * through - 1;
+          el.style.setProperty("--type-flow", (phase * (shortScreen ? 8 : 28)).toFixed(1) + "px");
+          el.style.setProperty("--type-lift", (-phase * 10).toFixed(1) + "px");
+          el.style.setProperty("--band-shift", (phase * 8).toFixed(1) + "px");
+        }
+      }
     }
-    function queuePhoto() {
-      if (visible && !frame && !reduced.matches && !paused) frame = requestAnimationFrame(paintPhoto);
+    function requestRender() {
+      if (!frame && visible.size && !paused && !reduced.matches) frame = requestAnimationFrame(render);
     }
-    const visibility = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      queuePhoto();
-    });
-    visibility.observe(stage);
-    addEventListener("scroll", queuePhoto, {passive:true});
-    addEventListener("resize", queuePhoto, {passive:true});
-    motion?.addEventListener("click", queuePhoto);
-    reduced.addEventListener("change", queuePhoto);
+    const visibility = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      }
+      requestRender();
+    }, {rootMargin:"100px 0px"});
+    scenes.forEach(scene => visibility.observe(scene));
+    addEventListener("scroll", requestRender, {passive:true});
+    addEventListener("resize", requestRender, {passive:true});
+    motion?.addEventListener("click", requestRender);
+    reduced.addEventListener("change", requestRender);
+    addEventListener("storage", requestRender);
   }
   for (const [stageSelector, printSelector] of [
     [".case-art-stage", ".case-art"],

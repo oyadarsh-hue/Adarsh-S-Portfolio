@@ -9,6 +9,7 @@ const pages = [
   "index.html",
   "recruiter.html",
   "workbench.html",
+  "audio-studio.html",
   "lab.html",
   "404.html",
   ...fs
@@ -43,8 +44,9 @@ for (const page of pages) {
     );
     const [withQuery, anchor] = href.split("#");
     const relative = withQuery.split("?")[0];
-    const target = relative ? path.resolve(path.dirname(file), relative) : file;
+    let target = relative ? path.resolve(path.dirname(file), relative) : file;
     assert(fs.existsSync(target), `Missing asset: ${page} → ${href}`);
+    if (fs.statSync(target).isDirectory()) target = path.join(target, "index.html");
     if (anchor)
       assert(
         fs.readFileSync(target, "utf8").includes(`id="${anchor}"`),

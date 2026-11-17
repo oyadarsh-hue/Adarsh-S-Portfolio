@@ -17,7 +17,7 @@
 })();
 
 (() => {
-  const frames = [...document.querySelectorAll('.lo-scene-frame, .lo-title')];
+  const frames = [...document.querySelectorAll('.lo-scene-frame, .lo-title, .lo-panorama, .lo-chapter .lo-head')];
   if (!frames.length || !('IntersectionObserver' in window)) return;
 
   const visible = new Set();
@@ -34,6 +34,11 @@
       if (frame.classList.contains('lo-title')) {
         const drift = still ? 0 : (progress + 1) * Math.min(7, innerWidth * .009);
         frame.style.setProperty('--lo-type-drift', drift.toFixed(1) + 'px');
+      } else if (frame.matches('.lo-panorama, .lo-head')) {
+        // Use the fixed chapter box: moving its children never feeds back into scroll geometry.
+        const travel = (innerHeight - bounds.top) / (innerHeight + bounds.height);
+        const phase = still ? .5 : Math.min(1, Math.max(0, (travel - .15) / .7));
+        frame.style.setProperty('--lo-motion', phase.toFixed(4));
       } else {
         const distance = Math.min(42, bounds.height * .065);
         frame.style.setProperty('--lo-pan', (still ? 0 : progress * distance).toFixed(1) + 'px');

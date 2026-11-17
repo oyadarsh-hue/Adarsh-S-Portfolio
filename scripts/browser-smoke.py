@@ -76,6 +76,9 @@ with run_suite('portfolio') as (browser, test):
             hero_portrait.scroll_into_view_if_needed()
             hero_portrait.evaluate('i => i.decode()')
             picture = hero_portrait.bounding_box()
+            if width <= 700:
+                gap = page.locator('.hero-role').evaluate('role => role.getBoundingClientRect().top - document.querySelector(".hero-portrait").getBoundingClientRect().bottom')
+                test.check(gap >= 4, f'Portrait and role have separate rows at {width}px')
             test.check(picture is not None and picture['width'] >= (295 if width >= 1200 else 160)
                        and picture['height'] >= 145 and picture['x'] >= -1
                        and picture['x'] + picture['width'] <= width + 1,
@@ -116,9 +119,29 @@ with run_suite('portfolio') as (browser, test):
         page.evaluate('window.scrollTo({top:0,behavior:"instant"})')
         test.capture(page, 'portfolio-mobile')
 
+        studio = page.locator('a[href="audio-studio.html"]:visible').first
+        studio.click()
+        expect(page.locator('#sourceText')).to_be_visible()
+        expect(page.locator('#output')).to_be_visible()
+        test.layout(page, 'audio studio / mobile')
+        test.visit(page)
+
         for case in sorted((ROOT / 'projects').glob('*.html')):
             test.visit(page, f'projects/{case.name}')
             expect(page.locator('.case-evidence')).to_be_visible()
+            cover = page.locator('.case-splash .cover-image img')
+            cover.evaluate('img=>img.decode()')
+            test.check(cover.evaluate('img=>img.naturalWidth>=640 && img.clientHeight>=250'),
+                       case.stem + ' has a large photographic cover')
+            title = page.locator('.case-splash .ed-title')
+            page.evaluate('scrollTo(0,0)')
+            page.wait_for_timeout(100)
+            initial = title.evaluate('t=>getComputedStyle(t).transform')
+            page.evaluate('scrollTo(0,180)')
+            page.wait_for_function('initial=>getComputedStyle(document.querySelector(".case-splash .ed-title")).transform!==initial',
+                                   arg=initial)
+            expect(page.locator('.case-jump a[href="#workflow"]')).to_be_visible()
+            expect(page.locator(f'.screen-card[data-clip="{case.stem}"] video')).to_have_count(1)
             test.layout(page, case.stem + ' mobile')
         test.visit(page, 'recruiter.html')
         test.check(page.locator('a[href="index.html#skills"]').count() > 0, 'Recruiter view links to skills')
@@ -131,9 +154,9 @@ with run_suite('portfolio') as (browser, test):
         expect(page.locator('[data-lo-category]:visible')).to_have_count(6)
         test.check(page.locator('a[href$=".pdf"]:visible').count() > 0, 'CV is reachable without JavaScript')
         videos = page.locator('.screen-card video')
-        test.check(videos.count() == 19 and videos.evaluate_all("""vs=>vs.every(v=>
+        test.check(videos.count() == 21 and videos.evaluate_all("""vs=>vs.every(v=>
             v.playsInline && v.controls && (v.getAttribute('src') || v.querySelector('source[src]'))
-        )"""), 'All nineteen native videos work without JavaScript')
+        )"""), 'All twenty-one native videos work without JavaScript')
         expect(page.locator('#journey-film a[href="assets/field/journey-v2.mp4"]')).to_be_visible()
         test.check(True, 'Journey film has its own native UHD link without JavaScript')
         test.layout(page, 'no JavaScript')

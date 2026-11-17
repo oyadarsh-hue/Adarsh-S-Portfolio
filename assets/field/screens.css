@@ -30,3 +30,17 @@ figure.screen-card > figcaption {
 .screen-status{margin:0;padding:7px 14px;background:#18292a;color:#d4eee0;font-size:12px}
 .screen-status:empty{display:none}
 @media(max-width:460px){figure.screen-card>figcaption{padding:10px;gap:7px}.screen-actions{gap:8px}.screen-description{flex-basis:155px}.screen-program [data-chapters]{grid-template-columns:1fr}}
+.film-language{border-top:1px solid #414d60;background:#1a2434;color:#f8f7ef;position:relative;z-index:1}
+.film-language>summary{font:610 13px/1.4 "DM Sans",Arial,sans-serif;padding:10px 14px;cursor:pointer;width:fit-content}
+.film-language-body{display:grid;gap:9px;padding:3px 14px 13px;line-height:1.45;text-align:left;font:450 13px/1.45 "DM Sans",Arial,sans-serif}
+.film-language-fields,.film-audio-actions{display:flex;align-items:center;gap:7px 10px;flex-wrap:wrap}
+.film-language-fields label{display:grid;gap:3px;color:#d1dce4;font:530 11px/1.3 "DM Sans",Arial,sans-serif}
+.film-language-fields select{font:550 13px/1.4 "DM Sans",Arial,sans-serif;max-width:100%;border-radius:3px;border:1px solid #7a899b;background:#243044;color:#fff;padding:5px;color-scheme:dark}
+.film-language-body p{margin:0;font-size:13px;line-height:1.5;color:#e2e8ef}
+.film-language-body a,.film-language-body details summary{color:#c5f2bd;text-decoration:underline;text-underline-offset:3px;font-size:13px;cursor:pointer}
+.film-audio-actions button{background:#d5f69b;color:#14261f;font:650 12px/1.4 "DM Sans",Arial,sans-serif;border:0;border-radius:3px;padding:7px 10px;cursor:pointer}
+.film-audio-actions button:disabled{opacity:.6}
+.film-language-body p:empty,.film-language-body [hidden]{display:none!important}
+.film-language-body details label{display:grid;gap:6px;margin-block:7px 3px;font:450 12px/1.45 "DM Sans",Arial,sans-serif}
+.film-language-body input[type="file"]{display:block;width:100%;min-width:0;color:#edf4ef;font:450 12px/1.45 "DM Sans",Arial,sans-serif}
+.film-language-body input::file-selector-button{padding:5px 7px;margin-right:6px;color:#162634;border:0;border-radius:3px;background:#e0e9ee;cursor:pointer}

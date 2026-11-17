@@ -2,11 +2,13 @@
 
 ## Current visual design
 
-The homepage gives each project, internship, education stage and paper its own film frame. Each of the thirteen section films has an independent UHD MP4, 720p MP4, local captions and poster under `assets/clips/`. The five dedicated project pages also link and play their respective walkthrough. Only the selected film plays sound.
+The opening portrait spread uses a new AS monogram and a generated Kerala tea-valley panorama. The photo story advances through three photographic studies on native scroll. Its controls also jump between scenes. With reduced motion or animation pause enabled, the three studies appear as static, readable panels.
 
-The screening room presents *The projects* and *My journey* as two separate narrated productions. Four archive reels have individual players, HD and 4K editions, and new instrumental scores. Each frame also links to its original silent file, including the early 540p project teaser and dimensional loop. The two longer documentaries retain their downloadable and full-detail 4K editions and their chapter navigation and transcripts.
+The two featured films are *Five Projects in Motion* (36 seconds) and *Chroma Orrery* (16 seconds). Each has a separate player, poster, stereo score and HD and 3840 × 2160 editions. Thirteen individual education, project, internship and publication clips, the two longer documentaries and four archive reels remain available in their sections. Each archive frame has a download for its original silent edition.
 
-The portrait sits over three selectable Kerala-inspired photographs. Headings and a horizontal discipline strip move with native scrolling, with a pause control and system reduced-motion support. LinkedIn, GitHub, Gmail and telephone contact buttons link to the supplied accounts and contact details. Asset sources are in `ICON-LICENSES.txt`.
+Each film offers a visual description. Narrated films also offer a transcript and a language selector. Audio Studio opens from the header or from an individual film with its transcript or visual description selected. The studio can decode uploaded recordings to WAV, transcribe speech locally after a model download, translate text and render supported voices. Available translation, speech recognition and voice capabilities vary by language and browser.
+
+LinkedIn, GitHub, Gmail and phone actions use the supplied contact details. Icon provenance is in `ICON-LICENSES.txt`.
 
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 

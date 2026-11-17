@@ -12,7 +12,7 @@ with run_suite('logos') as (browser, test):
             test.check(details.evaluate('(d) => d.open'), 'More credentials opens')
             test.check(page.locator('#certifications article:visible').count() == 15,
                        f'All 15 credentials are accessible at {width}px')
-            page.locator('#publication details summary').click()
+            page.locator('#publication .lo-citation > summary').click()
             logos = page.locator('main img[src*="/logos/"], main img[src*="/certificates/"]')
             test.check(page.locator('main img[src*="/logos/"]').count() == 8,
                        'Eight verified organization logos')

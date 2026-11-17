@@ -1,0 +1,1955 @@
+{
+  "assenttag": {
+    "title": "AssentTag walkthrough",
+    "description": "A camera lens fills a violet panel. Portraits appear beside three steps for detecting, matching and protecting faces.",
+    "narration": "AssentTag starts with a group photo. OpenCV finds faces and Dlib compares them with enrolled identities. A face match still needs permission. The Django app blurs the face until it has consent. MySQL stores the records. Next, evaluate missed faces and masking failures on a representative, consented dataset.",
+    "translations": {
+      "en": "A camera lens fills a violet panel. Portraits appear beside three steps for detecting, matching and protecting faces.",
+      "ml": "വയലറ്റ് നിറത്തിലുള്ള പശ്ചാത്തലത്തിൽ ഒരു ക്യാമറ ലെൻസ് തെളിയുന്നു. തുടർന്ന് മുഖങ്ങൾ കണ്ടെത്താനും തിരിച്ചറിയാനും സ്വകാര്യത സംരക്ഷിക്കാനുമുള്ള മൂന്ന് ഘട്ടങ്ങൾ കാണിക്കുന്നു.",
+      "ta": "ஊதா நிறப் பின்னணியில் கேமரா லென்ஸ் தெரிகிறது. முகங்களைக் கண்டறிந்து, ஒப்பிட்டு, அவற்றின் தனியுரிமையைப் பாதுகாக்கும் மூன்று படிகள் தோன்றுகின்றன.",
+      "hi": "बैंगनी पटल पर कैमरे का लेंस दिखता है। फिर चेहरों को खोजने, मिलाने और सुरक्षित करने के तीन चरण आते हैं।",
+      "ur": "بنفشی تختی پر کیمرے کا عدسہ دکھائی دیتا ہے۔ پھر چہرے ڈھونڈنے، پہچاننے اور ان کی رازداری کی حفاظت کے تین مرحلے نظر آتے ہیں۔",
+      "es": "Un objetivo de cámara llena un panel violeta. Aparecen retratos junto a tres pasos para detectar, comparar y proteger rostros.",
+      "si": "දම් පැහැති තිරයක කැමරා කාචයක් පෙනෙයි. මුහුණු සොයා ගැනීම, ගැළපීම සහ ආරක්ෂා කිරීම සඳහා පියවර තුනක් ඡායාරූප අසල දිස් වෙයි.",
+      "bn": "বেগুনি পর্দায় ক্যামেরার লেন্স দেখা যায়। পাশে কয়েকটি মুখ আর মুখ খুঁজে বের করা, মেলানো ও সুরক্ষিত রাখার তিনটি ধাপ ফুটে ওঠে।",
+      "ar-KW": "بأول اللقطة نشوف عدسة كاميرا على خلفية بنفسجية. عقبها تطلع صور وجوه وثلاث خطوات تبين شلون يلقون الويه ويطابقونه ويحمون خصوصيته.",
+      "ar": "تملأ عدسة كاميرا لوحة بنفسجية. تظهر صور وجوه بجانب ثلاث خطوات لاكتشاف الوجوه ومطابقتها وحماية خصوصيتها.",
+      "am": "በሐምራዊ ዳራ ላይ የካሜራ ሌንስ ይታያል። ከፊት ፎቶዎች አጠገብ ፊትን የመፈለግ፣ የማዛመድና የመጠበቅ ሦስት ደረጃዎች ይታያሉ።",
+      "fa": "روی زمینه‌ای بنفش، عدسی دوربین دیده می‌شود. بعد تصویر چهره‌ها کنار سه مرحلهٔ یافتن، تطبیق و حفاظت از چهره‌ها ظاهر می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 0.0,
+        "end": 7.096,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 0.0,
+        "end": 11.144,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 0.0,
+        "end": 10.441,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 0.0,
+        "end": 8.223,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 0.0,
+        "end": 6.49,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 0.0,
+        "end": 7.202,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 0.0,
+        "end": 11.002,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 0.0,
+        "end": 7.549,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 0.0,
+        "end": 17.235,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 0.0,
+        "end": 14.079,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 0.0,
+        "end": 11.516,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 0.0,
+        "end": 8.509,
+        "voice": "Amir"
+      }
+    }
+  },
+  "epigraphix-ai": {
+    "title": "EpigraphiX-AI walkthrough",
+    "description": "A pointed stylus rests on a brown palm leaf. A turquoise scanning light crosses the writing before a panel on testing recognition.",
+    "narration": "On a palm leaf, faint writing can resemble grain. EpigraphiX-AI uses adaptive thresholds to separate the two. Python and OpenCV isolate connected marks as glyphs. A Malayalam lexicon helps review likely character sequences. Next, connect a trained recognition model and measure character and word errors on unseen manuscripts.",
+    "translations": {
+      "en": "A pointed stylus rests on a brown palm leaf. A turquoise scanning light crosses the writing before a panel on testing recognition.",
+      "ml": "തവിട്ടുനിറമുള്ള താളിയോലയിൽ ഒരു എഴുത്താണി കിടക്കുന്നു. നീലപ്പച്ച വെളിച്ചം അക്ഷരങ്ങളിലൂടെ നീങ്ങുന്നു. ഒടുവിൽ അക്ഷരങ്ങൾ ശരിയായി വായിച്ചോ എന്നു പരിശോധിക്കുന്ന ഘട്ടം കാണാം.",
+      "ta": "பழுப்பு நிற ஓலையின் மேல் எழுத்தாணி கிடக்கிறது. நீலப்பச்சை ஒளி எழுத்துகளின் மேல் நகர்கிறது. இறுதியில் எழுத்துகளைச் சரிபார்க்கும் பகுதி வருகிறது.",
+      "hi": "भूरे ताड़पत्र पर एक लेखनी रखी है। फ़िरोज़ी रोशनी अक्षरों पर से गुज़रती है। अंत में पहचान को परखने का पन्ना आता है।",
+      "ur": "بھورے کھجور کے پتے پر ایک قلم رکھا ہے۔ فیروزی روشنی تحریر پر سے گزرتی ہے۔ آخر میں حروف کی پہچان جانچنے کا صفحہ آتا ہے۔",
+      "es": "Un punzón reposa sobre una hoja de palma marrón. Una luz turquesa recorre la escritura antes de una página sobre la evaluación del reconocimiento.",
+      "si": "දුඹුරු පුස්කොළයක් මත පන්හිඳක් ඇත. නිල් කොළ ආලෝකයක් අකුරු මතින් ගමන් කරයි. ඉන් පසු අකුරු හඳුනා ගැනීම පරීක්ෂා කරන පිටුවක් දිස් වෙයි.",
+      "bn": "বাদামি তালপাতায় একটি লেখনী রাখা। ফিরোজা আলো লেখার ওপর দিয়ে যায়। শেষে অক্ষর চেনার ফল যাচাইয়ের পাতা আসে।",
+      "ar-KW": "نشوف قلم مدبب فوق ورقة نخيل بنية. ضو فيروزي يمر على الكتابة، وعقبها تطلع صفحة عن فحص قراءة الحروف.",
+      "ar": "يستقر قلم مدبب على ورقة نخيل بنية. يمر ضوء فيروزي فوق الكتابة ثم تظهر صفحة عن اختبار دقة القراءة.",
+      "am": "በቡናማ የዘንባባ ቅጠል ላይ የመጻፊያ መሣሪያ አለ። ሰማያዊ አረንጓዴ ብርሃን በፊደሎቹ ላይ ያልፋል፤ ቀጥሎ የንባብ ውጤቱን የሚፈትሽ ገጽ ይመጣል።",
+      "fa": "قلمی نوک‌تیز روی برگ قهوه‌ای نخل قرار دارد. نور فیروزه‌ای از روی نوشته می‌گذرد و سپس صفحه‌ای دربارهٔ ارزیابی خواندن حروف می‌آید."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 7.576,
+        "end": 15.326,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 11.624,
+        "end": 23.723,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 10.921,
+        "end": 21.648,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 8.703,
+        "end": 18.599,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 6.97,
+        "end": 13.646,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 7.682,
+        "end": 16.178,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 11.482,
+        "end": 22.313,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 8.029,
+        "end": 14.562,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 17.715,
+        "end": 31.551,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 14.559,
+        "end": 27.43,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 11.996,
+        "end": 25.22,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 8.989,
+        "end": 18.426,
+        "voice": "Amir"
+      }
+    }
+  },
+  "quietnote": {
+    "title": "QuietNote walkthrough",
+    "description": "A translucent green envelope appears. Three steps show a note being created, claimed and used up.",
+    "narration": "QuietNote tackles a race: two readers opening a one-time link together. Next.js and Hono handle the request. One conditional PostgreSQL update lets a single reader claim the note. Owners can also set expiry or revoke access. Next, add retention controls and test the counters under heavier traffic.",
+    "translations": {
+      "en": "A translucent green envelope appears. Three steps show a note being created, claimed and used up.",
+      "ml": "പച്ചനിറമുള്ള സുതാര്യമായ ഒരു കവർ തെളിയുന്നു. ഒരു കുറിപ്പ് ഉണ്ടാക്കുന്നതും ഒരാൾ അത് തുറന്നുവായിക്കുന്നതും തുടർന്ന് അതിന്റെ ഉപയോഗം അവസാനിക്കുന്നതും കാണിക്കുന്നു.",
+      "ta": "பச்சை நிறக் கண்ணாடி உறை தெரிகிறது. ஒரு குறிப்பை உருவாக்குவது, ஒருவர் அதைத் திறப்பது, அதன் பயன்பாடு முடிவது ஆகிய மூன்று படிகள் காட்டப்படுகின்றன.",
+      "hi": "हरे काँच का एक लिफ़ाफ़ा दिखता है। तीन चरणों में संदेश बनता है, एक पाठक उसे खोलता है, और उसका इस्तेमाल पूरा हो जाता है।",
+      "ur": "سبز شیشے کا لفافہ نظر آتا ہے۔ پیغام بنتا ہے، ایک قاری اسے کھولتا ہے، اور اس کا استعمال مکمل ہو جاتا ہے۔",
+      "es": "Aparece un sobre de cristal verde. Tres pasos muestran cómo se crea una nota, cómo alguien la abre y cómo se agota su único uso.",
+      "si": "කොළ පැහැති වීදුරු ලියුම් කවරයක් පෙනෙයි. සටහනක් සාදා එක් පාඨකයෙකු එය විවෘත කළ පසු එහි භාවිතය අවසන් වන පියවර පෙන්වයි.",
+      "bn": "সবুজ কাচের একটি খাম দেখা যায়। একটি নোট তৈরি হয়, একজন তা খোলেন, আর একবার পড়ার পর তার ব্যবহার শেষ হয়।",
+      "ar-KW": "يطلع ظرف أخضر من القزاز. ثلاث خطوات تبين شلون تنكتب الملاحظة، وواحد يفتحها، وعقبها يخلص استخدامها.",
+      "ar": "يظهر ظرف زجاجي أخضر. توضح ثلاث خطوات كيف تنشأ رسالة ويفتحها قارئ واحد ثم ينتهي استخدامها.",
+      "am": "አረንጓዴ የመስታወት ፖስታ ይታያል። መልእክት ሲዘጋጅ፣ አንድ አንባቢ ሲከፍተውና አገልግሎቱ ሲያበቃ ይታያል።",
+      "fa": "پاکتی شیشه‌ای و سبز پدیدار می‌شود. سه مرحله نشان می‌دهد که یادداشت ساخته می‌شود، یک نفر آن را باز می‌کند و امکان استفاده از آن پایان می‌یابد."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 15.806,
+        "end": 22.012,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 24.203,
+        "end": 34.609,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 22.128,
+        "end": 33.243,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 19.079,
+        "end": 28.809,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 14.126,
+        "end": 19.582,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 16.658,
+        "end": 23.306,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 22.793,
+        "end": 33.015,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 15.042,
+        "end": 22.029,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 32.031,
+        "end": 45.905,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 27.91,
+        "end": 39.844,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 25.7,
+        "end": 36.174,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 18.906,
+        "end": 28.82,
+        "voice": "Amir"
+      }
+    }
+  },
+  "aegisforge-x": {
+    "title": "AegisForge-X walkthrough",
+    "description": "A blue shield glows over a screen. A pale panel lists three steps for tracing a finding back to its evidence.",
+    "narration": "AegisForge-X makes a security finding traceable to the source. Python masks comments while preserving positions. Language rules flag potential issues, and hashes link evidence to the reviewed input for human inspection. Next, use labeled examples to measure false alarms and missed cases for each language and rule.",
+    "translations": {
+      "en": "A blue shield glows over a screen. A pale panel lists three steps for tracing a finding back to its evidence.",
+      "ml": "കംപ്യൂട്ടർ സ്ക്രീനിന് മുകളിൽ നീലക്കവചം തിളങ്ങുന്നു. ഒരു കണ്ടെത്തലിനെ അതിന്റെ തെളിവുമായി ബന്ധിപ്പിക്കുന്ന മൂന്ന് ഘട്ടങ്ങൾ അടുത്ത പേജിൽ കാണാം.",
+      "ta": "திரையின் மேல் நீலக் கேடயம் ஒளிர்கிறது. கண்டறிந்த சிக்கலுக்கான ஆதாரத்தைத் தேடும் மூன்று படிகள் அடுத்து வருகின்றன.",
+      "hi": "स्क्रीन के ऊपर एक नीली ढाल चमकती है। अगले पन्ने पर किसी निष्कर्ष को उसके प्रमाण से मिलाने के तीन चरण हैं।",
+      "ur": "سکرین پر نیلی ڈھال چمکتی ہے۔ اگلے صفحے پر کسی نتیجے کو اس کے ثبوت سے ملانے کے تین مرحلے ہیں۔",
+      "es": "Un escudo azul brilla sobre una pantalla. Un panel claro enumera tres pasos para seguir un hallazgo hasta su evidencia.",
+      "si": "තිරයක් මත නිල් පැහැති පලිහක් දිලිසෙයි. පරීක්ෂණ ප්‍රතිඵලයකට අදාළ සාක්ෂිය සොයා ගන්නා පියවර තුනක් ඊළඟ පිටුවේ ඇත.",
+      "bn": "পর্দায় একটি নীল ঢাল জ্বলজ্বল করে। পরের পাতায় কোনো ফলাফল থেকে তার প্রমাণে পৌঁছানোর তিনটি ধাপ দেখা যায়।",
+      "ar-KW": "درع أزرق يلمع فوق الشاشة. عقبها لوحة فاتحة تبين شلون يوصلون من النتيجة للدليل بثلاث خطوات.",
+      "ar": "يلمع درع أزرق فوق شاشة. تسرد لوحة فاتحة ثلاث خطوات لتتبع نتيجة الفحص وصولا إلى دليلها.",
+      "am": "ከማያ ገጽ በላይ ሰማያዊ ጋሻ ያበራል። ቀጣዩ ገጽ ከፍተሻ ውጤት ወደ ማስረጃው የሚወስዱ ሦስት ደረጃዎችን ያሳያል።",
+      "fa": "سپری آبی روی صفحه می‌درخشد. در صفحهٔ بعد سه مرحله برای پیوند دادن یک یافته به مدرک آن دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 22.492,
+        "end": 29.093,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 35.089,
+        "end": 44.558,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 33.723,
+        "end": 42.156,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 29.289,
+        "end": 38.358,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 20.062,
+        "end": 25.299,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 23.786,
+        "end": 30.322,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 33.495,
+        "end": 43.221,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 22.509,
+        "end": 28.608,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 46.385,
+        "end": 57.857,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 40.324,
+        "end": 51.483,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 36.654,
+        "end": 47.169,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 29.3,
+        "end": 37.091,
+        "voice": "Amir"
+      }
+    }
+  },
+  "deciphera": {
+    "title": "Deciphera walkthrough",
+    "description": "Sunlight passes through connected glass blocks. A panel breaks one transaction into simulation, inspection and explanation.",
+    "narration": "Deciphera is a browser simulator for Bitcoin transfers. JavaScript models an off-chain transaction, then turns the same event into three explanations: one for a client, one for an auditor, and one for a technical reader. Next, add tests that compare each narrative with an explicitly defined transaction state.",
+    "translations": {
+      "en": "Sunlight passes through connected glass blocks. A panel breaks one transaction into simulation, inspection and explanation.",
+      "ml": "പരസ്പരം ബന്ധിപ്പിച്ച കണ്ണാടിക്കട്ടകളിലൂടെ സൂര്യപ്രകാശം കടക്കുന്നു. ഒരു ഇടപാട് എങ്ങനെ പ്രവർത്തിക്കുന്നു, എങ്ങനെ പരിശോധിക്കുന്നു, എങ്ങനെ വിശദീകരിക്കുന്നു എന്നീ ഘട്ടങ്ങൾ തെളിയുന്നു.",
+      "ta": "ஒன்றோடொன்று இணைந்த கண்ணாடிக் கட்டிகள் வழியாக ஒளி பாய்கிறது. ஒரு பரிவர்த்தனையை உருவகப்படுத்தி, ஆய்வு செய்து, விளக்கும் படிகள் தோன்றுகின்றன.",
+      "hi": "जुड़े हुए काँच के खंडों से धूप गुज़रती है। एक लेनदेन का अनुकरण करने, उसकी जाँच करने और उसे समझाने के चरण सामने आते हैं।",
+      "ur": "جڑے ہوئے شیشے کے ٹکڑوں سے دھوپ گزرتی ہے۔ ایک لین دین کا نمونہ، اس کا جائزہ اور اس کی وضاحت دکھائی جاتی ہے۔",
+      "es": "El sol atraviesa bloques de cristal enlazados. Un panel explica cómo simular, inspeccionar y describir una transacción.",
+      "si": "එකට බැඳුණු වීදුරු කුට්ටි අතරින් හිරු එළිය වැටෙයි. ගනුදෙනුවක් ආදර්ශනය කිරීම, පරීක්ෂා කිරීම සහ පැහැදිලි කිරීම පෙන්වයි.",
+      "bn": "পরস্পর যুক্ত কাচের খণ্ড ভেদ করে রোদ আসে। একটি লেনদেনের অনুকরণ, পরীক্ষা ও ব্যাখ্যার ধাপগুলি দেখা যায়।",
+      "ar-KW": "ضو الشمس يمر بين قطع قزاز متصلة. اللوحة تبين شلون يحاكون المعاملة ويفحصونها وبعدين يشرحونها.",
+      "ar": "يمر ضوء الشمس عبر كتل زجاجية متصلة. تعرض لوحة مراحل محاكاة معاملة وفحصها وشرحها.",
+      "am": "የፀሐይ ብርሃን በተያያዙ የመስታወት ቁርጥራጮች ውስጥ ያልፋል። ቀጥሎ አንድን ግብይት ማስመሰል፣ መፈተሽና ማብራራት ይታያል።",
+      "fa": "نور خورشید از قطعه‌های شیشه‌ای به‌هم‌پیوسته می‌گذرد. یک صفحه مراحل شبیه‌سازی، بررسی و توضیح یک تراکنش را نشان می‌دهد."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 29.573,
+        "end": 36.927,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 45.038,
+        "end": 57.224,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 42.636,
+        "end": 53.17,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 38.838,
+        "end": 49.59,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 25.779,
+        "end": 31.282,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 30.802,
+        "end": 37.906,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 43.701,
+        "end": 53.323,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 29.088,
+        "end": 35.777,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 58.337,
+        "end": 70.259,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 51.963,
+        "end": 62.796,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 47.649,
+        "end": 59.377,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 37.571,
+        "end": 45.898,
+        "voice": "Amir"
+      }
+    }
+  },
+  "sslc": {
+    "title": "School in Engapuzha",
+    "description": "Through a brick arch, palm trees frame a school building. The school emblem appears beside the result, ninety-eight point eight percent.",
+    "narration": "Adarsh completed his secondary schooling at MGM Higher Secondary School in Engapuzha. He earned 98.8 percent in 2017, before moving on to the biology stream.",
+    "translations": {
+      "en": "Through a brick arch, palm trees frame a school building. The school emblem appears beside the result, ninety-eight point eight percent.",
+      "ml": "ഇഷ്ടികക്കമാനത്തിലൂടെ നോക്കുമ്പോൾ തെങ്ങുകൾക്കിടയിൽ സ്കൂൾ കെട്ടിടം കാണാം. സ്കൂൾ ചിഹ്നത്തിനരികിൽ തൊണ്ണൂറ്റിയെട്ട് ദശാംശം എട്ട് ശതമാനം എന്ന ഫലം തെളിയുന്നു.",
+      "ta": "செங்கல் வளைவின் வழியே தென்னை மரங்களுக்கு இடையில் பள்ளிக்கட்டிடம் தெரிகிறது. பள்ளிச் சின்னத்துக்கு அருகில் தொண்ணூற்றெட்டு புள்ளி எட்டு விழுக்காடு என்ற மதிப்பெண் உள்ளது.",
+      "hi": "ईंटों की मेहराब से नारियल के पेड़ों के बीच स्कूल दिखता है। स्कूल के निशान के पास अट्ठानवे दशमलव आठ प्रतिशत का परिणाम है।",
+      "ur": "اینٹوں کی محراب سے ناریل کے درختوں کے درمیان سکول نظر آتا ہے۔ سکول کے نشان کے ساتھ اٹھانوے اعشاریہ آٹھ فیصد درج ہے۔",
+      "es": "A través de un arco de ladrillo se ve la escuela entre palmeras. Junto a su emblema aparece la nota del noventa y ocho coma ocho por ciento.",
+      "si": "ගඩොල් ආරුක්කුවක් තුළින් පොල් ගස් අතර පාසල් ගොඩනැගිල්ල පෙනෙයි. පාසල් ලාංඡනය අසල සියයට අනූ අටයි දශම අටක ප්‍රතිඵලයක් දැක්වේ.",
+      "bn": "ইটের খিলান দিয়ে নারকেলগাছের মাঝে স্কুলের বাড়ি দেখা যায়। স্কুলের প্রতীকের পাশে লেখা আটানব্বই দশমিক আট শতাংশ।",
+      "ar-KW": "من تحت قوس طابوق نشوف المدرسة بين النخل. يم شعار المدرسة مكتوب ثمانية وتسعين فاصلة ثمانية بالمية.",
+      "ar": "من خلال قوس من الطوب يظهر مبنى المدرسة بين النخيل. وبجانب شعار المدرسة نتيجة قدرها ثمانية وتسعون فاصلة ثمانية بالمئة.",
+      "am": "በጡብ ቅስት በኩል በዘንባባዎች መካከል የትምህርት ቤት ሕንፃ ይታያል። ከትምህርት ቤቱ አርማ አጠገብ ውጤቱ ይታያል።",
+      "fa": "از میان طاق آجری، ساختمان مدرسه در میان نخل‌ها پیداست. کنار نشان مدرسه نمرهٔ نود و هشت ممیز هشت درصد دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 37.407,
+        "end": 45.23,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 57.704,
+        "end": 67.981,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 53.65,
+        "end": 64.663,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 50.07,
+        "end": 60.25,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 31.762,
+        "end": 37.95,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 38.386,
+        "end": 45.607,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 53.803,
+        "end": 64.055,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 36.257,
+        "end": 43.196,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 70.739,
+        "end": 83.403,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 63.276,
+        "end": 78.18,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 59.857,
+        "end": 70.415,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 46.378,
+        "end": 55.812,
+        "voice": "Amir"
+      }
+    }
+  },
+  "hse": {
+    "title": "The biology years",
+    "description": "A microscope stands by a leafy classroom window. The school emblem and the biology student's result appear below.",
+    "narration": "At Government Higher Secondary School in Thamarassery, Adarsh studied biology from 2017 to 2019. He finished with 79.9 percent, then chose computer science for his degree.",
+    "translations": {
+      "en": "A microscope stands by a leafy classroom window. The school emblem and the biology student's result appear below.",
+      "ml": "പച്ചപ്പിലേക്ക് തുറക്കുന്ന ക്ലാസ് മുറിയുടെ ജനലരികിൽ ഒരു സൂക്ഷ്മദർശിനി. താഴെ സ്കൂളിന്റെ ചിഹ്നവും ബയോളജി പഠനത്തിലെ പരീക്ഷാഫലവും കാണാം.",
+      "ta": "வகுப்பறைச் சன்னல் அருகே நுண்ணோக்கி இருக்கிறது. வெளியே பசுமை தெரிகிறது. கீழே பள்ளியின் சின்னமும் உயிரியல் மாணவரின் மதிப்பெண்ணும் உள்ளன.",
+      "hi": "कक्षा की खिड़की के पास एक सूक्ष्मदर्शी है। बाहर हरियाली है। नीचे स्कूल का निशान और जीवविज्ञान की परीक्षा का परिणाम है।",
+      "ur": "کلاس کی کھڑکی کے پاس ایک خوردبین ہے اور باہر ہریالی ہے۔ نیچے سکول کا نشان اور حیاتیات کے امتحان کا نتیجہ ہے۔",
+      "es": "Un microscopio se alza junto a la ventana del aula, con vegetación al fondo. Abajo aparecen el emblema escolar y la nota de biología.",
+      "si": "පන්ති කාමරයේ ජනේලය අසල අන්වීක්ෂයක් ඇත. පිටත ගස් පෙනෙයි. පහළින් පාසල් ලාංඡනය සහ ජීව විද්‍යා විභාගයේ ප්‍රතිඵලය ඇත.",
+      "bn": "শ্রেণিকক্ষের জানালার পাশে একটি অণুবীক্ষণ যন্ত্র। বাইরে সবুজ গাছ। নিচে স্কুলের প্রতীক আর জীববিদ্যার পরীক্ষার ফল দেখা যায়।",
+      "ar-KW": "يم دريشة الصف في مجهر، ووراها خضرة. تحت نشوف شعار المدرسة ونتيجة طالب الأحياء.",
+      "ar": "يقف مجهر بجوار نافذة الصف وتظهر الأشجار خلف الزجاج. في الأسفل شعار المدرسة ونتيجة طالب الأحياء.",
+      "am": "ከክፍሉ መስኮት አጠገብ ማይክሮስኮፕ አለ። ውጭ ዛፎች ይታያሉ። ከታች የትምህርት ቤቱ አርማና የሥነ ሕይወት ተማሪው ውጤት አሉ።",
+      "fa": "میکروسکوپی کنار پنجرهٔ کلاس قرار دارد و پشت آن درختان پیداست. پایین تصویر، نشان مدرسه و نمرهٔ زیست‌شناسی آمده است."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 45.71,
+        "end": 52.547,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 68.461,
+        "end": 77.991,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 65.143,
+        "end": 74.833,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 60.73,
+        "end": 70.903,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 38.43,
+        "end": 44.409,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 46.087,
+        "end": 54.093,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 64.535,
+        "end": 75.153,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 43.676,
+        "end": 51.825,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 83.883,
+        "end": 93.898,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 78.66,
+        "end": 90.202,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 70.895,
+        "end": 82.758,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 56.292,
+        "end": 64.694,
+        "voice": "Amir"
+      }
+    }
+  },
+  "bsc": {
+    "title": "Computer science in Thamarassery",
+    "description": "An amber desk lamp lights a computer monitor. The college emblem appears beside the computer science degree.",
+    "narration": "At the College of Applied Science in Thamarassery, he earned a computer science degree. Programming and databases became his foundation for building software.",
+    "translations": {
+      "en": "An amber desk lamp lights a computer monitor. The college emblem appears beside the computer science degree.",
+      "ml": "മേശവിളക്കിന്റെ മഞ്ഞ വെളിച്ചത്തിൽ ഒരു കംപ്യൂട്ടർ സ്ക്രീൻ തെളിയുന്നു. കംപ്യൂട്ടർ സയൻസ് ബിരുദത്തിന്റെ പേരിനരികിൽ കോളേജിന്റെ ചിഹ്നം കാണാം.",
+      "ta": "மேசை விளக்கின் மஞ்சள் ஒளியில் கணினித் திரை தெரிகிறது. கணினி அறிவியல் பட்டத்தின் அருகில் கல்லூரிச் சின்னம் உள்ளது.",
+      "hi": "मेज़ के पीले लैंप के पास कंप्यूटर का मॉनिटर है। कंप्यूटर विज्ञान की डिग्री के नाम के पास कॉलेज का निशान है।",
+      "ur": "میز کے زرد چراغ کے پاس کمپیوٹر کی سکرین ہے۔ کمپیوٹر سائنس کی ڈگری کے نام کے ساتھ کالج کا نشان ہے۔",
+      "es": "Una lámpara de luz ámbar ilumina un monitor. El emblema del centro aparece junto al título de informática.",
+      "si": "මේස ලාම්පුවක කහ ආලෝකයෙන් පරිගණක තිරයක් දිස් වෙයි. පරිගණක විද්‍යා උපාධියේ නම අසල විද්‍යාල ලාංඡනය ඇත.",
+      "bn": "টেবিলের হলুদ আলোয় কম্পিউটারের মনিটর দেখা যায়। কম্পিউটার বিজ্ঞানের ডিগ্রির পাশে কলেজের প্রতীক রয়েছে।",
+      "ar-KW": "لمبة مكتب بلون العسل تنور شاشة كمبيوتر. يم اسم شهادة علوم الكمبيوتر يطلع شعار الكلية.",
+      "ar": "يضيء مصباح كهرماني شاشة حاسوب. يظهر شعار الكلية بجوار اسم شهادة علوم الحاسوب.",
+      "am": "ቢጫ የጠረጴዛ መብራት የኮምፒውተር ማያ ገጽን ያበራል። ከኮምፒውተር ሳይንስ ዲግሪ ስም አጠገብ የኮሌጁ አርማ ይታያል።",
+      "fa": "چراغی کهربایی نمایشگر رایانه را روشن کرده است. نشان دانشکده کنار نام مدرک علوم رایانه دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 53.027,
+        "end": 59.209,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 78.471,
+        "end": 87.152,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 75.313,
+        "end": 83.051,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 71.383,
+        "end": 79.903,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 44.889,
+        "end": 50.276,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 54.573,
+        "end": 61.153,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 75.633,
+        "end": 84.795,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 52.305,
+        "end": 57.629,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 94.378,
+        "end": 105.315,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 90.682,
+        "end": 100.495,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 83.238,
+        "end": 93.91,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 65.174,
+        "end": 72.012,
+        "voice": "Amir"
+      }
+    }
+  },
+  "mca": {
+    "title": "Postgraduate projects",
+    "description": "Green palms frame a college building. The engineering college emblem sits below the master's degree title.",
+    "narration": "His master's at Government Engineering College, Thrissur, brought those skills together. He applied computer vision to photo privacy and to reading handwritten manuscripts.",
+    "translations": {
+      "en": "Green palms frame a college building. The engineering college emblem sits below the master's degree title.",
+      "ml": "തെങ്ങുകൾക്കിടയിലൂടെ കോളേജ് കെട്ടിടം കാണാം. ബിരുദാനന്തര പഠനത്തിന്റെ തലക്കെട്ടിനു താഴെ എൻജിനീയറിങ് കോളേജിന്റെ ചിഹ്നമുണ്ട്.",
+      "ta": "தென்னை மரங்களுக்கு இடையில் கல்லூரிக் கட்டிடம் தெரிகிறது. முதுகலைப் பட்டத்தின் பெயருக்குக் கீழே பொறியியல் கல்லூரிச் சின்னம் உள்ளது.",
+      "hi": "नारियल के पेड़ों के बीच कॉलेज की इमारत दिखती है। मास्टर डिग्री के नाम के नीचे इंजीनियरिंग कॉलेज का निशान है।",
+      "ur": "ناریل کے درختوں کے درمیان کالج کی عمارت ہے۔ ماسٹرز کی ڈگری کے نام کے نیچے انجینئرنگ کالج کا نشان ہے۔",
+      "es": "Las palmeras enmarcan un edificio universitario. Bajo el título de máster aparece el emblema de la escuela de ingeniería.",
+      "si": "පොල් ගස් අතර විද්‍යාල ගොඩනැගිල්ල පෙනෙයි. පශ්චාත් උපාධියේ නමට පහළින් ඉංජිනේරු විද්‍යාලයේ ලාංඡනය ඇත.",
+      "bn": "নারকেলগাছে ঘেরা কলেজ ভবন দেখা যায়। স্নাতকোত্তর ডিগ্রির নামের নিচে ইঞ্জিনিয়ারিং কলেজের প্রতীক রয়েছে।",
+      "ar-KW": "النخل حوالي مبنى الكلية. تحت عنوان الماجستير نشوف شعار كلية الهندسة.",
+      "ar": "تحيط أشجار النخيل بمبنى الكلية. يظهر شعار كلية الهندسة أسفل عنوان شهادة الماجستير.",
+      "am": "የኮሌጁ ሕንፃ በዘንባባዎች መካከል ይታያል። ከሁለተኛ ዲግሪው ርዕስ በታች የምሕንድስና ኮሌጁ አርማ አለ።",
+      "fa": "نخل‌ها ساختمان دانشکده را قاب گرفته‌اند. نشان دانشکدهٔ مهندسی زیر عنوان کارشناسی ارشد دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 59.689,
+        "end": 65.646,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 87.632,
+        "end": 96.041,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 83.531,
+        "end": 92.661,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 80.383,
+        "end": 89.241,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 50.756,
+        "end": 56.236,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 61.633,
+        "end": 68.405,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 85.275,
+        "end": 93.568,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 58.109,
+        "end": 64.272,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 105.795,
+        "end": 114.225,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 100.975,
+        "end": 110.821,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 94.39,
+        "end": 104.301,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 72.492,
+        "end": 79.384,
+        "voice": "Amir"
+      }
+    }
+  },
+  "bluegen": {
+    "title": "Building Django APIs",
+    "description": "Code fills a monitor beside an amber lamp. The Bluegen logo appears beneath the screen.",
+    "narration": "At Bluegen Solutions, he built Django endpoints for authenticated requests and designed linked MySQL tables. Debugging with the team taught him to trace an issue from request to database.",
+    "translations": {
+      "en": "Code fills a monitor beside an amber lamp. The Bluegen logo appears beneath the screen.",
+      "ml": "മഞ്ഞ വെളിച്ചമുള്ള മേശവിളക്കിനരികിലെ സ്ക്രീനിൽ പ്രോഗ്രാം കോഡ് കാണാം. താഴെ ബ്ലൂജെൻ കമ്പനിയുടെ ചിഹ്നം തെളിയുന്നു.",
+      "ta": "மஞ்சள் விளக்குக்கு அருகிலுள்ள கணினித் திரையில் நிரல் வரிகள் நிறைந்துள்ளன. கீழே புளூஜென் நிறுவனச் சின்னம் தெரிகிறது.",
+      "hi": "पीले लैंप के पास मॉनिटर पर कोड की पंक्तियाँ हैं। नीचे ब्लूजेन का निशान है।",
+      "ur": "زرد چراغ کے پاس سکرین پر کوڈ کی سطریں ہیں۔ نیچے بلیوجین کا نشان ہے۔",
+      "es": "Líneas de código llenan un monitor junto a una lámpara ámbar. Debajo aparece el logotipo de Bluegen.",
+      "si": "කහ ලාම්පුවක් අසල තිරයක පරිගණක කේත පේළි ඇත. පහළින් බ්ලූජෙන් සමාගමේ ලාංඡනය පෙනෙයි.",
+      "bn": "হলুদ বাতির পাশে মনিটর জুড়ে কোডের সারি। নিচে ব্লুজেনের প্রতীক দেখা যায়।",
+      "ar-KW": "الشاشة مليانة سطور كود ويمها لمبة لونها عسلي. تحتها يطلع شعار بلوجن.",
+      "ar": "تعرض شاشة بجوار مصباح كهرماني سطورا برمجية. يظهر شعار شركة بلوجن تحتها.",
+      "am": "ከቢጫ መብራት አጠገብ ማያ ገጹ በኮድ መስመሮች ተሞልቷል። ከታች የኩባንያው አርማ ይታያል።",
+      "fa": "کنار چراغی کهربایی، نمایشگر پر از سطرهای کد است. پایین آن نشان شرکت بلوجن دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 66.126,
+        "end": 71.143,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 96.521,
+        "end": 104.108,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 93.141,
+        "end": 101.192,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 89.721,
+        "end": 95.618,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 56.716,
+        "end": 60.477,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 68.885,
+        "end": 75.277,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 94.048,
+        "end": 101.779,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 64.752,
+        "end": 69.232,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 114.705,
+        "end": 123.53,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 111.301,
+        "end": 120.992,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 104.781,
+        "end": 113.344,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 79.864,
+        "end": 86.084,
+        "voice": "Amir"
+      }
+    }
+  },
+  "skybrisk": {
+    "title": "From catalogue to invoice",
+    "description": "Tables and a chart fill a dashboard on a monitor. The Skybrisk logo appears below.",
+    "narration": "At The Skybrisk, he built React components for product catalogs, purchase orders, and invoices. He connected them to APIs, managed state with Redux Toolkit, and added PDF invoice exports.",
+    "translations": {
+      "en": "Tables and a chart fill a dashboard on a monitor. The Skybrisk logo appears below.",
+      "ml": "കംപ്യൂട്ടർ സ്ക്രീനിലെ ഡാഷ്ബോർഡിൽ പട്ടികകളും ഒരു ചാർട്ടും കാണാം. അതിനു താഴെ സ്കൈബ്രിസ്ക് കമ്പനിയുടെ ചിഹ്നമുണ്ട്.",
+      "ta": "கணினித் திரையில் அட்டவணைகளும் ஒரு வரைபடமும் உள்ளன. கீழே ஸ்கைபிரிஸ்க் சின்னம் தெரிகிறது.",
+      "hi": "मॉनिटर के डैशबोर्ड पर तालिकाएँ और एक चार्ट हैं। नीचे स्काइब्रिस्क का निशान है।",
+      "ur": "کمپیوٹر پر جدول اور ایک چارٹ نظر آتے ہیں۔ نیچے سکائی برسک کا نشان ہے۔",
+      "es": "Un panel de control muestra tablas y un gráfico en un monitor. Debajo aparece el logotipo de Skybrisk.",
+      "si": "පරිගණක තිරයේ වගු සහ ප්‍රස්ථාරයක් දිස් වෙයි. පහළින් ස්කයිබ්‍රිස්ක් සමාගමේ ලාංඡනය ඇත.",
+      "bn": "মনিটরের ড্যাশবোর্ডে সারণি আর একটি চার্ট দেখা যায়। নিচে স্কাইব্রিস্কের প্রতীক রয়েছে।",
+      "ar-KW": "على الشاشة جداول ورسم بياني. تحتهم يطلع شعار سكاي بريسك.",
+      "ar": "تعرض لوحة على الشاشة جداول ورسما بيانيا. يظهر شعار شركة سكاي بريسك في الأسفل.",
+      "am": "በኮምፒውተር ማያ ገጽ ላይ ሰንጠረዦችና ግራፍ ይታያሉ። ከታች የኩባንያው አርማ አለ።",
+      "fa": "روی نمایشگر یک داشبورد با جدول‌ها و یک نمودار دیده می‌شود. پایین آن نشان اسکای‌بریسک قرار دارد."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 71.623,
+        "end": 76.72,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 104.588,
+        "end": 111.829,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 101.672,
+        "end": 108.095,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 96.098,
+        "end": 102.383,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 60.957,
+        "end": 64.789,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 75.757,
+        "end": 81.95,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 102.259,
+        "end": 109.43,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 69.712,
+        "end": 74.505,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 124.01,
+        "end": 130.859,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 121.472,
+        "end": 130.924,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 113.824,
+        "end": 121.689,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 86.564,
+        "end": 94.406,
+        "voice": "Amir"
+      }
+    }
+  },
+  "codtech": {
+    "title": "From build to deployment",
+    "description": "Blue cables sweep across a network rack with green lights. The CODTECH logo appears in the lower corner.",
+    "narration": "His DevOps internship at CODTECH took him into software delivery. He automated builds and tests in GitHub Actions, configured Kubernetes deployments, and added baseline security scans.",
+    "translations": {
+      "en": "Blue cables sweep across a network rack with green lights. The CODTECH logo appears in the lower corner.",
+      "ml": "പച്ച വിളക്കുകൾ തെളിയുന്ന നെറ്റ്‌വർക്ക് റാക്കിലൂടെ നീല കേബിളുകൾ വളഞ്ഞുപോകുന്നു. താഴത്തെ കോണിൽ കോഡ്ടെക് കമ്പനിയുടെ ചിഹ്നമുണ്ട്.",
+      "ta": "பச்சை விளக்குகள் எரியும் வலைப்பின்னல் கருவியில் நீலக் கம்பிகள் வளைந்து செல்கின்றன. கீழ் மூலையில் நிறுவனத்தின் சின்னம் உள்ளது.",
+      "hi": "नेटवर्क रैक की हरी बत्तियों के सामने नीली केबलें मुड़ती हैं। निचले कोने में कंपनी का निशान है।",
+      "ur": "نیلی تاریں سبز روشنیوں والے نیٹ ورک ریک کے سامنے مڑتی ہیں۔ نچلے کونے میں کمپنی کا نشان ہے۔",
+      "es": "Cables azules cruzan un bastidor de red con luces verdes. El logotipo de CODTECH aparece en la esquina inferior.",
+      "si": "කොළ එළි දැල්වෙන ජාල උපකරණයක් ඉදිරියෙන් නිල් කේබල් ඇදී යයි. පහළ කෙළවරේ සමාගමේ ලාංඡනය පෙනෙයි.",
+      "bn": "সবুজ আলো জ্বলা নেটওয়ার্ক র‍্যাকের সামনে নীল তারগুলি বাঁক নিয়েছে। নিচের কোণে কোম্পানির প্রতীক দেখা যায়।",
+      "ar-KW": "وايرات زرق تمر جدام جهاز الشبكة ولمباته الخضر. نشوف شعار الشركة بالزاوية اللي تحت.",
+      "ar": "تمتد كابلات زرقاء عبر خزانة شبكة مضاءة بمصابيح خضراء. يظهر شعار الشركة في الزاوية السفلية.",
+      "am": "ሰማያዊ ገመዶች አረንጓዴ መብራቶች ባሉት የኔትወርክ መሣሪያ ፊት ያልፋሉ። ታችኛው ጥግ ላይ የኩባንያው አርማ አለ።",
+      "fa": "کابل‌های آبی از مقابل تجهیزات شبکه و چراغ‌های سبز می‌گذرند. نشان شرکت در گوشهٔ پایین دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 77.2,
+        "end": 83.065,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 112.309,
+        "end": 120.839,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 108.575,
+        "end": 117.394,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 102.863,
+        "end": 110.272,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 65.269,
+        "end": 70.075,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 82.43,
+        "end": 88.922,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 109.91,
+        "end": 118.167,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 74.985,
+        "end": 81.187,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 131.339,
+        "end": 141.273,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 131.404,
+        "end": 142.564,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 122.169,
+        "end": 132.463,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 94.886,
+        "end": 102.363,
+        "voice": "Amir"
+      }
+    }
+  },
+  "publication": {
+    "title": "Reading an inkless manuscript",
+    "description": "A stylus and brown palm leaf give way to open research pages against a blue background.",
+    "narration": "His published paper asks how software can read inkless writing carved into damaged palm leaves. It describes checking the leaf's surface and using adaptive thresholding to separate faint grooves from the grain. The paper explores transformer-based transcription. The public prototype uses geometric features and a Malayalam word list. A next step is to test a trained recognizer on held-out manuscripts and measure character errors.",
+    "translations": {
+      "en": "A stylus and brown palm leaf give way to open research pages against a blue background.",
+      "ml": "ആദ്യം തവിട്ടുനിറമുള്ള താളിയോലയും എഴുത്താണിയും. തുടർന്ന് നീല പശ്ചാത്തലത്തിൽ തുറന്നുവച്ച ഗവേഷണപ്രബന്ധത്തിന്റെ താളുകൾ കാണാം.",
+      "ta": "ஓலையும் எழுத்தாணியும் மறைந்து, நீலப் பின்னணியில் விரித்து வைக்கப்பட்ட ஆய்வுக் கட்டுரைகள் தெரிகின்றன.",
+      "hi": "भूरे ताड़पत्र और लेखनी की जगह नीले रंग की पृष्ठभूमि पर शोधपत्र के खुले पन्ने आते हैं।",
+      "ur": "بھورے پتے اور قلم کی جگہ نیلے پس منظر میں تحقیقی مقالے کے کھلے صفحات آ جاتے ہیں۔",
+      "es": "Un punzón y una hoja de palma marrón dan paso a las páginas abiertas de un artículo sobre un fondo azul.",
+      "si": "දුඹුරු පුස්කොළය සහ පන්හිඳ වෙනුවට නිල් පසුබිමක දිගහැර ඇති පර්යේෂණ පත්‍රිකා දිස් වෙයි.",
+      "bn": "বাদামি তালপাতা ও লেখনীর জায়গায় নীল পটভূমিতে গবেষণাপত্রের খোলা পাতা আসে।",
+      "ar-KW": "بالبداية نشوف قلم وورقة نخيل بنية. عقبها تطلع صفحات البحث مفتوحة على خلفية زرقا.",
+      "ar": "تختفي صورة القلم وورقة النخيل البنية لتظهر صفحات البحث المفتوحة على خلفية زرقاء.",
+      "am": "ቡናማ የዘንባባ ቅጠልና መጻፊያ ይታያሉ። ቀጥሎ በሰማያዊ ዳራ ላይ የተከፈቱ የምርምር ገጾች ይመጣሉ።",
+      "fa": "قلم و برگ قهوه‌ای نخل جای خود را به صفحه‌های باز مقاله‌ای روی زمینه‌ای آبی می‌دهند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 83.545,
+        "end": 88.748,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 121.319,
+        "end": 130.013,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 117.874,
+        "end": 124.795,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 110.752,
+        "end": 118.495,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 70.555,
+        "end": 75.176,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 89.402,
+        "end": 95.594,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 118.647,
+        "end": 125.532,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 81.667,
+        "end": 86.326,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 141.753,
+        "end": 152.643,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 143.044,
+        "end": 152.53,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 132.943,
+        "end": 142.582,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 102.843,
+        "end": 108.982,
+        "voice": "Amir"
+      }
+    }
+  },
+  "projects": {
+    "title": "The projects",
+    "description": "Five chapters pass through lens, manuscript, shield, glass blocks and envelope artwork, each followed by a process diagram.",
+    "narration": "AssentTag starts with a group photo. OpenCV finds faces and Dlib compares them with enrolled identities. A face match still needs permission. The Django app blurs the face until it has consent. MySQL stores the records. Next, evaluate missed faces and masking failures on a representative, consented dataset. On a palm leaf, faint writing can resemble grain. EpigraphiX-AI uses adaptive thresholds to separate the two. Python and OpenCV isolate connected marks as glyphs. A Malayalam lexicon helps review likely character sequences. Next, connect a trained recognition model and measure character and word errors on unseen manuscripts. AegisForge-X makes a security finding traceable to the source. Python masks comments while preserving positions. Language rules flag potential issues, and hashes link evidence to the reviewed input for human inspection. Next, use labeled examples to measure false alarms and missed cases for each language and rule. Deciphera is a browser simulator for Bitcoin transfers. JavaScript models an off-chain transaction, then turns the same event into three explanations: one for a client, one for an auditor, and one for a technical reader. Next, add tests that compare each narrative with an explicitly defined transaction state. QuietNote tackles a race: two readers opening a one-time link together. Next.js and Hono handle the request. One conditional PostgreSQL update lets a single reader claim the note. Owners can also set expiry or revoke access. Next, add retention controls and test the counters under heavier traffic.",
+    "translations": {
+      "en": "Five chapters pass through lens, manuscript, shield, glass blocks and envelope artwork, each followed by a process diagram.",
+      "ml": "അഞ്ചു ഭാഗങ്ങളിലായി ലെൻസ്, താളിയോല, കവചം, കണ്ണാടിക്കട്ടകൾ, കവർ എന്നിവ കാണിക്കുന്നു. ഓരോന്നിനും പിന്നാലെ അത് പ്രവർത്തിക്കുന്ന വിധം വിശദീകരിക്കുന്ന ചിത്രം വരുന്നു.",
+      "ta": "ஐந்து பகுதிகளில் லென்ஸ், ஓலை, கேடயம், கண்ணாடிக் கட்டிகள், உறை ஆகியவை வருகின்றன. ஒவ்வொன்றுக்கும் அடுத்து செயல்முறை விளக்கப்படம் தோன்றுகிறது.",
+      "hi": "पाँच अध्यायों में लेंस, ताड़पत्र, ढाल, काँच के खंड और लिफ़ाफ़ा दिखते हैं। हर अध्याय में उसके बाद प्रक्रिया का चित्र आता है।",
+      "ur": "پانچ حصوں میں عدسہ، قدیم پتہ، ڈھال، شیشے کے ٹکڑے اور لفافہ دکھائی دیتے ہیں۔ ہر ایک کے بعد کام کے مراحل کی تصویر ہے۔",
+      "es": "Cinco capítulos muestran un objetivo, un manuscrito, un escudo, bloques de vidrio y un sobre. Tras cada imagen aparece un esquema del proceso.",
+      "si": "පරිච්ඡේද පහකින් කාචයක්, පුස්කොළයක්, පලිහක්, වීදුරු කුට්ටි සහ ලියුම් කවරයක් පෙන්වයි. ඒ සෑම රූපයකටම පසුව ක්‍රියාවලියේ සටහනක් ඇත.",
+      "bn": "পাঁচ অধ্যায়ে লেন্স, পুঁথি, ঢাল, কাচের খণ্ড ও খাম দেখা যায়। প্রতিটি ছবির পরে আসে কাজের ধাপের চিত্র।",
+      "ar-KW": "خمس لقطات فيها عدسة ومخطوط ودرع وقطع قزاز وظرف. عقب كل صورة يطلع رسم يبين شلون يشتغل المشروع.",
+      "ar": "تمر خمسة فصول تعرض عدسة ومخطوطا ودرعا وكتلا زجاجية وظرفا. يلي كل صورة رسم يوضح طريقة العمل.",
+      "am": "በአምስት ምዕራፎች ሌንስ፣ የእጅ ጽሑፍ፣ ጋሻ፣ የመስታወት ክፍሎችና ፖስታ ይታያሉ። እያንዳንዱን ምስል የሥራው ሂደት ሥዕል ይከተላል።",
+      "fa": "در پنج بخش، عدسی، دست‌نوشته، سپر، قطعه‌های شیشه و پاکت دیده می‌شوند. بعد از هر تصویر، نمودار مراحل کار می‌آید."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 89.228,
+        "end": 96.963,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 130.493,
+        "end": 142.172,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 125.275,
+        "end": 136.507,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 118.975,
+        "end": 128.889,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 75.656,
+        "end": 81.74,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 96.074,
+        "end": 104.687,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 126.012,
+        "end": 137.823,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 86.806,
+        "end": 93.731,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 153.123,
+        "end": 166.383,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 153.01,
+        "end": 165.364,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 143.062,
+        "end": 155.293,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 109.462,
+        "end": 119.646,
+        "voice": "Amir"
+      }
+    }
+  },
+  "journey": {
+    "title": "My journey",
+    "description": "Adarsh's portrait appears over sunset mountains. Campus scenes give way to workstations, network cables and research papers.",
+    "narration": "How does a developer get from biology classes in Kerala to reading the marks on a centuries-old palm leaf? For Adarsh, the journey began in school. He completed high school at MGM in Engapuzha, then studied biology at Government Higher Secondary School in Thamarassery. At the College of Applied Science in Thamarassery, he earned a computer science degree. Programming and databases became his foundation for building software. His master's at Government Engineering College, Thrissur, brought those skills together. He applied computer vision to photo privacy and to reading handwritten manuscripts. At Bluegen Solutions, he built Django endpoints for authenticated requests and designed linked MySQL tables. Debugging with the team taught him to trace an issue from request to database. At The Skybrisk, he built React components for product catalogs, purchase orders, and invoices. He connected them to APIs, managed state with Redux Toolkit, and added PDF invoice exports. His DevOps internship at CODTECH took him into software delivery. He automated builds and tests in GitHub Actions, configured Kubernetes deployments, and added baseline security scans. His published paper asks how software can read inkless writing carved into damaged palm leaves. It describes checking the leaf's surface and using adaptive thresholding to separate faint grooves from the grain. The paper explores transformer-based transcription. The public prototype uses geometric features and a Malayalam word list. A next step is to test a trained recognizer on held-out manuscripts and measure character errors. Across these experiences, Adarsh learned to connect an interface, a database, an image pipeline, and a release process. He wants to bring those skills to a software engineering team.",
+    "translations": {
+      "en": "Adarsh's portrait appears over sunset mountains. Campus scenes give way to workstations, network cables and research papers.",
+      "ml": "സന്ധ്യയിലെ മലനിരകൾക്കു മുന്നിൽ ആദർശിന്റെ ചിത്രം തെളിയുന്നു. തുടർന്ന് കോളേജ്, ജോലിസ്ഥലം, നെറ്റ്‌വർക്ക് കേബിളുകൾ, ഗവേഷണപ്രബന്ധങ്ങൾ എന്നിവ കാണാം.",
+      "ta": "மாலை நேர மலைகளுக்கு முன்னால் ஆதர்ஷின் படம் தோன்றுகிறது. கல்லூரி, பணியிடம், வலைப்பின்னல் கம்பிகள், ஆய்வுக் கட்டுரைகள் அடுத்தடுத்து வருகின்றன.",
+      "hi": "सूर्यास्त के पहाड़ों पर आदर्श की तस्वीर उभरती है। फिर कॉलेज, काम की मेज़ें, नेटवर्क की केबलें और शोधपत्र दिखते हैं।",
+      "ur": "غروب کے وقت پہاڑوں کے سامنے آدرش کی تصویر ہے۔ پھر کالج، کام کی میزیں، نیٹ ورک کی تاریں اور تحقیقی مقالے دکھائے جاتے ہیں۔",
+      "es": "El retrato de Adarsh aparece ante montañas al atardecer. Las escenas del campus dan paso a escritorios, cables de red y artículos de investigación.",
+      "si": "හිරු බැස යන කඳු ඉදිරියේ ආදර්ශ්ගේ ඡායාරූපය දිස් වෙයි. පසුව විද්‍යාලය, වැඩ මේස, ජාල කේබල් සහ පර්යේෂණ පත්‍රිකා පෙනෙයි.",
+      "bn": "সূর্যাস্তের পাহাড়ের সামনে আদর্শের ছবি। তারপর কলেজ, কাজের টেবিল, নেটওয়ার্কের তার আর গবেষণাপত্র দেখা যায়।",
+      "ar-KW": "صورة أدارش جدام الجبال وقت الغروب. عقبها نشوف الكلية ومكاتب الشغل ووايرات الشبكة وأوراق البحث.",
+      "ar": "تظهر صورة أدارش أمام جبال عند الغروب. تتعاقب مشاهد الحرم الجامعي ومكاتب العمل وأسلاك الشبكة وأوراق البحث.",
+      "am": "ፀሐይ ስትጠልቅ ከተራሮች ፊት የአዳርሽ ፎቶ ይታያል። ቀጥሎ ኮሌጅ፣ የሥራ ጠረጴዛዎች፣ ገመዶችና የምርምር ጽሑፎች ይታያሉ።",
+      "fa": "تصویر آدارش جلوی کوه‌ها هنگام غروب دیده می‌شود. بعد محوطهٔ دانشگاه، میزهای کار، کابل‌های شبکه و مقاله‌های پژوهشی می‌آیند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 97.443,
+        "end": 105.131,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 142.652,
+        "end": 153.18,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 136.987,
+        "end": 147.857,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 129.369,
+        "end": 139.21,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 82.22,
+        "end": 88.756,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 105.167,
+        "end": 113.824,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 138.303,
+        "end": 148.807,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 94.211,
+        "end": 101.285,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 166.863,
+        "end": 177.858,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 165.844,
+        "end": 178.373,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 155.773,
+        "end": 167.793,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 120.126,
+        "end": 130.322,
+        "voice": "Amir"
+      }
+    }
+  },
+  "orbit": {
+    "title": "Project Orbit",
+    "description": "Framed project artworks rotate in a circle against sunset mountains and a palm-lined coast.",
+    "narration": "",
+    "translations": {
+      "en": "Framed project artworks rotate in a circle against sunset mountains and a palm-lined coast.",
+      "ml": "സന്ധ്യയിലെ മലനിരകളും തെങ്ങുകൾ നിറഞ്ഞ കടൽത്തീരവും പിന്നിൽ. മുന്നിൽ ഫ്രെയിമുകളിലാക്കിയ പ്രോജക്ട് ചിത്രങ്ങൾ വട്ടത്തിൽ തിരിയുന്നു.",
+      "ta": "மாலை நேர மலைகளும் தென்னை மரங்கள் நிறைந்த கடற்கரையும் பின்னால் தெரிகின்றன. முன்புறம் திட்டங்களின் படச்சட்டங்கள் வட்டமாகச் சுழல்கின்றன.",
+      "hi": "सूर्यास्त के पहाड़ों और नारियल वाले समुद्र तट के सामने परियोजनाओं की तस्वीरें फ़्रेमों में गोल घूमती हैं।",
+      "ur": "غروبِ آفتاب کے پہاڑوں اور ساحل کے سامنے منصوبوں کی تصویریں اپنے فریموں میں دائرے میں گھومتی ہیں۔",
+      "es": "Las ilustraciones de los proyectos giran en marcos ante montañas al atardecer y una costa bordeada de palmeras.",
+      "si": "හිරු බැස යන කඳු සහ පොල් ගස් ඇති වෙරළ ඉදිරියේ රාමු කළ ව්‍යාපෘති රූප වටයකට කැරකෙයි.",
+      "bn": "সূর্যাস্তের পাহাড় আর নারকেলগাছে ঘেরা উপকূলের সামনে ফ্রেমে বাঁধানো প্রকল্পের ছবিগুলো বৃত্তাকারে ঘোরে।",
+      "ar-KW": "صور المشاريع تتحرك داخل براويز وتدور بحلقة. وراها جبال وقت الغروب وساحل عليه نخل.",
+      "ar": "تدور صور المشاريع داخل إطارات في حلقة أمام جبال الغروب وساحل تصطف عليه أشجار النخيل.",
+      "am": "ፀሐይ በምትጠልቅባቸው ተራሮችና ዘንባባ ባለበት ዳርቻ ፊት የፕሮጀክት ምስሎች በፍሬሞች ውስጥ ይዞራሉ።",
+      "fa": "قاب‌های تصاویر پروژه‌ها به شکل دایره می‌چرخند. پشت آن‌ها کوه‌ها هنگام غروب و ساحلی با نخل‌ها دیده می‌شود."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 105.611,
+        "end": 110.791,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 153.66,
+        "end": 161.985,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 148.337,
+        "end": 158.275,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 139.69,
+        "end": 147.994,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 89.236,
+        "end": 94.403,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 114.304,
+        "end": 120.273,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 149.287,
+        "end": 156.219,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 101.765,
+        "end": 107.193,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 178.338,
+        "end": 189.195,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 178.853,
+        "end": 189.639,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 168.273,
+        "end": 177.794,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 130.802,
+        "end": 140.222,
+        "voice": "Amir"
+      }
+    }
+  },
+  "landscape": {
+    "title": "3D Landscape Study",
+    "description": "The camera moves across misty mountain ridges at sunset, then along a rocky coast lined with palms.",
+    "narration": "",
+    "translations": {
+      "en": "The camera moves across misty mountain ridges at sunset, then along a rocky coast lined with palms.",
+      "ml": "സൂര്യാസ്തമയ സമയത്ത് മഞ്ഞുമൂടിയ മലനിരകൾക്കു മുകളിലൂടെ കാഴ്ച നീങ്ങുന്നു. പിന്നെ പാറകളും തെങ്ങുകളും നിറഞ്ഞ കടൽത്തീരത്തേക്കെത്തുന്നു.",
+      "ta": "மாலையில் பனிமூடிய மலைத்தொடர்கள் வழியே காட்சி நகர்கிறது. பின்னர் பாறைகளும் தென்னை மரங்களும் நிறைந்த கடற்கரையை அடைகிறது.",
+      "hi": "कैमरा सूर्यास्त में धुँधली पहाड़ियों से गुज़रता है। फिर नारियल के पेड़ों से घिरा चट्टानी समुद्र तट दिखता है।",
+      "ur": "منظر شام کی دھند میں لپٹے پہاڑوں پر سے گزرتا ہے اور پھر ناریل کے درختوں والے پتھریلے ساحل پر پہنچتا ہے۔",
+      "es": "La cámara recorre cumbres cubiertas de bruma al atardecer y después una costa rocosa flanqueada por palmeras.",
+      "si": "හිරු බැස යන විට මීදුමෙන් වැසුණු කඳු මතින් දර්ශනය ගමන් කරයි. ඉන් පසුව පොල් ගස් සහ ගල්පර ඇති වෙරළ දිස් වෙයි.",
+      "bn": "সূর্যাস্তে কুয়াশা ঢাকা পাহাড়ের ওপর দিয়ে দৃশ্য এগোয়। তারপর নারকেলগাছ ঘেরা পাথুরে সমুদ্রতট দেখা যায়।",
+      "ar-KW": "الكاميرا تمر فوق جبال عليها ضباب وقت الغروب. عقبها تنتقل لساحل صخري على طوله نخل.",
+      "ar": "تعبر الكاميرا جبالا ضبابية عند الغروب ثم تتحرك على امتداد ساحل صخري تحيط به أشجار النخيل.",
+      "am": "ካሜራው በምሽት ጭጋግ በሸፈናቸው ተራሮች ላይ ያልፋል። ከዚያ ዘንባባዎች ባሉበት ድንጋያማ የባሕር ዳርቻ ይጓዛል።",
+      "fa": "دوربین هنگام غروب از روی رشته‌کوه‌های مه‌آلود می‌گذرد و سپس در امتداد ساحلی سنگی با درختان نخل حرکت می‌کند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 111.271,
+        "end": 116.932,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 162.465,
+        "end": 171.08,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 158.755,
+        "end": 168.05,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 148.474,
+        "end": 156.811,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 94.883,
+        "end": 100.908,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 120.753,
+        "end": 126.331,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 156.699,
+        "end": 165.108,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 107.673,
+        "end": 114.5,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 189.675,
+        "end": 200.2,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 190.119,
+        "end": 201.149,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 178.274,
+        "end": 188.67,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 140.702,
+        "end": 149.406,
+        "voice": "Amir"
+      }
+    }
+  },
+  "original-project": {
+    "title": "Project teaser",
+    "description": "Vivid lime, violet and gold panels carry project titles and images. A starburst closes the sequence.",
+    "narration": "",
+    "translations": {
+      "en": "Vivid lime, violet and gold panels carry project titles and images. A starburst closes the sequence.",
+      "ml": "ഇളംപച്ച, വയലറ്റ്, സ്വർണം എന്നീ നിറങ്ങളിലുള്ള പേജുകളിൽ പ്രോജക്ടുകളുടെ പേരുകളും ചിത്രങ്ങളും മാറിവരുന്നു. ഒടുവിൽ നക്ഷത്രാകൃതിയിലുള്ള ഒരു രൂപം തെളിയുന്നു.",
+      "ta": "இளம்பச்சை, ஊதா, பொன் நிறத் தகடுகளில் திட்டங்களின் பெயர்களும் படங்களும் மாறுகின்றன. இறுதியில் நட்சத்திர வடிவம் தெரிகிறது.",
+      "hi": "हल्के हरे, बैंगनी और सुनहरे पटल पर परियोजनाओं के नाम और तस्वीरें बदलती हैं। अंत में तारे की आकृति दिखती है।",
+      "ur": "سبز، بنفشی اور سنہری تختیوں پر منصوبوں کے نام اور تصویریں بدلتی ہیں۔ آخر میں ستارے کی شکل ظاہر ہوتی ہے۔",
+      "es": "Los títulos y las imágenes de los proyectos pasan por paneles lima, violeta y dorados. Una estrella de muchas puntas cierra la secuencia.",
+      "si": "ලා කොළ, දම් සහ රන් පැහැති පුවරු මත ව්‍යාපෘති නම් සහ රූප මාරු වෙයි. අවසානයේ තරුවක හැඩයක් පෙනෙයි.",
+      "bn": "হালকা সবুজ, বেগুনি আর সোনালি পটভূমিতে প্রকল্পের নাম ও ছবি বদলায়। শেষে তারার মতো একটি আকৃতি দেখা যায়।",
+      "ar-KW": "ألوان خضرا وبنفسجية وذهبية ورا صور المشاريع وأساميها. بآخر اللقطة يطلع شكل نجمة.",
+      "ar": "تتعاقب عناوين المشاريع وصورها على لوحات خضراء وبنفسجية وذهبية. وينتهي المشهد بشكل نجمي.",
+      "am": "በአረንጓዴ፣ ሐምራዊና ወርቃማ ሰሌዳዎች ላይ የፕሮጀክቶቹ ስሞችና ምስሎች ይቀያየራሉ። መጨረሻ ላይ ኮከብ ይታያል።",
+      "fa": "نام و تصویر پروژه‌ها روی صفحه‌های سبز، بنفش و طلایی عوض می‌شوند. تصویر پایانی یک ستارهٔ چندپر است."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 117.412,
+        "end": 124.52,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 171.56,
+        "end": 182.301,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 168.53,
+        "end": 177.964,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 157.291,
+        "end": 166.363,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 101.388,
+        "end": 107.158,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 126.811,
+        "end": 134.543,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 165.588,
+        "end": 173.939,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 114.98,
+        "end": 122.623,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 200.68,
+        "end": 211.676,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 201.629,
+        "end": 213.066,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 189.15,
+        "end": 200.148,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 149.886,
+        "end": 157.239,
+        "voice": "Amir"
+      }
+    }
+  },
+  "original-loop": {
+    "title": "Dimensional loop",
+    "description": "A pearly, twisting ribbon turns against a dark background as small geometric shapes travel around it.",
+    "narration": "",
+    "translations": {
+      "en": "A pearly, twisting ribbon turns against a dark background as small geometric shapes travel around it.",
+      "ml": "ഇരുണ്ട പശ്ചാത്തലത്തിൽ മുത്തുനിറമുള്ള ഒരു നാട ചുരുളായി തിരിയുന്നു. ചെറിയ ജ്യാമിതീയ രൂപങ്ങൾ അതിനു ചുറ്റും നീങ്ങുന്നു.",
+      "ta": "இருண்ட பின்னணியில் முத்துப் போல் ஒளிரும் நாடா முறுக்கிச் சுழல்கிறது. அதைச் சுற்றிச் சிறிய வடிவங்கள் நகர்கின்றன.",
+      "hi": "अँधेरी पृष्ठभूमि पर मोती जैसी चमकती पट्टी मुड़ती और घूमती है। उसके आसपास छोटी आकृतियाँ चलती हैं।",
+      "ur": "گہرے پس منظر میں موتی جیسی چمکتی پٹی بل کھا کر گھومتی ہے۔ اس کے گرد چھوٹی شکلیں حرکت کرتی ہیں۔",
+      "es": "Una cinta nacarada gira y se retuerce sobre un fondo oscuro. Pequeñas formas geométricas se mueven a su alrededor.",
+      "si": "අඳුරු පසුබිමක මුතු පැහැති පටියක් ඇඹරෙමින් කැරකෙයි. කුඩා ජ්‍යාමිතික හැඩ ඒ වටා ගමන් කරයි.",
+      "bn": "অন্ধকার পটভূমিতে মুক্তোর মতো চকচকে একটি ফিতে পাক খেয়ে ঘোরে। ছোট ছোট জ্যামিতিক আকৃতি তার চারপাশে চলে।",
+      "ar-KW": "شريط يلمع مثل اللؤلؤ يلتف ويدور على خلفية غامجة. حواليه أشكال صغيرة تتحرك.",
+      "ar": "يلتف شريط لؤلؤي ويدور أمام خلفية داكنة. تدور حوله أشكال هندسية صغيرة.",
+      "am": "እንቁ የሚመስል የሚያብረቀርቅ ሪባን በጨለማ ዳራ ላይ እየተጠማዘዘ ይዞራል። ትናንሽ ቅርጾች በዙሪያው ይንቀሳቀሳሉ።",
+      "fa": "نواری با درخشش مروارید روی پس‌زمینه‌ای تیره تاب می‌خورد و می‌چرخد. شکل‌های هندسی کوچک دور آن حرکت می‌کنند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 125.0,
+        "end": 130.739,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 182.781,
+        "end": 191.002,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 178.444,
+        "end": 186.105,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 166.843,
+        "end": 175.874,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 107.638,
+        "end": 113.037,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 135.023,
+        "end": 141.473,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 174.419,
+        "end": 182.0,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 123.103,
+        "end": 129.38,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 212.156,
+        "end": 222.095,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 213.546,
+        "end": 223.288,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 200.628,
+        "end": 211.514,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 157.719,
+        "end": 166.021,
+        "voice": "Amir"
+      }
+    }
+  },
+  "premiere-teaser": {
+    "title": "Five projects in motion",
+    "description": "Five demonstrations follow. Faces blur, manuscript marks separate, one reader opens an envelope, code gains an evidence record, and one transfer produces three views.",
+    "narration": "",
+    "translations": {
+      "en": "Five demonstrations follow. Faces blur, manuscript marks separate, one reader opens an envelope, code gains an evidence record, and one transfer produces three views.",
+      "ml": "അഞ്ചു പ്രദർശനങ്ങൾ. മുഖങ്ങൾ മങ്ങുന്നു, താളിയോലയിലെ അക്ഷരങ്ങൾ വേർതിരിയുന്നു, ഒരാൾ മാത്രം കവർ തുറക്കുന്നു. കോഡിനൊപ്പം തെളിവും ഒരു പണമിടപാടിന് മൂന്ന് വ്യത്യസ്ത വിശദീകരണങ്ങളും കാണാം.",
+      "ta": "முகங்கள் மங்குகின்றன. ஓலை எழுத்துகள் பிரிகின்றன. ஒருவர் மட்டும் உறையைத் திறக்கிறார். நிரலின் ஆதாரமும் ஒரு பரிவர்த்தனையின் மூன்று பார்வைகளும் தோன்றுகின்றன.",
+      "hi": "चेहरे धुँधले होते हैं, अक्षर अलग होते हैं और एक पाठक लिफ़ाफ़ा खोलता है। फिर कोड का प्रमाण और एक लेनदेन के तीन रूप दिखते हैं।",
+      "ur": "چہرے دھندلے ہوتے ہیں، حروف الگ دکھتے ہیں اور ایک قاری لفافہ کھولتا ہے۔ پھر کوڈ کا ثبوت اور ایک لین دین کے تین رخ نظر آتے ہیں۔",
+      "es": "Se difuminan rostros, se separan signos manuscritos y solo un lector abre un sobre. Después, un código se vincula a una evidencia y una transferencia se explica de tres maneras.",
+      "si": "මුහුණු බොඳ වෙයි. පුස්කොළයේ අකුරු වෙන් වෙයි. එක් අයෙකු ලියුම් කවරය විවෘත කරයි. පසුව කේතයට අදාළ සාක්ෂිය සහ එකම ගනුදෙනුවේ දර්ශන තුනක් පෙනෙයි.",
+      "bn": "মুখগুলি ঝাপসা হয়, পুঁথির অক্ষরগুলি আলাদা হয়, একজনই খাম খুলতে পারেন। তারপর কোডের প্রমাণ আর একই লেনদেনের তিনটি রূপ দেখা যায়।",
+      "ar-KW": "الوجوه تصير مغبشة، وحروف المخطوط تنفصل، وواحد بس يفتح الظرف. عقبها يطلع دليل الكود وثلاث طرق تعرض نفس الحوالة.",
+      "ar": "تتموه الوجوه وتنفصل علامات المخطوط ويفتح قارئ واحد ظرفا. ثم يظهر سجل لأدلة الكود وثلاث طرق لعرض حوالة واحدة.",
+      "am": "ፊቶች ይደበዝዛሉ፣ የጽሑፍ ምልክቶች ይለያያሉ፣ አንድ አንባቢ ፖስታ ይከፍታል። ከዚያ የኮድ ማስረጃና የአንድ ዝውውር ሦስት ገጽታዎች ይታያሉ።",
+      "fa": "چهره‌ها محو و حروف نسخه جدا می‌شوند. یک نفر پاکت را باز می‌کند. سپس مدرک مربوط به کد و سه نمای یک تراکنش ظاهر می‌شوند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 131.219,
+        "end": 141.689,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 191.482,
+        "end": 204.555,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 186.585,
+        "end": 197.971,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 176.354,
+        "end": 186.62,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 113.517,
+        "end": 120.053,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 141.953,
+        "end": 152.024,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 182.48,
+        "end": 194.524,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 129.86,
+        "end": 138.099,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 222.575,
+        "end": 237.471,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 223.768,
+        "end": 238.166,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 211.994,
+        "end": 225.133,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 166.501,
+        "end": 176.179,
+        "voice": "Amir"
+      }
+    }
+  },
+  "premiere-loop": {
+    "title": "Chroma Orrery",
+    "description": "Coloured glass panels unfold around a brass hub. Two slender arms turn in opposite directions in a sunlit gallery.",
+    "narration": "",
+    "translations": {
+      "en": "Coloured glass panels unfold around a brass hub. Two slender arms turn in opposite directions in a sunlit gallery.",
+      "ml": "പ്രകാശം വീഴുന്ന ഗാലറിയിൽ പിച്ചള അച്ചിനു ചുറ്റും നിറമുള്ള ചില്ലുകൾ വിടരുന്നു. മെലിഞ്ഞ രണ്ടു കൈകൾ പരസ്പരം എതിർദിശകളിൽ തിരിയുന്നു.",
+      "ta": "ஒளி நிறைந்த காட்சியகத்தில் பித்தளை அச்சைச் சுற்றி வண்ணக் கண்ணாடிகள் விரிகின்றன. இரண்டு மெல்லிய கரங்கள் எதிரெதிராகச் சுழல்கின்றன.",
+      "hi": "धूप भरी गैलरी में पीतल की धुरी के चारों ओर रंगीन काँच खुलता है। दो पतली भुजाएँ उलटी दिशाओं में घूमती हैं।",
+      "ur": "روشن گیلری میں پیتل کی دھری کے گرد رنگین شیشے کھلتے ہیں۔ دو پتلے بازو مخالف سمتوں میں گھومتے ہیں۔",
+      "es": "Paneles de vidrio de colores se despliegan alrededor de un eje de latón. Dos brazos delgados giran en sentidos opuestos en una galería iluminada por el sol.",
+      "si": "හිරු එළිය වැටෙන ශාලාවක පිත්තල අක්ෂයක් වටා පාට වීදුරු තහඩු විහිදෙයි. සිහින් බාහු දෙකක් ප්‍රතිවිරුද්ධ දිශාවලට කැරකෙයි.",
+      "bn": "রোদভরা গ্যালারিতে পিতলের অক্ষের চারপাশে রঙিন কাচের পাতগুলি খুলে যায়। দুটি সরু বাহু বিপরীত দিকে ঘোরে।",
+      "ar-KW": "قطع قزاز ملون تتفتح حول محور من النحاس. بالقاعة اللي داخله فيها الشمس، ذراعين خفاف يدورون عكس بعض.",
+      "ar": "تتفتح ألواح من الزجاج الملون حول محور نحاسي. وفي قاعة مضاءة بالشمس تدور ذراعان رفيعتان في اتجاهين متعاكسين.",
+      "am": "ፀሐይ በገባበት አዳራሽ ባለቀለም መስታወቶች በናስ ዘንግ ዙሪያ ይዘረጋሉ። ሁለት ቀጫጭን ክንዶች በተቃራኒ አቅጣጫ ይዞራሉ።",
+      "fa": "صفحه‌های شیشه‌ای رنگی دور محوری برنجی باز می‌شوند. در تالاری آفتاب‌گیر دو بازوی باریک در جهت‌های مخالف می‌چرخند."
+    },
+    "audio": {
+      "en": {
+        "src": "assets/descriptions/en.mp3",
+        "start": 142.169,
+        "end": 148.813,
+        "voice": "Lessac"
+      },
+      "ml": {
+        "src": "assets/descriptions/ml.mp3",
+        "start": 205.035,
+        "end": 214.075,
+        "voice": "Meera"
+      },
+      "ta": {
+        "src": "assets/descriptions/ta.mp3",
+        "start": 198.451,
+        "end": 207.809,
+        "voice": "eSpeak NG"
+      },
+      "hi": {
+        "src": "assets/descriptions/hi.mp3",
+        "start": 187.1,
+        "end": 196.59,
+        "voice": "Priyamvada"
+      },
+      "ur": {
+        "src": "assets/descriptions/ur.mp3",
+        "start": 120.533,
+        "end": 125.7,
+        "voice": "Fasih"
+      },
+      "es": {
+        "src": "assets/descriptions/es.mp3",
+        "start": 152.504,
+        "end": 160.629,
+        "voice": "Dave"
+      },
+      "si": {
+        "src": "assets/descriptions/si.mp3",
+        "start": 195.004,
+        "end": 204.863,
+        "voice": "eSpeak NG"
+      },
+      "bn": {
+        "src": "assets/descriptions/bn.mp3",
+        "start": 138.579,
+        "end": 145.07,
+        "voice": "Bengali multi-speaker"
+      },
+      "ar-KW": {
+        "src": "assets/descriptions/ar-KW.mp3",
+        "start": 237.951,
+        "end": 251.194,
+        "voice": "Kareem (Arabic voice reading Kuwaiti text)"
+      },
+      "ar": {
+        "src": "assets/descriptions/ar.mp3",
+        "start": 238.646,
+        "end": 252.707,
+        "voice": "Kareem"
+      },
+      "am": {
+        "src": "assets/descriptions/am.mp3",
+        "start": 225.613,
+        "end": 237.359,
+        "voice": "eSpeak NG"
+      },
+      "fa": {
+        "src": "assets/descriptions/fa.mp3",
+        "start": 176.659,
+        "end": 186.32,
+        "voice": "Amir"
+      }
+    }
+  }
+}
