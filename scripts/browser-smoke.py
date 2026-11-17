@@ -1,4 +1,6 @@
 """End-to-end checks for the public portfolio, its links, and saved preferences."""
+import re
+
 from playwright.sync_api import expect
 from browser_fixture import ROOT, run_suite
 
@@ -119,8 +121,9 @@ with run_suite('portfolio') as (browser, test):
         page.evaluate('window.scrollTo({top:0,behavior:"instant"})')
         test.capture(page, 'portfolio-mobile')
 
-        studio = page.locator('a[href="audio-studio.html"]:visible').first
+        studio = page.get_by_role('link', name=re.compile(r'^Audio studio\b', re.IGNORECASE)).first
         studio.click()
+        expect(page).to_have_url(re.compile('^' + re.escape(test.base + 'audio-studio.html') + r'(?:[?#].*)?$'))
         expect(page.locator('#sourceText')).to_be_visible()
         expect(page.locator('#output')).to_be_visible()
         test.layout(page, 'audio studio / mobile')
