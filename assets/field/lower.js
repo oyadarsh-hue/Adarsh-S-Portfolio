@@ -17,7 +17,7 @@
 })();
 
 (() => {
-  const frames = [...document.querySelectorAll('.lo-scene-frame')];
+  const frames = [...document.querySelectorAll('.lo-scene-frame, .lo-title')];
   if (!frames.length || !('IntersectionObserver' in window)) return;
 
   const visible = new Set();
@@ -31,8 +31,13 @@
       const progress = Math.max(-1, Math.min(1,
         (innerHeight - bounds.height - 2 * bounds.top) / (innerHeight + bounds.height)
       ));
-      const distance = Math.min(42, bounds.height * .065);
-      frame.style.setProperty('--lo-pan', (still ? 0 : progress * distance).toFixed(1) + 'px');
+      if (frame.classList.contains('lo-title')) {
+        const drift = still ? 0 : (progress + 1) * Math.min(7, innerWidth * .009);
+        frame.style.setProperty('--lo-type-drift', drift.toFixed(1) + 'px');
+      } else {
+        const distance = Math.min(42, bounds.height * .065);
+        frame.style.setProperty('--lo-pan', (still ? 0 : progress * distance).toFixed(1) + 'px');
+      }
     }
   }
   function schedulePhotoUpdate() {
@@ -40,6 +45,7 @@
   }
   const viewport = new IntersectionObserver(entries => {
     for (const {target, isIntersecting} of entries) {
+      if (target.classList.contains('lo-title')) target.classList.toggle('lo-type-run', isIntersecting);
       if (isIntersecting) visible.add(target);
       else visible.delete(target);
     }

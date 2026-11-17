@@ -76,6 +76,37 @@
     });
     document.querySelectorAll("main h1, main h2, .role-card, .evidence-grid > div").forEach(el => entrances.observe(el));
   }
+  const chapterNav = document.querySelector(".case-jump, .reader-jump, .tool-jump");
+  if (chapterNav) {
+    const chapters = Array.from(chapterNav.querySelectorAll('a[href^="#"]'), link => ({
+      link,
+      section: document.getElementById(link.hash.slice(1))
+    })).filter(chapter => chapter.section);
+    let current = null;
+    let pending = false;
+    function markChapter() {
+      pending = false;
+      const threshold = Math.min(200, innerHeight * .24);
+      let active = null;
+      for (const chapter of chapters) {
+        if (chapter.section.getBoundingClientRect().top <= threshold) active = chapter.link;
+      }
+      if (scrollY + innerHeight >= document.documentElement.scrollHeight - 3) active = chapters.at(-1)?.link || active;
+      if (current === active) return;
+      current?.removeAttribute("aria-current");
+      active?.setAttribute("aria-current", "location");
+      current = active;
+    }
+    function queueChapter() {
+      if (!pending) {
+        pending = true;
+        requestAnimationFrame(markChapter);
+      }
+    }
+    addEventListener("scroll", queueChapter, {passive:true});
+    addEventListener("resize", queueChapter, {passive:true});
+    markChapter();
+  }
   const scene = document.querySelector(".interior-scene");
   if (scene && "IntersectionObserver" in window) {
     const stage = scene.parentElement;

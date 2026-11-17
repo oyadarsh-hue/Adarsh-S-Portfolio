@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.230 --> 00:00:02.670
+AssentTag starts with a group photo.
+
+00:00:02.670 --> 00:00:07.242
+OpenCV finds faces and Dlib compares
+them with enrolled identities.
+
+00:00:07.598 --> 00:00:09.789
+A face match still needs permission.
+
+00:00:09.789 --> 00:00:13.266
+The Django app blurs the face until it
+has consent.
+
+00:00:13.266 --> 00:00:14.884
+MySQL stores the records.
+
+00:00:15.265 --> 00:00:18.306
+Next, evaluate missed faces and masking
+failures
+
+00:00:18.306 --> 00:00:21.255
+on a representative, consented dataset.

@@ -1,0 +1,31 @@
+WEBVTT
+
+00:00:00.280 --> 00:00:02.956
+His published paper asks how software can read
+
+00:00:02.956 --> 00:00:05.749
+inkless writing carved into damaged palm
+leaves.
+
+00:00:05.749 --> 00:00:08.865
+It describes checking the leaf's surface and
+using adaptive
+
+00:00:08.865 --> 00:00:11.717
+thresholding to separate faint grooves from
+the grain.
+
+00:00:12.322 --> 00:00:15.540
+The paper explores transformer-based
+transcription.
+
+00:00:15.540 --> 00:00:20.020
+The public prototype uses geometric features
+and a Malayalam word list.
+
+00:00:20.020 --> 00:00:23.169
+A next step is to test a trained recognizer on
+
+00:00:23.169 --> 00:00:26.592
+held-out manuscripts and measure character
+errors.

@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.230 --> 00:00:03.210
+On a palm leaf, faint writing can
+resemble grain.
+
+00:00:03.210 --> 00:00:06.996
+EpigraphiX-AI uses adaptive thresholds
+to separate the two.
+
+00:00:07.349 --> 00:00:10.882
+Python and OpenCV isolate connected
+marks as glyphs.
+
+00:00:10.882 --> 00:00:14.841
+A Malayalam lexicon helps review likely
+character sequences.
+
+00:00:15.182 --> 00:00:17.858
+Next, connect a trained recognition
+model
+
+00:00:17.858 --> 00:00:21.575
+and measure character and word errors
+on unseen manuscripts.

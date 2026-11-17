@@ -1,0 +1,23 @@
+WEBVTT
+
+00:00:00.230 --> 00:00:01.738
+QuietNote tackles a race:
+
+00:00:01.738 --> 00:00:04.397
+two readers opening a one-time link
+together.
+
+00:00:04.765 --> 00:00:07.281
+Next.js and Hono handle the request.
+
+00:00:07.281 --> 00:00:11.456
+One conditional PostgreSQL update lets
+a single reader claim the note.
+
+00:00:11.456 --> 00:00:14.574
+Owners can also set expiry or revoke
+access.
+
+00:00:14.931 --> 00:00:19.501
+Next, add retention controls and test
+the counters under heavier traffic.

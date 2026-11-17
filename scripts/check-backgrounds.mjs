@@ -87,24 +87,25 @@ function seconds(stamp) {
   return stamp.split(':').reduce((total, part) => total * 60 + Number(part), 0);
 }
 
-function validateCaptions(file, duration) {
-  const text = readFileSync(root + 'assets/field/' + file, 'utf8').replace(/\r/g, '');
+function validateCaptions(file, duration, {directory = 'field', clip = false} = {}) {
+  const text = readFileSync(root + 'assets/' + directory + '/' + file, 'utf8').replace(/\r/g, '');
   assert(/^WEBVTT(?:\s|$)/.test(text), file + ' has a WebVTT header');
   const blocks = text.trim().split(/\n\s*\n/).filter(block => block.includes('-->'));
-  assert(blocks.length > 1, file + ' contains timed speech');
+  assert(blocks.length >= (clip ? 1 : 2), file + ' contains timed speech');
   let previous = -1;
   for (const block of blocks) {
     const match = block.match(/^(?:.*\n)?([\d:.]+) --> ([\d:.]+)[^\n]*\n([\s\S]+)$/);
     assert(match && match[3].trim(), file + ' has a cue without time or content');
     const start = seconds(match[1]);
     const end = seconds(match[2]);
+    if (clip && previous === -1) assert(start < 1.5, file + ' first cue must be on the clip’s own timeline');
     assert(start >= previous && start >= 0 && start < end && end <= duration + .25, file + ' has invalid cue times');
     previous = start;
   }
   return blocks.length;
 }
 
-function inspectFilm(bytes, label, width, height) {
+function inspectFilm(bytes, label, width, height, {minDuration = 60, maxDuration = 120.1, narrated = true} = {}) {
   const top = boxes(bytes);
   const moov = top.find(box => box.type === 'moov');
   const mdat = top.find(box => box.type === 'mdat');
@@ -113,16 +114,18 @@ function inspectFilm(bytes, label, width, height) {
   const video = tracks.find(track => track.codec === 'avc1');
   const audio = tracks.find(track => track.codec === 'mp4a');
   assert(video && video.width === width && video.height === height, label + ' has incorrect H.264 dimensions');
-  assert(audio && audio.bitrate > 0, label + ' is missing its encoded AAC audio');
-  assert(video.duration >= 60 && video.duration <= 120.1, label + ' should run one to two minutes');
-  assert(Math.abs(video.duration - audio.duration) < 1, label + ' has mismatched audio and video duration');
+  if (narrated) {
+    assert(audio && audio.bitrate > 0, label + ' is missing its encoded AAC audio');
+    assert(Math.abs(video.duration - audio.duration) < 1, label + ' has mismatched audio and video duration');
+  }
+  assert(video.duration >= minDuration && video.duration <= maxDuration, label + ' has the wrong duration');
   console.log(label + ': ' + width + '×' + height + ', ' + video.duration.toFixed(2) + 's, video ' +
-    Math.round(video.bitrate / 1000) + ' kb/s, AAC ' + Math.round(audio.bitrate / 1000) + ' kb/s');
+    Math.round(video.bitrate / 1000) + ' kb/s' + (audio ? ', AAC ' + Math.round(audio.bitrate / 1000) + ' kb/s' : ''));
   return video.duration;
 }
 
-function readMediaFile(name) {
-  const bytes = readFileSync(root + 'assets/field/' + name);
+function readMediaFile(name, directory = 'field') {
+  const bytes = readFileSync(root + 'assets/' + directory + '/' + name);
   assert(bytes.length > 0 && bytes.length < 100 * 1024 * 1024, name + ' must fit in one GitHub file');
   return bytes;
 }
@@ -131,7 +134,7 @@ for (const name of films) {
   const meta = filmInfo[name];
   assert(Array.isArray(meta.parts) && meta.parts.length > 1 && new Set(meta.parts).size === meta.parts.length,
     name + ' requires an ordered list of unique master parts');
-  const parts = meta.parts.map(readMediaFile);
+  const parts = meta.parts.map(name => readMediaFile(name));
   const master = Buffer.concat(parts);
   assert.equal(master.length, meta.masterBytes, name + ' assembled byte count mismatch');
   const hash = createHash('sha256').update(master).digest('hex');
@@ -155,4 +158,44 @@ for (const name of films) {
   const cues = validateCaptions(meta.captions, duration);
   console.log(name + ': ' + cues + ' English caption cues');
 }
-console.log('PASS: photographic assets, pixel dimensions, narrated streams, bitrates, duration and captions.');
+for (const [name, seconds] of [['film', 15], ['landscape', 9]]) {
+  for (const [suffix, width, height] of [['-720', 1280, 720], ['', 3840, 2160]]) {
+    const file = name + suffix + '.mp4';
+    inspectFilm(readMediaFile(file), file, width, height,
+      {minDuration: seconds-.1, maxDuration: seconds+.1, narrated: false});
+  }
+}
+const archive = [
+  ['adarsh-project-reel.mp4', 16, 'd637a76f51caf899c1ab00cedabeaca952ca62897c33bb02973f6cf116418af5'],
+  ['dimensional-loop.mp4', 8, '61c6a7ebfeb8a51340f22d329ce93b1d6dd4dd6d3a76d80348443f5174a5ac2f'],
+];
+for (const [name, length, digest] of archive) {
+  const bytes = readMediaFile(name, 'video');
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),digest,name + ' original should stay intact');
+  inspectFilm(bytes,name,960,540,{minDuration:length-.1,maxDuration:length+.1,narrated:false});
+}
+const clipNames = ['assenttag', 'epigraphix-ai', 'aegisforge-x', 'deciphera', 'quietnote',
+  'mca', 'bsc', 'hse', 'sslc', 'bluegen', 'skybrisk', 'codtech', 'publication'];
+const videoHashes = new Set();
+const captionHashes = new Set();
+for (const name of clipNames) {
+  let duration;
+  for (const [suffix, width, height] of [['-hd', 1280, 720], ['', 3840, 2160]]) {
+    const file = name + suffix + '.mp4';
+    const bytes = readMediaFile(file, 'clips');
+    const hash = createHash('sha256').update(bytes).digest('hex');
+    assert(!videoHashes.has(hash), file + ' duplicates another clip');
+    videoHashes.add(hash);
+    const length = inspectFilm(bytes, file, width, height, {minDuration: 2, maxDuration: 120.1});
+    if (duration) assert(Math.abs(duration - length) < .2, file + ' duration differs by quality');
+    duration = length;
+  }
+  const captions = name + '.vtt';
+  validateCaptions(captions, duration, {directory: 'clips', clip: true});
+  const hash = createHash('sha256').update(readMediaFile(captions, 'clips')).digest('hex');
+  assert(!captionHashes.has(hash), name + ' duplicates another clip’s transcript');
+  captionHashes.add(hash);
+  const [width, height] = dimensions(readMediaFile(name + '.webp', 'clips'));
+  assert(width >= 640 && width > height, name + ' needs a landscape poster');
+}
+console.log('PASS: original full masters, compact 4K files, independent narrated clips, audio, timings and local captions.');

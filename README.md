@@ -2,9 +2,11 @@
 
 ## Current visual design
 
-The homepage presents the original portrait in a large, animated rectangular mount on mobile and desktop. Scroll-linked studio, archive, mountain and coastal photographs frame the case studies and career story. The theme switch and motion controls persist across pages.
+The homepage gives each project, internship, education stage and paper its own film frame. Each of the thirteen section films has an independent UHD MP4, 720p MP4, local captions and poster under `assets/clips/`. The five dedicated project pages also link and play their respective walkthrough. Only the selected film plays sound.
 
-The film player features two narrated productions. *The projects* explains how all five applications work, their technologies and possible improvements. *My journey* follows four stages of education, three internships and the EpigraphiX-AI publication. Each film has chapter navigation, an English caption track, a readable transcript, mobile HD and downloadable 3840 × 2160 UHD H.264/AAC versions. Playback starts on request. Choosing Ultra HD loads the full-quality master in verified byte parts, with a smaller progressive 4K file available for direct downloads and fallback playback. Media and local typefaces live in `assets/field/`.
+The screening room presents *The projects* and *My journey* as two separate narrated productions. Four earlier films have independent archive frames, including the original 540p teaser and dimensional loop. Each supported frame has its own quality selector. The two longer documentaries retain their downloadable and full-detail 4K editions and their chapter navigation and transcripts.
+
+The portrait sits over three selectable Kerala-inspired photographs. Headings and a horizontal discipline strip move with native scrolling, with a pause control and system reduced-motion support. LinkedIn, GitHub, Gmail and telephone contact buttons link to the supplied accounts and contact details. Asset sources are in `ICON-LICENSES.txt`.
 
 A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible with GitHub Pages at **https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/**.
 

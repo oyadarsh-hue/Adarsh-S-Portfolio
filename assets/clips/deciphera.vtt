@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.230 --> 00:00:03.721
+Deciphera is a browser simulator for
+Bitcoin transfers.
+
+00:00:04.098 --> 00:00:06.671
+JavaScript models an off-chain
+transaction,
+
+00:00:06.671 --> 00:00:09.606
+then turns the same event into three
+explanations:
+
+00:00:09.606 --> 00:00:13.210
+one for a client, one for an auditor,
+and one for a technical reader.
+
+00:00:13.557 --> 00:00:16.183
+Next, add tests that compare each
+narrative
+
+00:00:16.183 --> 00:00:18.962
+with an explicitly defined transaction
+state.

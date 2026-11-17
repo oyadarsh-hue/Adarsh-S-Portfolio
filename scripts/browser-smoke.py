@@ -95,6 +95,16 @@ with run_suite('portfolio') as (browser, test):
             photo.evaluate('i => i.decode()')
             test.check(photo.evaluate('i => i.naturalWidth >= 640 && i.getBoundingClientRect().height >= 120'),
                        f'Visible photographic background: {selector}')
+        handles = [('gmail','mailto:oyadarsh@gmail.com'), ('phone','tel:+919061448229'),
+                   ('github','https://github.com/oyadarsh-hue'), ('linkedin','https://www.linkedin.com/in/')]
+        for icon, destination in handles:
+            link = page.locator(f'#contact a[href^="{destination}"]').first
+            image = link.locator(f'img[src$="/{icon}.svg"]')
+            image.scroll_into_view_if_needed()
+            image.evaluate('i=>i.decode()')
+            test.check(image.evaluate('i=>i.naturalWidth>0 && i.getBoundingClientRect().width>=16')
+                       and bool(link.get_attribute('aria-label') or link.inner_text().strip()),
+                       f'Contact {icon} icon loads and has an accessible link')
         page.locator('#menuButton').click()
         expect(page.locator('#menuButton')).to_have_attribute('aria-expanded', 'true')
         page.keyboard.press('Escape')
@@ -120,10 +130,12 @@ with run_suite('portfolio') as (browser, test):
         expect(page.locator('[data-project-tags]:visible')).to_have_count(5)
         expect(page.locator('[data-lo-category]:visible')).to_have_count(6)
         test.check(page.locator('a[href$=".pdf"]:visible').count() > 0, 'CV is reachable without JavaScript')
-        test.check(page.locator('#portfolioFilm').evaluate("v => v.controls && (v.getAttribute('src') || v.querySelector('source[src]')) !== null"),
-                   'Native video controls and source work without JavaScript')
-        expect(page.locator('#showreel a[href="assets/field/journey-v2.mp4"]')).to_be_visible()
-        test.check(True, 'Journey film also has a native no-JavaScript playback link')
+        videos = page.locator('.screen-card video')
+        test.check(videos.count() == 19 and videos.evaluate_all("""vs=>vs.every(v=>
+            v.playsInline && v.controls && (v.getAttribute('src') || v.querySelector('source[src]'))
+        )"""), 'All nineteen native videos work without JavaScript')
+        expect(page.locator('#journey-film a[href="assets/field/journey-v2.mp4"]')).to_be_visible()
+        test.check(True, 'Journey film has its own native UHD link without JavaScript')
         test.layout(page, 'no JavaScript')
     with browser.new_context(color_scheme='dark', reduced_motion='reduce') as context:
         context.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw Error('blocked')}})")

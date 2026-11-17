@@ -1,0 +1,15 @@
+WEBVTT
+
+00:00:00.280 --> 00:00:03.422
+At The Skybrisk, he built React components for
+
+00:00:03.422 --> 00:00:06.701
+product catalogs, purchase orders, and
+invoices.
+
+00:00:06.701 --> 00:00:11.106
+He connected them to APIs, managed state with
+Redux Toolkit,
+
+00:00:11.106 --> 00:00:13.308
+and added PDF invoice exports.

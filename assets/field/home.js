@@ -51,19 +51,39 @@
   mobileMenu.addEventListener('change', () => setMenu(false));
 
   const scenes = [...document.querySelectorAll('.hero-image')];
-  const sceneNames = ['WESTERN GHATS', 'MALABAR COAST'];
+  const sceneNames = ['MONSOON VALLEY','WESTERN GHATS','MALABAR COAST'];
   let activeScene = 0;
   document.querySelectorAll('[data-scene-step]').forEach(button => {
     button.addEventListener('click', () => {
       activeScene = (activeScene + Number(button.dataset.sceneStep) + scenes.length) % scenes.length;
       scenes.forEach((image, i) => { image.dataset.active = String(activeScene === i); });
-      byId('sceneName').textContent = '0' + (activeScene + 1) + ' / 02   ' + sceneNames[activeScene];
+      byId('sceneName').textContent = '0' + (activeScene + 1) + ' / 0' + scenes.length + '   ' + sceneNames[activeScene];
     });
   });
 
   const hero = document.querySelector('.hero');
   const watches = new Set();
   const frames = [...document.querySelectorAll('.card-image,.scene-window')];
+  const typeFrames = new Set();
+  const headings = document.querySelectorAll('.work-cover h2, .reel-section h2, .archive-head h3');
+  for (const heading of headings) {
+    heading.classList.add('type-anchor','scroll-type');
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) if (walker.currentNode.textContent.trim()) nodes.push(walker.currentNode);
+    let count = 0;
+    for (const text of nodes) {
+      const words = text.textContent.split(/(\s+)/);
+      text.replaceWith(...words.map(word => {
+        if (!word.trim()) return document.createTextNode(word);
+        const span = document.createElement('span');
+        span.className = 'word-unit';
+        span.style.setProperty('--factor',String(.78 + .12 * (count++ % 4)));
+        span.textContent = word;
+        return span;
+      }));
+    }
+  }
   let scheduled = false;
   function paint() {
     scheduled = false;
@@ -73,6 +93,19 @@
     hero.style.setProperty('--scene-turn', (offset * .14).toFixed(2) + 'deg');
     hero.style.setProperty('--print-turn', (-5 + Math.min(8, offset * .025)).toFixed(2) + 'deg');
     hero.style.setProperty('--title-slide', Math.min(18, offset * .06).toFixed(2) + 'px');
+    for (const anchor of typeFrames) {
+      const box = anchor.getBoundingClientRect();
+      const progress = Math.max(0,Math.min(1,(innerHeight - box.top) / (innerHeight + box.height)));
+      const movement = still ? 0 : Math.max(-1,Math.min(1,(.54-progress)*2));
+      anchor.style.setProperty('--type-progress', progress.toFixed(4));
+      anchor.style.setProperty('--type-rise', (movement * 39).toFixed(2)+'px');
+      anchor.style.setProperty('--type-turn', (movement * -7).toFixed(2)+'deg');
+      if (anchor.classList.contains('type-ribbon')) {
+        const strip = anchor.querySelector('.scroll-type');
+        const travel = Math.max(0, strip.scrollWidth - anchor.clientWidth + 32);
+        anchor.style.setProperty('--strip-x', (still ? 0 : -travel * progress).toFixed(2)+'px');
+      }
+    }
     watches.forEach(frame => {
       // The frame stays in normal flow. Only its child photograph is translated.
       const box = frame.getBoundingClientRect();
@@ -104,6 +137,14 @@
       });
       queuePaint();
     });
+    const visibleType = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) typeFrames.add(entry.target);
+        else typeFrames.delete(entry.target);
+      });
+      queuePaint();
+    },{rootMargin:'100px 0px'});
+    document.querySelectorAll('.type-anchor').forEach(el=>visibleType.observe(el));
     frames.forEach(frame => images.observe(frame));
   }
   const pointerPortrait = matchMedia('(hover: hover) and (pointer: fine)');
@@ -154,149 +195,4 @@
   });
   updateGrid();
 
-  const film = byId('portfolioFilm');
-  const quality = byId('filmQuality');
-  const filmStatus = byId('filmStatus');
-  const films = JSON.parse(byId('filmInfo').textContent);
-  const base = 'assets/field/';
-  const choices = [...document.querySelectorAll('[data-film]')];
-  const chapters = byId('filmChapters');
-  const captionTrack = byId('filmCaptions');
-  let current = 'projects';
-  let pendingTime = null;
-  let captionMode = captionTrack.track.mode;
-  const stamp = seconds => Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2,'0');
-  function highlight() {
-    const position = pendingTime ?? film.currentTime;
-    const items = films[current].chapters;
-    const index = items.findLastIndex(item => position + .04 >= item.start);
-    Array.from(chapters.children).forEach((button,i) => {
-      if (i === index) button.setAttribute('aria-current', 'true');
-      else button.removeAttribute('aria-current');
-    });
-  }
-  function writeProgram() {
-    const entry = films[current];
-    byId('programTitle').textContent = entry.title;
-    byId('filmTime').textContent = stamp(Math.round(entry.duration));
-    byId('filmDownload').setAttribute('href',base + entry['4k']);
-    film.setAttribute('aria-label',entry.title + ', with English narration');
-    choices.forEach(button => button.setAttribute('aria-pressed',String(button.dataset.film === current)));
-    chapters.replaceChildren(...entry.chapters.map(item => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.dataset.start = item.start;
-      const time = document.createElement('time');
-      time.textContent = stamp(item.start);
-      button.append(time,document.createTextNode(item.title));
-      return button;
-    }));
-    byId('filmTranscriptText').replaceChildren(...entry.transcript.map(text => {
-      const paragraph = document.createElement('p');
-      paragraph.textContent = text;
-      return paragraph;
-    }));
-    highlight();
-  }
-  function start() {
-    film.play().catch(() => { /* Native controls remain available if playback needs another gesture. */ });
-  }
-  let masterRequest = null;
-  let cachedMaster = null;
-  const download = byId('filmDownload');
-
-  function loadVideo(src, position, playing, preload) {
-    pendingTime = position;
-    film.src = src;
-    film.preload = preload;
-    film.load();
-    if (playing) start();
-  }
-
-  async function prepareMaster(id, request) {
-    const entry = films[id];
-    try {
-      const pieces = await Promise.all(entry.parts.map(async name => {
-        const response = await fetch(base + name, {signal:request.signal});
-        if (!response.ok) throw new Error('Film part unavailable');
-        return response.blob();
-      }));
-      if (request.signal.aborted) return;
-      const movie = new Blob(pieces, {type:'video/mp4'});
-      if (movie.size !== entry.masterBytes) throw new Error('Incomplete film');
-      const old = cachedMaster;
-      cachedMaster = {id,url:URL.createObjectURL(movie)};
-      download.href = cachedMaster.url;
-      loadVideo(cachedMaster.url, pendingTime ?? film.currentTime, !film.paused && !film.ended, 'metadata');
-      filmStatus.textContent = '';
-      if (old) URL.revokeObjectURL(old.url);
-    } catch {
-      if (request.signal.aborted) return;
-      request.abort();
-      loadVideo(base + entry['4k'], pendingTime ?? film.currentTime, !film.paused && !film.ended, 'metadata');
-      filmStatus.textContent = 'Using the smaller 4K edition.';
-    }
-  }
-
-  function setSource(id, reset) {
-    masterRequest?.abort();
-    masterRequest = null;
-    const playing = !film.paused && !film.ended;
-    const position = reset ? 0 : (pendingTime ?? film.currentTime);
-    const changingFilm = id !== current;
-    if (changingFilm) captionMode = captionTrack.track.mode;
-    current = id;
-    const entry = films[id];
-    filmStatus.textContent = '';
-    film.poster = base + entry.poster;
-    if (changingFilm) {
-      captionTrack.src = base + entry.captions;
-      captionTrack.track.mode = captionMode;
-      byId('filmTranscript').open = false;
-    }
-    writeProgram();
-    download.download = id + '-4k.mp4';
-    if (quality.value === '4k' && cachedMaster?.id === id) {
-      download.href = cachedMaster.url;
-      loadVideo(cachedMaster.url,position,playing,'metadata');
-      return;
-    }
-    if (changingFilm || quality.value === 'web') {
-      loadVideo(base + entry.web,position,playing,position > 0 ? 'metadata' : 'none');
-    }
-    if (quality.value === '4k') {
-      filmStatus.textContent = 'Preparing full-detail 4K…';
-      masterRequest = new AbortController();
-      prepareMaster(id,masterRequest);
-    }
-  }
-  film.addEventListener('loadedmetadata', () => {
-    if (pendingTime !== null && pendingTime > 0) film.currentTime = Math.min(pendingTime, film.duration);
-    pendingTime = null;
-    highlight();
-  });
-  film.addEventListener('timeupdate', highlight);
-  film.addEventListener('error', () => { filmStatus.textContent = 'Playback failed. Try HD or download the selected film.'; });
-  chapters.addEventListener('click', event => {
-    const button = event.target.closest('button[data-start]');
-    if (!button) return;
-    const seek = Number(button.dataset.start);
-    if (film.readyState >= 1) film.currentTime = seek;
-    else pendingTime = seek;
-    highlight();
-    start();
-  });
-  quality.addEventListener('change', () => setSource(current,false));
-  choices.forEach(button => button.addEventListener('click', () => {
-    if (button.dataset.film !== current) setSource(button.dataset.film,true);
-  }));
-  document.querySelectorAll('[data-play-film]').forEach(link => {
-    link.addEventListener('click', () => {
-      if (current !== 'projects') setSource('projects',true);
-      start();
-    });
-  });
-  const linkedFilm = new URLSearchParams(location.search).get('film');
-  if (linkedFilm === 'journey') setSource('journey',true);
-  else writeProgram();
 })();

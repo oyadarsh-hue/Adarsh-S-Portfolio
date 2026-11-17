@@ -353,3 +353,71 @@ html.paused .hero-image,html.paused .card-image img{transform:none}
  @keyframes mount-enter{from{opacity:.1;translate:0 22px;rotate:3deg}to{opacity:1;translate:0 0;rotate:0deg}}
  html:not(.paused) .card-image img{transform:scale(1.12) translateY(var(--drift,0px))}
 }
+/* Screening-room edition */
+:root{--jade:#9ce4ce;--violet:#c3aff5}
+.hero{border-radius:16px 16px 5px 5px}
+.mast-inner{height:74px}
+.identifier img{width:43px;height:43px}
+.hero .hero-portrait{background:linear-gradient(115deg,#b3f0d6,#587c81 22%,#d5c9f2 48%,#b9d9d5 62%,#607680);border-color:#d2ecec;padding:clamp(10px,1vw,17px);border-radius:4px}
+.hero .hero-portrait::before{border-radius:3px;background:linear-gradient(130deg,#97ddc7,#bb9ee8 65%,#ed8a7e);transform:translate(3px,4px) rotate(3.2deg)}
+.hero .portrait-mat,.hero .portrait-legend{background:#faf1d9}
+.hero-social {display:flex;align-items:center;gap:7px;margin-top:18px;width:fit-content}
+.hero-social a {min-width:39px;height:39px;display:grid;place-items:center;background:#faf8ef;color:#12191b;border:1px solid #fff9;border-radius:50%;box-shadow:0 3px 11px #0002;transition:translate .2s,rotate .2s}
+.hero-social a:hover{translate:0 -3px;rotate:-5deg}
+.hero-social img{width:21px;height:21px;display:block;object-fit:contain}
+.hero-film-links{grid-area:watch;align-self:start;display:flex;align-items:center;gap:19px;margin-top:19px;flex-wrap:wrap}
+.hero .hero-film-links .film-invite{margin:0}
+.hero-archive,.archive-shortcut{display:inline-flex;align-items:center;gap:8px;color:#fff9ee;font-weight:590;font-size:13px;text-decoration:underline;text-underline-offset:5px}
+.type-ribbon{background:#a9e5d0;color:#172a2b;border-block:1px solid #263c3766;overflow:hidden;position:relative;width:100%;padding-block:clamp(12px,1.45vw,23px)}
+.type-ribbon .scroll-type{display:flex;align-items:center;width:max-content;padding:0 clamp(20px,4.5vw,76px);gap:clamp(24px,4vw,64px);transform:translate3d(var(--strip-x,0px),0,0);font:540 clamp(31px,4.3vw,84px)/1.05 var(--display);letter-spacing:-.06em;white-space:nowrap}
+.type-ribbon .word-unit:nth-of-type(even){font:italic 400 1.08em/1 var(--serif)}
+.type-ribbon i{font:400 .5em/1 var(--body);color:#3d5367}
+.scroll-type .word-unit{display:inline-block;transform-origin:bottom left}
+@media(prefers-reduced-motion:no-preference){
+ html:not(.paused) .type-anchor.scroll-type .word-unit{transform:translate3d(0,calc(var(--type-rise,0px)*var(--factor,1)),0) rotate(var(--type-turn,0deg))}
+}
+html.paused .type-ribbon .scroll-type{transform:none;white-space:normal;width:100%;flex-wrap:wrap;font-size:clamp(19px,2.3vw,34px);gap:8px 18px}
+@media(prefers-reduced-motion:reduce){.type-ribbon .scroll-type{transform:none;white-space:normal;width:100%;flex-wrap:wrap;font-size:clamp(19px,2.3vw,34px);gap:8px 18px}}
+html:not(.js) .type-ribbon .scroll-type{transform:none;width:100%;flex-wrap:wrap;white-space:normal;font-size:clamp(19px,2.3vw,34px)}
+.work-cover{border-radius:10px;outline:1px solid var(--line)}
+.work-cover .section-head{min-height:clamp(280px,24vw,410px)}
+.project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.project-card,.project-card:nth-child(-n+2),.project-grid.filtered .project-card{grid-column:auto;overflow:hidden;padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--surface);--card-accent:#a4dfc8}
+.project-card:nth-child(3n+2){--card-accent:#d0b9ec}.project-card:nth-child(3n){--card-accent:#ffc69e}
+.project-card .screen-card{border-radius:6px;border-color:#363942}
+.card-copy{position:relative;margin:0;padding:19px 13px 8px}
+.card-label{display:flex;align-items:center;gap:6px}
+.card-label::before{content:"";width:16px;height:5px;flex:none;background:var(--card-accent);border:1px solid #7b7b7b55}
+.card-copy h3{font-size:clamp(27px,2.45vw,43px)}
+.project-card .card-stack{line-height:1.55;max-width:50ch}
+.project-card .card-links a:first-child{background:var(--ink);color:var(--paper);padding:7px 12px;border-radius:4px;text-decoration:none}
+.project-card .card-links{gap:14px}
+.project-card .work-brief{border-bottom:0}
+.project-grid:not(.filtered) .project-card:first-child{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);align-items:center;gap:clamp(12px,2vw,33px)}
+.project-grid:not(.filtered) .project-card:first-child .card-copy{padding:15px clamp(10px,2vw,30px) 15px 4px}
+.reel-section{position:relative;background:radial-gradient(110% 90% at 100% 0,#34324b,transparent 68%),#121720}
+.reel-section .section-title{font-size:clamp(55px,6.5vw,108px)}
+.theater-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(15px,2.2vw,34px);align-items:start}
+.theater-grid .screen-card{box-shadow:0 12px 30px #06081233;border-color:#5e6274}
+.theater-grid figcaption strong{font-size:clamp(20px,2vw,31px);letter-spacing:-.045em}
+.archive-head{margin:clamp(40px,5vw,76px) 0 22px;padding-top:24px;border-top:1px solid #495260;scroll-margin-block-start:22px}
+.archive-head h3{font:550 clamp(36px,4.4vw,75px)/1.04 var(--display);letter-spacing:-.065em;margin:0}
+.archive-head h3 em{font:italic 400 1.05em/1 var(--serif);letter-spacing:-.035em}
+.archive-grid{gap:20px}
+#showreel .film-credit{margin-top:22px;color:#d2d1da}
+@media(max-width:850px){.mast-inner{height:66px}.project-grid:not(.filtered) .project-card:first-child{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}.card-copy{padding:14px 6px 5px}}
+@media(max-width:700px){
+ .mast-inner{height:63px}.identifier img{width:37px;height:37px}
+ .hero-inner{grid-template-areas:"meta" "heading" "print" "description" "buttons" "social" "watch";padding-bottom:24px}
+ .hero-social{grid-area:social;margin-top:12px}
+ .hero-social a{height:37px;min-width:37px}
+ .hero-film-links{margin-top:14px;gap:12px}.hero-archive{font-size:12px}
+ .type-ribbon .scroll-type{font-size:36px}
+ .project-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+ .project-grid:not(.filtered) .project-card:first-child{display:block;grid-column:auto}
+ .project-card+.project-card{margin-top:0}
+ .project-grid:not(.filtered) .project-card:first-child .card-copy,.card-copy{padding:14px 7px 5px}
+ .theater-grid{grid-template-columns:minmax(0,1fr)}
+ .archive-shortcut{margin-top:13px}
+ .work-cover .section-head{min-height:235px}
+}
