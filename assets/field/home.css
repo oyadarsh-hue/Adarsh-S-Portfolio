@@ -421,3 +421,12 @@ html:not(.js) .type-ribbon .scroll-type{transform:none;width:100%;flex-wrap:wrap
  .archive-shortcut{margin-top:13px}
  .work-cover .section-head{min-height:235px}
 }
+
+/* V7 identity: crisp square mark and tactile navigation, without layout motion. */
+.identifier img{width:42px;height:42px;border-radius:11px;box-shadow:0 3px 12px #102d391c;object-fit:contain}
+.identifier:hover img{transform:rotate(-3deg)}
+.identifier{gap:12px}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){.identifier img,.nav a::after{transition:none}.identifier:hover img{transform:none}}
+html.paused .identifier:hover img{transform:none}

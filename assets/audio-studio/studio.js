@@ -1,8 +1,8 @@
 import {catalog,language,languageName,voiceFor,voiceLabel,whisperFor,deviceVoice,translationCode,equivalentTag,writingHint} from './languages.js?v=6';
 import {decode,whisperSamples,wavBlob} from './audio.js?v=6';
 import {synthesizeWav,workerJob} from './speech.js?v=6';
-import {translateText} from './translate.js?v=6';
-import {filmTrack} from './film-track.js?v=6';
+import {translateText} from './translate.js?v=7';
+import {filmTrack} from './film-track.js?v=7';
 const $=id=>document.getElementById(id);
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);
@@ -10,6 +10,11 @@ let decoded=null,fileToken=0,originalURL='',resultURL='',busy=null,speaking=fals
 let sourceRevision=0,languageEpoch=0,film=null,autoOutput=null,shownRecording='';
 const site=new URL('../../',import.meta.url);
 const drafts=new Map();
+const originalClips=new Set('assenttag epigraphix-ai quietnote aegisforge-x deciphera publication bluegen skybrisk codtech mca bsc hse sslc'.split(' '));
+function originalFilmAudio(slug){
+  if(originalClips.has(slug))return 'assets/clips/'+slug+'-hd.mp4';
+  return ({projects:'assets/field/projects-hd-v2.mp4',journey:'assets/field/journey-hd-v2.mp4'})[slug] || '';
+}
 let activeTag='',resultLang='',origin='',engineState='unavailable';
 let machineSource=null;
 const localeChecks=new Map();
@@ -72,7 +77,7 @@ function displayRecording(){
   if(!src || shownRecording===src || resultURL)return;
   shownRecording=src;$('resultAudio').src=src;
   $('saveWav').href=src;$('saveWav').download=film.slug+'-'+entry.textCode+'.'+(new URL(src).pathname.split('.').pop() || 'm4a');
-  $('saveWav').textContent='Download recorded narration ↓';$('result').hidden=false;
+  $('saveWav').textContent=entry.native?'Download original film (MP4) ↓':'Download recorded narration ↓';$('result').hidden=false;
 }
 function applyAuthored(){
   const entry=authored();
@@ -115,6 +120,8 @@ function refresh(){
   const model=whisperFor(a);
   $('sourceCap').textContent=a ? languageName(a)+' · '+(model?'Speech recognition uses '+(model==='ar'?'Arabic':languageName(language(model)))+'.':'Enter the transcript manually. Whisper has no matching recognition setting.'):'Enter a valid source language.';
   $('targetName').textContent=b ? languageName(b)+(equivalentTag(b)==='ar-KW' ? (bundle?.textCode==='ar-KW'?' · Kuwaiti wording is included for this film.':' · Automatic translation uses standard Arabic. Enter your own wording for Kuwaiti Arabic.'):''):'Enter a valid output language.';
+  $('render').textContent=recorded ? 'Export original track as WAV' : 'Create synthetic WAV';
+  $('qualityNote').textContent=recorded ? 'This exports the existing film track without replacing its voice. Text and regional pronunciation have not been independently certified.' : 'New WAV speech uses the bundled eSpeak NG voice, not the original film narrator. A language in the picker does not guarantee recognition, translation or a matching accent. Review the text and listen before sharing.';
   $('voiceCap').textContent=recorded ? 'Recorded '+film.mode+' · '+(bundle.voice || languageName(bundle.textCode))+'.' : voice ? 'Downloadable WAV · '+voiceLabel(voice)+' · eSpeak NG synthetic voice.' : 'No matching WAV voice. You can enter and export a translation as text.';
   $('deviceCap').textContent=local ? 'Device playback uses '+local.name+' ('+local.lang+').' : 'No matching local playback voice on this device.';
   repaintOrigin();
@@ -194,6 +201,10 @@ $('file').addEventListener('change',async()=>{
   $('originalAudio').hidden=true;if(originalURL){URL.revokeObjectURL(originalURL);originalURL='';}
   $('fileInfo').textContent='';refresh();
   if(!file)return;
+  // A new recording is a new source, never a continuation of the selected film.
+  film=null;sourceRevision++;drafts.clear();machineSource=null;autoOutput=null;
+  $('sourceText').value='';setOutput('',to(),'');resetRender();
+  $('filmNotice').hidden=true;$('filmNotice').textContent='';engineDescription();refresh();
   if(!file.size){$('fileInfo').textContent='This file is empty. Choose another recording.';return;}
   originalURL=URL.createObjectURL(file);$('originalAudio').src=originalURL;$('originalAudio').hidden=false;
   $('fileInfo').textContent='Opening the recording locally…';
@@ -236,7 +247,7 @@ $('render').addEventListener('click',()=>work(async({signal,onProgress})=>{
   const tag=resultLang || to(),entry=authored();
   let blob;
   if(entry?.src && entry.text.trim()===output()){
-    onProgress('Converting the recorded narration to PCM WAV…');
+    onProgress('Converting the existing film audio to PCM WAV without changing its voice…');
     const response=await fetch(entry.src,{signal});if(!response.ok)throw Error('The recording could not load. Please retry.');
     const audio=await decode(await response.blob());signal.throwIfAborted();
     const start=Math.max(0,Math.floor((entry.start || 0)*audio.sampleRate));
@@ -274,7 +285,7 @@ if(params.get('film')){
     const slug=params.get('film'),selected=catalog[slug];
     if(!selected || typeof selected[mode]!=='string' || !selected[mode].trim())throw Error();
     if(revision===sourceRevision){
-      film={mode,slug,info:selected,dubs:dubs[slug] || {},original:selected[mode]};
+      film={mode,slug,info:{...selected,originalAudio:originalFilmAudio(slug)},dubs:dubs[slug] || {},original:selected[mode]};
       $('sourceText').value=film.original;$('from').value='en';applyAuthored();
       $('filmNotice').textContent=selected.title+' · English '+mode+' loaded for translation.';refresh();engineDescription();
     }

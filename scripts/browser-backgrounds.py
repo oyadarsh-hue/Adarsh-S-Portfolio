@@ -559,8 +559,21 @@ with run_suite("backgrounds") as (browser, test):
         for slug in CLIPS:
             frame = frame_for(page, slug)
             video = frame.locator("video")
-            expect(video.locator("source")).to_have_attribute("src", f"assets/clips/{slug}-hd.mp4")
-            expect(video).to_have_attribute("poster", f"assets/clips/{slug}.webp")
+            photo_editions = {"mca", "bsc", "hse", "sslc", "bluegen", "skybrisk", "codtech"}
+            if slug in photo_editions:
+                expect(video.locator("source")).to_have_attribute("src", f"assets/photo-editions/{slug}.mp4")
+                expect(video.locator("source")).to_have_attribute("data-original", f"assets/clips/{slug}-hd.mp4")
+                expect(video).to_have_attribute("poster", f"assets/field/journal-photos/{slug}.webp")
+                expect(quality(frame)).to_have_value("photo")
+                play(frame)
+                until_video(frame, "v.videoWidth === 960 && v.readyState >= 2")
+                verify_audible(video, 2, f"{slug} photo edition retains narration", test)
+                expect(frame.locator(".film-stills")).to_be_hidden()
+                quality(frame).select_option("hd")
+                expect(frame.locator(".film-stills")).to_be_visible()
+            else:
+                expect(video.locator("source")).to_have_attribute("src", f"assets/clips/{slug}-hd.mp4")
+                expect(video).to_have_attribute("poster", f"assets/clips/{slug}.webp")
             expect(frame.locator("[data-uhd]")).to_have_attribute("href", f"assets/clips/{slug}.mp4")
             play(frame)
             verify_stream(frame, True, f"{slug}-hd.mp4", test)

@@ -17,6 +17,10 @@ export function filmTrack(film,dubs,mode,tag,site){
   const text=description ? entry || film.description : entry?.text || (textCode==='en' ? film.narration : '');
   if(!text)return null;
   const track={text,textCode,native:!description && textCode==='en',src:null,start:0,end:null,voice:''};
+  if(track.native && film.originalAudio){
+    track.src=audioURL(film.originalAudio,site);
+    track.voice='Original film soundtrack · English';
+  }
   if(description){
     const sprite=film.audio?.[textCode];
     if(sprite?.src && Number.isFinite(sprite.start) && sprite.end>sprite.start){

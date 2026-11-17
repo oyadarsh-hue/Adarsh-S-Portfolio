@@ -2,8 +2,15 @@ import {translationCode,equivalentTag} from './languages.js?v=6';
 const encoder=new TextEncoder();
 // The provider caps each query at 500 UTF-8 bytes. Cut on whitespace when possible.
 export function chunks(text,limit=470){
+  if(!Number.isInteger(limit) || limit<4)throw new RangeError('Chunk limit must allow a UTF-8 character.');
   const result=[];let words='',bytes=0;
-  for(const part of text.match(/\S+|\s+/gu)||[]){
+  // Keep sentences intact where possible; only split oversized sentences into words.
+  // Context-free requests cut mid-sentence can change pronouns and technical meaning.
+  const sentences=typeof Intl.Segmenter==='function'
+    ? [...new Intl.Segmenter(undefined,{granularity:'sentence'}).segment(text)].map(x=>x.segment)
+    : text.match(/[^.!?。！？]+[.!?。！？]*\s*|[.!?。！？]+\s*/gu) || [text];
+  const parts=sentences.flatMap(sentence=>encoder.encode(sentence).length<=limit ? [sentence] : sentence.match(/\S+|\s+/gu)||[]);
+  for(const part of parts){
     const size=encoder.encode(part).length;
     if(size<=limit){
       if(bytes+size>limit){result.push(words);words='';bytes=0;}

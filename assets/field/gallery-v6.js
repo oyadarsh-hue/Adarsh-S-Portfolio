@@ -66,6 +66,12 @@
         buttons.forEach((b,j)=>j===i?b.setAttribute('aria-current','true'):b.removeAttribute('aria-current'));
       });
       card.querySelector('figcaption').after(group);
+      const edition=card.querySelector('.screen-quality select');
+      if(edition?.querySelector('option[value="photo"]')) {
+        const updateStills=()=>{group.hidden=edition.value==='photo';};
+        edition.addEventListener('change',updateStills);
+        updateStills();
+      }
       if(near)near.observe(options);else showSheet(options);
     }
   }).catch(()=>{ /* The native video controls still provide seeking. */ });
