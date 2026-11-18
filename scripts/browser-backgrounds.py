@@ -280,9 +280,8 @@ def verify_recording_link(panel, slug, lang, test):
     link = panel.locator(".film-audio-actions a[download]")
     expect(link).to_be_visible()
     url = urlsplit(link.get_attribute("href"))
-    loader = panel.page.locator('script[src*="/film-audio.js"]').get_attribute("src")
-    version = parse_qs(urlsplit(loader).query).get("v")
-    test.check(url.path.endswith(f"/{slug}-{lang}.m4a") and version and parse_qs(url.query).get("v")==version,
+    # Audio files are unchanged when the panel JavaScript is revised.
+    test.check(url.path.endswith(f"/assets/dubs-v5/{slug}-{lang}.m4a") and parse_qs(url.query).get("v")==["6"],
                f"{slug}: {lang} download uses the current recorded soundtrack")
 
 
