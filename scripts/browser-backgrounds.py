@@ -281,7 +281,7 @@ def verify_recording_link(panel, slug, lang, test):
     expect(link).to_be_visible()
     url = urlsplit(link.get_attribute("href"))
     # Audio files are unchanged when the panel JavaScript is revised.
-    test.check(url.path.endswith(f"/assets/dubs-v5/{slug}-{lang}.m4a") and parse_qs(url.query).get("v")==["6"],
+    test.check(url.path.endswith(f"/assets/dubs-v6/{slug}-{lang}.m4a") and parse_qs(url.query).get("v")==["6"],
                f"{slug}: {lang} download uses the current recorded soundtrack")
 
 
