@@ -209,7 +209,7 @@ with run_suite('portfolio') as (browser, test):
         expect(summary).to_contain_text('Churam')
         test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=ml')
         expect(page.locator('#sourceText')).to_have_value(re.compile('motherboard'))
-        expect(page.locator('#output')).to_have_value(re.compile('മദർബോർഡ്'))
+        expect(page.locator('#output')).to_have_value(re.compile('പച്ച നിറമുള്ള കമ്പ്യൂട്ടർ'))
         expect(page.locator('#filmNotice')).to_contain_text('Photo edition')
         test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=en&edition=original')
         expect(page.locator('#sourceText')).to_have_value(re.compile('lamp', re.I))
