@@ -280,8 +280,9 @@ def verify_recording_link(panel, slug, lang, test):
     link = panel.locator(".film-audio-actions a[download]")
     expect(link).to_be_visible()
     url = urlsplit(link.get_attribute("href"))
-    # Audio files are unchanged when the panel JavaScript is revised.
-    test.check(url.path.endswith(f"/assets/dubs-v6/{slug}-{lang}.m4a") and parse_qs(url.query).get("v")==["6"],
+    # The first set of Malayalam dubs was retained; Hindi and Spanish were rerecorded in v6.
+    bundle = {"ml": "dubs-v5", "hi": "dubs-v6", "es": "dubs-v6"}[lang]
+    test.check(url.path.endswith(f"/assets/{bundle}/{slug}-{lang}.m4a") and parse_qs(url.query).get("v")==["6"],
                f"{slug}: {lang} download uses the current recorded soundtrack")
 
 
