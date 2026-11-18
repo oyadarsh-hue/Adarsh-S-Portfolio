@@ -3,6 +3,7 @@ import {decode,whisperSamples,wavBlob} from './audio.js?v=6';
 import {synthesizeWav,workerJob} from './speech.js?v=6';
 import {translateText} from './translate.js?v=7';
 import {filmTrack} from './film-track.js?v=7';
+import {photoDescription} from './photo-descriptions.js?v=8';
 const $=id=>document.getElementById(id);
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);
@@ -282,12 +283,13 @@ if(params.get('film')){
   try{
     const loadJSON=async path=>{const response=await fetch(new URL(path,import.meta.url));if(!response.ok)throw Error();return response.json();};
     const [catalog,dubs]=await Promise.all([loadJSON('../field/film-text-v5.json?v=6'),mode==='narration'?loadJSON('../dubs-v5/manifest.json?v=6').catch(()=>({})):{}]);
-    const slug=params.get('film'),selected=catalog[slug];
+    const slug=params.get('film'),base=catalog[slug];
+    const selected=base && mode==='description' ? photoDescription(base,slug,params.get('edition')) : base;
     if(!selected || typeof selected[mode]!=='string' || !selected[mode].trim())throw Error();
     if(revision===sourceRevision){
       film={mode,slug,info:{...selected,originalAudio:originalFilmAudio(slug)},dubs:dubs[slug] || {},original:selected[mode]};
       $('sourceText').value=film.original;$('from').value='en';applyAuthored();
-      $('filmNotice').textContent=selected.title+' · English '+mode+' loaded for translation.';refresh();engineDescription();
+      $('filmNotice').textContent=selected.title+(selected!==base?' · Photo edition':'')+' · English '+mode+' loaded for translation.';refresh();engineDescription();
     }
   }catch{$('filmNotice').textContent='The selected film text is unavailable. You can still open audio or paste a transcript.';}
   if($('filmNotice').textContent)$('filmNotice').hidden=false;

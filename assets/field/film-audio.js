@@ -66,12 +66,13 @@
       if (!panel.open || loaded || busy) return;
       busy=true;body.textContent='Loading audio options…';
       try {
-        const [catalog,dubs,tracks,locales]=await Promise.all([
+        const [catalog,dubs,tracks,locales,photos]=await Promise.all([
           json('assets/field/film-text-v5.json?v=6'),json('assets/dubs-v5/manifest.json?v=6'),
-          import(new URL('../audio-studio/film-track.js?v=6',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href)
+          import(new URL('../audio-studio/film-track.js?v=6',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href),
+          import(new URL('../audio-studio/photo-descriptions.js?v=8',path).href)
         ]);
         if (!catalog[slug]) throw Error('The audio catalog has no entry for this film.');
-        build(catalog[slug],dubs[slug] || {},tracks.filmTrack,locales);
+        build(catalog[slug],dubs[slug] || {},tracks.filmTrack,locales,photos.photoDescription);
         loaded=true;
       } catch(error) { body.textContent=error.message; }
       finally {busy=false;}
@@ -92,7 +93,7 @@
         watch.abort();
       })));
     }
-    function build(film,dubs,filmTrack,{language,languageName,voiceFor,voiceLabel,writingHint}) {
+    function build(film,dubs,filmTrack,{language,languageName,voiceFor,voiceLabel,writingHint},photoDescription) {
       body.replaceChildren();
       const hasNarration=Boolean(film.narration);
       const modes=hasNarration?[['narration','Film narration'],['description','Visual description']]:[['description','Visual description']];
@@ -145,16 +146,18 @@
         release();revision++;note.textContent='';upload.value='';prepare.disabled=false;exportBtn.disabled=false;
         const code=lang.value;
         const desc=mode.value==='description';
-        record=filmTrack(film,dubs,mode.value,code,site) || {text:'',textCode:code,src:null,start:0,end:null,native:false};
+        const edition=card.hasAttribute('data-lo-photo-frame') && card.querySelector('.screen-quality select')?.value==='photo' ? 'photo' : 'original';
+        const selected=desc ? photoDescription(film,slug,edition) : film;
+        record=filmTrack(selected,dubs,mode.value,code,site) || {text:'',textCode:code,src:null,start:0,end:null,native:false};
         const {text,src,native,textCode,voice}=record;
         const synth=voiceFor(textCode),name=languageName(textCode);
-        const dialect=code==='ar-KW' ? 'Kuwaiti wording. ' : '';
+        const dialect=code==='ar-KW' && textCode==='ar-KW' ? 'Kuwaiti wording. ' : '';
         availability.textContent=src ? (desc?'Recorded visual overview':'Recorded narration')+' · '+dialect+voice+'.'
           : native ? 'Original English narration in the film.'
           : text && synth ? dialect+'Generate a synthetic '+voiceLabel(synth)+' voice for the '+name+' text. '+writingHint(text,textCode)
           : text ? 'Read the translation or add your own voice recording.'
           : 'No portfolio translation or voice for '+languageName(code)+'. Read the English original, add your own recording, or enter a translation in Audio Studio.';
-        original.textContent=desc?film.description:film.narration;
+        original.textContent=desc?selected.description:film.narration;
         targetTitle.textContent=name+' translation';
         transcript.lang=textCode;transcript.dir=rtl.has(textCode)?'rtl':'auto';transcript.textContent=text;
         targetBlock.hidden=!text || textCode==='en';
@@ -166,7 +169,7 @@
         if (!download.hidden) {download.href=record.src;download.download=slug+'-'+code+(/\.m4a(?:$|\?)/.test(record.src)?'.m4a':'.mp3');}
         halt.hidden=true;
         const target=new URL('audio-studio.html',site);
-        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,v:'6'});
+        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'8'});
         studio.href=target.href;
       }
       async function generate() {
@@ -256,6 +259,7 @@
         note.textContent='Ready to play. Choose another language or track to return to the portfolio audio.';
       });
       mode.addEventListener('change',display);lang.addEventListener('change',display);
+      card.querySelector('.screen-quality select')?.addEventListener('change',()=>{if(mode.value==='description')display();});
       display();
     }
   }
