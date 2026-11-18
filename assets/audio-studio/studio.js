@@ -3,7 +3,7 @@ import {decode,whisperSamples,wavBlob} from './audio.js?v=6';
 import {synthesizeWav,workerJob} from './speech.js?v=6';
 import {translateText} from './translate.js?v=7';
 import {filmTrack} from './film-track.js?v=7';
-import {photoDescription} from './photo-descriptions.js?v=8';
+import {photoDescription} from './photo-descriptions.js?v=9';
 const $=id=>document.getElementById(id);
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);

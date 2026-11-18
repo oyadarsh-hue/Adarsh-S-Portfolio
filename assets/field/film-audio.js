@@ -69,7 +69,7 @@
         const [catalog,dubs,tracks,locales,photos]=await Promise.all([
           json('assets/field/film-text-v5.json?v=6'),json('assets/dubs-v5/manifest.json?v=6'),
           import(new URL('../audio-studio/film-track.js?v=6',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href),
-          import(new URL('../audio-studio/photo-descriptions.js?v=8',path).href)
+          import(new URL('../audio-studio/photo-descriptions.js?v=9',path).href)
         ]);
         if (!catalog[slug]) throw Error('The audio catalog has no entry for this film.');
         build(catalog[slug],dubs[slug] || {},tracks.filmTrack,locales,photos.photoDescription);
@@ -169,7 +169,7 @@
         if (!download.hidden) {download.href=record.src;download.download=slug+'-'+code+(/\.m4a(?:$|\?)/.test(record.src)?'.m4a':'.mp3');}
         halt.hidden=true;
         const target=new URL('audio-studio.html',site);
-        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'8'});
+        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'9'});
         studio.href=target.href;
       }
       async function generate() {

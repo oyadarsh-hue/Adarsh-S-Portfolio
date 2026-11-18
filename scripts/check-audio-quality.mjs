@@ -40,7 +40,13 @@ for(const [slug,word] of Object.entries({mca:'main block',bsc:'motherboard',hse:
  assert.equal(photoDescription(original,slug,'original'),original);
  assert.equal(filmTrack(photo,{},'description','en',site).src,null);
  assert.equal(filmTrack(photo,{},'description','ml-IN',site).textCode,'ml');
- assert.equal(filmTrack(photo,{},'description','ar-KW',site),null);
+ for (const lang of ['hi','ta','es','ur','bn','fa','si','ar-KW']){
+   const track=filmTrack(photo,{},'description',lang,site);
+   assert.equal(track.textCode,lang);
+   assert.equal(track.src,null);
+   assert(track.text.length>50 && track.text!==photo.description);
+ }
+ assert.equal(filmTrack(photo,{},'description','arc',site),null);
 }
 assert.equal(photoDescription(field.assenttag,'assenttag','photo'),field.assenttag);
 console.log('PASS: UTF-8 sentence-aware chunks, exact text reconstruction, native soundtrack preservation, source URL boundary, existing dub retention, source reset and voice disclosure.');
