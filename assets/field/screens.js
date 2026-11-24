@@ -11,7 +11,14 @@
     const link = frame.querySelector('[data-uhd]');
     const master = info && Object.hasOwn(masters, frame.dataset.clip) ? masters[frame.dataset.clip] : null;
     const defaultSource = source.src;
+    const photo = source.dataset.photo ? new URL(source.dataset.photo, document.baseURI).href : defaultSource;
     const hd = source.dataset.original ? new URL(source.dataset.original, document.baseURI).href : defaultSource;
+    const documentaryNote = frame.dataset.documentarySheet ? frame.querySelector('.photo-edition-note') : null;
+    const noteText = documentaryNote?.firstChild;
+    const documentaryText = noteText?.textContent;
+    const documentaryCredits = documentaryNote?.querySelector('a');
+    const documentaryCreditsUrl = documentaryCredits?.getAttribute('href');
+    const documentaryPoster = video.getAttribute('poster');
     const standalone = link?.getAttribute('href');
     const chapters = Array.from(frame.querySelectorAll('[data-chapters] button'));
     const status = document.createElement('p');
@@ -86,10 +93,16 @@
         request?.abort();
         status.textContent='';
         link.setAttribute('href', standalone);
+        if (documentaryNote) {
+          const stillEdition = select.value === 'photo';
+          video.poster = stillEdition ? 'assets/field/journal-photos/'+frame.dataset.clip+'.webp' : documentaryPoster;
+          noteText.textContent = stillEdition ? 'One photograph with the original narration. ' : documentaryText;
+          documentaryCredits.setAttribute('href', stillEdition ? 'assets/field/journal-photos/CREDITS.txt' : documentaryCreditsUrl);
+        }
         if (select.value === 'uhd' && master) {
           request = new AbortController();
           fullQuality(request);
-        } else changeSource(select.value === 'uhd' ? standalone : select.value === 'photo' ? defaultSource : hd);
+        } else changeSource(select.value === 'uhd' ? standalone : select.value === 'photo' ? photo : hd);
       });
     }
     chapters.forEach(button => button.addEventListener('click', () => {

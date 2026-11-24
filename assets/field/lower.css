@@ -751,3 +751,91 @@ figure[data-lo-photo-frame] > .screen-program { background:#171d27; }
   .lo-print-caption { inset:auto auto 11px 12px; }
   .lo-print-caption b { font-size:clamp(1.1rem,5.6vw,1.54rem); }
 }
+
+
+/* Responsive photographic index linking directly to the degree records. */
+.lo-education-overview {
+  display:grid; grid-template-columns:minmax(250px,.72fr) minmax(0,1.5fr);
+  gap:clamp(18px,3.2vw,55px); align-items:center; padding:clamp(25px,4vw,65px) var(--lo-gutter);
+  color:#fcfaef; background:#142d31;
+}
+.lo-education-overview .lo-head { min-height:0; padding:0; align-items:start; }
+.lo-education-overview .lo-head .lo-title { margin:.15em 0; font-size:clamp(3.1rem,6.5vw,7rem); line-height:.94; }
+.lo-education-overview .lo-head .lo-text { background:none; color:#eef3e9; margin:0; padding:0; max-width:33ch; line-height:1.55; }
+.lo-atlas-credit { color:#e5ecdf; font:600 .72rem/1.5 var(--mono,monospace); text-underline-offset:.3em; margin-top:1.3rem; }
+.lo-campus-atlas { min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.lo-atlas-tile { display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start; position:relative; isolation:isolate; min-height:clamp(166px,15.8vw,260px); padding:clamp(12px,1.65vw,27px); overflow:hidden; color:white; background:#193437; text-decoration:none; border:1px solid #b4d5c449; }
+.lo-atlas-tile:before,.lo-school-hero:before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:linear-gradient(180deg,#08151722 4%,transparent 33%,#071b1bcc 88%,#071618ed); }
+.lo-atlas-tile:is(:focus-visible,:hover) { outline:2px solid #c7eaae; outline-offset:0; }
+.lo-campus-atlas .lo-atlas-image { position:absolute; z-index:-2; inset:0; width:100%; height:100%; max-width:none; object-fit:cover; transform:none; transition:transform .42s ease; }
+.lo-campus-atlas .lo-atlas-sslc img { object-position:50% 42%; }
+.lo-campus-atlas .lo-atlas-hse img { object-position:50% 37%; }
+.lo-campus-atlas .lo-atlas-bsc img { object-position:50% 47%; }
+.lo-campus-atlas .lo-atlas-mca img { object-position:51% 43%; }
+.lo-tile-type { max-width:100%; font:600 clamp(.57rem,.7vw,.73rem)/1.3 var(--mono,monospace); color:#132526; background:#f7f4e9f0; padding:.25em .46em; }
+.lo-tile-id { display:grid; gap:.3em; color:#fff; text-shadow:0 1px 6px #0c181ecf; }
+.lo-tile-id strong { color:#fff; font:650 clamp(1.08rem,1.84vw,2.05rem)/1.04 var(--display,sans-serif); letter-spacing:-.043em; }
+.lo-tile-id small { color:#e3f1e9; font:500 clamp(.6rem,.72vw,.78rem)/1.25 var(--body,sans-serif); }
+.lo-school[data-lo-record] { display:flex; flex-direction:column; min-width:0; gap:0; align-self:stretch; align-items:stretch; padding:0; border:1px solid var(--line); overflow:hidden; scroll-margin-top:clamp(52px,8vw,110px); }
+.lo-school-hero { position:relative; isolation:isolate; display:flex; align-items:flex-end; min-width:0; min-height:clamp(228px,22vw,335px); padding:clamp(16px,1.75vw,27px); overflow:hidden; background:#173336; }
+.lo-school-hero:before { background:linear-gradient(180deg,#0b172511 0%,transparent 22%,#081820ad 46%,#081820ed 80%,#081820f5); }
+.lo-card-landscape { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; }
+.lo-campus-sslc .lo-card-landscape { object-position:50% 42%; }
+.lo-campus-hse .lo-card-landscape { object-position:50% 30%; }
+.lo-campus-bsc .lo-card-landscape { object-position:50% 50%; }
+.lo-campus-mca .lo-card-landscape { object-position:50% 42%; }
+.lo-card-photo-credit { position:absolute; z-index:1; top:9px; right:9px; max-width:calc(100% - 18px); padding:.28rem .52rem; color:#fff; background:#102127db; font:500 .62rem/1.3 var(--mono,monospace); text-decoration:none; }
+.lo-card-photo-credit:hover,.lo-card-photo-credit:focus-visible { color:#102127; background:#fff; }
+.lo-degree-identity { width:100%; display:grid; grid-template-columns:clamp(36px,3.4vw,55px) minmax(0,1fr); align-items:start; gap:4px clamp(10px,1.3vw,19px); color:#fff; }
+.lo-degree-identity .lo-org-mark { grid-column:1; grid-row:1 / span 2; width:100%; height:auto; aspect-ratio:1; }
+.lo-degree-identity>div { grid-column:2; }
+.lo-degree-identity .lo-meta { color:#d5eee4; margin:0; font-size:.7rem; }
+.lo-degree-identity h3 { color:#fff; margin:.23rem 0; font-size:clamp(1.35rem,2.1vw,2.35rem); line-height:1.05; text-wrap:balance; }
+.lo-school .lo-degree-identity p:not(.lo-meta),.lo-degree-identity .lo-school-link { color:#fff; }
+.lo-school .lo-degree-identity .lo-grade { grid-column:2; grid-row:auto; width:fit-content; justify-self:start; margin:.28rem 0 0; background:#e2ede2; color:#142426; border:0; }
+.lo-school .lo-education-notes { padding:clamp(13px,1.4vw,22px) clamp(14px,1.65vw,25px); }
+.lo-school .lo-education-notes .lo-study-note { margin:0; line-height:1.5; }
+.lo-campus-photo-link { display:inline-block; font:650 .83rem/1.36 var(--body,sans-serif); color:var(--ink); text-underline-offset:.2em; margin-top:.58rem; }
+.lo-school[data-lo-record]>.screen-card { align-self:stretch; width:auto; max-width:none; margin:auto clamp(10px,1.3vw,20px) clamp(10px,1.3vw,20px); }
+.lo-paper-image { display:contents; }
+.lo-paper-panorama::before { background:linear-gradient(0deg,#102025cc 0%,transparent 48%),linear-gradient(90deg,#13292eaa 0%,transparent 51%); }
+.lo-paper-panorama .lo-panorama-photo { object-position:50% 43%; }
+.lo-paper-panorama .lo-panorama-ink { background:linear-gradient(90deg,#1020259c,transparent 58%); }
+.lo-panorama .lo-plate-caption a,.lo-contact-credit { color:white; text-decoration:underline; text-underline-offset:.19em; }
+.lo-contact-credit { position:absolute; right:15px; bottom:12px; z-index:1; padding:.3rem .55rem; background:#0b1b22d9; font:500 .66rem/1.4 var(--mono,monospace); }
+@media(prefers-reduced-motion:no-preference) {
+  .lo-atlas-tile:is(:hover,:focus-visible) .lo-atlas-image { transform:scale(1.045); }
+}
+@media(max-width:900px) {
+ .lo-education-overview { grid-template-columns:minmax(160px,.6fr) minmax(0,1.4fr); gap:20px; }
+ .lo-education-overview .lo-head .lo-title { font-size:clamp(2.68rem,6.5vw,4.8rem); }
+}
+@media(max-width:700px) {
+ .lo-education-overview { grid-template-columns:minmax(0,1fr); gap:21px; padding:32px var(--lo-gutter); }
+ .lo-education-overview .lo-head .lo-title { font-size:clamp(2.65rem,9vw,4rem); }
+ .lo-education-overview .lo-head .lo-text { max-width:55ch; }
+ .lo-atlas-credit { margin-top:.65rem; }
+ .lo-campus-atlas { gap:5px; }
+ .lo-atlas-tile { min-height:clamp(162px,40vw,215px); padding:11px; }
+ .lo-tile-type { font-size:.55rem; }
+ .lo-tile-id { gap:.28rem; }
+ .lo-tile-id strong { font-size:clamp(1rem,4.1vw,1.48rem); }
+ .lo-tile-id small { font-size:clamp(.58rem,2.1vw,.72rem); }
+ .lo-school-hero { min-height:clamp(238px,59vw,310px); }
+ .lo-school[data-lo-record] >.screen-card { margin:0 9px 9px; }
+ .lo-paper-panorama .lo-panorama-ink { background:none; }
+ .lo-paper-panorama::before { background:linear-gradient(0deg,#112326f2,transparent 58%); }
+ .lo-paper-panorama .lo-panorama-photo { object-position:50% 29%; }
+ .lo-contact-inner { padding-bottom:55px; }
+}
+.lo-atlas-save { display:inline-block; width:fit-content; color:#f1f8e9; border:1px solid #accab3; margin-top:.7rem; padding:.48rem .65rem; text-decoration:none; font:600 .77rem/1.38 var(--body,sans-serif); }
+.lo-atlas-save:hover,.lo-atlas-save:focus-visible { color:#142d31; background:#d7efb9; }
+.lo-paper-panorama .lo-panorama-ink { background:none; }
+.lo-paper-panorama .lo-title { font-size:clamp(3rem,6.1vw,6.8rem); }
+.lo-paper-panorama .lo-title .lo-line-text {
+  padding:.02em .12em .065em; background:#102a2ef2;
+  -webkit-box-decoration-break:clone; box-decoration-break:clone;
+}
+@media(max-width:640px) {
+ .lo-paper-panorama .lo-title { font-size:clamp(2.2rem,10vw,3.9rem); }
+}

@@ -94,12 +94,37 @@ with run_suite('portfolio') as (browser, test):
             min_width = 290 if width >= 1200 else 180 if width >= 390 else 145
             test.check(about_box is not None and about_box['width'] >= min_width,
                        f'About page portrait is legible at {width}px')
+            paper = page.locator('#publication .lo-paper-image img')
+            paper.scroll_into_view_if_needed()
+            paper.evaluate('img=>img.decode()')
+            paper_image = 'paper-pages-mobile-v8.webp' if width <= 640 else 'paper-pages-v8.webp'
+            test.check(paper.evaluate('(img,file)=>img.currentSrc.endsWith(file) && img.naturalWidth>=640', paper_image),
+                       f'The journal pages use their readable image at {width}px')
         for selector in ('.work-cover .window-photo', '#experience .lo-scene-photo', '#education .lo-scene-photo'):
             photo = page.locator(selector)
             photo.scroll_into_view_if_needed()
             photo.evaluate('i => i.decode()')
             test.check(photo.evaluate('i => i.naturalWidth >= 640 && i.getBoundingClientRect().height >= 120'),
                        f'Visible photographic background: {selector}')
+        atlas = page.get_by_role('navigation', name='Explore four stages of education')
+        tiles = atlas.get_by_role('link')
+        expect(tiles).to_have_count(4)
+        destinations = ['#education-mgm', '#education-gvhss', '#education-cas', '#education-gec']
+        for link, target in zip(tiles.all(), destinations):
+            expect(link).to_have_attribute('href', target)
+            expect(page.locator(target + ' video[controls]')).to_have_count(1)
+        tiles.first.click()
+        expect(page.locator(destinations[0] + ' .lo-school-hero')).to_be_in_viewport()
+        employers = page.locator('#experience .lo-employer')
+        expect(employers).to_have_count(3)
+        for card in employers.all():
+            image = card.locator('.employer-cover-image')
+            image.scroll_into_view_if_needed()
+            image.evaluate('img=>img.decode()')
+            test.check(image.evaluate('img=>img.naturalWidth>=400 && img.clientHeight>=100'),
+                       'Employer cover displays a decoded image alongside its film')
+            expect(card.locator('a.employer-source-credit')).to_have_attribute('href', re.compile('^https://'))
+            expect(card.locator('video[controls]')).to_have_count(1)
         handles = [('gmail','mailto:oyadarsh@gmail.com'), ('phone','tel:+919061448229'),
                    ('github','https://github.com/oyadarsh-hue'), ('linkedin','https://www.linkedin.com/in/')]
         for icon, destination in handles:
@@ -129,6 +154,7 @@ with run_suite('portfolio') as (browser, test):
         test.layout(page, 'audio studio / mobile')
         test.visit(page)
 
+        palettes = set()
         for case in sorted((ROOT / 'projects').glob('*.html')):
             test.visit(page, f'projects/{case.name}')
             expect(page.locator('.case-evidence')).to_be_visible()
@@ -137,15 +163,29 @@ with run_suite('portfolio') as (browser, test):
             test.check(cover.evaluate('img=>img.naturalWidth>=640 && img.clientHeight>=250'),
                        case.stem + ' has a large photographic cover')
             title = page.locator('.case-splash .ed-title')
+            expect(page.locator('h1[data-motion-title]')).to_be_visible()
+            expect(page.locator('.cover-image[data-motion-frame]')).to_be_visible()
+            expect(page.locator('.v8-cover-actions a[href="#workflow"]')).to_be_visible()
+            expect(page.locator('.v8-cover-actions a[href="#film"]')).to_be_visible()
+            palettes.add(page.locator('body').evaluate('b=>getComputedStyle(b).getPropertyValue("--tone").trim()'))
+            kicker = page.locator('.case-splash .v8-hinge')
             page.evaluate('scrollTo(0,0)')
             page.wait_for_timeout(100)
             initial = title.evaluate('t=>getComputedStyle(t).transform')
+            rotation = kicker.evaluate('e=>getComputedStyle(e).rotate')
             page.evaluate('scrollTo(0,180)')
             page.wait_for_function('initial=>getComputedStyle(document.querySelector(".case-splash .ed-title")).transform!==initial',
                                    arg=initial)
+            test.check(kicker.evaluate('e=>getComputedStyle(e).rotate') != rotation,
+                       case.stem + ' section label rotates with the actual scroll position')
             expect(page.locator('.case-jump a[href="#workflow"]')).to_be_visible()
             expect(page.locator(f'.screen-card[data-clip="{case.stem}"] video')).to_have_count(1)
             test.layout(page, case.stem + ' mobile')
+        test.check(len(palettes) == 5 and '' not in palettes, 'Every case has its own palette')
+        page.locator('#motionButton').click()
+        expect(page.locator('#motionButton')).to_have_attribute('aria-pressed', 'true')
+        test.check(kicker.evaluate('e=>getComputedStyle(e).rotate') == 'none', 'Manual pause freezes case rotation')
+        page.locator('#motionButton').click()
         test.visit(page)
         gallery = page.locator(".plate-grid")
         expect(gallery.locator("a")).to_have_count(5)
@@ -179,7 +219,7 @@ with run_suite('portfolio') as (browser, test):
         test.check(videos.count() == 21 and videos.evaluate_all("""vs=>vs.every(v=>
             v.playsInline && v.controls && (v.getAttribute('src') || v.querySelector('source[src]'))
         )"""), 'All twenty-one native videos work without JavaScript')
-        expect(page.locator('#journey-film a[href="assets/field/journey-v2.mp4"]')).to_be_visible()
+        expect(page.locator('#journey-film a[href="assets/field/journey-v8.mp4"]')).to_be_visible()
         test.check(True, 'Journey film has its own native UHD link without JavaScript')
         test.layout(page, 'no JavaScript')
     with browser.new_context(color_scheme='dark', reduced_motion='reduce') as context:
@@ -190,6 +230,11 @@ with run_suite('portfolio') as (browser, test):
         page.locator('#themeToggle').click()
         check_theme(page, test, 'light')
         test.check(True, 'Theme still switches with storage disabled')
+        test.visit(page, 'projects/quietnote.html')
+        page.locator('#features').scroll_into_view_if_needed()
+        expect(page.locator('#motionButton')).to_be_disabled()
+        test.check(page.locator('[data-motion-title], [data-motion-frame]').evaluate_all(
+            'nodes=>nodes.every(e=>e.getAnimations().length===0)'), 'Case text and frames respect system reduced motion')
 
     with browser.new_context(viewport={'width': 390, 'height': 844}) as context:
         page = test.page(context)
@@ -199,18 +244,24 @@ with run_suite('portfolio') as (browser, test):
         panel.locator('summary').first.click()
         panel.locator('select').first.select_option('description')
         summary = panel.locator('.film-text-pair p').first
-        expect(summary).to_contain_text('Churam')
+        expect(summary).to_contain_text('school courtyard', ignore_case=True)
+        expect(summary).to_contain_text('Thamarassery Churam')
         studio = panel.get_by_role('link', name='Open in Audio Studio', exact=False)
-        expect(studio).to_have_attribute('href', re.compile('edition=photo'))
-        card.locator('.screen-quality select').select_option('hd')
-        expect(summary).not_to_contain_text('Churam')
-        expect(studio).to_have_attribute('href', re.compile('edition=original'))
+        expect(studio).to_have_attribute('href', re.compile('edition=documentary'))
         card.locator('.screen-quality select').select_option('photo')
-        expect(summary).to_contain_text('Churam')
+        expect(summary).to_contain_text('A panorama of Thamarassery Churam')
+        expect(studio).to_have_attribute('href', re.compile('edition=photo'))
+        card.locator('.screen-quality select').select_option('uhd')
+        expect(summary).to_contain_text('school courtyard', ignore_case=True)
+        expect(studio).to_have_attribute('href', re.compile('edition=documentary'))
         test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=ml')
+        expect(page.locator('#sourceText')).to_have_value(re.compile('Thamarassery street', re.I))
         expect(page.locator('#sourceText')).to_have_value(re.compile('motherboard'))
-        expect(page.locator('#output')).to_have_value(re.compile('പച്ച നിറമുള്ള കമ്പ്യൂട്ടർ'))
-        expect(page.locator('#filmNotice')).to_contain_text('Photo edition')
+        expect(page.locator('#output')).to_have_attribute('lang','ml')
+        expect(page.locator('#output')).to_have_value(re.compile(r'[\u0d00-\u0d7f]'))
+        expect(page.locator('#filmNotice')).to_contain_text('Documentary edition')
+        test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=en&edition=photo')
+        expect(page.locator('#sourceText')).to_have_value(re.compile('close-up of a green computer motherboard', re.I))
         test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=hi')
         expect(page.locator('#output')).to_have_value(re.compile('मदरबोर्ड'))
         expect(page.locator('#output')).to_have_attribute('lang','hi')
@@ -222,5 +273,5 @@ with run_suite('portfolio') as (browser, test):
         test.visit(page, 'audio-studio.html?film=bsc&mode=description&lang=en&edition=original')
         expect(page.locator('#sourceText')).to_have_value(re.compile('lamp', re.I))
         test.visit(page, 'audio-studio.html?film=bsc&mode=narration&lang=en&edition=photo')
-        expect(page.locator('#resultAudio')).to_have_attribute('src', re.compile('bsc-hd.mp4'))
-        test.check(True, 'Photo and original editions route to matching descriptions without replacing narration')
+        expect(page.locator('#resultAudio')).to_have_attribute('src', re.compile(r'/photo-editions/bsc\.mp4'))
+        test.check(True, 'Documentary, low-data photo and original archive descriptions match the selected edition')

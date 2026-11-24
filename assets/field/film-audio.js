@@ -5,7 +5,7 @@
   const site = new URL('../../',path);
   const languages = [
     ['en','English'],['ml','Malayalam · മലയാളം'],['ta','Tamil · தமிழ்'],['hi','Hindi · हिन्दी'],
-    ['ur','Urdu · اردو'],['es','Spanish · Español'],['si','Sinhala · සිංහල'],['bn','Bangla · বাংলা'],
+    ['ur','Urdu · اردو'],['es','Spanish · Español'],['si','Sinhala · සිංහල'],['bn','Bangla (Bengali) · বাংলা'],
     ['ar-KW','Kuwaiti Arabic · كويتي'],['ar','Standard Arabic · العربية'],['am','Amharic · አማርኛ'],
     ['arc','Aramaic'],['fa','Persian · فارسی']
   ];
@@ -66,13 +66,13 @@
       if (!panel.open || loaded || busy) return;
       busy=true;body.textContent='Loading audio options…';
       try {
-        const [catalog,dubs,tracks,locales,photos]=await Promise.all([
-          json('assets/field/film-text-v5.json?v=6'),json('assets/dubs-v5/manifest.json?v=6'),
-          import(new URL('../audio-studio/film-track.js?v=6',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href),
-          import(new URL('../audio-studio/photo-descriptions.js?v=9',path).href)
+        const [catalog,dubs,tracks,locales,editions]=await Promise.all([
+          json('assets/field/film-text-v5.json?v=6'),json('assets/dubs-v5/manifest.json?v=8'),
+          import(new URL('../audio-studio/film-track.js?v=8',path).href),import(new URL('../audio-studio/languages.js?v=6',path).href),
+          import(new URL('../audio-studio/film-editions-v8.js?v=8',path).href)
         ]);
         if (!catalog[slug]) throw Error('The audio catalog has no entry for this film.');
-        build(catalog[slug],dubs[slug] || {},tracks.filmTrack,locales,photos.photoDescription);
+        build(catalog[slug],dubs[slug] || {},tracks,locales,editions.descriptionForEdition);
         loaded=true;
       } catch(error) { body.textContent=error.message; }
       finally {busy=false;}
@@ -93,7 +93,7 @@
         watch.abort();
       })));
     }
-    function build(film,dubs,filmTrack,{language,languageName,voiceFor,voiceLabel,writingHint},photoDescription) {
+    function build(film,dubs,{filmTrack,showFilmNote},{language,languageName,voiceFor,voiceLabel,writingHint},descriptionForEdition) {
       body.replaceChildren();
       const hasNarration=Boolean(film.narration);
       const modes=hasNarration?[['narration','Film narration'],['description','Visual description']]:[['description','Visual description']];
@@ -111,6 +111,7 @@
       }
       fields.append(modeField,langField);
       const availability=element('p');
+      const term=element('p');term.dataset.filmNote='';term.hidden=true;
       const controls=element('div');controls.className='film-audio-actions';
       const note=element('p');note.setAttribute('role','status');
       const copy=element('details'),copyTitle=element('summary','Read this track');
@@ -120,6 +121,8 @@
       const targetBlock=element('div'),targetTitle=element('strong'),transcript=element('p');
       targetBlock.append(targetTitle,transcript);pair.append(originalBlock,targetBlock);copy.append(copyTitle,pair);
       const studio=element('a','Open in Audio Studio · more languages ↗');
+      const sources=element('a','Photographs and sources');
+      sources.hidden=true;
       const listen=button('Listen',()=>play(false));
       const together=button('Play with film',()=>play(true));
       const prepare=button('Generate voice',generate);
@@ -133,7 +136,7 @@
       const upload=element('input');upload.type='file';upload.accept='audio/*,.mp3,.wav,.m4a,.ogg,.opus,.flac,.aac,.aiff';
       upload.setAttribute('aria-label','Local recording for the selected language and track');
       uploadLabel.append(upload);personal.append(uploadLabel);
-      body.append(fields,availability,controls,copy,personal,studio,note);
+      body.append(fields,availability,controls,copy,term,sources,personal,studio,note);
       let record,request,ownUrl,exportUrl,revision=0;
       function release() {
         request?.abort();
@@ -146,10 +149,14 @@
         release();revision++;note.textContent='';upload.value='';prepare.disabled=false;exportBtn.disabled=false;
         const code=lang.value;
         const desc=mode.value==='description';
-        const edition=card.hasAttribute('data-lo-photo-frame') && card.querySelector('.screen-quality select')?.value==='photo' ? 'photo' : 'original';
-        const selected=desc ? photoDescription(film,slug,edition) : film;
+        const quality=card.querySelector('.screen-quality select')?.value;
+        const edition=quality==='photo' ? 'photo' : card.hasAttribute('data-documentary-sheet') ? 'documentary' : 'original';
+        sources.hidden=edition!=='documentary';
+        if(sources.hidden)sources.removeAttribute('href');else sources.href=new URL('assets/film-v8/credits.html#'+slug,site);
+        const selected=desc ? descriptionForEdition(film,slug,edition) : film;
         record=filmTrack(selected,dubs,mode.value,code,site) || {text:'',textCode:code,src:null,start:0,end:null,native:false};
         const {text,src,native,textCode,voice}=record;
+        showFilmNote(term,slug,textCode || code);
         const synth=voiceFor(textCode),name=languageName(textCode);
         const dialect=code==='ar-KW' && textCode==='ar-KW' ? 'Kuwaiti wording. ' : '';
         availability.textContent=src ? (desc?'Recorded visual overview':'Recorded narration')+' · '+dialect+voice+'.'
@@ -169,7 +176,7 @@
         if (!download.hidden) {download.href=record.src;download.download=slug+'-'+code+(/\.m4a(?:$|\?)/.test(record.src)?'.m4a':'.mp3');}
         halt.hidden=true;
         const target=new URL('audio-studio.html',site);
-        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'9'});
+        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'8'});
         studio.href=target.href;
       }
       async function generate() {
@@ -202,6 +209,46 @@
         } catch(error) {if(version===revision)note.textContent=error.message;}
         finally {if(version===revision)exportBtn.disabled=false;}
       }
+      async function playDescription() {
+        const AudioEngine=window.AudioContext || window.webkitAudioContext;
+        if(!AudioEngine){note.textContent='Choose Prepare WAV to download this visual description.';return;}
+        let engine;
+        try{engine=new AudioEngine();}
+        catch{note.textContent='Open Prepare WAV to save this description and play it locally.';return;}
+        const controller=new AbortController();
+        let source,started=false;
+        const state={
+          panel,controller,synced:false,
+          audio:{pause(){
+            if(source){source.onended=null;if(started)source.stop();source.disconnect();}
+            engine.close().catch(()=>{});
+          }},
+          finished:()=>{halt.hidden=true;note.textContent='';}
+        };
+        active=state;halt.hidden=false;note.textContent='Opening this visual description…';
+        // Decode the excerpt explicitly because a host may stream MP3s without supporting byte-range seeks.
+        try{
+          const opened=engine.resume();
+          const download=fetch(record.src,{signal:controller.signal}).then(response=>{
+            if(!response.ok)throw Error('The description could not load.');
+            return response.arrayBuffer();
+          });
+          const [,bytes]=await Promise.all([opened,download]);
+          if(active!==state)return;
+          const buffer=await engine.decodeAudioData(bytes);
+          if(active!==state)return;
+          const start=Math.max(0,record.start);
+          const duration=Math.min(record.end,buffer.duration)-start;
+          if(duration<=0)throw Error('The selected passage has no audio.');
+          source=engine.createBufferSource();source.buffer=buffer;source.connect(engine.destination);
+          source.onended=()=>{if(active===state)stop();};
+          source.start(0,start,duration);
+          started=true;
+          note.textContent='Playing this visual description.';
+        }catch(error){
+          if(active===state){stop();note.textContent=error.message+' Try again or choose Prepare WAV.';}
+        }
+      }
       async function play(synced) {
         stop();
         if (record.native && !record.src) {
@@ -210,6 +257,7 @@
           return;
         }
         document.querySelectorAll('video').forEach(v=>v.pause());
+        if(!synced && record.end!==null){await playDescription();return;}
         const audio=new Audio(record.src);
         const controller=new AbortController();
         const options={signal:controller.signal};
@@ -259,7 +307,7 @@
         note.textContent='Ready to play. Choose another language or track to return to the portfolio audio.';
       });
       mode.addEventListener('change',display);lang.addEventListener('change',display);
-      card.querySelector('.screen-quality select')?.addEventListener('change',()=>{if(mode.value==='description')display();});
+      card.querySelector('.screen-quality select')?.addEventListener('change',display);
       display();
     }
   }

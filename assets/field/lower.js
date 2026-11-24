@@ -61,3 +61,50 @@
   addEventListener('scroll', schedulePhotoUpdate, {passive:true});
   addEventListener('resize', schedulePhotoUpdate, {passive:true});
 })();
+
+
+// The downloaded print carries a credited campus detail for offline viewing.
+(() => {
+  let printDetail;
+  function readCampusPanel() {
+    if (printDetail) return printDetail;
+    printDetail = (async () => {
+      const poster = new Image();
+      poster.src = 'assets/field/education-four-v8.jpg';
+      await poster.decode();
+      const panel = document.createElement('canvas');
+      panel.width = 1798;
+      panel.height = 536;
+      const graphics = panel.getContext('2d');
+      graphics.drawImage(poster, 104, 1134, panel.width, panel.height, 0, 0, panel.width, panel.height);
+      return panel.toDataURL('image/jpeg', .89);
+    })();
+    return printDetail;
+  }
+  document.querySelectorAll('img[data-lo-campus-fallback]').forEach((image) => {
+    async function showLocalPhotograph() {
+      const town = image.dataset.loCampusFallback;
+      if (!town) return;
+      delete image.dataset.loCampusFallback;
+      try {
+        image.src = await readCampusPanel();
+        image.width = 1798;
+        image.height = 536;
+      } catch {
+        image.src = town;
+        image.width = 1080;
+        image.height = 613;
+        const tile = image.closest('.lo-atlas-tile');
+        if (tile) tile.querySelector('.lo-tile-id small').textContent = 'Thamarassery town view';
+        const record = image.closest('.lo-school-hero');
+        if (record) {
+          const credit = record.querySelector('.lo-card-photo-credit');
+          credit.href = 'assets/field/education-photo-credits-v8.html#bsc-town';
+          credit.textContent = 'Thamarassery town view · Sapsree97 ©';
+        }
+      }
+    }
+    image.addEventListener('error', showLocalPhotograph, { once: true });
+    if (image.complete && image.naturalWidth === 0) showLocalPhotograph();
+  });
+})();

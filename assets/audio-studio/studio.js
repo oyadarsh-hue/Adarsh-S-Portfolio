@@ -2,8 +2,8 @@ import {catalog,language,languageName,voiceFor,voiceLabel,whisperFor,deviceVoice
 import {decode,whisperSamples,wavBlob} from './audio.js?v=6';
 import {synthesizeWav,workerJob} from './speech.js?v=6';
 import {translateText} from './translate.js?v=7';
-import {filmTrack} from './film-track.js?v=7';
-import {photoDescription} from './photo-descriptions.js?v=9';
+import {filmTrack,showFilmNote} from './film-track.js?v=8';
+import {resolveEdition,descriptionForEdition,documentaryMedia} from './film-editions-v8.js?v=8';
 const $=id=>document.getElementById(id);
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);
@@ -12,9 +12,11 @@ let sourceRevision=0,languageEpoch=0,film=null,autoOutput=null,shownRecording=''
 const site=new URL('../../',import.meta.url);
 const drafts=new Map();
 const originalClips=new Set('assenttag epigraphix-ai quietnote aegisforge-x deciphera publication bluegen skybrisk codtech mca bsc hse sslc'.split(' '));
-function originalFilmAudio(slug){
+function originalFilmAudio(slug,edition){
+  const editionMedia=documentaryMedia(slug,edition);
+  if(editionMedia)return editionMedia;
   if(originalClips.has(slug))return 'assets/clips/'+slug+'-hd.mp4';
-  return ({projects:'assets/field/projects-hd-v2.mp4',journey:'assets/field/journey-hd-v2.mp4'})[slug] || '';
+  return ({projects:'assets/field/projects-hd-v2.mp4',journey:'assets/field/journey-hd-v8.mp4'})[slug] || '';
 }
 let activeTag='',resultLang='',origin='',engineState='unavailable';
 let machineSource=null;
@@ -35,6 +37,8 @@ function repaintOrigin(){
   $('output').lang=resultLang || to();
   $('sourceText').lang=from() || '';
   const bundle=authored();
+  const filmSource=film && from()==='en' && source()===film.original.trim();
+  showFilmNote($('studioTerm'),filmSource ? film.slug : '',bundle?.textCode || to());
   const hint=bundle?.src && bundle.text.trim()===output() ? '' : writingHint(output(),resultLang || to());
   $('outputOrigin').textContent=output() ? [origin,hint].filter(Boolean).join(' ') : '';
   $('compare').hidden=!source() || !output();
@@ -186,6 +190,13 @@ function setTheme(theme,save=false){
   if(save){try{localStorage.setItem('adarsh-theme-v2',theme);}catch{}}
 }
 const media=matchMedia('(prefers-color-scheme: dark)');
+window.addEventListener('storage', event => {
+  if (event.key === 'adarsh-motion' || event.key === null) {
+    try {
+      document.documentElement.dataset.motion = localStorage.getItem('adarsh-motion') === 'paused' ? 'paused' : 'enabled';
+    } catch {}
+  }
+});
 setTheme(document.documentElement.dataset.theme || (media.matches?'dark':'light'));
 $('theme').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark',true));
 media.addEventListener?.('change',e=>{try{if(!localStorage.getItem('adarsh-theme-v2'))setTheme(e.matches?'dark':'light');}catch{}});
@@ -282,14 +293,22 @@ if(params.get('film')){
   const revision=sourceRevision,mode=params.get('mode')==='narration'?'narration':'description';
   try{
     const loadJSON=async path=>{const response=await fetch(new URL(path,import.meta.url));if(!response.ok)throw Error();return response.json();};
-    const [catalog,dubs]=await Promise.all([loadJSON('../field/film-text-v5.json?v=6'),mode==='narration'?loadJSON('../dubs-v5/manifest.json?v=6').catch(()=>({})):{}]);
+    const [catalog,dubs]=await Promise.all([loadJSON('../field/film-text-v5.json?v=6'),mode==='narration'?loadJSON('../dubs-v5/manifest.json?v=8').catch(()=>({})):{}]);
     const slug=params.get('film'),base=catalog[slug];
-    const selected=base && mode==='description' ? photoDescription(base,slug,params.get('edition')) : base;
+    const edition=resolveEdition(slug,params.get('edition'));
+    const selected=base && mode==='description' ? descriptionForEdition(base,slug,edition) : base;
     if(!selected || typeof selected[mode]!=='string' || !selected[mode].trim())throw Error();
     if(revision===sourceRevision){
-      film={mode,slug,info:{...selected,originalAudio:originalFilmAudio(slug)},dubs:dubs[slug] || {},original:selected[mode]};
+      film={mode,slug,info:{...selected,originalAudio:originalFilmAudio(slug,edition)},dubs:dubs[slug] || {},original:selected[mode]};
       $('sourceText').value=film.original;$('from').value='en';applyAuthored();
-      $('filmNotice').textContent=selected.title+(selected!==base?' · Photo edition':'')+' · English '+mode+' loaded for translation.';refresh();engineDescription();
+      $('filmNotice').textContent=selected.title+(edition==='documentary'?' · Documentary edition':edition==='photo'?' · Photo edition':'')+' · English '+mode+' loaded for translation.';
+      if(edition==='documentary'){
+        const credit=document.createElement('a');
+        credit.href=new URL('assets/film-v8/credits.html#'+slug,site);
+        credit.textContent='Photographs and sources';
+        $('filmNotice').append(' ',credit);
+      }
+      refresh();engineDescription();
     }
   }catch{$('filmNotice').textContent='The selected film text is unavailable. You can still open audio or paste a transcript.';}
   if($('filmNotice').textContent)$('filmNotice').hidden=false;

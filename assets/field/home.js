@@ -51,7 +51,7 @@
   mobileMenu.addEventListener('change', () => setMenu(false));
 
   const scenes = [...document.querySelectorAll('.hero-image')];
-  const sceneNames = ['TEA VALLEY','WESTERN GHATS','MALABAR COAST'];
+  const sceneNames = ['MUNNAR TEA GARDENS','THAMARASSERY CHURAM','KOZHIKODE BEACH'];
   let activeScene = 0;
   document.querySelectorAll('[data-scene-step]').forEach(button => {
     button.addEventListener('click', () => {

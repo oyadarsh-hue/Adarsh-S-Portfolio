@@ -2,7 +2,9 @@
 
 ## Current visual design
 
-The homepage pairs a framed portrait with a Kerala tea-valley panorama and a linked photographic index. Each project has its own concept image, a source-linked explanation of its workflow, a technology stack, a case study and an independent film. The images are illustrative. The portrait shows Adarsh.
+Adarsh’s folded-ribbon AS monogram and framed portrait open on photographs of Munnar, Thamarassery Churam and Kozhikode Beach. The scrolling photo journal connects industry, campus and manuscript research. The Education section presents four stages in one linked photographic frame. Its downloadable 3840 × 2160 print is in `assets/field/education-four-v8.jpg`. Source links and credits accompany the photographs.
+
+The homepage, case studies, tools and Audio Studio share a color palette and motion controls. The portrait stays still when motion is paused. Scroll reveals and rotating specialty text also respect reduced-motion preferences. Project illustrations are labeled separately from campus and workplace photographs.
 
 Each of the 21 film players includes three selectable frames extracted from its own footage, with timecodes for seeking. The two premieres, thirteen topic films, two long documentaries and four archive reels all have HD and 3840 × 2160 versions. The project case pages use the same film and frame controls.
 

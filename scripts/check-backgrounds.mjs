@@ -148,8 +148,9 @@ for (const name of films) {
   const hd = inspectFilm(readMediaFile(meta.web), name + ' direct HD', 1280, 720);
   assert(Math.abs(hd - duration) < .2 && Math.abs(direct4k - duration) < .2,
     name + ' has inconsistent durations across the three encodes');
-  assert.equal(meta.web, name + '-hd-v2.mp4');
-  assert.equal(meta['4k'], name + '-v2.mp4');
+  const revision = name === 'journey' ? 'v8' : 'v2';
+  assert.equal(meta.web, name + '-hd-' + revision + '.mp4');
+  assert.equal(meta['4k'], name + '-' + revision + '.mp4');
   assert.equal(meta.poster, name + '-v2.webp');
   assert.equal(meta.captions, name + '-v2.vtt');
   assert(Math.abs(duration - meta.duration) < 1, name + ' program duration differs from the actual video');
@@ -187,13 +188,15 @@ for (const {slug, file, folder, stem, duration, width, height, digest} of archiv
 }
 const clipNames = ['assenttag', 'epigraphix-ai', 'aegisforge-x', 'deciphera', 'quietnote',
   'mca', 'bsc', 'hse', 'sslc', 'bluegen', 'skybrisk', 'codtech', 'publication'];
+const documentaries = new Set(['mca', 'bsc', 'hse', 'sslc', 'bluegen', 'skybrisk', 'codtech']);
 const videoHashes = new Set();
 const captionHashes = new Set();
 for (const name of clipNames) {
+  const directory = documentaries.has(name) ? 'film-v8' : 'clips';
   let duration;
   for (const [suffix, width, height] of [['-hd', 1280, 720], ['', 3840, 2160]]) {
     const file = name + suffix + '.mp4';
-    const bytes = readMediaFile(file, 'clips');
+    const bytes = readMediaFile(file, directory);
     const hash = createHash('sha256').update(bytes).digest('hex');
     assert(!videoHashes.has(hash), file + ' duplicates another clip');
     videoHashes.add(hash);
@@ -202,12 +205,17 @@ for (const name of clipNames) {
     duration = length;
   }
   durations.set(name, duration);
+  if (documentaries.has(name)) {
+    assert(home.includes('data-documentary-sheet="assets/film-v8/' + name + '-sheet.webp"'));
+    inspectFilm(readMediaFile(name + '.mp4', 'photo-editions'), name + ' low-data edition', 960, 540,
+      {minDuration: duration - .25, maxDuration: duration + .25});
+  }
   const captions = name + '.vtt';
   validateCaptions(captions, duration, {directory: 'clips', clip: true});
   const hash = createHash('sha256').update(readMediaFile(captions, 'clips')).digest('hex');
   assert(!captionHashes.has(hash), name + ' duplicates another clip’s transcript');
   captionHashes.add(hash);
-  const [width, height] = dimensions(readMediaFile(name + '.webp', 'clips'));
+  const [width, height] = dimensions(readMediaFile(name + '.webp', directory));
   assert(width >= 640 && width > height, name + ' needs a landscape poster');
 }
 // Each new premiere ships independently of the original projects and archive.
@@ -241,7 +249,8 @@ for (const slug of playerSlugs) {
   assert.equal(times.length, 3);
   assert(times.every((time, i) => Number.isFinite(time) && time >= 0 && time < durations.get(slug)
     && (!i || time > times[i - 1])), slug + ' thumbnails must seek to three successive points within the actual film');
-  const sheet = readMediaFile(slug + '.webp', 'frames-v6');
+  const sheet = documentaries.has(slug) ? readMediaFile(slug + '-sheet.webp', 'film-v8')
+    : readMediaFile(slug + '.webp', 'frames-v6');
   const [width, height] = dimensions(sheet);
   assert(width / 3 >= 240 && width / 3 * 9 === height * 16, slug + ' thumbnail sheet needs three 16:9 frames');
   const hash = createHash('sha256').update(sheet).digest('hex');

@@ -1,0 +1,104 @@
+#experience .employer-source-head {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  gap: 0;
+}
+#experience .employer-cover {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: end;
+  min-height: clamp(17rem, 23vw, 23rem);
+  overflow: hidden;
+  background: #162329;
+  color: #fff;
+  border-radius: 2px 2px 0 0;
+}
+#experience .employer-cover-image {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 83%;
+  object-fit: cover;
+  object-position: var(--cover-focus, 50% 40%);
+}
+#experience [data-lo-record="skybrisk"] { --cover-focus: 50% 9%; }
+#experience [data-lo-record="codtech"] { --cover-focus: 50% 11%; }
+#experience .employer-cover::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 20%, rgba(17,29,34,.08) 35%, rgba(17,29,34,.88) 65%, #111d22 84%);
+}
+#experience .employer-heading {
+  display: grid;
+  grid-template-columns: 2.7rem minmax(0, 1fr);
+  align-items: start;
+  gap: .75rem;
+  width: 100%;
+  padding: clamp(.8rem, 1.1vw, 1.25rem);
+}
+#experience .employer-heading .lo-org-mark {
+  width: 2.55rem;
+  height: 2.55rem;
+  margin-top: .15rem;
+  border: 0;
+  box-shadow: none;
+}
+#experience .employer-heading .lo-position-head { min-width: 0; }
+#experience .employer-heading .lo-position-head small {
+  color: #e1f2f2;
+  font-size: .69rem;
+}
+#experience .employer-heading .lo-position-head h3 {
+  color: #fff;
+  text-shadow: 0 1px 3px #0d1d24bf;
+}
+#experience .employer-heading .lo-position-head > span { color: #fff; }
+#experience .employer-heading .lo-position-head em { color: #e2e9e8; }
+#experience .employer-source-credit {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: .18rem;
+  min-height: 3.4rem;
+  padding: .55rem .82rem;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--lo-record-color);
+  background: var(--surface);
+  color: var(--muted);
+  font: 500 .75rem/1.35 var(--body,sans-serif);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+#experience .employer-source-credit strong {
+  color: var(--ink);
+  font-weight: 680;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .2em;
+}
+#experience .employer-source-credit:focus-visible,
+#experience .employer-chapter-credit:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+#experience .employer-source-credit:hover strong { text-decoration-thickness: 2px; }
+#experience .employer-chapter-credit {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: .23em;
+}
+@media (min-width: 720px) and (max-width: 1000px) {
+  #experience .employer-cover { min-height: 15.5rem; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  #experience .employer-cover-image { transition: transform .65s ease; }
+  #experience .lo-employer:hover .employer-cover-image { transform: scale(1.025); }
+}

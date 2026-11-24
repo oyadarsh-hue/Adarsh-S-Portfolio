@@ -28,7 +28,9 @@
   const cards=Array.from(document.querySelectorAll('figure.screen-card[data-clip]'));
   if (!cards.length) return;
   function showSheet(row) {
-    row.style.setProperty('--sheet','url("'+new URL(row.dataset.sheet+'.webp',base).href+'")');
+    const url = row.dataset.documentarySheet ? new URL(row.dataset.documentarySheet, document.baseURI) : new URL(row.dataset.sheet+'.webp',base);
+    if (row.dataset.sheet === 'journey') url.searchParams.set('v', '8');
+    row.style.setProperty('--sheet','url("'+url.href+'")');
   }
   const near='IntersectionObserver' in window ? new IntersectionObserver(entries=>{
     for(const e of entries) if(e.isIntersecting){showSheet(e.target);near.unobserve(e.target);}
@@ -43,6 +45,7 @@
       const title=document.createElement('p');title.textContent='Play from a frame';
       const options=document.createElement('div');options.className='still-options';
       group.append(title,options);options.dataset.sheet=slug;
+      if(card.dataset.documentarySheet)options.dataset.documentarySheet=card.dataset.documentarySheet;
       let requested=null;
       const buttons=starts.map((time,i)=>{
         const button=document.createElement('button');

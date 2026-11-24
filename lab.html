@@ -24,16 +24,19 @@
   <meta property="og:url" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/lab.html" />
   <meta property="og:image" content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png" />
   <meta name="theme-color" content="#111116" />
-  <link rel="icon" href="assets/field/mark.svg?v=7" type="image/svg+xml" />
+  <link rel="icon" href="assets/field/mark.svg?v=8" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/workbench.css?v=1" />
   <script src="assets/js/lab.js?v=1" defer></script>
   <link rel="stylesheet" href="assets/field/interior.css?v=5" />
-    <script defer src="assets/field/interior.js?v=5"></script>
+    <script defer src="assets/field/interior.js?v=8"></script>
+      <link rel="stylesheet" href="assets/field/color-motion-v8.css">
+    <link rel="stylesheet" href="assets/field/interior-v8.css">
+    <script defer src="assets/field/color-motion-v8.js"></script>
   </head>
-<body class="tool-page edition-v5">
+<body class="tool-page edition-v5 edition-v8" data-interior-edition="lab">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="folio-head">
-      <a class="folio-brand" href="index.html" aria-label="Adarsh S, portfolio home"><img src="assets/field/mark.svg?v=7" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="index.html" aria-label="Adarsh S, portfolio home"><img src="assets/field/mark.svg?v=8" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="tool-nav" aria-label="Lab navigation"><a href="index.html">Portfolio</a> <a href="index.html#skills">Skills</a> <a href="recruiter.html">Recruiter view</a> <a href="workbench.html">Workbench</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -42,16 +45,16 @@
     </header>
   <main id="main" class="tool-main">
     <div class="tool-hero" data-ed-stage>
-        <div class="interior-scene" aria-hidden="true"><img src="assets/images/backgrounds/optical-glass-1600.webp" width="1672" height="941" fetchpriority="high" alt="" /></div><div><p class="tool-eyebrow">02 / Interactive engineering lab</p><h1 class="ed-title">Change an input.<br /><span>See the consequence.</span></h1><p>Two small experiments inspired by my projects. Explore a failure mode, inspect each operation, and test the behavior yourself.</p></div><aside class="tool-intro-note"><img class="tool-hero-photo" src="assets/field/note.webp" width="640" height="370" alt="" /><strong>Built to be explored.</strong><p>Everything runs in your browser. The race is a step-by-step model; the SHA-256 checker computes real digests of your text.</p></aside></div>
+        <div class="interior-scene" aria-hidden="true"><img src="assets/images/backgrounds/optical-glass-1600.webp" width="1672" height="941" fetchpriority="high" alt="" /></div><div><p class="tool-eyebrow v8-hinge">02 / Interactive engineering lab</p><h1 data-motion-title class="ed-title">Change an input.<br /><span>See the consequence.</span></h1><p>Two small experiments inspired by my projects. Explore a failure mode, inspect each operation, and test the behavior yourself.</p></div><aside class="tool-intro-note" data-motion-frame><img class="tool-hero-photo" src="assets/field/note.webp" width="640" height="370" alt="" /><strong>Built to be explored.</strong><p>Everything runs in your browser. The race is a step-by-step model; the SHA-256 checker computes real digests of your text.</p></aside></div>
     <nav class="tool-jump" aria-label="Lab experiments"><a href="#race">01 &nbsp; One-time access</a><a href="#integrity">02 &nbsp; Evidence integrity</a></nav>
     <noscript><p class="no-script">Enable JavaScript to run these experiments. The explanations below and <a href="projects/quietnote.html">QuietNote</a> / <a href="projects/aegisforge-x.html">AegisForge-X</a> case studies remain available.</p></noscript>
     <section id="race" class="tool-section" aria-labelledby="raceTitle">
-      <header class="edition-banner "><img class="ed-picture" src="assets/field/note.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="tool-eyebrow">Experiment 01 / Inspired by QuietNote</p><h2 id="raceTitle">One note. Competing readers.</h2></div></header>
+      <header class="edition-banner" data-motion-frame><img class="ed-picture" src="assets/field/note.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="tool-eyebrow v8-hinge">Experiment 01 / Inspired by QuietNote</p><h2 data-motion-title id="raceTitle">One note. Competing readers.</h2></div></header>
       <p>If several requests read “available” before anyone marks a note consumed, each can believe it has permission. Compare that schedule with an atomic conditional claim.</p>
       <div data-lab hidden>
         <div class="lab-controls"><div><label for="raceMode">Access strategy</label><select id="raceMode"><option value="unsafe">Read, then mark consumed</option><option value="atomic">Atomic conditional claim</option></select></div><div><label for="readerCount">Competing readers</label><select id="readerCount"><option value="2">2 readers</option><option value="5">5 readers</option><option value="25">25 readers</option></select></div><div><label for="initialState">Starting note state</label><select id="initialState"><option value="available">Available</option><option value="expired">Expired</option><option value="revoked">Revoked</option></select></div></div>
         <div class="tool-actions"><button id="stepRace" type="button" class="primary">Next operation</button><button id="runRace" type="button">Run full schedule</button><button id="resetRace" type="button">Reset experiment</button></div>
-        <dl class="race-stats"><div><dt>Note state</dt><dd id="noteState">available</dd></div><div><dt>Content received</dt><dd id="winnerCount">0</dd></div><div><dt>Operations</dt><dd id="eventCount">0</dd></div></dl>
+        <dl class="race-stats" data-motion-frame><div><dt>Note state</dt><dd id="noteState">available</dd></div><div><dt>Content received</dt><dd id="winnerCount">0</dd></div><div><dt>Operations</dt><dd id="eventCount">0</dd></div></dl>
         <p id="raceSummary" role="status" aria-live="polite" aria-atomic="true"></p>
         <div id="readerGrid" class="reader-grid" aria-label="Reader outcomes"></div>
         <details open><summary>Operation log</summary><ol id="raceLog" class="event-log" aria-label="Operation log" tabindex="0"></ol></details>
@@ -59,7 +62,7 @@
       <div class="lab-explanation"><strong>What this demonstrates</strong><p>The first strategy intentionally schedules every read before any write to expose stale permission. The second models an indivisible check-and-consume operation. This deterministic browser model illustrates interleaving; it does not run simultaneous requests or prove database behavior. QuietNote's source and concurrency test suite are linked in the <a href="projects/quietnote.html">case study</a>.</p></div>
     </section>
     <section id="integrity" class="tool-section" aria-labelledby="integrityTitle">
-      <header class="edition-banner "><img class="ed-picture" src="assets/images/project-security.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="tool-eyebrow">Experiment 02 / Inspired by AegisForge-X</p><h2 id="integrityTitle">Can you spot a changed record?</h2></div></header>
+      <header class="edition-banner" data-motion-frame><img class="ed-picture" src="assets/images/project-security.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="tool-eyebrow v8-hinge">Experiment 02 / Inspired by AegisForge-X</p><h2 data-motion-title id="integrityTitle">Can you spot a changed record?</h2></div></header>
       <p>Edit the sample evidence or change one character. Compare its SHA-256 digest with the baseline, then establish a new baseline to repeat the experiment.</p>
       <div data-lab hidden>
         <div class="tool-columns"><div><label for="hashInput">Evidence text</label><textarea id="hashInput" rows="7" maxlength="10000" aria-describedby="hashHelp"></textarea><p id="hashHelp" class="tool-help">Exact UTF-8 content is hashed locally, including whitespace and line breaks. Text is not uploaded or saved.</p><div class="tool-actions"><button id="tamperSample" type="button" class="primary">Change one character</button><button id="setBaseline" type="button">Use current as baseline</button><button id="resetHash" type="button">Reset sample</button></div></div><div><div class="digest"><strong>Baseline SHA-256</strong><code id="baselineHash">Calculating…</code></div><div class="digest"><strong>Current SHA-256</strong><code id="currentHash">Calculating…</code></div><p id="byteCount" class="tool-help"></p><p id="hashStatus" class="hash-status" role="status" aria-live="polite" aria-atomic="true"></p></div></div>

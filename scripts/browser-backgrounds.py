@@ -11,8 +11,10 @@ from browser_fixture import ROOT, run_suite
 PROJECTS = ("assenttag", "epigraphix-ai", "aegisforge-x", "deciphera", "quietnote")
 SCHOOLS = {"mca": "Thrissur", "bsc": "Thamarassery", "hse": "Thamarassery", "sslc": "Engapuzha"}
 COMPANIES = {"bluegen": "Bluegen", "skybrisk": "Skybrisk", "codtech": "CODTECH"}
+DOCUMENTARY = set(SCHOOLS) | set(COMPANIES)
 CLIPS = (*PROJECTS, *SCHOOLS, *COMPANIES, "publication")
 LONG = {"projects": "project-film", "journey": "journey-film"}
+LONG_VERSION = {"projects": "v2", "journey": "v8"}
 PREMIERES = {"premiere-teaser": ("project-premiere","trailer"), "premiere-loop": ("dimension-premiere","kinetic")}
 # Each independent frame pairs a scored remaster with the original download.
 ARCHIVE = {
@@ -265,9 +267,10 @@ def verify_still_seek(frame, index, test):
     button = frame.locator(".still-options button").nth(index)
     expect(button).to_be_visible()
     button.scroll_into_view_if_needed()
-    frame.page.wait_for_function(
-        """slug => getComputedStyle(document.querySelector('[data-sheet="'+slug+'"] button')).backgroundImage.includes('/'+slug+'.webp')""",
-        arg=slug)
+    sheet = f"film-v8/{slug}-sheet.webp" if slug in DOCUMENTARY else f"frames-v6/{slug}.webp"
+    frame.page.wait_for_function("""([slug, sheet]) =>
+        getComputedStyle(document.querySelector('[data-sheet="'+slug+'"] button')).backgroundImage.includes('/'+sheet)
+    """, arg=[slug, sheet])
     start = float(button.get_attribute("data-frame-time"))
     button.focus()
     frame.page.keyboard.press("Enter")
@@ -427,10 +430,11 @@ with run_suite("backgrounds") as (browser, test):
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
         expect(scenes).to_have_count(3)
-        test.check(
-            "valley-v5.webp" in active.get_attribute("src"),
-            "New valley photograph opens the three-scene hero",
-        )
+        expected_scenes = ["assets/field/munnar-v8.webp", "assets/field/journal-photos/sslc.webp",
+                           "assets/field/kozhikode-v8.webp"]
+        expect(active).to_have_attribute("src", expected_scenes[0])
+        test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
+                   "The hero opens on Munnar and offers the mountain road and coastal photographs")
         active.evaluate("img => img.decode()")
         first = active.get_attribute("data-scene")
         steps = page.locator("[data-scene-step]").last
@@ -467,10 +471,17 @@ with run_suite("backgrounds") as (browser, test):
         test.check(lettering[0] == lettering[2] and lettering[0][0] != lettering[1][0]
                    and lettering[0][1] != lettering[1][1], "Role and name lettering visibly track scroll and reverse")
         motion = page.locator("#motionToggle")
+        specialty = page.locator("[data-discipline]")
+        previous = specialty.inner_text()
+        expect(specialty).not_to_have_text(previous, timeout=8000)
         motion.click()
         page.reload()
         scroll(page, 180)
         expect(motion).to_have_attribute("aria-pressed", "true")
+        paused_specialty = specialty.inner_text()
+        page.wait_for_timeout(4050)
+        expect(specialty).to_have_text(paused_specialty)
+        test.check(True, "The rotating specialty changes while active and stays still when paused")
         test.check(
             hero.evaluate(
                 """e => ['--scene-shift','--scene-turn','--title-slide'].every(k=>!parseFloat(getComputedStyle(e).getPropertyValue(k)))"""
@@ -501,10 +512,10 @@ with run_suite("backgrounds") as (browser, test):
         for slug in LONG:
             frame = frame_for(page, slug)
             video = frame.locator("video")
-            direct = f"assets/field/{slug}-v2.mp4"
+            direct = f"assets/field/{slug}-{LONG_VERSION[slug]}.mp4"
             expect(frame.locator("[data-uhd]")).to_have_attribute("href", direct)
             play(frame)
-            verify_stream(frame, True, f"{slug}-hd-v2.mp4", test)
+            verify_stream(frame, True, f"{slug}-hd-{LONG_VERSION[slug]}.mp4", test)
             verify_audio_and_captions(frame, slug, test)
             verify_program(frame, slug, test)
             video.evaluate("async v => { v.currentTime = 4; await v.play() }")
@@ -515,7 +526,7 @@ with run_suite("backgrounds") as (browser, test):
             video.evaluate("v => v.pause()")
             verify_master(frame, slug, test)
             quality(frame).select_option("hd")
-            verify_stream(frame, True, f"{slug}-hd-v2.mp4", test)
+            verify_stream(frame, True, f"{slug}-hd-{LONG_VERSION[slug]}.mp4", test)
             test.check(
                 video.evaluate("v => v.paused && v.currentTime >= 3.85 && v.currentTime < 9"),
                 f"{slug}: returning to HD preserves pause and position",
@@ -559,22 +570,23 @@ with run_suite("backgrounds") as (browser, test):
         for slug in CLIPS:
             frame = frame_for(page, slug)
             video = frame.locator("video")
-            photo_editions = {"mca", "bsc", "hse", "sslc", "bluegen", "skybrisk", "codtech"}
-            if slug in photo_editions:
-                expect(video.locator("source")).to_have_attribute("src", f"assets/photo-editions/{slug}.mp4")
-                expect(video.locator("source")).to_have_attribute("data-original", f"assets/clips/{slug}-hd.mp4")
-                expect(video).to_have_attribute("poster", f"assets/field/journal-photos/{slug}.webp")
-                expect(quality(frame)).to_have_value("photo")
+            folder = "film-v8" if slug in DOCUMENTARY else "clips"
+            expect(video.locator("source")).to_have_attribute("src", f"assets/{folder}/{slug}-hd.mp4")
+            expect(video).to_have_attribute("poster", f"assets/{folder}/{slug}.webp")
+            expect(frame.locator("[data-uhd]")).to_have_attribute("href", f"assets/{folder}/{slug}.mp4")
+            if slug in DOCUMENTARY:
+                expect(frame).to_have_attribute("data-documentary-sheet", f"assets/film-v8/{slug}-sheet.webp")
+                expect(quality(frame)).to_have_value("hd")
+                if slug == "mca":
+                    verify_still_seek(frame, 1, test)
+                quality(frame).select_option("photo")
                 play(frame)
-                until_video(frame, "v.videoWidth === 960 && v.readyState >= 2")
+                until_video(frame, "v.videoWidth === 960 && v.videoHeight === 540 && v.readyState >= 2 && v.currentSrc.endsWith(arg)",
+                            f"/assets/photo-editions/{slug}.mp4")
                 verify_audible(video, 2, f"{slug} photo edition retains narration", test)
                 expect(frame.locator(".film-stills")).to_be_hidden()
                 quality(frame).select_option("hd")
                 expect(frame.locator(".film-stills")).to_be_visible()
-            else:
-                expect(video.locator("source")).to_have_attribute("src", f"assets/clips/{slug}-hd.mp4")
-                expect(video).to_have_attribute("poster", f"assets/clips/{slug}.webp")
-            expect(frame.locator("[data-uhd]")).to_have_attribute("href", f"assets/clips/{slug}.mp4")
             play(frame)
             verify_stream(frame, True, f"{slug}-hd.mp4", test)
             verify_audio_and_captions(frame, slug, test)
@@ -642,14 +654,14 @@ with run_suite("backgrounds") as (browser, test):
         page.route("**/*.part", missing_part)
         for slug in LONG:
             frame = frame_for(page, slug)
-            direct = f"assets/field/{slug}-v2.mp4"
+            direct = f"assets/field/{slug}-{LONG_VERSION[slug]}.mp4"
             quality(frame).select_option("uhd")
             expect(frame.locator("video")).to_have_attribute("src", direct)
             play(frame)
-            verify_stream(frame, False, slug + "-v2.mp4", test)
+            verify_stream(frame, False, f"{slug}-{LONG_VERSION[slug]}.mp4", test)
             expect(frame.locator("[data-uhd]")).to_have_attribute("href", direct)
             quality(frame).select_option("hd")
-            verify_stream(frame, True, slug + "-hd-v2.mp4", test)
+            verify_stream(frame, True, f"{slug}-hd-{LONG_VERSION[slug]}.mp4", test)
         test.check(bool(missing), "An unavailable master part falls back to both compact UHD files")
 
     # Delay one real network request and change the quality before it returns.

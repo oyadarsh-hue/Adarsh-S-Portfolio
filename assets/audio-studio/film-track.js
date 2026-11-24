@@ -1,3 +1,4 @@
+import {educationTerm,projectTerm} from './education-terms-v8.js?v=8';
 import {baseFallback,equivalentTag,languageName} from './languages.js?v=6';
 const recordedLocales={en:'en-US',ml:'ml-IN',hi:'hi-IN',ur:'ur-PK',bn:'bn-BD',es:'es-ES',ar:'ar-JO','ar-KW':'ar-JO',fa:'fa-IR'};
 function audioURL(path,site){
@@ -33,10 +34,21 @@ export function filmTrack(film,dubs,mode,tag,site){
   return track;
 }
 function recordedVoice(record,code){
-  if(record.voice==='eSpeak NG')return 'eSpeak NG · '+languageName(code);
+  if(record.voice==='eSpeak NG')return 'eSpeak NG · '+languageName(record.voiceLanguage || code);
   const voice=record.voice?.split(' (')[0]?.split(' · ')[0] || (code==='ml'?'Meera':'');
   const kareem=(code==='ar' || code==='ar-KW') && voice==='Kareem';
   const actual=record.voiceLanguage || (kareem?'ar-JO':'') || record.language || recordedLocales[code] || code;
   if((code==='ar-KW' || code==='ar') && actual==='ar-JO')return 'Jordanian Arabic voice'+(voice?' · '+voice:'');
   return [voice,languageName(actual)].filter(Boolean).join(' · ');
+}
+
+export function showFilmNote(container,slug,code){
+  const education=educationTerm(slug,code);
+  const note=education || projectTerm(slug,code);
+  container.hidden=!note;
+  if(!note){container.replaceChildren();return;}
+  const label=document.createElement('strong');label.textContent=education?'Education note':'Project note';
+  const text=document.createElement('span');text.textContent=note;text.lang=code;text.dir='auto';
+  container.dataset.noteKind=education?'education':'project';
+  container.replaceChildren(label,document.createElement('br'),text);
 }

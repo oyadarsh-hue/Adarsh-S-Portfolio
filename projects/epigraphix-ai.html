@@ -58,21 +58,24 @@
       name="twitter:image"
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
-    <link rel="icon" href="../assets/field/mark.svg?v=7" type="image/svg+xml" />
+    <link rel="icon" href="../assets/field/mark.svg?v=8" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/field/interior.css?v=5" />
-    <script defer src="../assets/field/interior.js?v=5"></script>
+    <script defer src="../assets/field/interior.js?v=8"></script>
     <link rel="stylesheet" href="../assets/field/screens.css?v=6" />
     <script defer src="../assets/field/screens.js?v=5"></script>
-  <script defer src="../assets/field/film-audio.js?v=6"></script>
+  <script defer src="../assets/field/film-audio.js?v=8"></script>
     <link rel="stylesheet" href="../assets/field/project-frames-v6.css?v=7" />
     <link rel="stylesheet" href="../assets/field/gallery-v6.css">
   <script defer src="../assets/field/gallery-v6.js"></script>
-</head>
-  <body class="case-spatial edition-v5" style="--case-color:#b9e99b">
+    <link rel="stylesheet" href="../assets/field/color-motion-v8.css">
+    <link rel="stylesheet" href="../assets/field/interior-v8.css">
+    <script defer src="../assets/field/color-motion-v8.js"></script>
+  </head>
+  <body class="case-spatial edition-v5 edition-v8" data-interior-edition="epigraphix-ai" style="--case-color:#b9e99b">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class="folio-head">
-      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=7" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=8" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="case-navigation" aria-label="Portfolio navigation"><a href="../index.html">Portfolio</a> <a href="../index.html#skills">Skills</a> <a href="../index.html#projects">All projects</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -81,19 +84,21 @@
     </header>
     <main id="main" class="case case-v3" data-project="epigraphix-ai">
       <header class="case-splash" data-ed-stage>
-        <figure class="cover-image">
+        <figure class="cover-image" data-motion-frame>
           <img class="ed-picture" src="../assets/field/v6-epigraphix-ai.webp" width="1774" height="887" alt="A brass magnifier enlarges one line of characters incised into a palm leaf." fetchpriority="high" />
           <figcaption>Manuscript imaging · AI-generated concept artwork</figcaption>
         </figure>
         <div class="cover-copy">
-          <p class="ed-kicker">CASE STUDY / 02 / Applied AI / Historical manuscripts</p>
-          <h1 class="ed-title"><span>EpigraphiX-AI</span></h1>
+          <p class="ed-kicker v8-hinge">CASE STUDY / 02 / Applied AI / Historical manuscripts</p>
+          <h1 data-motion-title class="ed-title"><span>EpigraphiX-AI</span></h1>
+          <p class="v8-cover-role">Academic project · Computer vision, OCR and research</p>
+          <div class="v8-cover-actions"><a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a href="#workflow">How it works <span aria-hidden="true">↓</span></a></div>
         </div>
       </header>
       <div class="case-brief">
         <p class="case-lead">Image restoration, segmentation and OCR research for historical palm-leaf manuscripts.</p>
-        <div><p class="case-role">Academic project · Computer vision, OCR and research</p><div class="actions">
-          <a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a class="button" href="https://github.com/oyadarsh-hue/EpigraphiX-AI" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt=""> View source code <span aria-hidden="true">↗</span></a>
+        <div><div class="actions">
+          <a class="button" href="https://github.com/oyadarsh-hue/EpigraphiX-AI" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt=""> View source code <span aria-hidden="true">↗</span></a>
         </div></div>
       </div>
       <nav class="case-jump" aria-label="Case study chapters">
@@ -107,8 +112,8 @@
       </nav>
       <section id="film" class="chapter film-chapter" aria-labelledby="film-title">
         <div class="film-copy">
-          <p class="chapter-label">Project film</p>
-          <h2 id="film-title">Reading marks cut into a leaf.</h2>
+          <p class="chapter-label v8-hinge">Project film</p>
+          <h2 data-motion-title id="film-title">Reading marks cut into a leaf.</h2>
           <p>Faint incisions, leaf fibres and irregular character boundaries make historical manuscripts difficult for ordinary OCR to read.</p>
           <h3>The approach</h3><p>Combine image restoration, adaptive binarization, glyph segmentation and lexicon-based post-processing in an inspectable research workflow.</p>
         </div>
@@ -121,14 +126,14 @@
         </figure>
       </section>
       <section id="system" class="chapter pf-case-frame" data-pf="epigraphix-ai" aria-labelledby="system-title">
-        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 id="system-title">Manuscript research</h2><p>Restores degraded Malayalam palm-leaf images and extracts candidate glyphs for transcription.</p></div><div class="pf-diagram" data-system="epigraphix-ai">
+        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 data-motion-title id="system-title">Manuscript research</h2><p>Restores degraded Malayalam palm-leaf images and extracts candidate glyphs for transcription.</p></div><div data-motion-frame class="pf-diagram" data-system="epigraphix-ai">
         <p class="pf-label">Recognition pipeline</p><h3>From groove to glyph</h3>
         <ol class="pf-glyph-map"><li><span class="pf-sample sample-leaf" aria-hidden="true">അ</span><strong>Leaf image</strong></li><li><span class="pf-sample sample-ink" aria-hidden="true">അ</span><strong>Binary mask</strong></li><li><span class="pf-sample sample-box" aria-hidden="true">അ</span><strong>Glyph region</strong></li></ol>
         <a class="pf-evidence-link" href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/trocr_transformer_engine.py" target="_blank" rel="noopener noreferrer">Inspect implementation <span aria-hidden="true">↗</span></a>
       </div>
       </section>
       <section id="stack" class="chapter stack-chapter" aria-labelledby="stack-title">
-        <div class="stack-aperture"><img class="ed-picture" src="../assets/field/archive-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 id="stack-title">Technology stack</h2></div>
+        <div class="stack-aperture" data-motion-frame><img class="ed-picture" src="../assets/field/archive-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 data-motion-title id="stack-title">Technology stack</h2></div>
         <dl class="stack-table">
           <div><dt>Python</dt><dd>Processing pipeline</dd></div>
           <div><dt>OpenCV</dt><dd>Image preparation and glyph isolation</dd></div>
@@ -138,10 +143,10 @@
         </dl>
       </section>
       <section id="workflow" class="chapter workflow-chapter" aria-labelledby="workflow-title">
-        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/manuscript-study-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>RESTORE</span>
+        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/manuscript-study-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 data-motion-title id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>RESTORE</span>
           <span>SEGMENT</span>
           <span>TRANSCRIBE</span></div></div></div></header>
-        <ol class="flow-steps">
+        <ol class="flow-steps" data-motion-frame>
           <li><h3>Prepare the surface</h3><p>Fiber-aware processing and integral-image Sauvola thresholding separate script structure from the manuscript surface.</p></li>
           <li><h3>Inspect each glyph</h3><p>The public Python recognition prototype combines geometric features, connected-component topology and simulated attention; trained-model inference is a separate validation step.</p></li>
           <li><h3>Review the transcription</h3><p>Levenshtein alignment and a Malayalam trie lexicon support linguistic post-processing; ReportLab produces vector reports.</p></li>
@@ -149,7 +154,7 @@
       </section>
       <div class="chapter-pair">
         <section id="features" class="chapter features-chapter" aria-labelledby="features-title">
-          <h2 id="features-title">Features</h2>
+          <h2 data-motion-title id="features-title">Features</h2>
           <ul>
             <li>Adaptive glyph and word segmentation</li>
             <li>Inspectable glyph-to-character prototype</li>
@@ -158,7 +163,7 @@
           </ul>
         </section>
         <section id="result" class="chapter outcome-chapter" aria-labelledby="result-title">
-          <h2 id="result-title">Outcome</h2>
+          <h2 data-motion-title id="result-title">Outcome</h2>
           <p>
           A manuscript-analysis suite and an associated IJRASET research
           publication, published in August 2026.
@@ -168,15 +173,15 @@
         </section>
       </div>
       <section id="proof" class="chapter case-evidence proof-chapter" aria-labelledby="evidenceHeading">
-        <h2 id="evidenceHeading">Implementation evidence</h2>
-        <div class="evidence-grid">
+        <h2 data-motion-title id="evidenceHeading">Implementation evidence</h2>
+        <div class="evidence-grid" data-motion-frame>
           <div><h3>Restoration and segmentation</h3><p>Separate image preparation, connected-component segmentation and Malayalam lexicon post-processing so each stage can be inspected.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/trocr_transformer_engine.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect recognition prototype ↗</a><a href="https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/ff8eb60f048d767395d761342f42d3f55f1e7898/test_pipeline.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect pipeline checks ↗</a></div></div>
           <div><h3>Review scenario</h3><p>Follow a sample manuscript through enhancement and segmentation, inspect glyph boxes, then compare transcription with a manually checked reference.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
           <div><h3>Scope</h3><p>The public Python engine simulates attention and maps features deterministically to characters. It does not demonstrate trained TrOCR inference or independently reproduced OCR accuracy.</p></div>
         </div>
       </section>
       <section id="next" class="chapter next-chapter" aria-labelledby="next-title">
-        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/field/script.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label">Future work</p><h2 id="next-title">Next engineering step</h2></div></header>
+        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/field/script.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label v8-hinge">Future work</p><h2 data-motion-title id="next-title">Next engineering step</h2></div></header>
         <p>Connect a trained recognition checkpoint and publish a reproducible held-out evaluation with dataset provenance and character/word error rates.</p>
       </section>
       <a class="next-project" href="aegisforge-x.html"><span>NEXT CASE STUDY</span><strong>AegisForge-X ↗</strong></a>

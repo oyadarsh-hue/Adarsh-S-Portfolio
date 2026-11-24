@@ -1,13 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
-<title id="title">Adarsh S interlocking studio monogram</title>
-<defs>
-<linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#214a53"/><stop offset="1" stop-color="#10232d"/></linearGradient>
-<linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe4ab"/><stop offset=".48" stop-color="#ffac83"/><stop offset="1" stop-color="#f26b64"/></linearGradient>
-</defs>
-<rect x="1" y="1" width="94" height="94" rx="23" fill="url(#body)"/>
-<rect x="5" y="5" width="86" height="86" rx="20" fill="none" stroke="#a7d3ca" stroke-opacity=".28"/>
-<path d="M15 70 34 25h12l15 45H49l-3-10H30l-4 10Zm19-20h10l-4-16Z" fill="#f5f1df" fill-rule="evenodd"/>
-<path d="M78 28c-7-5-20-5-26 1-7 7-4 17 5 21l9 4c4 2 4 6 1 8-4 2-10 1-16-2l4 12c8 2 16 1 22-4 8-7 5-18-4-22l-10-4c-4-2-4-5-1-7 3-2 8-1 13 2Z" fill="url(#coral)"/>
-<path d="M18 79h28" stroke="#a4e6cf" stroke-width="2" stroke-linecap="round"/>
-<circle cx="78" cy="18" r="3" fill="#a4e6cf"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 80" aria-labelledby="title" role="img">
+  <title id="title">Adarsh S folded-ribbon monogram</title>
+  <defs><linearGradient id="face" x2="1" y2="1"><stop stop-color="#302447"/><stop offset="1" stop-color="#18142d"/></linearGradient><linearGradient id="ribbon" x1="0" x2="1" y1="0" y2=".85"><stop stop-color="#ffca92"/><stop offset=".58" stop-color="#ff8e88"/><stop offset="1" stop-color="#ed69ac"/></linearGradient></defs>
+  <path fill="url(#face)" d="M4 17 17 4h68l7 7v52L79 76H11l-7-7z"/>
+  <path fill="#c3afff" d="M14 56 33 20h13l9 36H43l-2-9H30l-5 9zm20-18h5l-1.5-7z" fill-rule="evenodd"/>
+  <path fill="url(#ribbon)" d="M61 19h20l-5 9H62l-3 5 12 3q10 3 6 12l-5 9H52l-2-9h16l3-5-12-3q-11-3-7-11l4-7z"/>
+  <path fill="#f6e2bf" d="m25 59 7-4h9l1 4z"/><path fill="#9683cd" d="M16 65h29l3 3H13z"/><path fill="#fa9d85" d="M49 65h30l-3 3H52z"/>
 </svg>

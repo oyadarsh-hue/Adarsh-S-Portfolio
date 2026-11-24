@@ -55,21 +55,24 @@
       name="twitter:image"
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
-    <link rel="icon" href="../assets/field/mark.svg?v=7" type="image/svg+xml" />
+    <link rel="icon" href="../assets/field/mark.svg?v=8" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/field/interior.css?v=5" />
-    <script defer src="../assets/field/interior.js?v=5"></script>
+    <script defer src="../assets/field/interior.js?v=8"></script>
     <link rel="stylesheet" href="../assets/field/screens.css?v=6" />
     <script defer src="../assets/field/screens.js?v=5"></script>
-  <script defer src="../assets/field/film-audio.js?v=6"></script>
+  <script defer src="../assets/field/film-audio.js?v=8"></script>
     <link rel="stylesheet" href="../assets/field/project-frames-v6.css?v=7" />
     <link rel="stylesheet" href="../assets/field/gallery-v6.css">
   <script defer src="../assets/field/gallery-v6.js"></script>
-</head>
-  <body class="case-spatial edition-v5" style="--case-color:#9b88ff">
+    <link rel="stylesheet" href="../assets/field/color-motion-v8.css">
+    <link rel="stylesheet" href="../assets/field/interior-v8.css">
+    <script defer src="../assets/field/color-motion-v8.js"></script>
+  </head>
+  <body class="case-spatial edition-v5 edition-v8" data-interior-edition="aegisforge-x" style="--case-color:#9b88ff">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class="folio-head">
-      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=7" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=8" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="case-navigation" aria-label="Portfolio navigation"><a href="../index.html">Portfolio</a> <a href="../index.html#skills">Skills</a> <a href="../index.html#projects">All projects</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -78,19 +81,21 @@
     </header>
     <main id="main" class="case case-v3" data-project="aegisforge-x">
       <header class="case-splash" data-ed-stage>
-        <figure class="cover-image">
+        <figure class="cover-image" data-motion-frame>
           <img class="ed-picture" src="../assets/field/v6-aegisforge-x.webp" width="1774" height="887" alt="Orange thread links a marked blueprint to a detail under a magnifying glass." fetchpriority="high" />
           <figcaption>Evidence integrity · AI-generated concept artwork</figcaption>
         </figure>
         <div class="cover-copy">
-          <p class="ed-kicker">CASE STUDY / 03 / Security tooling / Evidence integrity</p>
-          <h1 class="ed-title"><span>AegisForge-X</span></h1>
+          <p class="ed-kicker v8-hinge">CASE STUDY / 03 / Security tooling / Evidence integrity</p>
+          <h1 data-motion-title class="ed-title"><span>AegisForge-X</span></h1>
+          <p class="v8-cover-role">Independent project · Security engineering</p>
+          <div class="v8-cover-actions"><a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a href="#workflow">How it works <span aria-hidden="true">↓</span></a></div>
         </div>
       </header>
       <div class="case-brief">
         <p class="case-lead">Source-security review that connects findings to code locations and cryptographic evidence.</p>
-        <div><p class="case-role">Independent project · Security engineering</p><div class="actions">
-          <a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a class="button" href="https://github.com/oyadarsh-hue/AegisForge-X" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt=""> View source code <span aria-hidden="true">↗</span></a>
+        <div><div class="actions">
+          <a class="button" href="https://github.com/oyadarsh-hue/AegisForge-X" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt=""> View source code <span aria-hidden="true">↗</span></a>
         </div></div>
       </div>
       <nav class="case-jump" aria-label="Case study chapters">
@@ -104,8 +109,8 @@
       </nav>
       <section id="film" class="chapter film-chapter" aria-labelledby="film-title">
         <div class="film-copy">
-          <p class="chapter-label">Project film</p>
-          <h2 id="film-title">Following a finding back to its source.</h2>
+          <p class="chapter-label v8-hinge">Project film</p>
+          <h2 data-motion-title id="film-title">Following a finding back to its source.</h2>
           <p>A security finding is difficult to review when the report loses its connection to the exact source code being analyzed.</p>
           <h3>The approach</h3><p>Link multi-language security findings to source coordinates, defensive flow analysis and SHA-256 Merkle proofs.</p>
         </div>
@@ -118,14 +123,14 @@
         </figure>
       </section>
       <section id="system" class="chapter pf-case-frame" data-pf="aegisforge-x" aria-labelledby="system-title">
-        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 id="system-title">Defensive source review</h2><p>Connects a potential code issue to the source location, detection rule and evidence a reviewer needs.</p></div><div class="pf-diagram" data-system="aegisforge-x">
+        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 data-motion-title id="system-title">Defensive source review</h2><p>Connects a potential code issue to the source location, detection rule and evidence a reviewer needs.</p></div><div data-motion-frame class="pf-diagram" data-system="aegisforge-x">
         <p class="pf-label">Evidence record</p><h3>What a reviewer gets</h3>
         <dl class="pf-evidence-map"><div><dt>Location</dt><dd>File path + line</dd></div><div><dt>Finding</dt><dd>Matched language rule</dd></div><div><dt>Integrity</dt><dd>SHA-256 evidence digest</dd></div></dl>
         <a class="pf-evidence-link" href="https://github.com/oyadarsh-hue/AegisForge-X/blob/6a447bd90637fc0da5cecdda90ecd8ac4071da8b/aegisforge/scanner.py" target="_blank" rel="noopener noreferrer">Inspect implementation <span aria-hidden="true">↗</span></a>
       </div>
       </section>
       <section id="stack" class="chapter stack-chapter" aria-labelledby="stack-title">
-        <div class="stack-aperture"><img class="ed-picture" src="../assets/field/studio-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 id="stack-title">Technology stack</h2></div>
+        <div class="stack-aperture" data-motion-frame><img class="ed-picture" src="../assets/field/studio-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 data-motion-title id="stack-title">Technology stack</h2></div>
         <dl class="stack-table">
           <div><dt>Python</dt><dd>Review service and command-line tools</dd></div>
           <div><dt>Static analysis</dt><dd>Language-aware inspection rules</dd></div>
@@ -134,10 +139,10 @@
         </dl>
       </section>
       <section id="workflow" class="chapter workflow-chapter" aria-labelledby="workflow-title">
-        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/optical-glass-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>SOURCE</span>
+        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/optical-glass-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 data-motion-title id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>SOURCE</span>
           <span>FINDINGS</span>
           <span>PROOF</span></div></div></div></header>
-        <ol class="flow-steps">
+        <ol class="flow-steps" data-motion-frame>
           <li><h3>Locate findings</h3><p>Language-specific rules inspect C/C++, Rust, Go, Python and C# while masking comments and string literals.</p></li>
           <li><h3>Trace the data</h3><p>Boundary checks and defensive taint propagation support a review of untrusted data reaching risky operations.</p></li>
           <li><h3>Review the evidence</h3><p>A Python standard-library service coordinates findings; optional Clang diagnostics and PDF exports support review.</p></li>
@@ -145,7 +150,7 @@
       </section>
       <div class="chapter-pair">
         <section id="features" class="chapter features-chapter" aria-labelledby="features-title">
-          <h2 id="features-title">Features</h2>
+          <h2 data-motion-title id="features-title">Features</h2>
           <ul>
             <li>Multi-language source review</li>
             <li>CWE and OWASP taxonomy mappings</li>
@@ -154,7 +159,7 @@
           </ul>
         </section>
         <section id="result" class="chapter outcome-chapter" aria-labelledby="result-title">
-          <h2 id="result-title">Outcome</h2>
+          <h2 data-motion-title id="result-title">Outcome</h2>
           <p>
           A documented local security-review platform with CLI and browser
           workflows. Findings support human review; they are not a guarantee
@@ -164,15 +169,15 @@
         </section>
       </div>
       <section id="proof" class="chapter case-evidence proof-chapter" aria-labelledby="evidenceHeading">
-        <h2 id="evidenceHeading">Implementation evidence</h2>
-        <div class="evidence-grid">
+        <h2 data-motion-title id="evidenceHeading">Implementation evidence</h2>
+        <div class="evidence-grid" data-motion-frame>
           <div><h3>Reviewable source findings</h3><p>Mask comments and strings while retaining offsets, then attach rule findings to source locations and SHA-256 evidence.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/AegisForge-X/blob/6a447bd90637fc0da5cecdda90ecd8ac4071da8b/aegisforge/scanner.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect scanner implementation ↗</a><a href="https://github.com/oyadarsh-hue/AegisForge-X/blob/6a447bd90637fc0da5cecdda90ecd8ac4071da8b/tests/test_scanner.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect language-rule tests ↗</a></div></div>
           <div><h3>Review scenario</h3><p>Compare the gets/strcpy samples with bounded alternatives. Inspect the matched location and review whether each finding is relevant.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
           <div><h3>Scope</h3><p>Pattern-based rules and heuristic flow analysis support manual review. Evidence hashes establish integrity; they do not prove that a finding is correct or that code is secure.</p></div>
         </div>
       </section>
       <section id="next" class="chapter next-chapter" aria-labelledby="next-title">
-        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/images/backgrounds/titanium-gallery-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label">Future work</p><h2 id="next-title">Next engineering step</h2></div></header>
+        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/images/backgrounds/titanium-gallery-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label v8-hinge">Future work</p><h2 data-motion-title id="next-title">Next engineering step</h2></div></header>
         <p>Measure false positives and missed cases on a labeled corpus, with results separated by language and rule.</p>
       </section>
       <a class="next-project" href="deciphera.html"><span>NEXT CASE STUDY</span><strong>Deciphera ↗</strong></a>

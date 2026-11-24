@@ -10,6 +10,8 @@ const pages = [
   "recruiter.html",
   "workbench.html",
   "audio-studio.html",
+  "assets/field/education-photo-credits-v8.html",
+  "assets/film-v8/credits.html",
   "lab.html",
   "404.html",
   ...fs

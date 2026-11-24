@@ -122,6 +122,7 @@
         if (el.hasAttribute("data-ed-stage")) {
           const gone = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height)));
           el.style.setProperty("--title-x", (gone * (shortScreen ? 22 : 70)).toFixed(1) + "px");
+          el.style.setProperty("--hinge-angle", (-2 + gone * 5).toFixed(2) + "deg");
           el.style.setProperty("--title-y", (-gone * (shortScreen ? 22 : 39)).toFixed(1) + "px");
           const photoOffset = (gone * Math.min(24, rect.height * .034)).toFixed(1) + "px";
           el.style.setProperty("--cover-shift", photoOffset);
@@ -130,6 +131,7 @@
           const through = Math.max(0, Math.min(1, (innerHeight - rect.top) / (innerHeight + rect.height)));
           const phase = 2 * through - 1;
           el.style.setProperty("--type-flow", (phase * (shortScreen ? 8 : 28)).toFixed(1) + "px");
+          el.style.setProperty("--hinge-angle", (phase * 4.5).toFixed(2) + "deg");
           el.style.setProperty("--type-lift", (-phase * 10).toFixed(1) + "px");
           el.style.setProperty("--band-shift", (phase * 8).toFixed(1) + "px");
         }

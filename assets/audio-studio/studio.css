@@ -9,3 +9,16 @@
 .section-body,.field{grid-template-columns:minmax(0,1fr)}.section-body>*{min-width:0}.file-box>div{flex:1}.file-box input{width:100%}.export-body{grid-template-columns:minmax(0,1fr) minmax(0,auto)}@media(max-width:740px){.export-body{grid-template-columns:minmax(0,1fr)}}
 
 .compare{grid-column:1/-1;order:3;border-top:1px solid var(--line);padding-top:12px}.compare summary{font-weight:650;cursor:pointer;color:var(--tone)}.comparison-pair{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:12px 0}.comparison-pair>div{min-width:0}.comparison-pair h3{font:650 14px/1.4 DM,system-ui,sans-serif;margin:0 0 4px}.comparison-pair p{font-size:15px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.compare small{margin-top:8px}@media(max-width:740px){.comparison-pair{grid-template-columns:minmax(0,1fr)}}
+
+/* Carry the portfolio colours through the source, translation and export controls. */
+.mast{border-top:3px solid transparent;border-image:linear-gradient(90deg,#6245d3,#db568e 48%,#ffae74 75%,#77cbb9) 1}
+.intro h1 em{color:var(--royal,#4230a6)}
+:root[data-theme=dark] .intro h1 em{color:var(--iris,#bcb0ff)}
+.sound-print{background:linear-gradient(115deg,#312454 6%,var(--royal,#4230a6) 62%,#7753a2);border-color:#4e3b8d}
+.sound-lines{background:repeating-linear-gradient(90deg,var(--seafoam,#8ef0ca) 0 3px,transparent 3px 7px)}
+.panel{border-block-start:3px solid var(--studio-mark,#7bc9aa)}
+.workflow>.panel:nth-child(2){--studio-mark:#a596ee}
+.workflow>.panel:nth-child(3){--studio-mark:#efa477}
+.step{background:var(--studio-mark,#8ef0ca)}
+.actions button.primary,.download{background:var(--royal,#4230a6);border-color:var(--royal,#4230a6)}
+#studioTerm{font-size:15px;margin-top:8px}
