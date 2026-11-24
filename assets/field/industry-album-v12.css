@@ -1,0 +1,186 @@
+#experience .industry-photos {
+  grid-area: photo;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  align-self: stretch;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background: #111d22;
+}
+#experience .industry-photo-panel,
+#experience .industry-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+  gap: 3px;
+}
+#experience .industry-photo-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+#experience .industry-plate {
+  position: relative;
+  min-width: 0;
+  min-height: 15rem;
+  margin: 0;
+  overflow: hidden;
+  background-color: #26363a;
+}
+#experience .industry-plate .employer-photo,
+#experience .industry-thumb img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  transform: none;
+  scale: none;
+  transition: none;
+}
+#experience .industry-photos .employer-portrait-shot img { object-position: 50% 27%; }
+#experience .industry-photos .employer-conference-shot img { object-position: 50% 41%; }
+#experience .industry-photos :is(.employer-screen-shot, .employer-mobile-shot) img {
+  inset: 6% 6% 15%;
+  width: 88%;
+  height: 79%;
+  object-fit: contain;
+  filter: drop-shadow(0 .4rem .8rem #17293c45);
+}
+#experience .industry-plate::after,
+#experience .industry-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 35% 0 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(transparent, #071219ab 70%, #071219f0);
+}
+#experience .industry-plate figcaption { position: static; margin: 0; padding: 0; }
+#experience .industry-plate .employer-frame-credit {
+  position: absolute;
+  z-index: 2;
+  inset: auto .8rem .7rem .8rem;
+  display: grid;
+  gap: .27rem;
+  align-content: end;
+  width: fit-content;
+  max-width: calc(100% - 1.6rem);
+  min-height: 2.75rem;
+  padding: .2rem 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-shadow: 0 1px 5px #101520da;
+  text-decoration: none;
+}
+#experience .industry-plate .employer-frame-credit span {
+  font: 650 clamp(.85rem, 1.5vw, 1.4rem)/1.15 var(--display, sans-serif);
+  letter-spacing: -.025em;
+}
+#experience .industry-plate .employer-frame-credit strong {
+  font: 540 .73rem/1.25 var(--body, sans-serif);
+  text-decoration: underline;
+  text-underline-offset: .19rem;
+}
+#experience .industry-plate .employer-frame-credit:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+#experience .industry-proof-grid[hidden] { display: none; }
+#experience .industry-photos[data-album-ready] {
+  grid-template-rows: minmax(17.5rem, 1fr) auto;
+  gap: 3px;
+}
+#experience [data-album-ready] .industry-photo-panel {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: clamp(18rem, 28vw, 30rem);
+}
+#experience [data-album-ready] .industry-plate {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+#experience [data-album-ready] .industry-plate[data-active] {
+  z-index: 1;
+  opacity: 1;
+  pointer-events: auto;
+}
+#experience [data-album-ready] .industry-plate .employer-frame-credit {
+  inset: auto clamp(.95rem, 2.5vw, 2.25rem) clamp(.85rem, 1.7vw, 1.65rem) clamp(.95rem, 2.5vw, 2.25rem);
+  max-width: calc(100% - 2rem);
+}
+#experience [data-album-ready] .industry-plate .employer-frame-credit span {
+  max-width: 32ch;
+  font-size: clamp(1.08rem, 1.9vw, 1.85rem);
+  text-wrap: balance;
+}
+#experience .industry-thumb {
+  appearance: none;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: end;
+  min-width: 0;
+  height: clamp(5.2rem, 8.15vw, 8rem);
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  padding: .58rem .8rem;
+  background-color: #26363a;
+  color: white;
+  text-align: start;
+  cursor: pointer;
+}
+#experience .industry-thumb::after { inset-block-start: 15%; }
+#experience .industry-thumb > span {
+  position: relative;
+  z-index: 2;
+  font: 620 clamp(.76rem, .92vw, .98rem)/1.2 var(--body, sans-serif);
+  text-shadow: 0 1px 6px #141b22;
+}
+#experience .industry-thumb::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  border: 3px solid transparent;
+  pointer-events: none;
+}
+#experience .industry-thumb[aria-pressed="true"]::before { border-color: var(--industry-accent); }
+#experience .industry-thumb[aria-pressed="true"] > span::before {
+  content: "✓";
+  margin-inline-end: .34rem;
+  color: var(--industry-accent);
+}
+#experience .industry-thumb:focus-visible { outline: 3px solid white; outline-offset: -7px; z-index: 4; }
+#experience .industry-thumb:focus-visible > span { text-decoration: underline; }
+@media (hover: hover) {
+  #experience .industry-thumb:hover::before { border-color: white; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.paused):not([data-motion="paused"]) #experience [data-album-ready] .industry-plate {
+    transition: opacity .7s cubic-bezier(.32, 0, .25, 1);
+  }
+  #experience .industry-photos[data-playing] .industry-plate[data-active] .employer-photo {
+    animation: industry-photo-drift 5.4s ease-out both;
+  }
+  @keyframes industry-photo-drift {
+    from { scale: 1; }
+    to { scale: 1.025; }
+  }
+}
+@media (max-width: 650px) {
+  #experience .industry-photos[data-album-ready] { grid-template-rows: auto auto; }
+  #experience [data-album-ready] .industry-photo-panel {
+    min-height: 0;
+    aspect-ratio: 1.64;
+  }
+  #experience .industry-thumb { height: clamp(4.65rem, 22vw, 7rem); }
+  #experience .industry-plate { min-height: 13rem; }
+  #experience .industry-plate .employer-frame-credit { inset-inline: .52rem; max-width: calc(100% - 1.04rem); }
+}

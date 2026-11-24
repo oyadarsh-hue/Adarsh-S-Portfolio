@@ -21,8 +21,6 @@
     frame = 0;
     if (!motionOn()) return;
     const height = Math.max(innerHeight, 1);
-    const maximum = Math.max(1, document.documentElement.scrollHeight - height);
-    document.body.style.setProperty('--studio-progress', clamp(scrollY / maximum).toFixed(3));
     if (visible.has(monitor)) {
       const progress = clamp(scrollY / Math.max(1, intro.offsetTop + intro.offsetHeight));
       monitor.style.setProperty('--console-y', (progress * 18).toFixed(2) + 'px');

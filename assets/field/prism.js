@@ -1,51 +1,16 @@
 (() => {
   const hero = document.querySelector('.motion-hero');
-  const rail = document.querySelector('.chapter-rail');
-  if (!hero || !rail) return;
-  const root = document.documentElement;
+  if (!hero) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const select = rail.querySelector('select');
-  const buttons = [...rail.querySelectorAll('[data-chapter-step]')];
-  const chapters = [...select.options].map(option => document.getElementById(option.value));
-  const position = rail.querySelector('.chapter-position');
-  const chapterCount = chapters.length;
   const panels = [...document.querySelectorAll('.lo-profile-panorama,.lo-skills-panorama,.lo-cert-heading,.project-plates,.folio-shortcuts,#contact')];
   const activePanels = new Set();
   const clamp = value => Math.max(0,Math.min(1,value));
-  let tops = [];
-  let markDirty = true;
   let queued = false;
-  let chapter = -1;
-
   function paint() {
     queued = false;
+    if (reduced.matches) return;
     const y = window.scrollY;
     const viewport = document.documentElement.clientHeight;
-    if (markDirty) {
-      tops = chapters.map(section => section.getBoundingClientRect().top + y);
-      markDirty = false;
-    }
-    let current = 0;
-    const readingLine = y + Math.min(viewport * .3,190);
-    for (let i = 1; i < tops.length; i++) if (readingLine >= tops[i]) current = i;
-
-    if (y + viewport >= document.documentElement.scrollHeight - 2) current = chapters.length - 1;
-    if (current !== chapter) {
-      chapter = current;
-      position.textContent = (current + 1) + ' / ' + chapterCount;
-      rail.style.setProperty('--chapter-image-x', (100 * current / (chapterCount - 1)) + '%');
-    }
-    if (select.selectedIndex !== current && document.activeElement !== select) select.selectedIndex = current;
-    const next = tops[current + 1] ?? document.documentElement.scrollHeight;
-    const fraction = clamp((readingLine - tops[current]) / Math.max(1,next - tops[current]));
-    const show = y >= hero.offsetTop + hero.offsetHeight - 46;
-    if (show !== !rail.hidden) rail.hidden = !show;
-    buttons[0].disabled = current === 0;
-    buttons[1].disabled = current === chapters.length - 1;
-    rail.style.setProperty('--chapter-progress',fraction.toFixed(4));
-    rail.style.setProperty('--book-progress',clamp((current+fraction)/chapterCount).toFixed(4));
-
-    if (root.classList.contains('paused') || reduced.matches) return;
     if (y < hero.offsetHeight + 100) {
       hero.style.setProperty('--hero-scrub',clamp(y / Math.max(250,hero.offsetHeight*.8)).toFixed(4));
     }
@@ -69,23 +34,6 @@
   function schedule() {
     if (!queued) { queued = true; requestAnimationFrame(paint); }
   }
-  function refresh() { markDirty = true; schedule(); }
-
-  function jump(index) {
-    const target = chapters[index];
-    if (!target) return;
-    // Let the browser record section changes, so Back also restores each location.
-    if (location.hash !== '#'+target.id) location.hash = target.id;
-    else target.scrollIntoView({block:'start',behavior:'instant'});
-    select.blur();
-    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
-    target.focus({preventScroll:true});
-    refresh();
-  }
-  select.addEventListener('change',() => jump(select.selectedIndex));
-  select.addEventListener('blur',schedule);
-  buttons.forEach(button => button.addEventListener('click',() => jump(chapter + Number(button.dataset.chapterStep))));
-
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
@@ -100,17 +48,10 @@
     });
     panels.forEach(panel => { panel.classList.add('prism-panel'); observer.observe(panel); });
   }
-  if ('ResizeObserver' in window) {
-    const observer = new ResizeObserver(refresh);
-    chapters.forEach(section => observer.observe(section));
-    observer.observe(document.body);
-  }
   window.addEventListener('scroll',schedule,{passive:true});
-  window.addEventListener('resize',refresh);
-  window.addEventListener('pageshow',refresh);
-  document.addEventListener('toggle',refresh,true);
-  document.fonts?.ready.then(refresh);
+  window.addEventListener('resize',schedule);
+  window.addEventListener('pageshow',schedule);
+  document.fonts?.ready.then(schedule);
   reduced.addEventListener('change',schedule);
-  new MutationObserver(schedule).observe(root,{attributes:true,attributeFilter:['class']});
-  refresh();
+  schedule();
 })();

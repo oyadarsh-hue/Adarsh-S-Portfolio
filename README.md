@@ -2,11 +2,11 @@
 
 ## Current visual design
 
-The opening pairs Adarsh’s AS ribbon monogram and portrait with photographs of the Kadalundi River, Thusharagiri Falls and Beypore. The landscape changes automatically while it is visible. Four photo links jump directly to Projects, Education, Internships and Publication. Education keeps the four campuses in one frame and offers a downloadable 3840 × 2160 print.
+The opening pairs a custom AS monogram and Adarsh’s portrait with five photographs of Kozhikode. Visitors can choose a place directly or let the landscape change while it is in view. Portraits, type and film stills respond to vertical scrolling. The four fields of work and all specialties stay readable together at phone and desktop sizes.
 
-Name lettering, photographic frames and project artwork respond to reading and scrolling. Each company gallery advances when it is on screen. Interacting with the gallery keeps the choice under the visitor’s control. Audio Studio’s meters respond to playback. The portfolio follows the system’s reduced-motion preference automatically. The header provides a light/dark switch.
+Photo links lead to Projects, Education, Internships and Publication. The in-page contents expands to links for every section. The project index and internship photographs use responsive grids. Each employer album changes its featured image in place while visible. Education groups the four real campuses in a single 3840 × 2160 print. The header switches themes and motion follows the device’s Reduce Motion setting.
 
-Each of the 21 film players includes three selectable frames extracted from its own footage, with timecodes for seeking. The two premieres, thirteen topic films, two long documentaries and four archive reels all have HD and 3840 × 2160 versions. The project case pages use the same film and frame controls.
+The 21 independent film players each offer three selectable stills from their footage. The two premieres, thirteen topic films, two long documentaries and four archive reels have HD and 3840 × 2160 versions. The case studies use the same film and frame controls.
 
 Audio Studio and the film panels share language and recording selection. The panels distinguish translated wording, the voice and its region, show both the English and selected scripts, and can open Audio Studio for exports. Where available, packaged narration plays directly. Translation of uploaded recordings, transcription and additional synthesized voices depend on the language and browser. The description and narration credits are in the audio asset folders, and `ICON-LICENSES.txt` identifies the contact icons.
 
@@ -96,7 +96,7 @@ Project titles and taglines remain complete and readable. Decorative hero motion
 
 ## Contact icons and heading motion
 
-Visible GitHub, LinkedIn, Gmail and phone links use inline SVG marks, avoiding external icon requests. Brand glyphs: Simple Icons (GitHub/Gmail, and LinkedIn from v11.15.0); phone: Lucide. Section headings reveal word by word in 3D each time they enter the viewport. Motion respects pause and reduced-motion preferences.
+Visible GitHub, LinkedIn, Gmail and phone links use inline SVG marks, avoiding external icon requests. Brand glyphs: Simple Icons (GitHub/Gmail, and LinkedIn from v11.15.0); phone: Lucide. Section headings reveal word by word in 3D each time they enter the viewport. Motion follows the device’s reduced-motion preference.
 
 ## Recruiter overview and evidence
 

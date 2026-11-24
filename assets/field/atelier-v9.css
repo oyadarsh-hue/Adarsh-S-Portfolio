@@ -104,11 +104,9 @@
 }
 @supports(animation-timeline:scroll()){
   @media(prefers-reduced-motion:no-preference){
-    html.js:not(.paused) .atelier-home::before{content:"";position:fixed;pointer-events:none;z-index:16;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#693cf0,#604df5,#e1ff53,#ff805f);transform-origin:left;animation:atelier-progress linear both;animation-timeline:scroll(root)}
     html.js:not(.paused) .atelier-home .plate-link img{animation:atelier-grade linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
   }
 }
-@keyframes atelier-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes atelier-grade{from{filter:saturate(.85) contrast(.9)}to{filter:saturate(1.12) contrast(1.04)}}
 
 @media(max-width:960px) and (min-width:701px){

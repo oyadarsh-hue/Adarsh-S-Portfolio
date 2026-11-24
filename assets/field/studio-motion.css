@@ -1,9 +1,3 @@
-.studio-page { --studio-progress: 0; }
-.studio-top::after {
-  content: ""; display: block; height: 3px; position: fixed; inset: 0 0 auto;
-  z-index: 8; pointer-events: none; transform-origin: left; transform: scaleX(var(--studio-progress));
-  background: linear-gradient(90deg,#304bd4 0 34%,#e17f53 60%,#9bb922);
-}
 .studio-monitor { --dial-turn: 0deg; --console-y: 0px; --console-angle: 0deg; }
 .studio-monitor .console-photo { transform: translateY(var(--console-y)) scale(1.12) rotate(var(--console-angle)); }
 .studio-intro h1 > span { display: inline-block; }
@@ -81,7 +75,6 @@
   html[data-studio-fx="on"] .studio-page .step-head::after { transform: scaleX(var(--fader-scale,1)); transform-origin: right; }
 }
 html:not([data-studio-fx="on"]) .studio-page :is(.sweep-head,.transport-rings) { animation: none; }
-html:not([data-studio-fx="on"]) .studio-top::after,
 html:not([data-studio-fx="on"]) .studio-page .step-head::before,
 html:not([data-studio-fx="on"]) .studio-page .sweep-head { opacity: 0; }
 @media(max-width: 670px) {

@@ -1,0 +1,344 @@
+/* Photographs and reading columns share the same outer margin. */
+:is(#about,#skills,#education,#certifications,#contact) {
+  --oyster:#f6f2e9;--sheet:#fffbf3;--ink12:#221d33;--quiet:#514d5b;--key:#ccc4bb;
+  --iris:#373055;--deep:#211d32;--ice:#d8cef5;--amber:#edc87f;--jade:#9ddbc7;--rose:#e8b1bd;
+  --outer:clamp(17px,4.9vw,78px);--page:min(1540px,100%);
+  font-family:var(--body,sans-serif);
+}
+[data-theme=dark] :is(#about,#skills,#education,#certifications,#contact) {
+  --oyster:#201e2b;--sheet:#2a2737;--ink12:#fbf4e6;--quiet:#d5cdda;--key:#575362;
+}
+:is(#about,#skills,#education,#certifications,#contact) :is(a,button,summary):focus-visible {
+  outline:3px solid #6458bd;outline-offset:3px;
+}
+:is(#about,#skills,#education,#certifications,#contact) :is(p,li,article,h2,h3,figcaption,summary) {min-width:0;}
+:is(#about,#skills,#education,#certifications,#contact) .lo-title .lo-line-mask {overflow:visible;}
+:is(#about,#skills,#education,#certifications,#contact) [data-folio-scene] .lo-title .lo-line-text {
+  animation:none;transform:none;translate:none;rotate:none;letter-spacing:inherit;
+}
+:is(#about,#skills) .lo-panorama .lo-title::after {display:none;}
+:is(#about,#skills,#certifications,#contact) .lo-kicker,
+#education .lo-education-overview .lo-head .lo-kicker {
+  width:fit-content;font:620 clamp(.71rem,.96vw,.83rem)/1.4 var(--mono,monospace);letter-spacing:.095em;
+  margin:0 0 .85rem;padding:0;border:0;color:inherit;text-transform:uppercase;background:transparent;
+}
+:is(#about,#skills,#certifications,#contact) .lo-kicker span {display:none;}
+
+/* A portrait and a photograph of home are displayed as two separate prints. */
+#about {padding:0;background:var(--oyster);color:var(--ink12);}
+#about .lo-profile-panorama {
+  display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,.80fr) minmax(0,.82fr);
+  align-items:center;gap:clamp(12px,2.4vw,40px);padding:clamp(43px,5.2vw,83px) var(--outer);
+  min-height:0;aspect-ratio:auto;border:0;background:var(--deep);color:#fff5e3;isolation:isolate;
+}
+#about .lo-profile-panorama::before {
+  display:block;background:linear-gradient(120deg,#211d32 1%,#332b50 85%);z-index:-1;
+}
+#about .lo-profile-panorama .lo-panorama-ink {padding:0;align-self:center;}
+#about .lo-profile-panorama .lo-kicker {color:var(--jade);}
+#about .lo-profile-panorama .lo-title {
+  color:#fff5e3;font:590 clamp(3.1rem,6.5vw,7rem)/.91 var(--display,sans-serif);letter-spacing:-.075em;text-shadow:none;
+}
+#about .lo-profile-panorama .lo-line-mask + .lo-line-mask {font:italic 400 1.08em/1 var(--serif,serif);color:var(--ice);}
+#about .lo-profile-panorama .lo-title i {color:var(--amber);}
+#about .lo-profile-panorama .lo-portrait-stage {
+  display:flex;align-items:center;justify-content:center;width:100%;height:auto;min-height:0;padding:0;
+  align-self:center;perspective:none;isolation:auto;
+}
+#about .lo-profile-panorama .lo-portrait-print {
+  position:relative;width:min(100%,405px);margin:0;padding:clamp(6px,.75vw,12px);
+  background:#f8f0db;color:#231e2f;border:1px solid #c9bfae;
+  box-shadow:4px 5px 0 #100e1e;transform:rotate(-2deg);transform-origin:48% 75%;
+}
+#about .lo-portrait-print>img {display:block;width:100%;height:auto;aspect-ratio:1 / 1.07;object-fit:cover;object-position:50% 35%;}
+#about .lo-portrait-print figcaption {
+  display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 10px;
+  padding:.5rem 1px .1rem;color:#272138;
+}
+#about .lo-portrait-print figcaption strong {font:italic 400 clamp(1.16rem,2.2vw,2rem)/1 var(--serif,serif);}
+#about .lo-portrait-print figcaption span {font:570 clamp(.62rem,.85vw,.78rem)/1.25 var(--body,sans-serif);}
+#about .lower-place-print {
+  width:100%;align-self:center;position:relative;display:block;margin:0;
+  padding:clamp(5px,.6vw,10px);background:#cabdda;box-shadow:4px 5px 0 #100e1e;
+  transform:rotate(2.15deg);transform-origin:42% 70%;
+}
+#about .lower-place-print .lo-panorama-photo {
+  display:block;position:static;width:100%;height:auto;aspect-ratio:1.38;object-fit:cover;object-position:54% 52%;
+  transform:none;scale:none;translate:none;max-width:100%;
+}
+#about .lower-place-print .lo-plate-caption {
+  display:block;position:static;padding:.50rem 1px .06rem;margin:0;background:transparent;
+  color:#282137;font:550 clamp(.64rem,.88vw,.81rem)/1.35 var(--body,sans-serif);text-align:left;translate:none;
+}
+#about .lower-place-print .lo-plate-caption a {color:inherit;text-decoration-thickness:1px;}
+#about .lo-profile-frame {display:block;width:var(--page);margin:0 auto;padding:0 var(--outer);border:0;background:transparent;}
+#about .lo-about-copy {
+  display:grid;grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);max-width:100%;gap:.82rem clamp(32px,7.2vw,116px);
+  padding:clamp(34px,5vw,78px) 0;
+}
+#about .lo-about-copy .lo-lead {
+  grid-column:1;grid-row:1 / 4;max-width:18ch;margin:0;
+  font:400 clamp(2.15rem,3.8vw,4.15rem)/1.03 var(--serif,serif);letter-spacing:-.038em;color:var(--ink12);
+}
+#about .lo-about-copy .lo-text {grid-column:2;margin:0;max-width:68ch;color:var(--quiet);font:450 clamp(.98rem,1.22vw,1.15rem)/1.65 var(--body,sans-serif);}
+#about .lo-about-copy .lo-inline {color:var(--ink12);text-underline-offset:.19em;}
+#about .lo-links {grid-column:2;display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:.3rem 0 0;}
+#about .lo-links .lo-link,#education .edu9-filmstrip-footer .lo-atlas-save,#certifications .lo-more-certs summary {
+  display:inline-flex;align-items:center;gap:1.1em;width:fit-content;min-height:44px;padding:.65em 1.05em;
+  border:1px solid var(--ink12);border-radius:3px;color:var(--oyster);background:var(--ink12);
+  font:630 .85rem/1.3 var(--body,sans-serif);text-decoration:none;
+}
+#about .lo-links .lo-link + .lo-link {background:transparent;color:var(--ink12);border-color:var(--key);}
+#about .lo-links .lo-link:hover,#education .edu9-filmstrip-footer .lo-atlas-save:hover,#certifications .lo-more-certs summary:hover {color:#231e33;background:var(--amber);border-color:var(--amber);}
+
+/* The circuit photograph stays beside the index on wide screens. */
+#skills {
+  display:grid;grid-template-columns:minmax(255px,.65fr) minmax(0,1.5fr);align-items:stretch;
+  padding:clamp(22px,4.1vw,67px) var(--outer);gap:clamp(22px,4.1vw,65px);background:var(--oyster);color:var(--ink12);
+}
+#skills .lo-skills-panorama {
+  display:flex;flex-direction:column;justify-content:flex-end;align-self:stretch;align-items:stretch;gap:0;
+  width:auto;min-height:0;padding:clamp(16px,1.8vw,29px);aspect-ratio:auto;
+  background:var(--iris);color:#fff6e7;border:0;border-radius:3px;isolation:isolate;
+}
+#skills .lo-skills-panorama::before {display:none;}
+#skills .lo-skills-panorama .lo-panorama-ink {order:0;flex:1 0 auto;width:100%;min-width:0;padding:clamp(5px,.7vw,12px) 0 clamp(28px,3vw,48px);align-self:flex-start;}
+#skills .lo-skills-panorama .lo-kicker {color:var(--jade);}
+#skills .lo-skills-panorama .lo-title {
+  width:100%;max-width:100%;margin:0;color:#fff5e5;font:600 clamp(3.4rem,5.4vw,6rem)/.91 var(--display,sans-serif);letter-spacing:-.07em;text-shadow:none;
+}
+#skills .lo-skills-panorama .lo-line-mask + .lo-line-mask {font:italic 400 1.19em/.96 var(--serif,serif);color:var(--ice);}
+#skills .lo-skills-panorama .lo-title i {color:var(--jade);}
+#skills .lo-skills-panorama .lo-panorama-photo {
+  order:1;position:static;z-index:auto;display:block;width:100%;height:auto;aspect-ratio:1.32;max-height:315px;
+  object-fit:cover;object-position:48% 54%;transform:none;translate:none;scale:none;border:1px solid #dad1ca7d;
+}
+#skills .lo-skills-panorama .lo-plate-caption {
+  order:2;position:static;align-self:start;margin:0;padding:.55rem 0 .03rem;background:none;color:#f9f3e8;
+  font:500 clamp(.68rem,.88vw,.81rem)/1.45 var(--body,sans-serif);translate:none;
+}
+#skills .lo-toolkit-frame {width:100%;max-width:none;margin:0;align-self:center;padding:0;border:0;background:transparent;}
+#skills .lo-skill-heading {display:block;margin:0 0 1rem;}
+#skills .lo-filters:not([hidden]) {
+  display:flex;flex-wrap:wrap;align-items:center;width:100%;gap:4px 8px;padding:0;
+  background:transparent;border:0;
+}
+#skills .lo-filters button {
+  min-height:44px;width:auto;padding:.5rem .85rem;border:1px solid var(--key);border-radius:3px;
+  font:620 .87rem/1.2 var(--body,sans-serif);white-space:normal;color:var(--ink12);background:transparent;
+}
+#skills .lo-filters button[aria-pressed=true] {color:var(--oyster);background:var(--ink12);border-color:var(--ink12);}
+#skills .lo-filters button:focus-visible {outline-offset:2px;}
+#skills .lo-tools-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(18px,2.7vw,42px);border:0;}
+#skills .lo-tool-group {
+  --category-line:#a66251;position:relative;min-width:0;padding:clamp(15px,1.7vw,28px) 0;
+  color:var(--ink12);background:transparent;border:0;border-top:1px solid var(--key);border-radius:0;
+}
+#skills .lo-tool-group[hidden] {display:none;}
+#skills .lo-tool-group[data-lo-category=intelligence] {--category-line:#75639d;}
+#skills .lo-tool-group[data-lo-category=systems] {--category-line:#48866f;}
+#skills .lo-tool-group::before {content:"";position:absolute;top:-1px;left:0;width:48px;height:3px;background:var(--category-line);transform-origin:left;}
+#skills .lo-tool-group h3 {margin:0 0 .77rem;color:var(--ink12);font:610 clamp(1.12rem,1.8vw,1.66rem)/1.15 var(--display,sans-serif);letter-spacing:-.036em;}
+#skills .lo-tool-group h3::before {display:none;}
+#skills .lo-tool-group ul {display:flex;flex-wrap:wrap;gap:.34rem .37rem;margin:0;padding:0;}
+#skills .lo-tool-group li {
+  max-width:100%;padding:.25em .52em;color:var(--quiet);background:var(--sheet);border:1px solid var(--key);
+  border-radius:3px;white-space:normal;overflow-wrap:anywhere;font:530 .82rem/1.35 var(--body,sans-serif);
+}
+
+/* One frame and four separate, captioned destinations. */
+#education {
+  --edu-paper:var(--oyster);--edu-ink:var(--ink12);--edu-line:var(--key);
+  --edu-sslc:#f0c2a5;--edu-hse:#cdbde8;--edu-bsc:#eed58d;--edu-mca:#a7d8c4;
+}
+#education .lo-education-overview {padding:clamp(33px,5.7vw,90px) var(--outer) clamp(22px,3vw,46px);}
+#education .lo-education-overview .lo-head .lo-kicker {color:var(--quiet);margin-bottom:.52rem;}
+#education .lo-education-overview .lo-head .lo-title {
+  color:var(--ink12);font:400 clamp(4.75rem,9.2vw,9.8rem)/.84 var(--serif,serif);letter-spacing:-.068em;
+}
+#education .lo-education-overview .lo-head .lo-title i {color:#9578af;}
+#education .lo-education-overview .lo-head .lo-text {color:var(--quiet);max-width:45ch;border-inline-start:2px solid #b898bd;line-height:1.48;}
+#education .edu9-frame {border:0;border-radius:3px;background:var(--deep);padding:clamp(6px,.85vw,14px);}
+#education .campus-frame-bar {padding:0 2px 9px;color:#fff4df;}
+#education .campus-open {border:1px solid #c4b4d866;border-radius:3px;background:transparent;color:#fbefd8;}
+#education .campus-open:hover {background:#ddd0ea;color:#231e32;}
+#education .lo-campus-atlas {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:clamp(4px,.64vw,10px);background:var(--deep);}
+#education .lo-campus-atlas .lo-atlas-tile {
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(clamp(154px,15.7vw,252px),1fr) auto;align-items:start;
+  min-width:0;min-height:0;height:auto;padding:0;border:0;border-radius:1px;background:transparent;color:#f8f3e7;
+}
+#education .lower-campus-window {position:relative;z-index:-2;grid-area:1/1;align-self:stretch;display:block;width:100%;min-width:0;overflow:hidden;overflow:clip;}
+#education .lo-atlas-tile .lo-atlas-image {position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;}
+#education .lo-campus-atlas .lo-atlas-tile::after {grid-area:1/1;inset:0;}
+#education.campus-moving .lo-atlas-tile::after {
+  grid-area:1/1;inset:0;transform:none;background:linear-gradient(105deg,transparent 41%,var(--edu-swatch) 50%,transparent 60%) no-repeat;
+  background-size:230% 100%;background-position:var(--campus-shutter,135%) center;opacity:.25;
+}
+#education .lo-atlas-tile::before {grid-area:1/1;z-index:-1;background:linear-gradient(180deg,#1e192551,transparent 45%);}
+#education .lo-atlas-tile .lo-tile-type {grid-area:1/1;place-self:start;margin:8px;padding:4px 6px;border-radius:1px;color:#231e32;background:var(--edu-swatch);font-size:clamp(.63rem,.85vw,.79rem);}
+#education .lo-atlas-tile .lo-tile-id {
+  grid-area:2/1;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;justify-content:stretch;
+  width:100%;min-width:0;height:100%;padding:clamp(11px,1.25vw,20px) clamp(8px,1vw,15px);
+  background:var(--edu-swatch);color:#231e32;text-shadow:none;
+}
+#education .lo-atlas-tile .lo-tile-id strong {
+  padding:0;color:#231e32;text-shadow:none;font:600 clamp(2rem,3.5vw,3.8rem)/.95 var(--display,sans-serif);letter-spacing:-.065em;
+}
+#education.campus-moving .lo-atlas-tile .lo-tile-id strong {transform:none;}
+#education .lo-atlas-tile .edu9-place {padding:.48rem 0 .3rem;color:#231e32;font:630 clamp(.82rem,1.12vw,1.05rem)/1.22 var(--body,sans-serif);overflow-wrap:break-word;}
+#education .lo-atlas-tile .lo-tile-id small {min-height:0;padding:.32rem 0 0;color:#373143;background:none;border-top:1px solid #312a354d;font:500 clamp(.68rem,.85vw,.78rem)/1.2 var(--body,sans-serif);}
+#education .campus-exposure {margin-top:8px;height:2px;}
+#education .edu9-filmstrip-footer {gap:7px 13px;padding-top:11px;}
+#education .edu9-credit-group {display:flex;gap:2px 15px;flex-wrap:wrap;}
+#education .edu9-credit-group a {display:inline-flex;align-items:center;min-height:44px;gap:.26rem;color:var(--quiet);}
+#education .lo-schools {width:calc(100% - var(--outer)*2);gap:clamp(21px,3vw,48px);}
+#education .lo-school[data-lo-record] {border-radius:3px;background:var(--sheet);border-color:var(--key);box-shadow:none;}
+#education .lo-school .lo-study-note {max-width:62ch;color:var(--quiet);font-size:clamp(.91rem,1.13vw,1.06rem);line-height:1.56;}
+#education .lo-school .lo-degree-identity h3 {line-height:1.05;}
+#education .screen-card :is(figcaption,.screen-actions,.film-audio-actions,.film-language-fields) {min-width:0;max-width:100%;flex-wrap:wrap;}
+#education .screen-card :is(select,label,button,a,.screen-description) {min-width:0;max-width:100%;}
+#education .screen-card .screen-actions a,#education .campus-view-actions a {white-space:normal;overflow-wrap:anywhere;}
+#education .campus-view-controls button,#education .campus-view-top button {min-height:44px;}
+#education .campus-viewer .campus-view-copy {min-width:0;}
+
+/* Credential titles sit beside an issuer mark and always wrap in the reading column. */
+#certifications {background:var(--oyster);color:var(--ink12);padding:clamp(34px,5.75vw,92px) var(--outer);}
+#certifications .lo-learning-frame {
+  display:grid;grid-template-columns:minmax(0,.80fr) minmax(0,1.20fr);gap:16px clamp(25px,6vw,98px);
+  width:100%;max-width:1500px;margin:0 auto;padding:0;border:0;background:transparent;
+}
+#certifications .lo-cert-heading {grid-column:1;align-self:start;margin:0;padding:12px 0 18px;border-top:2px solid var(--ink12);color:var(--ink12);}
+#certifications .lo-cert-heading .lo-kicker {color:var(--quiet);}
+#certifications .lo-cert-heading .lo-title {font:400 clamp(2.65rem,5.1vw,5.75rem)/.95 var(--serif,serif);letter-spacing:-.057em;color:var(--ink12);}
+#certifications .lo-cert-heading .lo-title i {color:#9279a7;}
+#certifications .lo-learning-frame>.lo-cert-grid {grid-column:2;grid-template-columns:1fr;}
+#certifications .lo-cert-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(22px,3vw,42px);}
+#certifications .lo-cert {
+  display:grid;grid-template-columns:clamp(60px,6vw,86px) minmax(0,1fr);align-items:center;gap:clamp(13px,1.7vw,25px);
+  padding:clamp(13px,1.4vw,23px) 0;border:0;border-top:1px solid var(--key);background:transparent;min-width:0;
+}
+#certifications .lo-cert .lo-org-mark {
+  margin:0;width:100%;height:auto;aspect-ratio:1.28;padding:7px;border-radius:2px;border:1px solid #dbd5c8;background:#fffdf7;
+}
+#certifications .lo-cert .lo-org-mark img {max-width:100%;max-height:100%;object-fit:contain;}
+#certifications .lo-cert p,#certifications .lo-cert time {color:var(--quiet);font-size:.78rem;line-height:1.32;}
+#certifications .lo-cert h3 {margin:.24rem 0;color:var(--ink12);font:600 clamp(1.07rem,1.6vw,1.55rem)/1.2 var(--display,sans-serif);letter-spacing:-.027em;overflow-wrap:anywhere;}
+#certifications .lo-more-certs {grid-column:1/-1;margin:0;border:0;}
+#certifications .lo-more-certs summary {margin:0 0 .8rem;}
+#certifications .lo-more-certs .lo-plus::before,#certifications .lo-more-certs .lo-plus::after {background:currentColor;}
+
+#contact {
+  display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:stretch;
+  min-height:0;width:100%;margin:0;padding:0;border:0;color:#fff5e8;background:var(--deep);
+}
+#contact::before {display:none;}
+#contact .folio-contact-head {position:relative;display:flex;align-items:end;isolation:isolate;overflow:hidden;min-height:clamp(340px,34vw,540px);background:#4e3d4b;}
+#contact .folio-contact-head::before {content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#191523dd,transparent 70%);}
+#contact .lo-contact-photo {position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;object-position:54% 58%;translate:none;scale:none;}
+#contact .folio-contact-title {width:100%;min-width:0;padding:clamp(24px,4.4vw,75px) var(--outer) clamp(46px,5.7vw,84px);}
+#contact .folio-contact-title .lo-kicker {color:#f7efd9;}
+#contact .folio-contact-title .lo-title {width:100%;margin:0;max-width:100%;color:#fff9e9;font:595 clamp(4.1rem,7.4vw,8.45rem)/.9 var(--display,sans-serif);letter-spacing:-.085em;}
+#contact .folio-contact-title .lo-title em {font:italic 400 1.1em/.9 var(--serif,serif);color:#f4dab0;letter-spacing:-.06em;}
+#contact .folio-contact-title .lo-title i {color:#cebae7;}
+#contact .lo-contact-credit {color:#fff5e0;background:#211c2ede;font-size:.72rem;}
+#contact .lo-contact-inner {
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(12px,1.6vw,24px);
+  width:100%;max-width:48rem;padding:clamp(26px,4.1vw,67px);margin:0;color:#faf1df;background:transparent;
+}
+#contact .lo-contact-inner>p {max-width:35ch;margin:0;color:#eee4ef;font:450 clamp(1.02rem,1.5vw,1.47rem)/1.5 var(--body,sans-serif);}
+#contact .lo-mail {display:flex;align-items:center;flex-wrap:wrap;gap:.52rem;min-width:0;max-width:100%;margin:0;padding:0;border:0;color:#fcf2de;font-size:clamp(1.14rem,2.2vw,2.25rem);}
+#contact .lo-mail strong {font:inherit;overflow-wrap:anywhere;text-decoration-thickness:1px;}
+#contact .lo-contact-links {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:0 13px;align-content:start;margin:0;}
+#contact .lo-contact-links .lo-link {
+  display:flex;align-items:center;gap:.46rem;width:100%;min-width:0;min-height:52px;padding:6px 0;
+  color:#fff4e4;background:transparent;border:0;border-top:1px solid #898091;text-decoration:none;
+  font:570 clamp(.8rem,1.1vw,1.03rem)/1.32 var(--body,sans-serif);
+}
+#contact .lo-contact-links .lo-link:last-child {color:#dacaf7;}
+#contact .lo-contact-links .lo-link:hover {color:#f3d68d;}
+#contact .lo-service-icon {width:27px;height:27px;flex:0 0 auto;padding:4px;border:0;border-radius:3px;background:#fffaf0;}
+#contact .lo-mail .lo-service-icon {width:34px;height:34px;}
+@media (max-width:900px) {
+  #about .lo-profile-panorama {grid-template-columns:minmax(0,.75fr) minmax(0,1fr) minmax(0,.9fr);gap:11px;}
+  #skills {grid-template-columns:minmax(205px,.58fr) minmax(0,1.42fr);gap:22px;}
+  #education .lo-campus-atlas {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #education .lo-campus-atlas .lo-atlas-tile {grid-template-rows:minmax(145px,1fr) auto;}
+  #certifications .lo-learning-frame {grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);}
+  #contact .lo-contact-links {grid-template-columns:1fr;}
+}
+@media (max-width:720px) {
+  #about .lo-profile-panorama {grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);grid-template-rows:auto auto;align-items:center;gap:clamp(14px,3vw,20px) 12px;padding:32px var(--outer) 34px;}
+  #about .lo-profile-panorama .lo-panorama-ink {grid-column:1/-1;padding:0;}
+  #about .lo-profile-panorama .lo-title {display:flex;flex-wrap:wrap;align-items:baseline;column-gap:.2em;font-size:clamp(2.9rem,9.5vw,4.45rem);}
+  #about .lo-profile-panorama .lo-kicker {margin-bottom:.44rem;}
+  #about .lo-profile-panorama .lo-portrait-stage {grid-column:1;grid-row:2;}
+  #about .lo-profile-panorama .lo-portrait-print {width:100%;padding:5px;}
+  #about .lo-portrait-print figcaption {align-items:start;flex-direction:column;gap:2px;padding:.35rem 2px .08rem;}
+  #about .lower-place-print {grid-column:2;grid-row:2;padding:5px;}
+  #about .lower-place-print .lo-panorama-photo {aspect-ratio:.95;}
+  #about .lower-place-print .lo-plate-caption {font-size:.66rem;line-height:1.25;padding:.36rem 1px 0;}
+  #about .lo-about-copy {grid-template-columns:minmax(0,1fr);gap:1rem;padding:28px 0;}
+  #about .lo-about-copy :is(.lo-lead,.lo-text,.lo-links) {grid-column:1;grid-row:auto;}
+  #about .lo-about-copy .lo-lead {max-width:25ch;font-size:clamp(2rem,6.8vw,2.8rem);}
+  #skills {display:block;padding:25px var(--outer);}
+  #skills .lo-skills-panorama {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.17fr);grid-template-rows:1fr auto;align-items:center;gap:3px 12px;padding:14px;min-height:190px;}
+  #skills .lo-skills-panorama .lo-panorama-ink {grid-area:1/1/span 2;padding:0;align-self:center;}
+  #skills .lo-skills-panorama .lo-title {font-size:clamp(2.45rem,8.2vw,4.05rem);}
+  #skills .lo-skills-panorama .lo-panorama-photo {grid-area:1/2;width:100%;height:100%;min-height:145px;max-height:210px;aspect-ratio:1.35;}
+  #skills .lo-skills-panorama .lo-plate-caption {grid-area:2/2;font-size:.66rem;padding:.2rem 0;}
+  #skills .lo-toolkit-frame {padding-top:18px;}
+  #education .lo-education-overview .lo-head {row-gap:.45rem;}
+  #education .lo-education-overview .lo-head .lo-title {font-size:clamp(4.0rem,14vw,6.1rem);}
+  #education .lo-education-overview .lo-head .lo-text {margin:0;max-width:100%;}
+  #education .lo-school[data-lo-record] {display:flex;flex-direction:column;}
+  #education .lo-school-hero {width:100%;height:auto;min-height:clamp(224px,51vw,324px);}
+  #education .lo-school[data-lo-record]>.screen-card {width:100%;margin:0;}
+  #certifications .lo-learning-frame {display:block;}
+  #certifications .lo-cert-heading {margin-bottom:.4rem;}
+  #certifications .lo-cert-heading .lo-title {font-size:clamp(3rem,10.5vw,5.2rem);}
+  #certifications .lo-more-certs {margin-top:.75rem;}
+  #contact {display:block;}
+  #contact .folio-contact-head {min-height:clamp(260px,65vw,380px);}
+  #contact .folio-contact-title {padding:28px var(--outer) 48px;}
+  #contact .folio-contact-title .lo-title {font-size:clamp(4.1rem,13.3vw,6.8rem);}
+  #contact .lo-contact-inner {max-width:none;gap:13px;padding:26px var(--outer);}
+  #contact .lo-contact-links {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media (max-width:525px) {
+  #about .lo-profile-panorama {grid-template-columns:minmax(0,1.55fr) minmax(0,.75fr);}
+  #skills .lo-filters:not([hidden]) {gap:4px;}
+  #skills .lo-filters button {padding:.48rem .65rem;font-size:.8rem;}
+  #skills .lo-tools-grid {grid-template-columns:minmax(0,1fr);}
+  #education .lo-education-overview {padding:32px 12px 24px;}
+  #education .lo-campus-atlas .lo-atlas-tile {grid-template-rows:minmax(120px,1fr) auto;}
+  #education .lo-atlas-tile .lo-tile-id {padding:9px 7px;}
+  #education .lo-atlas-tile .lo-tile-id strong {font-size:clamp(1.48rem,6.1vw,2.05rem);}
+  #education .lo-atlas-tile .edu9-place {padding:.38rem 0 .31rem;font-size:clamp(.73rem,2.85vw,.87rem);}
+  #education .lo-atlas-tile .lo-tile-id small {font-size:.68rem;}
+  #education .lo-schools {width:calc(100% - 24px);}
+  #education .edu9-credit-group {gap:3px 11px;}
+  #education .campus-viewer figcaption {display:grid;gap:.5rem;}
+  #education .campus-view-actions {display:flex;flex-wrap:wrap;gap:7px 12px;}
+  #education .campus-view-actions a {display:inline-flex;align-items:center;min-height:32px;}
+  #education .screen-card .screen-actions,#education .screen-card .film-language-fields {justify-content:flex-start;}
+  #certifications .lo-cert-grid {grid-template-columns:minmax(0,1fr);}
+}
+@media(max-width:380px) {
+  #contact .lo-contact-links {grid-template-columns:1fr;}
+  #about .lo-profile-panorama .lo-title {font-size:clamp(2.55rem,10.3vw,3.15rem);}
+  #education .campus-frame-bar {gap:.45rem;font-size:.73rem;}
+}
+@media (prefers-reduced-motion:no-preference) {
+  #about .folio-scroll .lo-line-mask:first-child {transform:translateY(calc(var(--folio-drift,0px)*-.22));}
+  #about .folio-scroll .lo-portrait-print {transform:rotate(calc(-2deg + var(--folio-angle,0deg)*.72));}
+  #about .folio-scroll .lower-place-print {transform:rotate(calc(2deg - var(--folio-angle,0deg)*.65)) translateY(calc(var(--folio-drift,0px)*.36));}
+  #skills .folio-scroll .lo-line-mask:nth-child(2) {transform-origin:20% 75%;transform:rotate(calc(var(--folio-angle,0deg)*.68)) translateY(calc(var(--folio-drift,0px)*.20));}
+  #education .folio-scroll .lo-head .lo-title {transform:translateY(calc(var(--folio-drift,0px)*.21));}
+  #certifications .folio-scroll h2 {transform-origin:0 70%;transform:skewX(calc(var(--folio-angle,0deg)*.8));}
+  #contact .folio-scroll .lo-title {transform:translateY(calc(var(--folio-drift,0px)*.34));}
+  #contact .folio-scroll .lo-title em {display:inline-block;transform:rotate(calc(var(--folio-angle,0deg)*.63));}
+  #skills .lo-tool-group.folio-revealing::before {transform:scaleX(.27);transition:transform .40s ease;}
+  #skills .lo-tool-group.folio-in-frame::before {transform:scaleX(1);}
+  #certifications .lo-cert.folio-revealing .lo-org-mark {transform:rotate(-2.5deg);transition:transform .36s ease;}
+  #certifications .lo-cert.folio-in-frame .lo-org-mark {transform:rotate(0);}
+}

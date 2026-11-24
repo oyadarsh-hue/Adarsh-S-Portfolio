@@ -19,6 +19,16 @@ with run_suite('portfolio') as (browser, test):
         page = test.page(context)
         test.visit(page)
         expect(page.locator('#motionToggle')).to_have_count(0)
+        expect(page.locator('.chapter-rail, .chapter-position, .chapter-line')).to_have_count(0)
+        test.check(page.locator('body').evaluate(
+            "e => ['none', 'normal'].includes(getComputedStyle(e, '::before').content)"
+        ), 'Vertical reading has no fixed progress stripe')
+        contents = page.locator('.section-directory')
+        contents.locator('summary').click()
+        test.check(contents.locator('nav a').evaluate_all("""links => links.length === 13 &&
+             links.every(a => a.hash && document.getElementById(a.hash.slice(1)))"""),
+             'The in-page contents names and links every section')
+        contents.locator('summary').click()
         shortcuts = page.locator('.folio-shortcuts a')
         expect(shortcuts).to_have_count(4)
         test.check(set(shortcuts.evaluate_all('links=>links.map(a=>a.hash)')) ==
@@ -135,6 +145,14 @@ with run_suite('portfolio') as (browser, test):
             test.check(image.evaluate('img=>img.naturalWidth>=400 && img.clientHeight>=100'),
                        'Employer cover displays a decoded image alongside its film')
             expect(card.locator('a.employer-source-credit')).to_have_attribute('href', re.compile('^https://'))
+            thumbs = card.locator('.industry-proof-grid button')
+            expect(thumbs).to_have_count(4)
+            thumbs.last.click()
+            expect(thumbs.last).to_have_attribute('aria-pressed', 'true')
+            expect(card.locator('.industry-plate[data-active] a')).to_have_attribute('href', re.compile('^https://'))
+            thumbs.last.press('Home')
+            expect(thumbs.first).to_be_focused()
+            expect(thumbs.first).to_have_attribute('aria-pressed', 'true')
             expect(card.locator('video[controls]')).to_have_count(1)
         handles = [('gmail','mailto:oyadarsh@gmail.com'), ('phone','tel:+919061448229'),
                    ('github','https://github.com/oyadarsh-hue'), ('linkedin','https://www.linkedin.com/in/')]
@@ -224,13 +242,29 @@ with run_suite('portfolio') as (browser, test):
         test.visit(page)
         gallery = page.locator(".plate-grid")
         expect(gallery.locator("a")).to_have_count(5)
-        previous = page.get_by_role("button", name="Previous project photos")
-        following = page.get_by_role("button", name="Next project photos")
-        expect(previous).to_be_disabled()
-        following.click()
-        expect(previous).to_be_enabled()
-        previous.click()
-        expect(previous).to_be_disabled()
+        for edition, opacity in (("workflow","1"),("stills","0")):
+            choice = page.locator(f'[data-gallery-view="{edition}"]')
+            choice.click()
+            expect(choice).to_have_attribute("aria-pressed", "true")
+            expect(gallery.locator(".folio-plate-art").first).to_have_css("opacity", opacity)
+            image_class = ".folio-plate-still" if edition == "stills" else ".folio-plate-art"
+            test.check(gallery.locator(image_class).evaluate_all("""async images => {
+                await Promise.all(images.map(image => image.decode()));
+                return images.length === 5 && new Set(images.map(image => image.currentSrc)).size === 5 &&
+                    images.every(image => image.naturalWidth >= image.clientWidth && image.naturalHeight > 0);
+            }"""), f"Switching to {edition} shows the chosen edition's decoded project imagery")
+        for width in (320,390,768,1440):
+            page.set_viewport_size({"width":width,"height":900})
+            test.check(gallery.evaluate("""nav => nav.scrollWidth <= nav.clientWidth + 1 &&
+                [...nav.querySelectorAll('a')].every(a => {
+                    const box = a.getBoundingClientRect();
+                    return box.left >= -1 && box.right <= innerWidth + 1 && box.height > 20;
+                })"""), f"All five project links fit the {width}px index without sideways scrolling")
+        for link in gallery.locator("a").all():
+            destination = link.get_attribute("href")
+            link.click()
+            expect(page.locator(destination)).to_be_in_viewport()
+            test.check(page.url.endswith(destination), f"Portfolio index opens {destination}")
         page.locator("#projectSearch").fill("quietnote")
         shown = page.locator("#project-assenttag")
         expect(shown).to_be_hidden()

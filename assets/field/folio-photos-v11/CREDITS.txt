@@ -30,13 +30,6 @@ https://bluegensolutions.com/events.html
 Publication — Adarsh S, EpigraphiX-AI, published in IJRASET.
 https://doi.org/10.22214/ijraset.2026.84707
 
-The chapter navigator uses small crops of the photographs, original film
-stills, diagrams and certification marks already displayed in their chapters.
-The original makers and licences also apply to these crops.
-
-Kerala, circuits and beach photography — see this file and credits.html.
-Film and workstation photography — ../cinema-motion/credits.html
-Campus photography — ../education-v9/credits.html
-Internship photography — ../employers-v10/SOURCES.txt
-The portrait and project frames come from Adarsh S’s portfolio.
-The AWS certification mark identifies its issuer.
+Mananchira Square gate and the evening scene at Kozhikode Beach also appear in
+the opening gallery with cropped thumbnails. See credits.html#gate and
+credits.html#shore for the original photos by Vengolis and Ekuttan and their licences.

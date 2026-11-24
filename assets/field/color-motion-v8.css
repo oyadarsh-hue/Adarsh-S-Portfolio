@@ -69,11 +69,9 @@
 @media(min-width:850px){#projects .project-card:nth-of-type(even) .pf-title{order:2}#projects .project-card:nth-of-type(even) .pf-art{padding:10px 0 10px 10px}#projects .project-card:nth-of-type(even) .pf-art:after{inset:17px 7px 17px 17px}}
 @supports(animation-timeline:scroll()){
  @media(prefers-reduced-motion:no-preference){
- html.js:not(.paused) body:has(.hero-edition)::before{content:"";position:fixed;z-index:15;inset:0 0 auto;pointer-events:none;height:3px;background:linear-gradient(90deg,#fba76e,#f574ae,#b9a5ff,#70e5c1);transform-origin:left;animation:folio-reading-progress linear both;animation-timeline:scroll(root)}
  html.js:not(.paused) .plate-link img{animation:folio-print-expose linear both;animation-timeline:view();animation-range:entry 0% cover 35%}
  }
 }
-@keyframes folio-reading-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes folio-print-expose{from{filter:saturate(.75) brightness(.92)}to{filter:saturate(1.18) brightness(1.02)}}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){html:not(.paused) .plate-link img{transition:object-position .45s}html:not(.paused) .plate-link:hover img{object-position:62% 54%}}
 .work-cover .project-photo-credit{position:absolute;z-index:2;right:13px;top:12px;padding:4px 7px;color:#fff;background:#231c35d9;font:550 10px/1.4 var(--mono)}

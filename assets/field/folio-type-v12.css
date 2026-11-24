@@ -1,0 +1,90 @@
+.specialty-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.05rem;
+  list-style: none;
+  margin: .85rem 0 0;
+  padding: 0;
+  color: var(--cover-text);
+  font: 615 clamp(.82rem, 1.15vw, 1.12rem)/1.36 var(--body);
+}
+.specialty-list li {
+  position: relative;
+  padding-inline-start: .8em;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.specialty-list li::before {
+  content: "";
+  position: absolute;
+  inset: .48em auto auto .06em;
+  width: .38em;
+  height: .38em;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.field-band {
+  color: #183b3d;
+  background: #ebf1dc;
+  border-block: 1px solid #a8b9a7;
+}
+html[data-theme="dark"] .field-band {
+  color: #e8f4df;
+  background: #183936;
+  border-color: #526c5e;
+}
+.field-index {
+  width: min(90%, 92rem);
+  margin: 0 auto;
+  padding: clamp(1.1rem, 2.75vw, 2.75rem) 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem clamp(1.15rem, 3vw, 3rem);
+}
+.field-index li {
+  min-width: 0;
+  padding-block-end: .1em;
+  font: 590 clamp(1.28rem, 2.45vw, 2.75rem)/1.16 var(--display);
+  letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.field-index li:nth-child(even) {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -.018em;
+}
+.field-index li::before {
+  content: "";
+  display: block;
+  width: 1.4rem;
+  height: .3rem;
+  margin-bottom: .6rem;
+  border-radius: 1rem;
+  background: #279489;
+  transform-origin: left center;
+}
+.field-index li:nth-child(2)::before { background: #ed895a; }
+.field-index li:nth-child(3)::before { background: #8872c6; }
+.field-index li:nth-child(4)::before { background: #c3a03f; }
+@media (max-width: 48rem) {
+  .field-index { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 22rem) {
+  .field-index { column-gap: .875rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .field-index.is-entered li::before {
+    animation: field-ink .55s cubic-bezier(.22,.72,.25,1) backwards;
+  }
+  .field-index li:nth-child(2)::before { animation-delay: .06s; }
+  .field-index li:nth-child(3)::before { animation-delay: .12s; }
+  .field-index li:nth-child(4)::before { animation-delay: .18s; }
+  @keyframes field-ink {
+    from { transform: translateY(.25rem) scaleX(.35); }
+    to { transform: none; }
+  }
+}

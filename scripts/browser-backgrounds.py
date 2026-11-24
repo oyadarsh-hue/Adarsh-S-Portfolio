@@ -51,7 +51,7 @@ def scroll(page, y):
 
 
 def verify_scroll_text(page, test, reduced=False):
-    anchor = page.locator(".type-anchor:has(.scroll-type .word-unit)").first
+    anchor = page.locator(".archive-head .type-anchor.scroll-type")
     anchor.scroll_into_view_if_needed()
     page.evaluate("document.fonts.ready")
     top = anchor.evaluate("e => e.getBoundingClientRect().top + scrollY")
@@ -62,14 +62,13 @@ def verify_scroll_text(page, test, reduced=False):
         scroll(page, y)
         states.append(
             anchor.evaluate("""e => {
-            const group = e.querySelector('.scroll-type');
-            const nodes = [group,...group.querySelectorAll('.word-unit')];
+            const nodes = [...e.querySelectorAll('.word-unit')];
             const paint = nodes.map(n => {
                 const css = getComputedStyle(n);
                 return [css.transform,css.translate,css.rotate,css.scale];
             });
             return {top: e.getBoundingClientRect().top+window.scrollY, height:e.offsetHeight,
-                progress:getComputedStyle(group).getPropertyValue('--type-progress').trim(), paint};
+                progress:getComputedStyle(e).getPropertyValue('--type-progress').trim(), paint};
         }""")
         )
     test.check(
@@ -92,6 +91,46 @@ def verify_scroll_text(page, test, reduced=False):
             states[0]["progress"] == states[2]["progress"] and states[0]["paint"] == states[2]["paint"],
             "Reversing scroll restores the same word position and angle",
         )
+
+
+def verify_field_index(page, test, reduced=False):
+    fields = page.get_by_role("list", name="Fields of work")
+    expect(fields.get_by_role("listitem")).to_have_text(
+        ["Full-stack engineering", "Computer vision", "Privacy & research", "DevOps"]
+    )
+    page.evaluate("document.fonts.ready")
+    fields.scroll_into_view_if_needed()
+    top = fields.evaluate("e => e.getBoundingClientRect().top + scrollY")
+    for offset in (0.18, 0.54, 0.3):
+        scroll(page, max(0, round(top - page.viewport_size["height"] * offset)))
+        boxes = fields.evaluate("""list => {
+            const within = (r, parent) => r.left >= parent.left - 1 && r.right <= parent.right + 1
+                && r.top >= parent.top - 1 && r.bottom <= parent.bottom + 1;
+            return [...list.children].map(item => {
+                const range = document.createRange();
+                range.selectNodeContents(item);
+                const rect = item.getBoundingClientRect();
+                const lines = [...range.getClientRects()];
+                return {x: rect.x, width: rect.width, safe: lines.length > 0 && lines.every(
+                    line => within(line, rect) && line.left >= 0 && line.right <= innerWidth + 1)
+                    && list.scrollWidth <= list.clientWidth + 1 && getComputedStyle(list).transform === 'none'};
+            });
+        }""")
+        test.check(all(cell["safe"] for cell in boxes),
+                   f"All four fields are simultaneously readable at {page.viewport_size['width']}px while scrolling")
+        layout = [(cell["x"], cell["width"]) for cell in boxes]
+        if offset == 0.18:
+            original = layout
+        else:
+            test.check(layout == original, "Vertical scroll never moves the field names sideways")
+    if not reduced:
+        expect(fields).to_have_class(re.compile(r'\bis-entered\b'))
+    ink = fields.locator("li").first.evaluate("""e => {
+        const s = getComputedStyle(e, '::before');
+        return [s.animationName, s.animationDuration, s.animationIterationCount];
+    }""")
+    test.check(ink[0] == "none" if reduced else ink[0] == "field-ink" and ink[2] == "1" and float(ink[1][:-1]) < 1,
+               "System reduce disables the accent" if reduced else "Only the short, single-pass ink mark animates")
 
 
 def verify_story(page, test, static=False):
@@ -269,6 +308,9 @@ def verify_still_seek(frame, index, test):
     slug = frame.get_attribute("data-clip")
     button = frame.locator(".still-options button").nth(index)
     expect(button).to_be_visible()
+    label = ("Opening", "Middle", "Closing")[index]
+    expect(button.locator("span")).to_have_text(label)
+    expect(button).to_have_attribute("aria-label", re.compile(label + r".*\d+:\d\d"))
     button.scroll_into_view_if_needed()
     sheet = f"film-v8/{slug}-sheet.webp" if slug in DOCUMENTARY else f"frames-v6/{slug}.webp"
     frame.page.wait_for_function("""([slug, sheet]) =>
@@ -411,6 +453,15 @@ def check_placement(page, test):
             all(a >= -2 and b <= width + 2 and c > 140 for a, b, c in sizes),
             f"All twenty-one film frames fit at {width}px",
         )
+        albums = page.locator('#experience .industry-proof-grid')
+        test.check(albums.count() == 3 and albums.evaluate_all("""grids => grids.every(grid => {
+            const tiles = [...grid.querySelectorAll('button')].map(button => button.getBoundingClientRect());
+            const panel = grid.getBoundingClientRect();
+            return tiles.length === 4 && grid.scrollWidth <= grid.clientWidth + 1
+                && tiles.every(tile => tile.width >= 72 && tile.height >= 44 &&
+                    tile.left >= panel.left - 1 && tile.right <= panel.right + 1)
+                && Math.abs(tiles[0].top - tiles[1].top) <= 1 && tiles[2].top > tiles[0].top;
+        })"""), f"Four employer photographs fit together in each grid at {width}px")
         test.layout(page, f"theatre and inline players / {width}")
     page.set_viewport_size({"width": 1440, "height": 900})
 
@@ -434,24 +485,21 @@ with run_suite("backgrounds") as (browser, test):
         scenes = page.locator(".hero-image[data-scene]")
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
-        expect(scenes).to_have_count(3)
         expected_scenes = ["assets/field/folio-photos-v11/kadalundi.webp", "assets/field/folio-photos-v11/thusharagiri.webp",
-                           "assets/field/motion-photos/beypore.webp"]
+                           "assets/field/motion-photos/beypore.webp", "assets/field/folio-photos-v11/mananchira-gate.webp",
+                           "assets/field/folio-photos-v11/kozhikode-shore.webp"]
+        expect(scenes).to_have_count(len(expected_scenes))
         expect(active).to_have_attribute("src", expected_scenes[0])
         test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
-                   "The hero opens at the Kadalundi River and offers Thusharagiri Falls and Beypore")
-        active.evaluate("img => img.decode()")
-        first = active.get_attribute("data-scene")
-        steps = page.locator("[data-scene-step]").last
-        steps.click()
-        expect(active).not_to_have_attribute("data-scene", first)
-        active.evaluate("img => img.decode()")
-        for _ in range(scenes.count() - 1):
-            steps.click()
-        expect(active).to_have_attribute("data-scene", first)
-        test.check(True, "Landscape switcher cycles and decodes the photographs")
+                   "The five Kerala photographs match their landscape choices")
         thumbnails = page.locator('[data-scene-index]')
-        expect(thumbnails).to_have_count(3)
+        expect(thumbnails).to_have_count(len(expected_scenes))
+        for index, choice in enumerate(thumbnails.all()):
+            choice.click()
+            expect(active).to_have_attribute("src", expected_scenes[index])
+            active.evaluate("img => img.decode()")
+            expect(choice).to_have_attribute("aria-pressed", "true")
+        test.check(True, "Every landscape can be selected directly and decodes")
         thumbnails.nth(1).focus()
         page.keyboard.press('Enter')
         expect(thumbnails.nth(1)).to_have_attribute('aria-pressed','true')
@@ -486,15 +534,14 @@ with run_suite("backgrounds") as (browser, test):
         test.check(lettering[0] == lettering[2] and lettering[0][0] != lettering[1][0]
                    and lettering[0][1] != lettering[1][1], "Role and name lettering visibly track scroll and reverse")
         expect(page.locator("#motionToggle")).to_have_count(0)
-        specialty = page.locator("[data-discipline]")
-        previous = specialty.inner_text()
-        expect(specialty).not_to_have_text(previous, timeout=8000)
+        specialties = page.get_by_role("list", name="Specialties").get_by_role("listitem")
+        role_names = ["Computer vision", "Privacy engineering", "Full-stack development"]
+        expect(specialties).to_have_text(role_names)
         page.emulate_media(reduced_motion="reduce")
         scroll(page, 180)
-        paused_specialty = specialty.inner_text()
-        page.wait_for_timeout(4050)
-        expect(specialty).to_have_text(paused_specialty)
-        test.check(True, "Specialties rotate automatically despite a legacy pause and stop for system reduced motion")
+        expect(specialties).to_have_text(role_names)
+        test.check(specialties.evaluate_all("li=>li.every(e=>e.offsetHeight>0 && !e.closest('[aria-hidden=true]'))"),
+                   "All three specialties remain readable and accessible together")
         test.check(
             active.evaluate("e=>getComputedStyle(e).transform === 'none'"),
             "Changing the device preference freezes the hero photograph",
@@ -515,6 +562,9 @@ with run_suite("backgrounds") as (browser, test):
         for width in (1440,390):
             page.set_viewport_size({"width":width,"height":900})
             verify_story(page,test)
+        for width in (320,390,768,1440):
+            page.set_viewport_size({"width":width,"height":900})
+            verify_field_index(page,test)
         page.set_viewport_size({"width":1440,"height":900})
 
         # The hero opens the original overview and starts it only after this gesture.
@@ -651,6 +701,7 @@ with run_suite("backgrounds") as (browser, test):
             "Reduced-motion photograph is static",
         )
         verify_scroll_text(page, test, reduced=True)
+        verify_field_index(page, test, reduced=True)
         verify_story(page,test,static=True)
         test.check(
             page.locator("video").evaluate_all("videos=>videos.every(v=>v.paused&&v.currentTime===0)"),

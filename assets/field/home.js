@@ -19,7 +19,7 @@
     root.dataset.theme = mode;
     theme.setAttribute('aria-pressed', String(mode === 'dark'));
     theme.title = mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-    document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#102b34' : '#f1f6dc';
+    document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#1b1c27' : '#f7f3ec';
   }
   theme.addEventListener('click', () => {
     chosenTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -81,7 +81,7 @@
     scenes.forEach((image, i) => { image.dataset.active = String(displayedScene === i); });
     sceneTabs.forEach((button, i) => button.setAttribute('aria-pressed', String(i === displayedScene)));
     const label = next.dataset.label;
-    byId('sceneName').textContent = '0' + (displayedScene + 1) + ' / 0' + scenes.length + '   ' + label.toUpperCase();
+    byId('sceneName').textContent = label;
     photoLabel.textContent = label;
     hero.dataset.landscape = next.dataset.scene;
   }
@@ -94,9 +94,6 @@
       scheduleLandscape();
     }, 7200);
   }
-  document.querySelectorAll('[data-scene-step]').forEach(button => {
-    button.addEventListener('click', () => showScene(requestedScene + Number(button.dataset.sceneStep), true));
-  });
   sceneTabs.forEach((button, i) => button.addEventListener('click', () => showScene(i, true)));
   picker.addEventListener('focusin', () => { userSelected = true; clearTimeout(landscapeTimer); });
   if ('IntersectionObserver' in window) {
@@ -149,11 +146,6 @@
       anchor.style.setProperty('--type-progress', progress.toFixed(4));
       anchor.style.setProperty('--type-rise', (movement * 39).toFixed(2)+'px');
       anchor.style.setProperty('--type-turn', (movement * -7).toFixed(2)+'deg');
-      if (anchor.classList.contains('type-ribbon')) {
-        const strip = anchor.querySelector('.scroll-type');
-        const travel = Math.max(0, strip.scrollWidth - anchor.clientWidth + 32);
-        anchor.style.setProperty('--strip-x', (still ? 0 : -travel * progress).toFixed(2)+'px');
-      }
     }
     watches.forEach(frame => {
       // The frame stays in normal flow. Only its child photograph is translated.
@@ -178,7 +170,7 @@
         enters.unobserve(entry.target);
       });
     }, {threshold:.06});
-    document.querySelectorAll('.section-head,.card-copy,.reveal').forEach(el => enters.observe(el));
+    document.querySelectorAll('.section-head,.card-copy,.reveal,.field-index').forEach(el => enters.observe(el));
     const images = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) watches.add(entry.target);
