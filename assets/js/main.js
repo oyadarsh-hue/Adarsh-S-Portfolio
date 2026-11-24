@@ -20,25 +20,10 @@
   };
   root.classList.add("js");
   root.dataset.theme = stored("adarsh-theme-v2") === "dark" ? "dark" : "light";
-  let manuallyPaused = stored("adarsh-motion") === "paused";
-  const motionAllowed = () => !reducedMotion.matches && !manuallyPaused;
-  const motionButton = document.getElementById("motionButton");
+  const motionAllowed = () => !reducedMotion.matches;
   const themeButton = document.getElementById("themeButton");
   function syncPreferences() {
     root.classList.toggle("paused", !motionAllowed());
-    if (motionButton) {
-      motionButton.setAttribute("aria-pressed", String(!motionAllowed()));
-      motionButton.setAttribute(
-        "aria-label",
-        reducedMotion.matches
-          ? "Reduced motion enabled by system"
-          : manuallyPaused
-            ? "Enable animation"
-            : "Pause animation",
-      );
-      motionButton.textContent = motionAllowed() ? "Ⅱ" : "▷";
-      motionButton.disabled = reducedMotion.matches;
-    }
     if (themeButton)
       themeButton.setAttribute(
         "aria-label",
@@ -47,11 +32,6 @@
   }
   syncPreferences();
   reducedMotion.addEventListener("change", syncPreferences);
-  motionButton?.addEventListener("click", () => {
-    manuallyPaused = !manuallyPaused;
-    remember("adarsh-motion", manuallyPaused ? "paused" : "enabled");
-    syncPreferences();
-  });
   themeButton?.addEventListener("click", () => {
     root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
     remember("adarsh-theme-v2", root.dataset.theme);

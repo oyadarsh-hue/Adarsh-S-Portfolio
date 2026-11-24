@@ -192,13 +192,6 @@ function setTheme(theme,save=false){
   if(save){try{localStorage.setItem('adarsh-theme-v2',theme);}catch{}}
 }
 const media=matchMedia('(prefers-color-scheme: dark)');
-window.addEventListener('storage', event => {
-  if (event.key === 'adarsh-motion' || event.key === null) {
-    try {
-      document.documentElement.dataset.motion = localStorage.getItem('adarsh-motion') === 'paused' ? 'paused' : 'enabled';
-    } catch {}
-  }
-});
 setTheme(document.documentElement.dataset.theme || (media.matches?'dark':'light'));
 $('theme').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark',true));
 media.addEventListener?.('change',e=>{try{if(!localStorage.getItem('adarsh-theme-v2'))setTheme(e.matches?'dark':'light');}catch{}});

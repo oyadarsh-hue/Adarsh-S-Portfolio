@@ -46,7 +46,6 @@ h1,h2,h3,figure,p { margin:0; }
 .folio-prefs { display:inline-flex;align-items:center;gap:5px; }
 .folio-prefs button { border:1px solid var(--border);display:inline-grid;place-items:center;background:var(--surface);color:var(--text);border-radius:99px;height:38px; }
 .folio-prefs button:disabled {opacity:.58;}
-#motionButton { width:38px;font:600 14px var(--sans); }
 #themeButton { display:flex;position:relative;align-items:center;justify-content:space-between;gap:9px;width:67px;isolation:isolate;padding:6px 9px; }
 #themeButton::before { content:"";position:absolute;left:3px;width:29px;height:29px;border-radius:50%;background:var(--text);z-index:-1;transition:transform .24s ease; }
 #themeButton svg { width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round; }
@@ -173,7 +172,6 @@ footer {border-top:1px solid var(--border);padding:25px var(--gutter);font-size:
 }
 @media (hover:none) {
   .folio-prefs button {height:44px;}
-  #motionButton {width:44px;}
 }
 @media (prefers-reduced-motion:reduce) {
   *,::before,::after {scroll-behavior:auto!important;animation:none!important;transition:none!important;}

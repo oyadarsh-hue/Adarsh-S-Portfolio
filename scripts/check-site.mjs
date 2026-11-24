@@ -30,6 +30,8 @@ for (const page of pages) {
     `Expected one h1: ${page}`,
   );
   const ids = [...source.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+  assert(!ids.some(id => ["motionToggle", "motionButton", "studioMotion"].includes(id)),
+         `Found a retired manual motion control in ${page}`);
   assert(new Set(ids).size === ids.length, `Duplicate IDs: ${page}`);
   const references = [...source.matchAll(/\s(?:href|src|poster)="([^"]+)"/g)].map(match => match[1]);
   for (const [, srcset] of source.matchAll(/\ssrcset="([^"]+)"/g)) {

@@ -15,8 +15,19 @@ def check_theme(page, test, expected):
 
 with run_suite('portfolio') as (browser, test):
     with browser.new_context(viewport={'width': 1440, 'height': 950}, color_scheme='light') as context:
+        context.add_init_script("localStorage.setItem('adarsh-motion','paused')")
         page = test.page(context)
         test.visit(page)
+        expect(page.locator('#motionToggle')).to_have_count(0)
+        shortcuts = page.locator('.folio-shortcuts a')
+        expect(shortcuts).to_have_count(4)
+        test.check(set(shortcuts.evaluate_all('links=>links.map(a=>a.hash)')) ==
+                   {'#projects','#education','#experience','#publication'},
+                   'The four photo shortcuts lead to the project, education, internship and publication sections')
+        test.check(shortcuts.evaluate_all("""async links=>{for(const link of links){
+            const photo=link.querySelector('img');if(!photo || !link.textContent.trim())return false;
+            await photo.decode();if(photo.naturalWidth<150)return false;
+        }return true;}"""), 'All four shortcuts have a visible name and a decoded photograph')
         check_theme(page, test, 'light')
         light_background = page.evaluate('getComputedStyle(document.body).backgroundColor')
         portrait = page.locator('#about img[src$="adarsh-s.jpeg"]')
@@ -152,12 +163,24 @@ with run_suite('portfolio') as (browser, test):
         expect(page.locator('#sourceText')).to_be_visible()
         expect(page.locator('#output')).to_be_visible()
         test.layout(page, 'audio studio / mobile')
+        expect(page.locator('#studioMotion')).to_have_count(0)
+        expect(page.locator('html')).to_have_attribute('data-studio-fx','on')
+        page.wait_for_function("document.querySelector('.studio-monitor')?.classList.contains('in-sight')")
+        test.check(page.locator('.sweep-head').evaluate("e=>getComputedStyle(e).animationName==='studio-scan'"),
+                   'The visible Studio reference sweep runs despite the old saved pause')
+        page.emulate_media(reduced_motion='reduce')
+        expect(page.locator('html')).to_have_attribute('data-studio-fx','off')
+        test.check(page.locator('.sweep-head').evaluate("e=>getComputedStyle(e).animationName==='none'"),
+                   'The Studio reference sweep stops for system reduced motion')
+        page.emulate_media(reduced_motion='no-preference')
         test.visit(page)
 
         palettes = set()
         for case in sorted((ROOT / 'projects').glob('*.html')):
             test.visit(page, f'projects/{case.name}')
             expect(page.locator('.case-evidence')).to_be_visible()
+            expect(page.locator('#motionButton')).to_have_count(0)
+            expect(page.locator('body')).to_have_class(re.compile(r'\bim-running\b'))
             cover = page.locator('.case-splash .cover-image img')
             cover.evaluate('img=>img.decode()')
             test.check(cover.evaluate('img=>img.naturalWidth>=640 && img.clientHeight>=250'),
@@ -193,10 +216,11 @@ with run_suite('portfolio') as (browser, test):
             expect(page.locator(f'.screen-card[data-clip="{case.stem}"] video')).to_have_count(1)
             test.layout(page, case.stem + ' mobile')
         test.check(len(palettes) == 5 and '' not in palettes, 'Every case has its own palette')
-        page.locator('#motionButton').click()
-        expect(page.locator('#motionButton')).to_have_attribute('aria-pressed', 'true')
-        test.check(kicker.evaluate('e=>getComputedStyle(e).rotate') == 'none', 'Manual pause freezes case rotation')
-        page.locator('#motionButton').click()
+        page.emulate_media(reduced_motion='reduce')
+        expect(page.locator('body')).not_to_have_class(re.compile(r'\bim-running\b'))
+        test.check(kicker.evaluate('e=>getComputedStyle(e).rotate') == 'none', 'System reduced motion freezes case rotation')
+        page.emulate_media(reduced_motion='no-preference')
+        expect(page.locator('body')).to_have_class(re.compile(r'\bim-running\b'))
         test.visit(page)
         gallery = page.locator(".plate-grid")
         expect(gallery.locator("a")).to_have_count(5)
@@ -243,7 +267,7 @@ with run_suite('portfolio') as (browser, test):
         test.check(True, 'Theme still switches with storage disabled')
         test.visit(page, 'projects/quietnote.html')
         page.locator('#features').scroll_into_view_if_needed()
-        expect(page.locator('#motionButton')).to_be_disabled()
+        expect(page.locator('#motionButton')).to_have_count(0)
         test.check(page.locator('[data-motion-title], [data-motion-frame]').evaluate_all(
             'nodes=>nodes.every(e=>e.getAnimations().length===0)'), 'Case text and frames respect system reduced motion')
 

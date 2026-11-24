@@ -1,0 +1,42 @@
+Kozhikode landscapes in Adarsh S’s portfolio
+
+Kadalundi River — Rameshng, “Bridge near kadalundi Kerala”.
+https://commons.wikimedia.org/wiki/File:Bridge_near_kadalundi_Kerala.jpg
+Released into the public domain by its photographer.
+
+Thusharagiri Falls — നിരക്ഷരൻ, “Thusharagiri water falls”.
+https://commons.wikimedia.org/wiki/File:Thusharagiri_water_falls.jpg
+Released into the public domain by its photographer.
+
+Beypore at sunset — Mohammed Faris, “Sunset at Beypore”.
+https://commons.wikimedia.org/wiki/File:Sunset_at_Beypore.jpg
+CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0/
+
+The images and their thumbnail previews are resized, cropped, and converted
+to WebP. The Beypore photograph and its derivatives retain the original licence.
+
+The four photographic section links use crops from the following sources.
+
+Projects — Tirza van Dijk, “Laptop coding programs”, CC0.
+https://commons.wikimedia.org/wiki/File:Laptop_coding_programs_(Unsplash).jpg
+
+Education — Krishnachandranvn, Government Engineering College Thrissur.
+See the campus photo credits for the source and CC0 dedication:
+../education-v9/credits.html#gec
+
+Internships — Bluegen Solutions, career workshop at Malabar College, Vengara.
+https://bluegensolutions.com/events.html
+
+Publication — Adarsh S, EpigraphiX-AI, published in IJRASET.
+https://doi.org/10.22214/ijraset.2026.84707
+
+The chapter navigator uses small crops of the photographs, original film
+stills, diagrams and certification marks already displayed in their chapters.
+The original makers and licences also apply to these crops.
+
+Kerala, circuits and beach photography — see this file and credits.html.
+Film and workstation photography — ../cinema-motion/credits.html
+Campus photography — ../education-v9/credits.html
+Internship photography — ../employers-v10/SOURCES.txt
+The portrait and project frames come from Adarsh S’s portfolio.
+The AWS certification mark identifies its issuer.

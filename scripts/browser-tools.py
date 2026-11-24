@@ -77,7 +77,7 @@ try:
         check(page.locator('#briefText script').count() == 0, 'User text cannot create markup')
         check('not end-to-end encrypted' in page.locator('#briefText').inner_text(), 'Brief preserves project limits')
         check('Example' not in page.url and 'PostgreSQL' not in page.url, 'Company and job text stay out of URL')
-        check(page.evaluate("Object.keys(localStorage).every(k=>k==='adarsh-theme-v2'||k==='adarsh-motion')"), 'Draft inputs not saved to storage')
+        check(page.evaluate("Object.keys(localStorage).every(k=>k==='adarsh-theme-v2')"), 'Draft inputs not saved to storage')
         with page.expect_download() as event:
             page.locator('#downloadBrief').click()
         download = event.value

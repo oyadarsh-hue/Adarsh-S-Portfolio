@@ -6,7 +6,6 @@
   const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const mobileMenu = matchMedia('(max-width:850px)');
   const themeKey = 'adarsh-theme-v2';
-  const motionKey = 'adarsh-motion';
   function read(key) {
     try { return localStorage.getItem(key); } catch { return null; }
   }
@@ -14,14 +13,13 @@
     try { localStorage.setItem(key, value); } catch { /* This tab still keeps the selection. */ }
   }
   let chosenTheme = read(themeKey);
-  let paused = read(motionKey) === 'paused';
   const theme = byId('themeToggle');
   function applyTheme() {
     const mode = ['light','dark'].includes(chosenTheme) ? chosenTheme : (systemTheme.matches ? 'dark' : 'light');
     root.dataset.theme = mode;
     theme.setAttribute('aria-pressed', String(mode === 'dark'));
     theme.title = mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-    document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#121217' : '#f5f2eb';
+    document.querySelector('meta[name="theme-color"]').content = mode === 'dark' ? '#102b34' : '#f1f6dc';
   }
   theme.addEventListener('click', () => {
     chosenTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -37,7 +35,11 @@
     nav.classList.toggle('open', open);
     menu.setAttribute('aria-expanded', String(open));
   }
-  menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'));
+  menu.addEventListener('click', () => {
+    const opening = menu.getAttribute('aria-expanded') !== 'true';
+    setMenu(opening);
+    if (opening) nav.querySelector('a')?.focus({preventScroll:true});
+  });
   nav.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
   document.addEventListener('click', event => {
     if (!nav.contains(event.target) && !menu.contains(event.target)) setMenu(false);
@@ -81,15 +83,16 @@
     const label = next.dataset.label;
     byId('sceneName').textContent = '0' + (displayedScene + 1) + ' / 0' + scenes.length + '   ' + label.toUpperCase();
     photoLabel.textContent = label;
+    hero.dataset.landscape = next.dataset.scene;
   }
 
   function scheduleLandscape() {
     clearTimeout(landscapeTimer);
-    if (!sceneVisible || userSelected || paused || systemMotion.matches || document.hidden) return;
+    if (!sceneVisible || userSelected || systemMotion.matches || document.hidden) return;
     landscapeTimer = setTimeout(async () => {
       await showScene(displayedScene + 1, false);
       scheduleLandscape();
-    }, 9200);
+    }, 7200);
   }
   document.querySelectorAll('[data-scene-step]').forEach(button => {
     button.addEventListener('click', () => showScene(requestedScene + Number(button.dataset.sceneStep), true));
@@ -133,7 +136,7 @@
   let scheduled = false;
   function paint() {
     scheduled = false;
-    const still = paused || systemMotion.matches;
+    const still = systemMotion.matches;
     const offset = still ? 0 : Math.min(window.scrollY, hero.offsetHeight);
     hero.style.setProperty('--scene-shift', Math.min(22, offset * .055).toFixed(2) + 'px');
     hero.style.setProperty('--scene-turn', (offset * .14).toFixed(2) + 'deg');
@@ -195,7 +198,7 @@
   }
   const pointerPortrait = matchMedia('(hover: hover) and (pointer: fine)');
   hero.addEventListener('pointermove', event => {
-    if (!pointerPortrait.matches || paused || systemMotion.matches) return;
+    if (!pointerPortrait.matches || systemMotion.matches) return;
     const bounds = hero.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - .5;
     const y = (event.clientY - bounds.top) / bounds.height - .5;
@@ -206,27 +209,16 @@
     hero.style.removeProperty('--print-y');
     hero.style.removeProperty('--print-x');
   });
-  const motion = byId('motionToggle');
   function applyMotion() {
-    const still = paused || systemMotion.matches;
-    root.classList.toggle('paused', still);
-    motion.disabled = systemMotion.matches;
-    motion.setAttribute('aria-pressed', String(still));
-    motion.title = systemMotion.matches ? 'System reduced motion is on' : (paused ? 'Enable animations' : 'Pause animations');
-    motion.setAttribute('aria-label', motion.title);
-    const status = motion.querySelector('.motion-status');
-    if (status) status.textContent = still ? 'Motion off' : 'Motion on';
+    root.classList.toggle('paused', systemMotion.matches);
     scheduleLandscape();
-    motion.querySelector('path').setAttribute('d', still ? 'm7 4 9 6-9 6z' : 'M7 5v10m6-10v10');
     queuePaint();
   }
-  motion.addEventListener('click', () => { paused = !paused; save(motionKey, paused ? 'paused' : 'enabled'); applyMotion(); });
   systemMotion.addEventListener('change', applyMotion);
   window.addEventListener('storage', event => {
     if (event.key === themeKey || !event.key) { chosenTheme = read(themeKey); applyTheme(); }
-    if (event.key === motionKey || !event.key) { paused = read(motionKey) === 'paused'; applyMotion(); }
   });
-  window.addEventListener('scroll', () => { if (!paused && !systemMotion.matches) queuePaint(); }, {passive:true});
+  window.addEventListener('scroll', () => { if (!systemMotion.matches) queuePaint(); }, {passive:true});
   window.addEventListener('resize', queuePaint);
   applyMotion();
 

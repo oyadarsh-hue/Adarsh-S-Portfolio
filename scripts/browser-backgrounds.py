@@ -103,7 +103,7 @@ def verify_story(page, test, static=False):
         for slide in slides.all():
             slide.scroll_into_view_if_needed()
             test.check(slide.evaluate("s=>!s.inert && getComputedStyle(s).opacity==='1' && s.offsetHeight>=200"),
-                       "Paused or reduced-motion photo chapter stays readable")
+                       "Reduced-motion photo chapter stays readable")
         return
     region = story.locator(".story-scroll")
     top, distance, height = region.evaluate("""e=>[Math.round(e.getBoundingClientRect().top + scrollY),
@@ -113,8 +113,11 @@ def verify_story(page, test, static=False):
         scroll(page, top + round(distance * (index + .45) / 3))
         active = story.locator(".story-slide.current")
         expect(active).to_have_attribute("data-step", str(index))
-        image = active.locator("img")
+        image = active.locator(":scope > img")
         image.evaluate("i=>i.decode()")
+        evidence = active.locator(".folio-journal-print img")
+        evidence.evaluate("i=>i.decode()")
+        test.check(evidence.evaluate("i=>i.naturalWidth>0"), "The active story's evidence print decodes")
         test.check(active.evaluate("""s=>!s.inert && s.querySelector('img').naturalWidth>=640 &&
             s.getBoundingClientRect().height>=220 && s.getBoundingClientRect().top<innerHeight"""),
                    f"Photo chapter {index + 1} is visible with loaded artwork")
@@ -414,6 +417,8 @@ def check_placement(page, test):
 
 with run_suite("backgrounds") as (browser, test):
     with browser.new_context(viewport={"width": 1440, "height": 900}) as context:
+        # Returning visitors can still have the former manual motion setting.
+        context.add_init_script("localStorage.setItem('adarsh-motion','paused')")
         page = test.page(context)
         requests = []
         page.on(
@@ -430,11 +435,11 @@ with run_suite("backgrounds") as (browser, test):
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
         expect(scenes).to_have_count(3)
-        expected_scenes = ["assets/field/motion-photos/beypore.webp", "assets/field/motion-photos/athirappilly.webp",
-                           "assets/field/atelier-v9/chembra.webp"]
+        expected_scenes = ["assets/field/folio-photos-v11/kadalundi.webp", "assets/field/folio-photos-v11/thusharagiri.webp",
+                           "assets/field/motion-photos/beypore.webp"]
         expect(active).to_have_attribute("src", expected_scenes[0])
         test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
-                   "The hero opens at Beypore and offers photographs of Athirappilly Falls and Chembra Peak")
+                   "The hero opens at the Kadalundi River and offers Thusharagiri Falls and Beypore")
         active.evaluate("img => img.decode()")
         first = active.get_attribute("data-scene")
         steps = page.locator("[data-scene-step]").last
@@ -452,7 +457,7 @@ with run_suite("backgrounds") as (browser, test):
         expect(thumbnails.nth(1)).to_have_attribute('aria-pressed','true')
         expect(active).to_have_attribute('data-scene','falls')
         thumbnails.first.click()
-        expect(active).to_have_attribute('data-scene','coast')
+        expect(active).to_have_attribute('data-scene','river')
         test.check(True,"Keyboard and pointer selections update the photograph and its active thumbnail")
 
         hero = page.locator(".hero")
@@ -480,26 +485,22 @@ with run_suite("backgrounds") as (browser, test):
         )
         test.check(lettering[0] == lettering[2] and lettering[0][0] != lettering[1][0]
                    and lettering[0][1] != lettering[1][1], "Role and name lettering visibly track scroll and reverse")
-        motion = page.locator("#motionToggle")
+        expect(page.locator("#motionToggle")).to_have_count(0)
         specialty = page.locator("[data-discipline]")
         previous = specialty.inner_text()
         expect(specialty).not_to_have_text(previous, timeout=8000)
-        motion.click()
-        page.reload()
+        page.emulate_media(reduced_motion="reduce")
         scroll(page, 180)
-        expect(motion).to_have_attribute("aria-pressed", "true")
         paused_specialty = specialty.inner_text()
         page.wait_for_timeout(4050)
         expect(specialty).to_have_text(paused_specialty)
-        test.check(True, "The rotating specialty changes while active and stays still when paused")
+        test.check(True, "Specialties rotate automatically despite a legacy pause and stop for system reduced motion")
         test.check(
-            hero.evaluate(
-                """e => ['--scene-shift','--scene-turn','--title-slide'].every(k=>!parseFloat(getComputedStyle(e).getPropertyValue(k)))"""
-            ),
-            "Manual pause persists and freezes scene motion",
+            active.evaluate("e=>getComputedStyle(e).transform === 'none'"),
+            "Changing the device preference freezes the hero photograph",
         )
         verify_story(page,test,static=True)
-        motion.click()
+        page.emulate_media(reduced_motion="no-preference")
         scroll(page, 0)
         test.capture(page, "photographic-hero")
         verify_scroll_text(page, test)
@@ -638,7 +639,7 @@ with run_suite("backgrounds") as (browser, test):
             ),
             "Direct journey link brings its independent frame into view",
         )
-        expect(page.locator("#motionToggle")).to_be_disabled()
+        expect(page.locator("#motionToggle")).to_have_count(0)
         test.check(
             page.evaluate("getComputedStyle(document.documentElement).scrollBehavior !== 'smooth'"),
             "System reduced motion disables smooth scrolling",

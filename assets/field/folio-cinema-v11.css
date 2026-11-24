@@ -1,0 +1,380 @@
+/* Project prints, photographic spreads and the film programme. */
+#project-gallery.folio-gallery {
+  --folio-shell: #f0e7db;
+  --folio-type: #201b2b;
+  --folio-line: #a49c9e;
+  background: var(--folio-shell);
+  color: var(--folio-type);
+  padding: clamp(28px, 4.4vw, 78px) 0;
+  border-block: 1px solid var(--folio-line);
+}
+:root[data-theme="dark"] #project-gallery.folio-gallery {
+  --folio-shell: #24212d;
+  --folio-type: #fff4e6;
+  --folio-line: #686570;
+}
+.folio-gallery-inner { width: min(1500px, 92%); margin: auto; }
+#project-gallery .plate-head {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 0 0 clamp(18px, 2.6vw, 38px);
+}
+#project-gallery .plate-head h2 {
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--folio-type);
+  font: 750 clamp(42px, 5.7vw, 96px)/.91 "DM Sans", sans-serif;
+  letter-spacing: -.075em;
+}
+#project-gallery .plate-head h2 em {
+  font: italic 400 1.06em/.95 "Instrument Serif", Georgia, serif;
+  color: #763d46;
+}
+:root[data-theme="dark"] #project-gallery .plate-head h2 em { color: #ffc5ad; }
+.folio-edition, .folio-proof-controls {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid #67616b;
+  border-radius: 6px;
+  background: #211e28;
+  color: #fff5e5;
+}
+.folio-edition button, .folio-proof-controls button {
+  min-height: 34px;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #f5f0ec;
+  font: 630 12px/1.3 "DM Sans", sans-serif;
+}
+.folio-edition button[aria-pressed="true"], .folio-proof-controls button[aria-pressed="true"] {
+  background: #f0e3b2;
+  color: #242026;
+}
+#project-gallery .plate-controls button {
+  border: 1px solid var(--folio-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--folio-type);
+  width: 39px;
+  height: 39px;
+}
+#project-gallery .plate-grid {
+  gap: clamp(8px, 1.3vw, 23px);
+  align-items: start;
+}
+#project-gallery .plate-link {
+  --frame: #ffae9e;
+  display: block;
+  min-width: 0;
+  padding: clamp(5px, .6vw, 9px);
+  overflow: hidden;
+  border: 1px solid #25232a;
+  border-radius: 2px;
+  background: var(--frame);
+  color: #242128;
+  box-shadow: 3px 4px 0 #242126;
+  text-decoration: none;
+  transform: none;
+}
+#project-gallery .plate-link:nth-child(2) { --frame: #ffcf7a; }
+#project-gallery .plate-link:nth-child(3) { --frame: #a8dec4; }
+#project-gallery .plate-link:nth-child(4) { --frame: #a2c6f3; }
+#project-gallery .plate-link:nth-child(5) { --frame: #d2b1e4; }
+.folio-plate-image { position: relative; aspect-ratio: 1.35; overflow: hidden; background: #242128; }
+#project-gallery .folio-plate-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center;
+  animation: none;
+  filter: none;
+}
+.folio-plate-art { opacity: 0; }
+[data-edition="artwork"] .folio-plate-art { opacity: 1; }
+#project-gallery .folio-plate-label {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 4px;
+  padding: 10px 3px 5px;
+  color: #242128;
+}
+.folio-plate-label small {
+  grid-column: 1 / -1;
+  font: 500 clamp(9px, .8vw, 12px)/1.4 "IBM Plex Mono", monospace;
+}
+.folio-plate-label b { font: 720 clamp(17px, 1.65vw, 29px)/1.1 "DM Sans", sans-serif; letter-spacing: -.055em; }
+.folio-plate-label i { font: 600 16px/1.1 "DM Sans", sans-serif; }
+
+#photo-story { background: var(--paper, #f7f0de); }
+#photo-story .story-heading { border-bottom: 1px solid var(--line); }
+#photo-story .story-stage { background: #171723; }
+#photo-story .story-slide { --journal-color: #ffc0a2; }
+#photo-story #photo-2 { --journal-color: #bcdaff; }
+#photo-story #photo-3 { --journal-color: #e3eaa3; }
+#photo-story .story-slide::before {
+  background: linear-gradient(90deg, #111520b8 0%, #12172336 53%, transparent 83%), linear-gradient(0deg, #11151cbb, transparent 65%);
+}
+#photo-story .story-caption {
+  position: relative;
+  z-index: 2;
+  width: min(1500px, 92%);
+  pointer-events: none;
+}
+#photo-story .story-caption h3 { max-width: 8.8ch; line-height: .86; text-wrap: balance; }
+#photo-story .story-caption h3 em { color: var(--journal-color); }
+#photo-story .story-caption a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  background: var(--journal-color);
+  color: #191820;
+  text-decoration: none;
+  pointer-events: auto;
+}
+.folio-journal-print {
+  position: absolute;
+  z-index: 1;
+  inset: auto 6% 14% auto;
+  width: clamp(195px, 26vw, 460px);
+  margin: 0;
+  padding: clamp(6px, .7vw, 12px);
+  background: #fff3dd;
+  color: #211f2b;
+  border: 1px solid #362f3a;
+  box-shadow: 5px 5px 0 var(--journal-color);
+  transform: rotate(4deg);
+}
+#photo-story .folio-journal-print img {
+  display: block;
+  position: static;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.6;
+  object-fit: cover;
+  transform: none;
+}
+.folio-journal-print figcaption {
+  position: static;
+  display: grid;
+  gap: 3px;
+  padding: 7px 2px 0;
+  background: none;
+  color: #211f2b;
+}
+.folio-journal-print strong { font: 650 clamp(13px, 1.3vw, 20px)/1.13 "DM Sans", sans-serif; }
+.folio-journal-print a { justify-self: start; color: #443e4c; font: 500 10px/1.4 "IBM Plex Mono", monospace; text-decoration: underline; }
+#photo-story .story-controls button { min-height: 38px; border-radius: 40px; padding-inline: 13px; }
+#photo-story .story-controls button[aria-current="true"] { background: #fff0d5; color: #171721; }
+
+#projects [data-pf] { --folio-face: #f3c0ae; --folio-ink: #281c25; }
+#projects [data-pf="epigraphix-ai"] { --folio-face: #ecd19b; --folio-ink: #30251c; }
+#projects [data-pf="quietnote"] { --folio-face: #afdbc2; --folio-ink: #10332d; }
+#projects [data-pf="aegisforge-x"] { --folio-face: #b5ccee; --folio-ink: #192c49; }
+#projects [data-pf="deciphera"] { --folio-face: #d9bada; --folio-ink: #35233a; }
+#projects .project-card[data-pf] { border-radius: 7px; border-top: 0; }
+#projects .project-card[data-pf] .pf-lead { background: var(--folio-face); }
+#projects .pf-title { color: var(--folio-ink); }
+#projects .pf-title h3 { font-weight: 750; letter-spacing: -.075em; }
+#projects .pf-title h3 a, #projects .pf-title .card-description, #projects .pf-title .pf-label { color: var(--folio-ink); }
+#projects .pf-title .pf-label { border-bottom: 1px solid currentColor; }
+#projects .pf-title .card-links a:first-child { border: 1px solid var(--folio-ink); border-radius: 4px; background: var(--folio-ink); color: #fff9e9; }
+#projects .pf-title .card-links a:not(:first-child) { color: var(--folio-ink); text-decoration-color: currentColor; }
+#projects .folio-proof {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 0;
+  background: var(--pf-dark);
+  min-height: clamp(250px, 26vw, 450px);
+}
+#projects .folio-proof-image { position: absolute; inset: 0; overflow: hidden; }
+#projects .folio-proof-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+#projects .folio-proof-image img.folio-workflow {
+  opacity: 0;
+  transform: none;
+  clip-path: none;
+  object-fit: contain;
+  background: var(--pf-dark);
+}
+#projects .folio-proof[data-view="workflow"] .folio-workflow { opacity: 1; }
+#projects .folio-proof::after { display: none; }
+#projects .folio-proof figcaption {
+  right: auto;
+  left: 12px;
+  bottom: 8px;
+  max-width: calc(100% - 24px);
+  padding: 4px 7px;
+  border: 0;
+  backdrop-filter: none;
+  background: #17151eeb;
+  color: white;
+  font-size: 10px;
+}
+.folio-proof-controls {
+  position: absolute;
+  z-index: 4;
+  right: 11px;
+  top: 9px;
+  padding: 2px;
+}
+.folio-proof-controls button { min-height: 32px; padding-inline: 9px; }
+.folio-proof-controls [aria-pressed="true"] { background: var(--folio-face); }
+
+#new-films { background: #302641; }
+#new-films .cinema-marquee { border-bottom: 3px double #9c839f; }
+#new-films .cinema-marquee h2 em { color: #ffb892; }
+.folio-bill {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1.4vw, 22px);
+  margin: 0 0 clamp(18px, 2.2vw, 34px);
+}
+.folio-bill a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(60px, 19%) 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 7px 12px 7px 7px;
+  background: #f3c4a7;
+  border: 1px solid #171321;
+  color: #241a2d;
+  text-decoration: none;
+}
+.folio-bill a:last-child { background: #cfb8e8; }
+.folio-bill img { width: 100%; height: auto; aspect-ratio: 1.57; object-fit: cover; }
+.folio-bill span { min-width: 0; display: grid; gap: 5px; }
+.folio-bill small { font: 500 10px/1.4 "IBM Plex Mono", monospace; }
+.folio-bill strong { font: 690 clamp(15px, 1.8vw, 30px)/1 "DM Sans", sans-serif; letter-spacing: -.035em; }
+.folio-bill b { font: 700 20px/1 "DM Sans", sans-serif; }
+#showreel .archive-grid .screen-card:nth-child(2n) { --film-accent: #d7bee9; }
+#showreel .section-title em, #visual-reels h3 em { color: #ffccab; }
+
+.folio-paper-print {
+  position: absolute;
+  z-index: 2;
+  inset: 14% 6% auto auto;
+  width: min(32%, 420px);
+  padding: 8px;
+  border: 1px solid #3c4141;
+  background: #f9f4df;
+  color: #282b2c;
+  box-shadow: 4px 5px 0 #606f62;
+  transform: rotate(3deg);
+  text-decoration: none;
+}
+.folio-paper-print img { width: 100%; height: auto; display: block; }
+.lo-publication .folio-paper-print,
+#publication .folio-paper-print span,
+#publication .folio-paper-print b { color: #252923; text-shadow: none; }
+.folio-paper-print span { display: flex; justify-content: space-between; gap: 6px; margin-top: 5px; font: 650 12px/1.3 "DM Sans",sans-serif; }
+.folio-paper-print b { white-space: nowrap; }
+#publication .cinema-comparison { border-color: #324b45; background: #213b36; }
+.folio-specimen-label { position: absolute; bottom: 8px; left: 8px; padding: 3px 7px; background: #19191fe5; color: white; font: 500 10px/1.3 "IBM Plex Mono",monospace; }
+#publication .lo-research-method ol { counter-reset: method; }
+#publication .lo-research-method ol > li { padding: 12px; background: var(--paper); border-top: 3px solid #a38355; }
+#publication .lo-research-method ol > li:nth-child(2) { border-color: #789e89; }
+#publication .lo-research-method ol > li:nth-child(3) { border-color: #9381a8; }
+
+.folio-gallery :is(a,button):focus-visible, .folio-proof-controls button:focus-visible,
+.folio-bill a:focus-visible, .folio-paper-print:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 5px #59368c;
+}
+@media (hover:hover) {
+  .folio-bill a:hover strong, .folio-gallery .plate-link:hover b { text-decoration: underline; text-underline-offset: 4px; }
+  #projects .pf-title .card-links a:first-child:hover { background: white; color: var(--folio-ink); }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .folio-plate-art, #projects .folio-proof-image .folio-workflow { transition: opacity .32s ease; }
+  .folio-bill a { transition: translate .2s ease; }
+  .folio-bill a:hover { translate: 0 -2px; }
+  #project-gallery .plate-head h2 em {
+    display: inline-block;
+    transform: translateX(calc((var(--folio-travel, .5) - .5) * 44px)) rotate(calc(3deg - var(--folio-travel, .5) * 6deg));
+  }
+  #project-gallery .folio-plate-still {
+    transform: scale(calc(1.17 - var(--folio-travel, .5) * .16));
+    transform-origin: 54% 55%;
+  }
+  .folio-gallery .plate-link { --tilt: -2deg; }
+  .folio-gallery .plate-link .folio-plate-image {
+    transform: translateY(calc((1 - var(--folio-travel, .65)) * 4px)) rotate(calc(var(--tilt) * (1 - var(--folio-travel, .65))));
+  }
+  .folio-gallery .plate-link:nth-child(2n) { --tilt: 2.2deg; }
+  #photo-story.story-running .folio-journal-print {
+    transform: translateY(calc(var(--story-y, 0px) * -.6)) rotate(calc(11deg - var(--folio-travel, .5) * 14deg));
+  }
+  #projects .pf-title h3 a {
+    display: inline-block;
+    transform-origin: left bottom;
+    transform: translateY(calc((.5 - var(--cinema-phase, .5)) * 16px)) skewX(calc((.5 - var(--cinema-phase, .5)) * 8deg));
+  }
+  #photo-story.story-running .story-slide.current .folio-journal-print img { animation: folio-paper-focus .52s cubic-bezier(.2,.7,.3,1) both; }
+  @keyframes folio-paper-focus { from { opacity: .72; scale: .96; } to { opacity: 1; scale: 1; } }
+  #publication .folio-paper-print { transform: translateY(calc((.5 - var(--folio-travel, .5)) * 23px)) rotate(calc(9deg - var(--folio-travel, .5) * 11deg)); }
+}
+@media (max-width:850px) {
+  #project-gallery .plate-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 0;
+    padding: 4px 0 8px;
+  }
+  #project-gallery .plate-link { flex: 0 0 clamp(156px, 34%, 242px); scroll-snap-align:start; }
+  #project-gallery .plate-controls { display: flex; }
+}
+@media (max-width:700px) {
+  #project-gallery.folio-gallery { padding-block: 25px 20px; }
+  #project-gallery .plate-head { align-items: center; gap: 10px; }
+  #project-gallery .plate-head h2 { flex-basis: 100%; }
+  #project-gallery .plate-controls { margin-left:auto; }
+  #project-gallery .plate-link { flex-basis: clamp(168px, 58%, 245px); }
+  .folio-journal-print { width: clamp(100px, 32vw, 163px); max-width: 42%; top: 18px; right: 6%; bottom: auto; padding:4px; }
+  .folio-journal-print figcaption { padding:4px 1px 1px; gap:2px; }
+  .folio-journal-print strong { font-size:12px; }
+  .folio-journal-print a { font-size:9px; }
+  #photo-story .story-caption h3 { max-width:9.4ch; }
+  #photo-story .story-caption .story-byline { margin-top:8px; }
+  #photo-story .story-controls button { min-height:38px; padding-inline:9px; }
+  #projects .folio-proof { min-height: clamp(205px, 60vw, 330px); }
+  .folio-proof-controls { right:7px; top:6px; }
+  .folio-proof-controls button { min-height:36px; }
+  .folio-bill { grid-template-columns:1fr; gap:6px; }
+  .folio-bill a { grid-template-columns:62px 1fr auto; padding:4px 9px 4px 4px; }
+  .folio-bill small { font-size:9px; }
+  .folio-paper-print { top:12%; right:5%; width:39%; padding:4px; }
+  .folio-paper-print span { display:block; font-size:9px; }
+  .folio-paper-print b { display:block; }
+}
+@media (max-height:540px) and (orientation:landscape) {
+  #photo-story .folio-journal-print { width:clamp(85px,16vw,155px); }
+}
+@media print {
+  .folio-edition, .folio-proof-controls, .folio-bill { display:none; }
+  .folio-paper-print, .folio-journal-print, .folio-gallery .plate-link { transform:none; box-shadow:none; }
+}

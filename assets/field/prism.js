@@ -7,13 +7,15 @@
   const select = rail.querySelector('select');
   const buttons = [...rail.querySelectorAll('[data-chapter-step]')];
   const chapters = [...select.options].map(option => document.getElementById(option.value));
-  const panels = [...document.querySelectorAll('.lo-profile-panorama,.lo-skills-panorama,.lo-cert-heading,.project-plates,#contact')];
+  const position = rail.querySelector('.chapter-position');
+  const chapterCount = chapters.length;
+  const panels = [...document.querySelectorAll('.lo-profile-panorama,.lo-skills-panorama,.lo-cert-heading,.project-plates,.folio-shortcuts,#contact')];
   const activePanels = new Set();
   const clamp = value => Math.max(0,Math.min(1,value));
   let tops = [];
   let markDirty = true;
   let queued = false;
-  let chapter = 0;
+  let chapter = -1;
 
   function paint() {
     queued = false;
@@ -28,10 +30,12 @@
     for (let i = 1; i < tops.length; i++) if (readingLine >= tops[i]) current = i;
 
     if (y + viewport >= document.documentElement.scrollHeight - 2) current = chapters.length - 1;
-    if (current !== chapter || select.selectedIndex !== current) {
+    if (current !== chapter) {
       chapter = current;
-      if (document.activeElement !== select) select.selectedIndex = current;
+      position.textContent = (current + 1) + ' / ' + chapterCount;
+      rail.style.setProperty('--chapter-image-x', (100 * current / (chapterCount - 1)) + '%');
     }
+    if (select.selectedIndex !== current && document.activeElement !== select) select.selectedIndex = current;
     const next = tops[current + 1] ?? document.documentElement.scrollHeight;
     const fraction = clamp((readingLine - tops[current]) / Math.max(1,next - tops[current]));
     const show = y >= hero.offsetTop + hero.offsetHeight - 46;
@@ -39,6 +43,7 @@
     buttons[0].disabled = current === 0;
     buttons[1].disabled = current === chapters.length - 1;
     rail.style.setProperty('--chapter-progress',fraction.toFixed(4));
+    rail.style.setProperty('--book-progress',clamp((current+fraction)/chapterCount).toFixed(4));
 
     if (root.classList.contains('paused') || reduced.matches) return;
     if (y < hero.offsetHeight + 100) {
@@ -48,6 +53,10 @@
       const rect = panel.getBoundingClientRect();
       const progress = clamp((viewport - rect.top) / (viewport + rect.height));
       const shift = .5 - progress;
+      if (panel.classList.contains('folio-shortcuts')) {
+        panel.style.setProperty('--folio-contents-pos',progress.toFixed(3));
+        continue;
+      }
       if (panel.classList.contains('project-plates')) {
         panel.style.setProperty('--fan',(1-clamp((viewport-rect.top)/Math.max(180, viewport*.53))).toFixed(3));
       }

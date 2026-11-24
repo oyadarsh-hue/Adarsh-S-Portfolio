@@ -79,10 +79,6 @@
 .lost-paths {max-width:800px;}
 .lost-paths a {display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid #aba8d7;color:#f7f5e9;}
 .lost-paths a span {color:var(--im-signal);}
-@media(min-width:950px) {
-  .motion-edition #motionButton {width:auto;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;}
-  .motion-edition #motionButton::after {content:attr(aria-label);font:600 .68rem/1.2 var(--sans);}
-}
 @media screen and (prefers-reduced-motion:no-preference) {
   .im-running .im-hero .im-title .im-word {
     transform:translate(calc(var(--im-progress) * 30px),calc(var(--im-progress) * var(--im-direction) * 8px)) rotate(calc(var(--im-progress) * var(--im-direction) * -5deg));

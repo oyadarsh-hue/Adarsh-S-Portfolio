@@ -2,8 +2,7 @@
   const root = document.documentElement;
   const intro = document.querySelector('.studio-intro');
   const monitor = document.querySelector('.studio-monitor');
-  const control = document.getElementById('studioMotion');
-  if (!intro || !monitor || !control) return;
+  if (!intro || !monitor) return;
   const panels = Array.from(document.querySelectorAll('.workflow .panel'));
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const channels = Array.from(document.querySelectorAll('[data-meter]'), meter => ({
@@ -12,10 +11,9 @@
   const original = document.getElementById('originalAudio');
   const AudioEngine = window.AudioContext || window.webkitAudioContext;
   const clamp = number => Math.max(0, Math.min(1, number));
-  let paused = root.dataset.motion === 'paused';
   let frame = 0, meterTimer = 0, link = null;
   const visible = new Set();
-  const motionOn = () => !paused && !preference.matches && !document.hidden;
+  const motionOn = () => !preference.matches && !document.hidden;
   function supported(audio) {
     return Boolean(AudioEngine && (audio.captureStream || audio.mozCaptureStream));
   }
@@ -116,16 +114,7 @@
     if (next) attach(next);
   }
   function syncMotion() {
-    const disabled = preference.matches;
-    const still = disabled || paused;
-    root.dataset.motion = paused ? 'paused' : 'enabled';
     root.dataset.studioFx = motionOn() ? 'on' : 'off';
-    control.disabled = disabled;
-    control.hidden = false;
-    control.setAttribute('aria-pressed', String(still));
-    control.setAttribute('aria-label', disabled ? 'Motion paused by your device settings' : 'Pause motion');
-    control.title = disabled ? 'System reduced motion is on' : paused ? 'Enable motion' : 'Pause motion';
-    control.firstElementChild.textContent = still ? '▶' : 'Ⅱ';
     if (!motionOn()) {
       for (const key of ['--console-y','--console-angle','--dial-turn']) monitor.style.removeProperty(key);
       for (const key of ['--title-shift','--title-turn']) intro.style.removeProperty(key);
@@ -133,16 +122,6 @@
     syncAudio();
     requestLayout();
   }
-  control.addEventListener('click', () => {
-    paused = !paused;
-    try { localStorage.setItem('adarsh-motion', paused ? 'paused' : 'enabled'); } catch {}
-    syncMotion();
-  });
-  window.addEventListener('storage', event => {
-    if (event.key !== 'adarsh-motion' && event.key !== null) return;
-    try { paused = localStorage.getItem('adarsh-motion') === 'paused'; } catch {}
-    syncMotion();
-  });
   const observed = [monitor,...panels,...channels.map(channel => channel.audio)];
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {

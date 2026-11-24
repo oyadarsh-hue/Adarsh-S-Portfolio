@@ -8,10 +8,11 @@
   const selector = '[data-ed-stage], main .chapter, main .summary-section, main .tool-section, [data-motion-scene]';
   const stages = Array.from(document.querySelectorAll(selector));
   const visible = new Set();
-  const entrances = new Set();
+  const seen = new WeakSet();
+  const playing = new Map();
   const bounds = new Map();
   const template = document.createElement('template');
-  template.innerHTML = '<div class="im-optics" aria-hidden="true"><i class="im-ticks"></i><i class="im-dial"></i><i class="im-guide"></i></div>';
+  template.innerHTML = '<div class="im-optics" aria-hidden="true"><i class="im-ticks"></i><i class="im-dial"></i><i class="im-guide"></i><i class="im-light-sweep"></i></div>';
   let frame = 0;
   let measure = true;
 
@@ -31,6 +32,7 @@
         const word = document.createElement('span');
         word.className = 'im-word';
         word.style.setProperty('--im-direction', order % 2 ? '-1' : '1');
+        word.style.setProperty('--im-order', Math.min(order, 4));
         word.setAttribute('aria-hidden', 'true');
         word.textContent = token;
         fragment.append(word);
@@ -88,6 +90,16 @@
   }
   function relayout() { measure = true; schedule(); }
 
+  function introduce(stage) {
+    if (reduced.matches || seen.has(stage) || document.hidden) return;
+    seen.add(stage);
+    stage.classList.add('im-playing');
+    const timer = setTimeout(() => {
+      stage.classList.remove('im-playing');
+      playing.delete(stage);
+    }, 3600);
+    playing.set(stage, timer);
+  }
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
@@ -97,6 +109,12 @@
       schedule();
     }, {rootMargin:'30% 0px'});
     for (const stage of stages) observer.observe(stage);
+    const entering = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) introduce(entry.target);
+      }
+    }, {threshold:.035});
+    for (const stage of stages) entering.observe(stage);
   } else {
     for (const stage of stages) visible.add(stage);
   }
@@ -106,39 +124,27 @@
     for (const stage of stages) sizes.observe(stage);
   }
   function sync() {
-    const run = !reduced.matches && !document.documentElement.classList.contains('paused');
+    const run = !reduced.matches;
     body.classList.toggle('im-running', run);
     if (!run) {
-      for (const effect of entrances) effect.cancel();
-      entrances.clear();
+      for (const [stage, timer] of playing) {
+        clearTimeout(timer);
+        stage.classList.remove('im-playing');
+      }
+      playing.clear();
       if (frame) cancelAnimationFrame(frame);
       frame = 0;
-    } else relayout();
-  }
-  function introduce(node, frames, options) {
-    if (!node?.animate) return;
-    const effect = node.animate(frames, options);
-    entrances.add(effect);
-    effect.finished.then(() => entrances.delete(effect), () => entrances.delete(effect));
+    } else {
+      for (const stage of visible) {
+        const rect = stage.getBoundingClientRect();
+        if (rect.top < innerHeight && rect.bottom > 0) introduce(stage);
+      }
+      relayout();
+    }
   }
   sync();
-  if (body.classList.contains('im-running') && window.scrollY < 40 && !location.hash) {
-    const words = document.querySelectorAll('.im-hero h1 .im-word');
-    for (const [index, word] of words.entries()) {
-      introduce(word, [
-        {translate:'0 .65em', opacity:.28, clipPath:'inset(0 0 58% 0)'},
-        {translate:'0 0', opacity:1, clipPath:'inset(-18% -8% -20% -8%)'}
-      ], {duration:780, delay:Math.min(index, 4)*62, easing:'cubic-bezier(.18,.72,.2,1)'});
-    }
-    introduce(document.querySelector('.im-hero .im-dial'), [
-      {rotate:'-95deg',opacity:.3}, {rotate:'0deg',opacity:1}
-    ], {duration:1200,easing:'cubic-bezier(.18,.72,.2,1)'});
-    introduce(document.querySelector('.im-hero .im-guide'), [
-      {clipPath:'inset(0 100% 0 0)'}, {clipPath:'inset(0 0 0 0)'}
-    ], {duration:900,easing:'cubic-bezier(.18,.72,.2,1)'});
-  }
   reduced.addEventListener('change', sync);
-  new MutationObserver(sync).observe(document.documentElement, {attributes:true, attributeFilter:['class']});
+  document.addEventListener('visibilitychange',sync);
   window.addEventListener('scroll', schedule, {passive:true});
   window.addEventListener('resize', relayout);
   window.addEventListener('pageshow', relayout);

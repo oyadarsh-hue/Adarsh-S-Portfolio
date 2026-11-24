@@ -26,8 +26,6 @@
 .edition-v8 .folio-head nav a {font-family:var(--sans);font-size:.85rem;letter-spacing:.01em;}
 .edition-v8 .folio-head nav a:hover {text-decoration-color:var(--glow);}
 .edition-v8 .folio-prefs button {border-color:var(--edge);}
-.edition-v8 #motionButton span {box-sizing:border-box;width:11px;height:13px;font-size:0;border-inline:3px solid currentColor;}
-.edition-v8 #motionButton[aria-pressed="true"] span {width:0;height:0;border:6px solid transparent;border-right:0;border-left:10px solid currentColor;}
 .edition-v8 .v8-lost-head #themeButton[aria-checked="true"] .moon {color:var(--bg);}
 .edition-v8 a:focus-visible,.edition-v8 button:focus-visible,.edition-v8 input:focus-visible,.edition-v8 select:focus-visible,.edition-v8 textarea:focus-visible,.edition-v8 summary:focus-visible {outline:3px solid var(--glow);box-shadow:0 0 0 5px #282044;outline-offset:1px;}
 .edition-v8 .case-splash {

@@ -2,9 +2,9 @@
 
 ## Current visual design
 
-Adarsh’s folded AS monogram and framed portrait open over photographs of Beypore, Athirappilly Falls and Chembra Peak. The landscape picker supports direct selection. On scroll, the portrait turns, the project cards open out and a chapter selector tracks the current section. The Education atlas brings the four campuses into one frame and offers a downloadable 3840 × 2160 print. Each internship has a swipeable, individually credited image gallery.
+The opening pairs Adarsh’s AS ribbon monogram and portrait with photographs of the Kadalundi River, Thusharagiri Falls and Beypore. The landscape changes automatically while it is visible. Four photo links jump directly to Projects, Education, Internships and Publication. Education keeps the four campuses in one frame and offers a downloadable 3840 × 2160 print.
 
-The case studies combine a scroll-driven artwork frame with their interactive workflow diagrams. In Audio Studio, reel and meter movement responds to scrolling and audio playback. The motion switch and system reduced-motion preference apply across the portfolio. Project illustrations, company material and contextual photography are individually captioned.
+Name lettering, photographic frames and project artwork respond to reading and scrolling. Each company gallery advances when it is on screen. Interacting with the gallery keeps the choice under the visitor’s control. Audio Studio’s meters respond to playback. The portfolio follows the system’s reduced-motion preference automatically. The header provides a light/dark switch.
 
 Each of the 21 film players includes three selectable frames extracted from its own footage, with timecodes for seeking. The two premieres, thirteen topic films, two long documentaries and four archive reels all have HD and 3840 × 2160 versions. The project case pages use the same film and frame controls.
 
@@ -24,7 +24,7 @@ A personal portfolio for Adarsh S. Static HTML, CSS and JavaScript, compatible w
 - Five case studies: AssentTag, EpigraphiX-AI, AegisForge-X, Deciphera and QuietNote.
 - Verified IJRASET publication link and DOI metadata.
 - Dark/light themes, responsive navigation, skill filters and expandable credentials.
-- System reduced-motion support and a persistent animation-pause button.
+- Automatic scroll and text effects that follow the device’s reduced-motion preference.
 - Keyboard navigation, visible focus, semantic content and no-JavaScript fallbacks.
 - Canonical URLs, social preview, JSON-LD, favicon, sitemap and robots file.
 
@@ -74,7 +74,7 @@ The `.nojekyll` file is intentional. Relative assets and links support the repos
 | `scripts/check-site.mjs` | Dependency-free structural verification |
 | `VERIFICATION.md` | Test results, provenance and limitations |
 
-White is the initial theme; dark mode remains optional. Theme and motion preferences are saved locally when storage is available. Content stays readable if scripts or storage are disabled. Contact opens the visitor’s email application; no contact backend or inert form is included.
+The initial theme follows the system appearance. The chosen theme is saved locally when storage is available. Movement follows the system setting. Content stays readable if scripts or storage are disabled. Contact opens the visitor’s email application; no contact backend or inert form is included.
 
 The supplied portrait is centered, gently animated and displayed in full color, with no grayscale filter. The original JPEG is preserved. Project diagrams are original conceptual illustrations, not application screenshots.
 

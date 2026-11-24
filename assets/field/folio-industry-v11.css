@@ -1,0 +1,190 @@
+#experience.industry-folio {
+  --industry-paper: #f5f2ee;
+  --industry-ink: #24232e;
+  background: var(--industry-paper);
+  color: var(--industry-ink);
+}
+[data-theme="dark"] #experience.industry-folio {
+  --industry-paper: #141620;
+  --industry-ink: #f8f5f1;
+}
+#experience .experience-shell { width: min(1450px, calc(100% - clamp(2rem, 7vw, 8rem))); }
+#experience .experience-intro {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, .75fr);
+  align-items: end;
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+#experience .experience-intro h2 {
+  font-size: clamp(3.2rem, 8.5vw, 8.1rem);
+  letter-spacing: -.082em;
+}
+#experience .experience-intro h2 span { color: #9e5df1; }
+#experience .experience-kicker::before { background: #9e5df1; width: 2.1rem; height: 2px; }
+#experience .industry-intro-copy > p {
+  max-width: 44ch;
+  font: 480 clamp(.95rem, 1.15vw, 1.12rem)/1.5 var(--body, sans-serif);
+}
+#experience .industry-index { display: flex; gap: 1.1rem; flex-wrap: wrap; margin-top: .8rem; }
+#experience .industry-index a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.3rem;
+  color: inherit;
+  font: 650 .84rem/1.2 var(--body, sans-serif);
+  text-decoration: underline;
+  text-underline-offset: .28em;
+}
+#experience .industry-index a::after { content: "↓"; margin-left: .3rem; }
+#experience .experience-lanes { gap: clamp(1.85rem, 4.2vw, 4.2rem); }
+#experience .lo-employer {
+  --lane-panel: #dfefb4;
+  --lane-text: #1e3028;
+  --lane-divider: #52695758;
+  --industry-accent: #d6ff65;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+  grid-template-areas: "photo copy" "photo film" "work film";
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid color-mix(in srgb, var(--lane-text) 26%, var(--lane-panel));
+  border-radius: 1.25rem;
+  background: var(--lane-panel);
+  scroll-margin-block-start: 5.5rem;
+}
+#experience [data-lo-record="skybrisk"] {
+  --lane-panel: #d8d0fa;
+  --lane-text: #302547;
+  --lane-divider: #675c875e;
+  --industry-accent: #ddd0ff;
+  grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
+  grid-template-areas: "copy photo" "film photo" "film work";
+}
+#experience [data-lo-record="codtech"] {
+  --lane-panel: #f4c6aa;
+  --lane-text: #3e2724;
+  --lane-divider: #7f584958;
+  --industry-accent: #ffc5a7;
+}
+#experience .experience-profile { display: contents; }
+#experience .experience-copy { grid-area: copy; padding: clamp(1.05rem, 2.1vw, 2.25rem); }
+#experience .experience-id {
+  width: 100%;
+  margin: 0 0 clamp(.85rem, 1.8vw, 1.7rem);
+  padding: 0 0 .7rem;
+  border-bottom: 1px solid var(--lane-divider);
+}
+#experience .experience-id img { width: 2.4rem; height: 2.4rem; border-radius: .55rem; }
+#experience .experience-id span { line-height: 1.45; font-size: .7rem; }
+#experience .experience-copy h3 {
+  max-width: 15ch;
+  font-size: clamp(2.15rem, 3.9vw, 4.55rem);
+  letter-spacing: -.074em;
+  line-height: .96;
+}
+#experience .experience-role { margin-top: .75rem; font-size: clamp(.94rem, 1.1vw, 1.16rem); }
+#experience .experience-outcome { margin-top: .6rem; font-size: clamp(.88rem, .95vw, 1rem); }
+#experience .employer-gallery {
+  grid-area: photo;
+  min-height: clamp(24rem, 33vw, 37rem);
+  overflow: hidden;
+  background: #19202c;
+}
+#experience .employer-gallery-track { scrollbar-width: none; }
+#experience .employer-gallery-track::-webkit-scrollbar { display: none; }
+#experience .employer-gallery-slide::after {
+  height: 52%;
+  background: linear-gradient(transparent, #0c121d92 70%, #0c121deb);
+}
+#experience .employer-gallery .employer-photo {
+  transition: none;
+  scale: none;
+  animation: none;
+  transform: none;
+}
+html:not(.paused):not([data-motion="paused"]) #experience .employer-gallery-slide .employer-photo {
+  animation: none;
+}
+#experience .experience-image.employer-gallery:hover .employer-photo { scale: none; }
+#experience .employer-gallery .employer-portrait-shot img { object-position: 50% 26%; }
+#experience .employer-gallery .employer-conference-shot img { object-position: 50% 42%; }
+#experience .employer-gallery .employer-screen-shot img,
+#experience .employer-gallery .employer-mobile-shot img {
+  inset: 12% 6% 18%;
+  width: 88%;
+  height: 70%;
+}
+#experience .employer-gallery .employer-frame-credit {
+  inset: auto auto clamp(.85rem, 1.8vw, 1.7rem) clamp(.95rem, 2vw, 2rem);
+  max-width: calc(100% - 2.5rem);
+  padding: .3rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  line-height: 1.35;
+  text-shadow: 0 1px 6px #050911;
+}
+#experience .employer-frame-credit > span {
+  font: 600 clamp(1.05rem, 1.55vw, 1.55rem)/1.19 var(--display, sans-serif);
+  letter-spacing: -.022em;
+}
+#experience .employer-frame-credit > strong { font: 550 .76rem/1.55 var(--body, sans-serif); }
+#experience .employer-gallery-controls {
+  inset: .85rem .85rem auto auto;
+  padding: .15rem;
+  border-color: #ffffff8c;
+  background: #111823ec;
+}
+#experience .employer-gallery-controls button[aria-disabled="false"]:hover { color: #15151d; background: var(--industry-accent); }
+#experience .industry-playhead {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: none;
+  height: 3px;
+  background: #ffffff4d;
+  pointer-events: none;
+}
+#experience [data-playing] .industry-playhead { display: block; }
+#experience .industry-playhead > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--industry-accent);
+}
+#experience .lo-employer > .screen-card {
+  grid-area: film;
+  align-self: stretch;
+  padding: clamp(.85rem, 1.7vw, 1.65rem);
+  border-top: 1px solid var(--lane-divider);
+  border-radius: 0;
+  background: #20242d;
+}
+#experience .lo-employer > .screen-card video { border-radius: .5rem; }
+#experience .lo-employer > .screen-card :is(figcaption, .screen-program, .photo-edition-note) { background: #20242d; }
+#experience .lo-employer > .lo-position {
+  grid-area: work;
+  padding-inline: clamp(1rem, 2vw, 2rem);
+  background: var(--lane-panel);
+}
+#experience .lo-position summary { padding-block: 1rem; }
+#experience .industry-index a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (max-width: 860px) {
+  #experience .experience-intro { grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+  #experience .lo-employer { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr); }
+  #experience [data-lo-record="skybrisk"] { grid-template-columns: minmax(0, .85fr) minmax(0, 1.05fr); }
+  #experience .employer-gallery { min-height: 22rem; }
+}
+@media (max-width: 650px) {
+  #experience .experience-shell { width: calc(100% - 1.6rem); }
+  #experience .lo-employer {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "photo" "copy" "work" "film";
+    grid-template-rows: auto;
+    border-radius: .86rem;
+  }
+  #experience .employer-gallery { min-height: clamp(13.5rem, 64vw, 23rem); }
+  #experience .experience-copy h3 { font-size: clamp(2.25rem, 8.3vw, 3.2rem); }
+  #experience .experience-id { margin-bottom: .8rem; }
+  #experience .employer-gallery-controls { inset: .55rem .55rem auto auto; }
+  #experience .employer-gallery-controls button { width: 2.75rem; height: 2.75rem; }
+}
