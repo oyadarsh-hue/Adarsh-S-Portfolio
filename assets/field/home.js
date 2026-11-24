@@ -52,21 +52,60 @@
 
   const scenes = [...document.querySelectorAll('.hero-image')];
   const photoLabel = document.querySelector('.hero-photo-label');
-  let activeScene = 0;
+  const sceneTabs = [...document.querySelectorAll('[data-scene-index]')];
+  const picker = document.querySelector('.scene-picker');
+  let requestedScene = 0;
+  let displayedScene = 0;
+  let landscapeTimer;
+  let sceneVisible = false;
+  let userSelected = false;
+
+  async function showScene(index, manual) {
+    if (manual) {
+      userSelected = true;
+      clearTimeout(landscapeTimer);
+    }
+    requestedScene = (index + scenes.length) % scenes.length;
+    const next = scenes[requestedScene];
+    if (!next.hasAttribute('src')) next.src = next.dataset.src;
+    try {
+      if (next.decode) await next.decode();
+    } catch {
+      if (next === scenes[requestedScene]) requestedScene = displayedScene;
+      return;
+    }
+    if (next !== scenes[requestedScene]) return;
+    displayedScene = requestedScene;
+    scenes.forEach((image, i) => { image.dataset.active = String(displayedScene === i); });
+    sceneTabs.forEach((button, i) => button.setAttribute('aria-pressed', String(i === displayedScene)));
+    const label = next.dataset.label;
+    byId('sceneName').textContent = '0' + (displayedScene + 1) + ' / 0' + scenes.length + '   ' + label.toUpperCase();
+    photoLabel.textContent = label;
+  }
+
+  function scheduleLandscape() {
+    clearTimeout(landscapeTimer);
+    if (!sceneVisible || userSelected || paused || systemMotion.matches || document.hidden) return;
+    landscapeTimer = setTimeout(async () => {
+      await showScene(displayedScene + 1, false);
+      scheduleLandscape();
+    }, 9200);
+  }
   document.querySelectorAll('[data-scene-step]').forEach(button => {
-    button.addEventListener('click', async () => {
-      activeScene = (activeScene + Number(button.dataset.sceneStep) + scenes.length) % scenes.length;
-      const next = scenes[activeScene];
-      if (!next.hasAttribute('src')) next.src = next.dataset.src;
-      try { await next.decode(); }
-      catch { return; }
-      if (next !== scenes[activeScene]) return;
-      scenes.forEach((image, i) => { image.dataset.active = String(activeScene === i); });
-      const label = next.dataset.label;
-      byId('sceneName').textContent = '0' + (activeScene + 1) + ' / 0' + scenes.length + '   ' + label.toUpperCase();
-      photoLabel.textContent = label;
-    });
+    button.addEventListener('click', () => showScene(requestedScene + Number(button.dataset.sceneStep), true));
   });
+  sceneTabs.forEach((button, i) => button.addEventListener('click', () => showScene(i, true)));
+  picker.addEventListener('focusin', () => { userSelected = true; clearTimeout(landscapeTimer); });
+  if ('IntersectionObserver' in window) {
+    const sceneObserver = new IntersectionObserver(entries => {
+      sceneVisible = entries[0].isIntersecting;
+      scheduleLandscape();
+    }, {threshold: .25});
+    sceneObserver.observe(document.querySelector('.hero'));
+  }
+  document.addEventListener('visibilitychange', scheduleLandscape);
+  window.addEventListener('pagehide', () => clearTimeout(landscapeTimer));
+  window.addEventListener('pageshow', scheduleLandscape);
 
   const hero = document.querySelector('.hero');
   const watches = new Set();
@@ -175,6 +214,9 @@
     motion.setAttribute('aria-pressed', String(still));
     motion.title = systemMotion.matches ? 'System reduced motion is on' : (paused ? 'Enable animations' : 'Pause animations');
     motion.setAttribute('aria-label', motion.title);
+    const status = motion.querySelector('.motion-status');
+    if (status) status.textContent = still ? 'Motion off' : 'Motion on';
+    scheduleLandscape();
     motion.querySelector('path').setAttribute('d', still ? 'm7 4 9 6-9 6z' : 'M7 5v10m6-10v10');
     queuePaint();
   }

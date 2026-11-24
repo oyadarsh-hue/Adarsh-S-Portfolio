@@ -430,11 +430,11 @@ with run_suite("backgrounds") as (browser, test):
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
         expect(scenes).to_have_count(3)
-        expected_scenes = ["assets/field/atelier-v9/chembra.webp", "assets/field/atelier-v9/wayanad.webp",
-                           "assets/field/atelier-v9/kappad.webp"]
+        expected_scenes = ["assets/field/motion-photos/beypore.webp", "assets/field/motion-photos/athirappilly.webp",
+                           "assets/field/atelier-v9/chembra.webp"]
         expect(active).to_have_attribute("src", expected_scenes[0])
         test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
-                   "The hero opens on Chembra Peak and offers photographs of the tea gardens and Kappad Beach")
+                   "The hero opens at Beypore and offers photographs of Athirappilly Falls and Chembra Peak")
         active.evaluate("img => img.decode()")
         first = active.get_attribute("data-scene")
         steps = page.locator("[data-scene-step]").last
@@ -445,6 +445,16 @@ with run_suite("backgrounds") as (browser, test):
             steps.click()
         expect(active).to_have_attribute("data-scene", first)
         test.check(True, "Landscape switcher cycles and decodes the photographs")
+        thumbnails = page.locator('[data-scene-index]')
+        expect(thumbnails).to_have_count(3)
+        thumbnails.nth(1).focus()
+        page.keyboard.press('Enter')
+        expect(thumbnails.nth(1)).to_have_attribute('aria-pressed','true')
+        expect(active).to_have_attribute('data-scene','falls')
+        thumbnails.first.click()
+        expect(active).to_have_attribute('data-scene','coast')
+        test.check(True,"Keyboard and pointer selections update the photograph and its active thumbnail")
+
         hero = page.locator(".hero")
         bounds = hero.evaluate("e => [e.offsetTop,e.offsetHeight]")
         positions = []

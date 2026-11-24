@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 80" role="img" aria-labelledby="title">
-  <title id="title">Adarsh S — AS contour monogram</title>
-  <path fill="#1a1c37" d="M9 3h59l16 16v50l-8 8H20L4 61V8z"/>
-  <path fill="#672dfa" d="M65 4h3l15 15v47l-6 6V24z"/>
-  <path fill="none" stroke="#5363f1" stroke-width="1.5" d="M11 18 24 7h28M8 28 31 8m28 63h13l6-6M12 56l18 15h20"/>
-  <path fill="#dcff55" fill-rule="evenodd" d="M12 58 29 20h11l9 38H37l-1.5-7H26l-3 7zm17-15h5l-1.6-9z"/>
-  <path fill="#fff5df" d="M67.5 20H56a12 12 0 0 0-11.8 8.7c-1.7 6.3 1.4 10.4 7.7 12.3l8.1 2.5c1.2.4 2 1 1.6 2.1-.3 1.1-1.4 1.6-3 1.6H47.7l2.4 10.7h9.8c8 0 13.5-3.5 15-10.2 1.3-5.7-1.9-10.2-8.5-12.2l-7.8-2.3c-1.6-.5-2.3-1-2-2.2.3-1 1.3-1.6 2.9-1.6h12.4z"/>
-  <circle cx="75" cy="64" r="3.1" fill="#ff7962"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-labelledby="title">
+  <title id="title">Adarsh S — folded AS monogram</title>
+  <rect x="1" y="1" width="78" height="78" rx="21" fill="#1c1738"/>
+  <path d="M7 57 29 16h12L23 57z" fill="#ffb985"/>
+  <path d="m29 16 13 1 13 42H41l-2-7H26l6-10h4z" fill="#ff6261"/>
+  <path d="M66 19H53c-8 0-14 5-14 12 0 6 4 9 9 12l7 3c2 1 3 2 3 3 0 2-2 3-4 3H44l4 10h9c9 0 15-6 15-14 0-5-3-9-10-12l-8-3c-2-1-3-2-3-3s1-2 4-2h13z" fill="#b5a2ff"/>
+  <path d="m44 52 11 1 5 8-3 1h-9z" fill="#8061e7"/>
+  <path d="M13 66h19" stroke="#ffb985" stroke-width="2" stroke-linecap="round"/>
 </svg>

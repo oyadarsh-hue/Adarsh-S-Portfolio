@@ -2,9 +2,9 @@
 
 ## Current visual design
 
-Adarsh’s AS contour monogram and framed portrait open beside photographs of Chembra Peak, Wayanad’s tea gardens and Kappad Beach. The scrolling photo journal connects industry, campus and manuscript research. The Education section presents four linked campus photographs inside one frame, with distinct backgrounds for the individual school records. Its downloadable 3840 × 2160 print is in `assets/field/education-four-v9.jpg`. Each internship has a separate cover sourced from the company. The campus and company captions link back to their sources.
+Adarsh’s folded AS monogram and framed portrait open over photographs of Beypore, Athirappilly Falls and Chembra Peak. The landscape picker supports direct selection. On scroll, the portrait turns, the project cards open out and a chapter selector tracks the current section. The Education atlas brings the four campuses into one frame and offers a downloadable 3840 × 2160 print. Each internship has a swipeable, individually credited image gallery.
 
-The homepage, case studies, tools and Audio Studio share a color palette and motion controls. The portrait stays still when motion is paused. Scroll reveals and rotating specialty text also respect reduced-motion preferences. Project illustrations are labeled separately from campus and workplace photographs.
+The case studies combine a scroll-driven artwork frame with their interactive workflow diagrams. In Audio Studio, reel and meter movement responds to scrolling and audio playback. The motion switch and system reduced-motion preference apply across the portfolio. Project illustrations, company material and contextual photography are individually captioned.
 
 Each of the 21 film players includes three selectable frames extracted from its own footage, with timecodes for seeking. The two premieres, thirteen topic films, two long documentaries and four archive reels all have HD and 3840 × 2160 versions. The project case pages use the same film and frame controls.
 

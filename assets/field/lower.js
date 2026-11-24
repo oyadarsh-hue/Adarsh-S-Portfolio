@@ -70,13 +70,13 @@
     if (printDetail) return printDetail;
     printDetail = (async () => {
       const poster = new Image();
-      poster.src = 'assets/field/education-four-v8.jpg';
+      poster.src = 'assets/field/education-four-v10.jpg';
       await poster.decode();
       const panel = document.createElement('canvas');
-      panel.width = 1798;
-      panel.height = 536;
+      panel.width = 873;
+      panel.height = 707;
       const graphics = panel.getContext('2d');
-      graphics.drawImage(poster, 104, 1134, panel.width, panel.height, 0, 0, panel.width, panel.height);
+      graphics.drawImage(poster, 1942, 725, panel.width, panel.height, 0, 0, panel.width, panel.height);
       return panel.toDataURL('image/jpeg', .89);
     })();
     return printDetail;
@@ -88,8 +88,13 @@
       delete image.dataset.loCampusFallback;
       try {
         image.src = await readCampusPanel();
-        image.width = 1798;
-        image.height = 536;
+        image.width = 873;
+        image.height = 707;
+        const credit = image.closest('.lo-school-hero')?.querySelector('.lo-card-photo-credit');
+        if (credit) {
+          credit.href = 'assets/field/education-v9/credits.html#cas';
+          credit.textContent = 'Independence Day gathering · CAS ©';
+        }
       } catch {
         image.src = town;
         image.width = 1080;

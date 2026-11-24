@@ -15,5 +15,4 @@ Kappad Beach
 https://commons.wikimedia.org/wiki/File:Kappad_Beach.jpg
 CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0/
 
-Photographs were resized and converted to WebP. The responsive crops and the
-Chembra Peak photograph in the social preview retain the original photo licences.
+Photographs were resized and converted to WebP. The responsive crops retain the original photo licences.

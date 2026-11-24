@@ -9,10 +9,14 @@
       prev.disabled=strip.scrollLeft<2;
       next.disabled=strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-2;
     }
-    [prev,next].forEach((b,i)=>b.addEventListener('click',()=>{
-      const step=strip.firstElementChild.getBoundingClientRect().width+parseFloat(getComputedStyle(strip).columnGap);
-      const still=document.documentElement.classList.contains('paused')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-      strip.scrollBy({left:(i?1:-1)*step,behavior:still?'instant':'smooth'});
+    [prev,next].forEach((button,direction)=>button.addEventListener('click',()=>{
+      const cards = [...strip.children];
+      const positions = cards.map(card => card.offsetLeft - cards[0].offsetLeft);
+      const closest = positions.reduce((best, position, i) =>
+        Math.abs(position-strip.scrollLeft)<Math.abs(positions[best]-strip.scrollLeft) ? i : best, 0);
+      const target = Math.max(0,Math.min(cards.length-1,closest+(direction ? 1 : -1)));
+      const still = document.documentElement.classList.contains('paused') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+      strip.scrollTo({left:positions[target],behavior:still ? 'instant' : 'smooth'});
     }));
     strip.addEventListener('click',event=>{
       const link=event.target.closest('.plate-link');

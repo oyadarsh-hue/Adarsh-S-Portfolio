@@ -1,0 +1,25 @@
+Photographs for Adarsh S’s portfolio
+
+Beypore at sunset — Mohammed Faris, “Sunset at Beypore”.
+https://commons.wikimedia.org/wiki/File:Sunset_at_Beypore.jpg
+
+Athirappilly Falls — Jayakrishnan.B, “Athirappilly waterfalls”.
+https://commons.wikimedia.org/wiki/File:Athirappilly_waterfalls.jpg
+
+Chembra Peak — Sphoortik, “View atop chembra peak”.
+https://commons.wikimedia.org/wiki/File:View_atop_chembra_peak.jpg
+
+These three photographs, their WebP versions, and crops used in the
+portfolio and sharing preview are licensed under CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+The responsive layout crops and overlays the photographs.
+
+Skills photograph — Florian Olivo, “Lines of HTML codes”.
+https://unsplash.com/photos/lines-of-html-codes-4hbJ-eymZ1o
+Unsplash License — https://unsplash.com/license
+Resized, converted to WebP and cropped for the section background.
+
+About photograph — Vengolis, “Mananchira”, Kozhikode.
+https://commons.wikimedia.org/wiki/File:Mananchira.JPG
+CC BY-SA 3.0 — https://creativecommons.org/licenses/by-sa/3.0/
+The responsive crop and WebP version retain the original licence.

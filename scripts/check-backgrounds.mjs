@@ -24,11 +24,19 @@ const filmInfo = JSON.parse(home.match(/<script[^>]*\bid="filmInfo"[^>]*>([\s\S]
 const photos = [...home.matchAll(/<img\b[^>]*\ssrc="(assets\/field\/[^"]+\.webp)"/g)].map(match => match[1]);
 const durations = new Map();
 const films = ['projects', 'journey'];
+// Extracts of published figures and product screens retain their native resolution.
+const sourceDimensions = new Map([
+  ['assets/field/cinema-motion/filtered.webp', [580, 515]],
+  ['assets/field/cinema-motion/raw.webp', [580, 515]],
+  ['assets/field/employers-v10/codtech-krushi.webp', [233, 512]],
+]);
 for (const file of new Set([...photos, ...films.map(name => 'assets/field/' + name + '-v2.webp')])) {
   const bytes = readFileSync(root + file);
   const [width, height] = dimensions(bytes);
-  const minHeight = file.startsWith('assets/field/journal-photos/') ? 240 : 400;
-  const minWidth = file.endsWith('/skybrisk-commerce.webp') ? 500 : 640; // Keep this site screenshot at its native resolution.
+  const sourceMinHeight = file.startsWith('assets/field/journal-photos/') ? 240 : 400;
+  const sourceMinWidth = file.endsWith('/skybrisk-commerce.webp') ? 500 : 640; // Keep this site screenshot at its native resolution.
+  const [minWidth, minHeight] = file.endsWith('-thumb.webp') ? [128, 76] :
+    sourceDimensions.get(file) ?? [sourceMinWidth, sourceMinHeight];
   assert(width >= minWidth && height >= minHeight, file + ' has enough detail for its frame');
   assert(bytes.length < 1_500_000, file + ' should stay under 1.5 MB');
   assert(home.includes(file) || Object.values(filmInfo).some(film => film.poster === file.split('/').at(-1)), file + ' is connected');

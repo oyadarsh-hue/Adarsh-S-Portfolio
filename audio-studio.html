@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Audio Studio — Adarsh S.</title><meta name="description" content="Transcribe your own audio, translate a transcript, and export text or a spoken WAV.">
-<link rel="icon" href="assets/field/mark.svg?v=9" type="image/svg+xml">
+<link rel="icon" href="assets/field/mark.svg?v=10" type="image/svg+xml">
 <script>
 try {
   const root = document.documentElement;
@@ -14,24 +14,27 @@ try {
 </script>
 <link rel="stylesheet" href="assets/field/atelier-v9.css?v=9">
 <link rel="stylesheet" href="assets/audio-studio/studio-v9.css?v=9">
-<script defer src="assets/field/atelier-v9.js?v=9"></script>
+<link rel="stylesheet" href="assets/field/studio-motion.css?v=10">
+<script defer src="assets/field/atelier-v9.js?v=10"></script>
+<script defer src="assets/field/studio-motion.js?v=10"></script>
 <script type="module" src="assets/audio-studio/studio.js?v=9"></script>
 </head>
 <body class="studio-page"><a class="skip" href="#studio">Skip to audio converter</a>
 <header class="studio-top"><div class="studio-top-inner">
-  <a href="./" class="studio-brand"><img src="assets/field/mark.svg?v=9" alt="" width="42" height="42"><span>Adarsh S.</span></a>
-  <nav aria-label="Studio navigation"><a href="./#showreel"><span aria-hidden="true">↖</span> Portfolio films</a><button id="theme" type="button" aria-label="Dark theme" aria-pressed="false"><span class="theme-disc" aria-hidden="true"></span></button></nav>
+  <a href="./" class="studio-brand"><img src="assets/field/mark.svg?v=10" alt="" width="42" height="42"><span>Adarsh S.</span></a>
+  <nav aria-label="Studio navigation"><a href="./#showreel"><span aria-hidden="true">↖</span> Portfolio films</a><button id="studioMotion" type="button" aria-label="Pause motion" aria-pressed="false" hidden><span aria-hidden="true">Ⅱ</span></button><button id="theme" type="button" aria-label="Dark theme" aria-pressed="false"><span class="theme-disc" aria-hidden="true"></span></button></nav>
 </div></header>
 <main id="studio">
 <section class="studio-intro" aria-labelledby="studio-title">
   <div class="studio-intro-copy">
-    <h1 id="studio-title" data-atelier-title>Audio <em>Studio</em></h1>
+    <h1 id="studio-title" data-atelier-title><span>Audio</span> <em>Studio</em></h1>
     <p>Turn a recording into a transcript, translate the words, and save a spoken WAV.</p>
     <nav class="stage-nav" aria-label="Jump to a stage"><a href="#sourceHeading">Source</a><span aria-hidden="true">→</span><a href="#translationHeading">Translation</a><span aria-hidden="true">→</span><a href="#exportHeading">Export</a></nav>
   </div>
   <figure class="studio-monitor" data-atelier-reveal>
     <img class="console-photo" src="assets/audio-studio/console-v9.webp" width="1200" height="800" alt="" fetchpriority="high">
-    <div class="oscilloscope"><canvas id="studioWave" width="600" height="66" aria-hidden="true"></canvas></div>
+    <div class="transport-rings" aria-hidden="true"><i></i><i></i></div>
+    <div class="oscilloscope"><canvas id="studioWave" width="600" height="66" aria-hidden="true"></canvas><i class="sweep-head" aria-hidden="true"></i></div>
     <figcaption><span id="waveName">Reference tone</span><span id="waveMetric">440 Hz</span></figcaption>
   </figure>
 </section>
@@ -42,6 +45,7 @@ try {
 <div class="section-body">
 <div class="field"><label for="file">Audio file</label><div class="file-box"><span class="file-symbol" aria-hidden="true">↥</span><div><input id="file" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac,.aac,.opus,.webm"><small>Choose a recording in a format your browser can play.</small></div></div></div>
 <audio id="originalAudio" controls preload="none" hidden aria-label="Original recording"></audio>
+<div class="signal-meter" data-meter="originalAudio" role="group" aria-label="Source playback level" hidden><i aria-hidden="true"></i><span>Playback level</span><b>—</b></div>
 <p id="fileInfo" class="note" role="status"></p>
 <div class="actions"><button id="sourceWav" disabled>Save original as WAV</button></div>
 <div class="field"><label for="from">Source language</label><input id="from" class="lang" list="languages" value="en" autocomplete="off" spellcheck="false" aria-describedby="sourceCap"><small id="sourceCap"></small></div>
@@ -57,7 +61,7 @@ try {
 <div class="field"><label for="output">Translated text</label><textarea id="output" dir="auto" rows="6" placeholder="Your translation appears here. You can also enter or edit it yourself."></textarea><small id="outputOrigin"></small></div>
 </div></section>
 <section data-atelier-reveal class="panel export-panel" aria-labelledby="exportHeading"><div class="step-head"><span class="step" aria-hidden="true">03</span><h2 data-atelier-title id="exportHeading" tabindex="-1">Listen &amp; export</h2></div><div class="section-body export-body"><div><p id="voiceCap" class="cap"></p><p id="deviceCap" class="note"></p><p id="qualityNote" class="note" role="status"></p><div class="actions"><button id="render" class="primary" disabled>Create spoken WAV</button><button id="speak" disabled>Play device voice</button><button id="saveText" disabled>Save text</button></div></div>
-<details id="compare" class="compare" hidden><summary>Compare original and translation</summary><div class="comparison-pair"><div><h3 id="compareFrom"></h3><p id="compareSource" dir="auto"></p></div><div><h3 id="compareTo"></h3><p id="compareTarget" dir="auto"></p></div></div><small>Check names, dates, technical terms and the intended dialect before exporting.</small></details><div id="result" class="result" hidden><label for="resultAudio">Rendered speech</label><audio id="resultAudio" controls preload="none"></audio><a id="saveWav" class="download" download>Download spoken WAV ↓</a></div></div></section>
+<details id="compare" class="compare" hidden><summary>Compare original and translation</summary><div class="comparison-pair"><div><h3 id="compareFrom"></h3><p id="compareSource" dir="auto"></p></div><div><h3 id="compareTo"></h3><p id="compareTarget" dir="auto"></p></div></div><small>Check names, dates, technical terms and the intended dialect before exporting.</small></details><div id="result" class="result" hidden><label for="resultAudio">Rendered speech</label><audio id="resultAudio" controls preload="none"></audio><div class="signal-meter" data-meter="resultAudio" role="group" aria-label="Rendered speech playback level" hidden><i aria-hidden="true"></i><span>Playback level</span><b>—</b></div><a id="saveWav" class="download" download>Download spoken WAV ↓</a></div></div></section>
 </div>
 <div class="activity"><p id="status" role="status" aria-live="polite">Ready for a recording or transcript.</p><button id="cancel" hidden>Cancel</button></div>
 <noscript><p>This studio needs JavaScript to convert audio in your browser.</p></noscript>

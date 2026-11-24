@@ -1,0 +1,38 @@
+Bluegen Solutions · Career workshops
+bluegen-vengara.webp — “Navigating Your Career Path” at Malabar College, Vengara, July 12, 2024.
+bluegen-tirur.webp — “Exploring Career Opportunities” at Moulana College of Arts, Science & Commerce, Tirur, November 14, 2024.
+Publisher: Bluegen Solutions · https://bluegensolutions.com/events.html
+https://bluegensolutions.com/assets/img/malabar%20vengara%20on%20career%20path.jpg
+https://bluegensolutions.com/assets/img/moulana%20tirur.png
+
+The Skybrisk · Official website and technology context
+skybrisk-code.webp — Detail of the original code window on The Skybrisk’s public homepage.
+Publisher: The Skybrisk · https://www.theskybrisk.com/
+react-conf.webp — Audience beneath the React symbol at React Conf 2025. This is an independent community conference photograph.
+Publisher: React Conf · https://conf.react.dev/photos
+https://conf.react.dev/gallery/Audience-with-React-logo-above.jpg
+
+CODTECH IT Solutions · Team directory and app portfolio
+codtech-raghuram.webp — Raghuram Kuntumalla, project manager and business development manager.
+codtech-muzammil.webp — Shaik Muzammil, app and web developer.
+Publisher: CODTECH IT Solutions · https://codtechitsolutions.com/team
+https://codtechitsolutions.com/team-photos/raghuram-kuntumalla.png
+https://codtechitsolutions.com/team-photos/shaik-muzammil.jpg
+codtech-krushi.webp — Krushi Staff sign-in screen from the company's public app catalogue.
+Publisher: CODTECH IT Solutions · https://codtechitsolutions.com/app-portfolio
+https://codtechitsolutions.com/app_screenshots/com.krushistaff.app/screen_1.png
+
+Additional source images in these galleries
+../employers-v8/bluegen-reception.webp — Bluegen Solutions reception desk and wall sign.
+https://bluegensolutions.com/about.html
+https://bluegensolutions.com/assets/img/bluegen.jpg
+../employers-v9/bluegen-robotics.webp — Bluegen’s “Exploring the Future of Robotics” session at Don Bosco College, Mampetta.
+https://bluegensolutions.com/events.html
+https://bluegensolutions.com/assets/img/don%20bosco%20robotics.jpg
+../employers-v9/skybrisk-commerce.webp — The E-Commerce Platform training example in The Skybrisk’s projects catalogue.
+https://www.theskybrisk.com/projects
+../employers-v8/skybrisk-workspace.webp — The Skybrisk’s example Project Workspace dashboard on its homepage.
+https://www.theskybrisk.com/
+../employers-v9/codtech-developer.webp — Gourav Boga, full-stack developer in CODTECH’s team directory.
+https://codtechitsolutions.com/team
+https://codtechitsolutions.com/team-photos/gourav-boga.png
