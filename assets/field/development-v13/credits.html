@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Software development photography · Adarsh S.</title>
+  <style>
+    :root { color-scheme: light dark; --paper: #f7f4ee; --ink: #202534; --rule: #b8b6aa; }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper: #19212a; --ink: #f3f0e6; --rule: #53606b; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 1rem/1.55 system-ui, sans-serif; }
+    main { width: min(72rem, 100%); padding: clamp(1.2rem, 5vw, 4rem); margin: 0 auto; }
+    h1 { max-width: 13ch; margin: 1.15em 0 .22em; font: 500 clamp(2.7rem, 7vw, 5.8rem)/.98 Georgia, serif; letter-spacing: -.052em; }
+    header p { max-width: 58ch; }
+    a { color: inherit; text-underline-offset: .2em; }
+    .photographs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 2.2rem clamp(1rem, 3vw, 2.5rem); margin: 2.4rem 0; }
+    figure { margin: 0; padding-top: .6rem; border-top: 1px solid var(--rule); scroll-margin-top: 1rem; }
+    img { display: block; width: 100%; height: auto; }
+    figcaption { padding: .65rem 0 0; }
+    h2 { margin: 0; font: 550 1.38rem/1.25 Georgia, serif; }
+    figcaption p { margin: .24rem 0 .3rem; }
+    figcaption a { font-weight: 600; }
+    a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="../../../index.html">← Adarsh S. portfolio</a>
+      <h1>Software development photography</h1>
+      <p>These editorial photographs illustrate the work of writing, reviewing and running software. The opening sequence uses resized WebP editions, with a wider crop for the server photograph.</p>
+      <p>All five photographs are used under the <a href="https://www.pexels.com/license/">Pexels License</a>.</p>
+    </header>
+    <div class="photographs">
+      <figure id="workspace">
+        <img src="workspace.webp" width="1600" height="1084" alt="A person in glasses studies green terminal output and charts on a monitor in a blue-lit workspace.">
+        <figcaption><h2>Development workspace</h2><p>Photograph by Mikhail Nilov.</p><a href="https://www.pexels.com/photo/a-man-looking-at-a-computer-screen-with-data-6963944/">Original photograph on Pexels</a></figcaption>
+      </figure>
+      <figure id="pair-review">
+        <img src="pair-review.webp" width="1600" height="1068" alt="Two people review a laptop together. One points to a line of code on the screen." loading="lazy">
+        <figcaption><h2>Code review</h2><p>Photograph by Christina Morillo.</p><a href="https://www.pexels.com/photo/two-women-looking-at-the-code-at-laptop-1181263/">Original photograph on Pexels</a></figcaption>
+      </figure>
+      <figure id="source-code">
+        <img src="source-code.webp" width="1600" height="1067" alt="Green and white JavaScript text fills a dark monitor photographed at an oblique angle." loading="lazy">
+        <figcaption><h2>Source code</h2><p>Photograph by Markus Spiske.</p><a href="https://www.pexels.com/photo/javascript-code-1972464/">Original photograph on Pexels</a></figcaption>
+      </figure>
+      <figure id="server-operations">
+        <img src="server-operations.webp" width="1600" height="720" alt="An engineer holds an open laptop alongside a row of server racks lit by blue lights." loading="lazy">
+        <figcaption><h2>Server operations</h2><p>Photograph by Christina Morillo.</p><a href="https://www.pexels.com/photo/software-engineer-standing-beside-server-racks-1181354/">Original photograph on Pexels</a></figcaption>
+      </figure>
+      <figure id="device-bench">
+        <img src="device-bench.webp" width="1600" height="1067" alt="Hands adjust wires on a small circuit board beside a red component tray on a wooden workbench." loading="lazy">
+        <figcaption><h2>Electronics workbench</h2><p>Photograph by Thirdman.</p><a href="https://www.pexels.com/photo/a-person-holding-a-micro-chip-7180749/">Original photograph on Pexels</a></figcaption>
+      </figure>
+    </div>
+  </main>
+</body>
+</html>

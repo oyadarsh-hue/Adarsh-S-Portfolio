@@ -1,0 +1,141 @@
+/* Photo and document plates for the four primary portfolio destinations. */
+.folio-shortcuts.work-index {
+  --index-ink: #202a25;
+  --index-muted: #475349;
+  --index-stock: #f5f1e7;
+  --index-rule: #a4a79a;
+  --index-paper: #fcf9f0;
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  align-items: stretch;
+  gap: clamp(12px,1.45vw,27px);
+  padding: clamp(26px,3.2vw,55px) max(5%,calc((100% - 1490px)/2));
+  background: var(--index-stock);
+  color: var(--index-ink);
+}
+:root[data-theme="dark"] .folio-shortcuts.work-index {
+  --index-ink: #f8f0df;
+  --index-muted: #d1cdbc;
+  --index-stock: #222923;
+  --index-rule: #687064;
+  --index-paper: #2b322a;
+}
+.folio-shortcuts.work-index > a {
+  min-width: 0;
+  display: grid;
+  grid-template: auto 1fr / minmax(0,1fr);
+  align-content: start;
+  height: auto;
+  padding: clamp(5px,.5vw,9px);
+  overflow: visible;
+  border: 1px solid var(--index-rule);
+  border-radius: 1px;
+  box-shadow: 0 2px 0 var(--index-stock),0 3px 0 var(--index-rule);
+  background: var(--index-paper);
+  color: var(--index-ink);
+}
+.folio-shortcuts.work-index > a::after { display: none; }
+.work-index .index-image {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-width: 0;
+  aspect-ratio: 1.46;
+  background: #40574f;
+  box-shadow: inset 0 0 0 1px #282a2640;
+}
+.work-index .index-image img {
+  position: static;
+  inset: auto;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.work-index .index-interface {
+  background: linear-gradient(140deg,#27453e,#457663 58%,#77a791);
+}
+.work-index .index-article {
+  background: linear-gradient(140deg,#735239,#a87a4e 62%,#c99256);
+}
+.work-index .index-image:is(.index-interface,.index-article) img {
+  width: 93%;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 8px 12px #13251f50;
+}
+.work-index .index-interface img { transform: rotate(-2deg); }
+.work-index .index-article img { transform: rotate(2deg); }
+.work-index .index-caption {
+  position: relative;
+  min-width: 0;
+  padding: clamp(12px,1.2vw,20px) 4px 7px;
+  color: var(--index-ink);
+}
+.work-index .index-caption strong,.work-index .index-caption small {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.work-index .index-caption strong {
+  width: fit-content;
+  font: 400 clamp(25px,2.85vw,49px)/1.06 "Instrument Serif",Georgia,serif;
+  letter-spacing: -.025em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .13em;
+  text-decoration-color: var(--index-rule);
+}
+.work-index .index-caption small {
+  margin-top: .65em;
+  color: var(--index-muted);
+  font: 550 clamp(11px,.93vw,15px)/1.4 "DM Sans",sans-serif;
+}
+.folio-shortcuts.work-index > a:focus-visible {
+  outline: 3px solid var(--index-ink);
+  outline-offset: 3px;
+}
+@media (hover:hover) {
+  .work-index > a:hover .index-caption strong { text-decoration-color: currentColor; }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .work-index .index-image img {
+    transform: scale(calc(1.095 - var(--folio-contents-pos,.5) * .075));
+    filter: saturate(calc(.88 + var(--folio-contents-pos,.5) * .2));
+  }
+  .work-index .index-interface img {
+    transform: translateY(calc((.5 - var(--folio-contents-pos,.5)) * 14px)) rotate(calc(-4deg + var(--folio-contents-pos,.5) * 4deg));
+  }
+  .work-index .index-article img {
+    transform: translateY(calc((.5 - var(--folio-contents-pos,.5)) * -14px)) rotate(calc(4deg - var(--folio-contents-pos,.5) * 4deg));
+  }
+  .work-index .index-caption strong {
+    transform: translateY(calc((.5 - var(--folio-contents-pos,.5)) * 8px));
+  }
+}
+@media (max-width: 920px) {
+  .folio-shortcuts.work-index { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .work-index .index-image { aspect-ratio: 1.8; }
+}
+@media (max-width: 519px) {
+  .folio-shortcuts.work-index { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .folio-shortcuts.work-index > a {
+    grid-template: auto / minmax(0,1.08fr) minmax(0,1fr);
+    align-items: center;
+    gap: 7px;
+    padding: 5px;
+  }
+  .work-index .index-image { aspect-ratio: 1.35; }
+  .work-index .index-caption { padding: 6px 4px; }
+  .work-index .index-caption strong { font-size: clamp(26px,7.2vw,38px); }
+  .work-index .index-caption small { font-size: 12px; }
+}
+@media (prefers-reduced-motion:reduce),print {
+  .folio-shortcuts.work-index .index-image img,.work-index .index-caption strong {
+    transform: none; scale: none; animation: none; transition: none; filter: none;
+  }
+}

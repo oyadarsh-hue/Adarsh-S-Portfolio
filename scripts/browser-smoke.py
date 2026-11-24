@@ -25,7 +25,7 @@ with run_suite('portfolio') as (browser, test):
         ), 'Vertical reading has no fixed progress stripe')
         contents = page.locator('.section-directory')
         contents.locator('summary').click()
-        test.check(contents.locator('nav a').evaluate_all("""links => links.length === 13 &&
+        test.check(contents.locator('nav a').evaluate_all("""links => links.length === 14 && links.some(a => a.hash === '#development-in-focus') &&
              links.every(a => a.hash && document.getElementById(a.hash.slice(1)))"""),
              'The in-page contents names and links every section')
         contents.locator('summary').click()
@@ -278,6 +278,12 @@ with run_suite('portfolio') as (browser, test):
     with browser.new_context(java_script_enabled=False, viewport={'width': 390, 'height': 844}) as context:
         page = test.page(context)
         test.visit(page)
+        first_photo = page.locator('.scene-strip img[data-desk-image="workspace"][data-active="true"]')
+        page.locator('.scene-strip').scroll_into_view_if_needed()
+        expect(first_photo).to_be_visible()
+        test.check(first_photo.evaluate("async img=>{await img.decode();return img.naturalWidth >= 640}") and
+                   page.locator('#sceneName').inner_text().strip() and page.locator('#deskDescription').inner_text().strip(),
+                   'The opening development photograph and its caption are readable without JavaScript')
         expect(page.locator('[data-project-tags]:visible')).to_have_count(5)
         expect(page.locator('[data-lo-category]:visible')).to_have_count(6)
         test.check(page.locator('a[href$=".pdf"]:visible').count() > 0, 'CV is reachable without JavaScript')

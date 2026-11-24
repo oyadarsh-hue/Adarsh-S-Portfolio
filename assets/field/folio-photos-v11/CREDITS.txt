@@ -15,7 +15,8 @@ CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0/
 The images and their thumbnail previews are resized, cropped, and converted
 to WebP. The Beypore photograph and its derivatives retain the original licence.
 
-The four photographic section links use crops from the following sources.
+An earlier edition used the following four section links. Current section
+photographs are credited in ../work-index-v13/CREDITS.txt.
 
 Projects — Tirza van Dijk, “Laptop coding programs”, CC0.
 https://commons.wikimedia.org/wiki/File:Laptop_coding_programs_(Unsplash).jpg

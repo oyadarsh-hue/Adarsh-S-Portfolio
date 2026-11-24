@@ -52,61 +52,6 @@
   });
   mobileMenu.addEventListener('change', () => setMenu(false));
 
-  const scenes = [...document.querySelectorAll('.hero-image')];
-  const photoLabel = document.querySelector('.hero-photo-label');
-  const sceneTabs = [...document.querySelectorAll('[data-scene-index]')];
-  const picker = document.querySelector('.scene-picker');
-  let requestedScene = 0;
-  let displayedScene = 0;
-  let landscapeTimer;
-  let sceneVisible = false;
-  let userSelected = false;
-
-  async function showScene(index, manual) {
-    if (manual) {
-      userSelected = true;
-      clearTimeout(landscapeTimer);
-    }
-    requestedScene = (index + scenes.length) % scenes.length;
-    const next = scenes[requestedScene];
-    if (!next.hasAttribute('src')) next.src = next.dataset.src;
-    try {
-      if (next.decode) await next.decode();
-    } catch {
-      if (next === scenes[requestedScene]) requestedScene = displayedScene;
-      return;
-    }
-    if (next !== scenes[requestedScene]) return;
-    displayedScene = requestedScene;
-    scenes.forEach((image, i) => { image.dataset.active = String(displayedScene === i); });
-    sceneTabs.forEach((button, i) => button.setAttribute('aria-pressed', String(i === displayedScene)));
-    const label = next.dataset.label;
-    byId('sceneName').textContent = label;
-    photoLabel.textContent = label;
-    hero.dataset.landscape = next.dataset.scene;
-  }
-
-  function scheduleLandscape() {
-    clearTimeout(landscapeTimer);
-    if (!sceneVisible || userSelected || systemMotion.matches || document.hidden) return;
-    landscapeTimer = setTimeout(async () => {
-      await showScene(displayedScene + 1, false);
-      scheduleLandscape();
-    }, 7200);
-  }
-  sceneTabs.forEach((button, i) => button.addEventListener('click', () => showScene(i, true)));
-  picker.addEventListener('focusin', () => { userSelected = true; clearTimeout(landscapeTimer); });
-  if ('IntersectionObserver' in window) {
-    const sceneObserver = new IntersectionObserver(entries => {
-      sceneVisible = entries[0].isIntersecting;
-      scheduleLandscape();
-    }, {threshold: .25});
-    sceneObserver.observe(document.querySelector('.hero'));
-  }
-  document.addEventListener('visibilitychange', scheduleLandscape);
-  window.addEventListener('pagehide', () => clearTimeout(landscapeTimer));
-  window.addEventListener('pageshow', scheduleLandscape);
-
   const hero = document.querySelector('.hero');
   const watches = new Set();
   const frames = [...document.querySelectorAll('.card-image,.scene-window')];
@@ -203,7 +148,6 @@
   });
   function applyMotion() {
     root.classList.toggle('paused', systemMotion.matches);
-    scheduleLandscape();
     queuePaint();
   }
   systemMotion.addEventListener('change', applyMotion);

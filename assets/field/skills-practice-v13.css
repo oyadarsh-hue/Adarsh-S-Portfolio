@@ -1,0 +1,59 @@
+/* The examples stay in normal reading order, independently of the skill filters. */
+#skills .skill-practice {
+  margin:0 0 clamp(21px,2.7vw,43px);padding:0;
+  color:var(--ink12);background:transparent;
+}
+#skills .skill-practice h3 {
+  margin:0 0 clamp(10px,1.25vw,18px);color:var(--ink12);
+  font:400 clamp(1.82rem,3.1vw,3.05rem)/1.06 var(--serif,serif);letter-spacing:-.045em;
+}
+#skills .skill-practice-grid {
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.15vw,18px);
+}
+#skills .skill-example {
+  display:grid;grid-template-rows:auto 1fr;align-content:start;min-width:0;
+  color:var(--ink12);text-decoration:none;background:var(--sheet);
+  border:1px solid var(--key);border-radius:3px;
+}
+#skills .skill-example-picture {
+  position:relative;display:block;overflow:hidden;overflow:clip;aspect-ratio:12/7;
+  background:#282436;border-bottom:1px solid var(--key);
+}
+#skills .skill-example-picture img {
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+#skills .skill-example-copy {
+  display:grid;align-content:start;gap:.37rem;min-width:0;padding:clamp(9px,1.12vw,17px);
+}
+#skills .skill-example-copy strong {
+  display:flex;align-items:baseline;justify-content:space-between;gap:.4rem;
+  color:var(--ink12);font:635 clamp(1rem,1.48vw,1.44rem)/1.17 var(--display,sans-serif);letter-spacing:-.035em;
+}
+#skills .skill-example-copy strong span {font:500 .91em/1 var(--body,sans-serif);}
+#skills .skill-example-copy>span {color:var(--quiet);font:450 clamp(.79rem,.98vw,.94rem)/1.42 var(--body,sans-serif);}
+#skills .skill-example:is(:hover,:focus-visible) strong {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;}
+@media (min-width:721px) and (max-width:1120px) {
+  #skills .skill-practice-grid {grid-template-columns:1fr;}
+  #skills .skill-example {grid-template-columns:minmax(120px,.7fr) minmax(0,1.3fr);grid-template-rows:1fr;}
+  #skills .skill-example-picture {align-self:stretch;aspect-ratio:auto;min-height:88px;border-bottom:0;border-inline-end:1px solid var(--key);}
+  #skills .skill-example-picture img {position:absolute;inset:0;}
+  #skills .skill-example-copy {align-content:center;}
+}
+@media (max-width:560px) {
+  #skills .skill-practice-grid {grid-template-columns:minmax(0,1fr);gap:7px;}
+  #skills .skill-example {grid-template-columns:minmax(100px,.81fr) minmax(0,1.19fr);grid-template-rows:1fr;}
+  #skills .skill-example-picture {align-self:stretch;aspect-ratio:auto;min-height:98px;border-bottom:0;border-inline-end:1px solid var(--key);}
+  #skills .skill-example-picture img {position:absolute;inset:0;}
+  #skills .skill-example-copy {align-content:center;padding:10px;}
+  #skills .skill-example-copy strong {font-size:1.02rem;}
+  #skills .skill-example-copy>span {font-size:.78rem;}
+}
+@media (prefers-reduced-motion:no-preference) {
+  @supports (animation-timeline:view()) {
+    #skills .skill-example-picture img {
+      animation:skill-practice-focus linear both;animation-timeline:view();
+      animation-range:entry 0% entry 100%;
+    }
+    @keyframes skill-practice-focus {from{transform:scale(1.09)}to{transform:scale(1)}}
+  }
+}

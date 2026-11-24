@@ -9,6 +9,7 @@ from playwright.sync_api import expect
 from browser_fixture import ROOT, run_suite
 
 PROJECTS = ("assenttag", "epigraphix-ai", "aegisforge-x", "deciphera", "quietnote")
+DESK_SCENES = ("workspace", "pair-review", "source-code", "server-operations", "device-bench")
 SCHOOLS = {"mca": "Thrissur", "bsc": "Thamarassery", "hse": "Thamarassery", "sslc": "Engapuzha"}
 COMPANIES = {"bluegen": "Bluegen", "skybrisk": "Skybrisk", "codtech": "CODTECH"}
 DOCUMENTARY = set(SCHOOLS) | set(COMPANIES)
@@ -48,6 +49,76 @@ def until_video(frame, expression, argument=None):
 def scroll(page, y):
     page.evaluate("y => window.scrollTo({top:y,behavior:'instant'})", y)
     page.evaluate("() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))")
+
+
+def verify_development_photos(page, test):
+    hero_photos = page.locator(".hero-image[data-scene]")
+    desk_photos = page.locator(".scene-strip img[data-desk-image]")
+    scene_paths = [f"assets/field/development-v13/{key}.webp" for key in DESK_SCENES]
+    for photos, attribute in ((hero_photos, "data-scene"), (desk_photos, "data-desk-image")):
+        expect(photos).to_have_count(5)
+        test.check(photos.evaluate_all("(photos,a)=>photos.map(p=>p.getAttribute(a))", attribute) == list(DESK_SCENES),
+                   f"All five development photos have matching {attribute} keys")
+    test.check(hero_photos.evaluate_all("photos=>photos.map(p=>p.getAttribute('src') || p.dataset.src)") == scene_paths,
+               "The cover uses the five local development photographs in order")
+    expect(page.locator("[data-scene-index], [data-scene-step], .landscape-tabs, .scene-strip button")).to_have_count(0)
+    page.evaluate("document.fonts.ready")
+
+    def read_frame(key):
+        # Both layers and their captions must agree after the new photo has decoded.
+        handle = page.wait_for_function("""expected => {
+            const heroes = document.querySelectorAll('.hero-image[data-active="true"]');
+            const strips = document.querySelectorAll('.scene-strip [data-desk-image][data-active="true"]');
+            const exposed = document.querySelectorAll('.scene-strip [data-desk-image]:not([aria-hidden="true"])');
+            if (heroes.length !== 1 || strips.length !== 1 || exposed.length !== 1 || exposed[0] !== strips[0])
+                return false;
+            const hero = heroes[0], strip = strips[0], caption = document.querySelector('#sceneName');
+            const copy = document.querySelector('#deskDescription').textContent.trim();
+            if ((expected && hero.dataset.scene !== expected) || strip.dataset.deskImage !== hero.dataset.scene ||
+                !hero.complete || !strip.complete || !hero.naturalWidth || !strip.naturalWidth ||
+                hero.currentSrc !== strip.currentSrc || !strip.alt.trim() || !caption.textContent.trim() ||
+                !copy || copy !== hero.dataset.note ||
+                caption.textContent.trim() !== hero.dataset.label || Number(getComputedStyle(strip).opacity) < .5)
+                return false;
+            const panel = strip.closest('.scene-strip').getBoundingClientRect();
+            return {key: hero.dataset.scene, title: caption.textContent.trim(), copy,
+                size: [panel.width, panel.height]};
+        }""", arg=key, timeout=15000)
+        try:
+            return handle.json_value()
+        finally:
+            handle.dispose()
+
+    first = read_frame(None)
+    start = DESK_SCENES.index(first["key"])
+    titles = {first["title"]}
+    captions = {first["copy"]}
+    for step in range(1, len(DESK_SCENES) + 1):
+        # The first transition happens on the cover. The remaining transitions happen
+        # with only the photographic strip visible, including the wrap to the starting frame.
+        if step == 2:
+            top = page.locator(".scene-strip").evaluate("e => e.getBoundingClientRect().top + scrollY")
+            scroll(page, round(top) + 1)
+            test.check(page.evaluate("""() => {
+                const hero = document.querySelector('.hero').getBoundingClientRect();
+                const strip = document.querySelector('.scene-strip [data-desk-image][data-active="true"]').getBoundingClientRect();
+                return hero.bottom <= 1 && strip.top < innerHeight && strip.bottom > 0 && strip.height > 60;
+            }"""), "The strip remains on screen after the entire hero leaves the viewport")
+        frame = read_frame(DESK_SCENES[(start + step) % len(DESK_SCENES)])
+        titles.add(frame["title"])
+        captions.add(frame["copy"])
+        test.check(all(abs(a-b) <= 1 for a,b in zip(first["size"], frame["size"])),
+                   f"{frame['key']}: both photos and captions advance together without changing the strip size")
+    test.check(len(titles) == len(captions) == len(DESK_SCENES), "Each photograph has its own title and description")
+    page.emulate_media(reduced_motion="reduce")
+    frozen = read_frame(None)
+    page.wait_for_timeout(5700)  # Longer than the photo's 4.8-second dwell.
+    test.check(read_frame(None) == frozen, "The operating system's reduced-motion preference freezes both surfaces")
+    page.emulate_media(reduced_motion="no-preference")
+    resumed = DESK_SCENES[(DESK_SCENES.index(frozen["key"]) + 1) % len(DESK_SCENES)]
+    read_frame(resumed)
+    test.check(True, "The visible strip resumes automatically when reduced motion is turned off")
+    scroll(page, 0)
 
 
 def verify_scroll_text(page, test, reduced=False):
@@ -482,31 +553,8 @@ with run_suite("backgrounds") as (browser, test):
         expect(far_still).to_be_attached()
         test.check(far_still.evaluate("b=>getComputedStyle(b).backgroundImage==='none'"),
                    "Off-screen thumbnail sheets wait until a film approaches the viewport")
-        scenes = page.locator(".hero-image[data-scene]")
         active = page.locator('.hero-image[data-active="true"]')
-        expect(active).to_have_count(1)
-        expected_scenes = ["assets/field/folio-photos-v11/kadalundi.webp", "assets/field/folio-photos-v11/thusharagiri.webp",
-                           "assets/field/motion-photos/beypore.webp", "assets/field/folio-photos-v11/mananchira-gate.webp",
-                           "assets/field/folio-photos-v11/kozhikode-shore.webp"]
-        expect(scenes).to_have_count(len(expected_scenes))
-        expect(active).to_have_attribute("src", expected_scenes[0])
-        test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
-                   "The five Kerala photographs match their landscape choices")
-        thumbnails = page.locator('[data-scene-index]')
-        expect(thumbnails).to_have_count(len(expected_scenes))
-        for index, choice in enumerate(thumbnails.all()):
-            choice.click()
-            expect(active).to_have_attribute("src", expected_scenes[index])
-            active.evaluate("img => img.decode()")
-            expect(choice).to_have_attribute("aria-pressed", "true")
-        test.check(True, "Every landscape can be selected directly and decodes")
-        thumbnails.nth(1).focus()
-        page.keyboard.press('Enter')
-        expect(thumbnails.nth(1)).to_have_attribute('aria-pressed','true')
-        expect(active).to_have_attribute('data-scene','falls')
-        thumbnails.first.click()
-        expect(active).to_have_attribute('data-scene','river')
-        test.check(True,"Keyboard and pointer selections update the photograph and its active thumbnail")
+        verify_development_photos(page, test)
 
         hero = page.locator(".hero")
         bounds = hero.evaluate("e => [e.offsetTop,e.offsetHeight]")
@@ -752,3 +800,16 @@ with run_suite("backgrounds") as (browser, test):
             frame.locator("video").evaluate("v=>v.currentSrc.endsWith('/projects-hd-v2.mp4')"),
             "A late UHD request cannot replace the selected HD source",
         )
+
+    with browser.new_context(reduced_motion="reduce", viewport={"width":320,"height":730}) as context:
+        page = test.page(context)
+        page.route("**/development-v13/workspace.webp", lambda route: route.abort("failed"))
+        test.visit(page, "#development-in-focus")
+        fallback = page.locator('.scene-strip img[data-active="true"]')
+        expect(fallback).to_have_attribute("data-desk-image", "pair-review")
+        test.check(fallback.evaluate("async img=>{await img.decode();return img.naturalWidth>0}"),
+                   "An unavailable opening photograph is replaced by the next decodable image")
+        page.wait_for_timeout(5700)
+        expect(fallback).to_have_attribute("data-desk-image", "pair-review")
+        test.check(page.locator('#sceneName').inner_text() == "Code review",
+                   "Reduced motion holds the recovery photograph and its caption")

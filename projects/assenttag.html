@@ -74,6 +74,7 @@
     <script defer src="../assets/field/interior-motion.js?v=11"></script>
     <link rel="stylesheet" href="../assets/field/interior-v11.css?v=11">
     <link rel="stylesheet" href="../assets/field/interior-v12.css?v=12">
+    <link rel="stylesheet" href="../assets/field/case-contact-v13.css?v=13">
   </head>
   <body class="case-spatial edition-v5 edition-v8 edition-v9 motion-edition edition-v11 edition-v12" data-interior-edition="assenttag" style="--case-color:#62e7f0">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -115,6 +116,26 @@
           <div class="v8-cover-actions"><a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a href="#workflow">How it works <span aria-hidden="true">↓</span></a></div>
           <div class="motion-stack"><a href="#stack">Stack <span aria-hidden="true">↘</span></a><ul aria-label="Project technologies"><li>Python</li> <li>Django</li> <li>OpenCV</li> <li>Dlib</li> <li>MySQL</li></ul></div>
         </div>
+        <section class="case-contact-sheet" aria-labelledby="contact-sheet-title">
+          <div class="sheet-intro">
+            <h2 id="contact-sheet-title">Face detection and consent</h2>
+            <p>Illustrated in <a href="../index.html#project-premiere">Five projects in motion</a>.</p>
+          </div>
+          <ol class="sheet-stages">
+            <li>
+              <figure>
+                <img src="../assets/field/case-stills-v13/assenttag-detect.webp" width="720" height="540" alt="Three faces in a sample photograph have detection brackets around them." loading="lazy" decoding="async">
+                <figcaption><strong>Find the faces</strong><span>OpenCV locates faces in the shared photograph.</span></figcaption>
+              </figure>
+            </li>
+            <li>
+              <figure>
+                <img src="../assets/field/case-stills-v13/assenttag-consent.webp" width="720" height="540" alt="The middle face is visible, with a consent indicator. Both nearby faces are obscured." loading="lazy" decoding="async">
+                <figcaption><strong>Apply permission</strong><span>In the public prototype, consent reveals one face while the others stay blurred.</span></figcaption>
+              </figure>
+            </li>
+          </ol>
+        </section>
       </header>
       <div class="case-brief">
         <p class="v8-cover-role">Academic project · Full-stack development and computer vision</p>

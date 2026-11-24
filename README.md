@@ -2,9 +2,9 @@
 
 ## Current visual design
 
-The opening pairs a custom AS monogram and Adarsh’s portrait with five photographs of Kozhikode. Visitors can choose a place directly or let the landscape change while it is in view. Portraits, type and film stills respond to vertical scrolling. The four fields of work and all specialties stay readable together at phone and desktop sizes.
+Adarsh’s portrait opens against a real software-development photograph. The opening and the full-size image feature share a sequence of five credited photographs covering a development workspace, code review, JavaScript, server operations and hardware testing. While either area is visible the photographs and captions advance automatically. The sequence holds when the page is hidden or outside the viewport. Device Reduce Motion keeps a still image. The photography credits link to the photographers and their original publications.
 
-Photo links lead to Projects, Education, Internships and Publication. The in-page contents expands to links for every section. The project index and internship photographs use responsive grids. Each employer album changes its featured image in place while visible. Education groups the four real campuses in a single 3840 × 2160 print. The header switches themes and motion follows the device’s Reduce Motion setting.
+A photographic directory connects working software, a real campus, an internship and the published paper to their sections. The skills section links tools to three project workflows. Each project case opens with frames from its actual project film. The three employer albums and the four-campus print are also available. The header switches between light and dark themes.
 
 The 21 independent film players each offer three selectable stills from their footage. The two premieres, thirteen topic films, two long documentaries and four archive reels have HD and 3840 × 2160 versions. The case studies use the same film and frame controls.
 

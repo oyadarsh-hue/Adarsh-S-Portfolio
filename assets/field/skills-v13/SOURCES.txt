@@ -1,0 +1,15 @@
+Tools in practice — Adarsh S
+
+assenttag.webp
+Capture of the first sample request in the project's Notifications interface.
+Page: https://oyadarsh-hue.github.io/AssentTag/notifications.html
+Project: https://github.com/oyadarsh-hue/AssentTag/tree/a276677ba323ae9cc5018f6db4ebadf3f1be38ca
+
+epigraphix.webp
+Identical cropped regions of two corresponding project images. Top: original palm-leaf photograph. Bottom: denoised output.
+Original: https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/8a7c08430bd713d973fcf7d2881e79bd8d200e20/Input%20Image/2.jpg
+Output: https://github.com/oyadarsh-hue/EpigraphiX-AI/blob/8a7c08430bd713d973fcf7d2881e79bd8d200e20/Denoised%20Image/2.jpg
+
+deciphera.webp
+Capture of the running Semantic Ledger Narrative panel in Auditor View. The project's local simulation generated the result for a sample transfer to Bob.
+Project: https://github.com/oyadarsh-hue/Deciphera-A-Semantic-Ledger-Covenant-Auditor-for-Bitcoin-Off-Chain-Transactions./tree/784d484ecd1c276a05a814e2260a0baf31fbf6f3
