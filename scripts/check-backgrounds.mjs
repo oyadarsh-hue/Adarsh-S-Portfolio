@@ -28,7 +28,8 @@ for (const file of new Set([...photos, ...films.map(name => 'assets/field/' + na
   const bytes = readFileSync(root + file);
   const [width, height] = dimensions(bytes);
   const minHeight = file.startsWith('assets/field/journal-photos/') ? 240 : 400;
-  assert(width >= 640 && height >= minHeight, file + ' has enough detail for its frame');
+  const minWidth = file.endsWith('/skybrisk-commerce.webp') ? 500 : 640; // Keep this site screenshot at its native resolution.
+  assert(width >= minWidth && height >= minHeight, file + ' has enough detail for its frame');
   assert(bytes.length < 1_500_000, file + ' should stay under 1.5 MB');
   assert(home.includes(file) || Object.values(filmInfo).some(film => film.poster === file.split('/').at(-1)), file + ' is connected');
 }

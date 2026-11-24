@@ -430,11 +430,11 @@ with run_suite("backgrounds") as (browser, test):
         active = page.locator('.hero-image[data-active="true"]')
         expect(active).to_have_count(1)
         expect(scenes).to_have_count(3)
-        expected_scenes = ["assets/field/munnar-v8.webp", "assets/field/journal-photos/sslc.webp",
-                           "assets/field/kozhikode-v8.webp"]
+        expected_scenes = ["assets/field/atelier-v9/chembra.webp", "assets/field/atelier-v9/wayanad.webp",
+                           "assets/field/atelier-v9/kappad.webp"]
         expect(active).to_have_attribute("src", expected_scenes[0])
         test.check(scenes.evaluate_all("images => images.map(i => i.getAttribute('src') || i.dataset.src)") == expected_scenes,
-                   "The hero opens on Munnar and offers the mountain road and coastal photographs")
+                   "The hero opens on Chembra Peak and offers photographs of the tea gardens and Kappad Beach")
         active.evaluate("img => img.decode()")
         first = active.get_attribute("data-scene")
         steps = page.locator("[data-scene-step]").last

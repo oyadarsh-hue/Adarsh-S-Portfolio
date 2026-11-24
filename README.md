@@ -2,7 +2,7 @@
 
 ## Current visual design
 
-Adarsh’s folded-ribbon AS monogram and framed portrait open on photographs of Munnar, Thamarassery Churam and Kozhikode Beach. The scrolling photo journal connects industry, campus and manuscript research. The Education section presents four stages in one linked photographic frame. Its downloadable 3840 × 2160 print is in `assets/field/education-four-v8.jpg`. Source links and credits accompany the photographs.
+Adarsh’s AS contour monogram and framed portrait open beside photographs of Chembra Peak, Wayanad’s tea gardens and Kappad Beach. The scrolling photo journal connects industry, campus and manuscript research. The Education section presents four linked campus photographs inside one frame, with distinct backgrounds for the individual school records. Its downloadable 3840 × 2160 print is in `assets/field/education-four-v9.jpg`. Each internship has a separate cover sourced from the company. The campus and company captions link back to their sources.
 
 The homepage, case studies, tools and Audio Studio share a color palette and motion controls. The portrait stays still when motion is paused. Scroll reveals and rotating specialty text also respect reduced-motion preferences. Project illustrations are labeled separately from campus and workplace photographs.
 

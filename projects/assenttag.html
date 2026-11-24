@@ -55,24 +55,27 @@
       name="twitter:image"
       content="https://oyadarsh-hue.github.io/Adarsh-S-Portfolio/assets/images/social-preview.png"
     />
-    <link rel="icon" href="../assets/field/mark.svg?v=8" type="image/svg+xml" />
+    <link rel="icon" href="../assets/field/mark.svg?v=9" type="image/svg+xml" />
     <link rel="stylesheet" href="../assets/field/interior.css?v=5" />
-    <script defer src="../assets/field/interior.js?v=8"></script>
+    <script defer src="../assets/field/interior.js?v=9"></script>
     <link rel="stylesheet" href="../assets/field/screens.css?v=6" />
     <script defer src="../assets/field/screens.js?v=5"></script>
-  <script defer src="../assets/field/film-audio.js?v=8"></script>
+  <script defer src="../assets/field/film-audio.js?v=9"></script>
     <link rel="stylesheet" href="../assets/field/project-frames-v6.css?v=7" />
     <link rel="stylesheet" href="../assets/field/gallery-v6.css">
   <script defer src="../assets/field/gallery-v6.js"></script>
     <link rel="stylesheet" href="../assets/field/color-motion-v8.css">
     <link rel="stylesheet" href="../assets/field/interior-v8.css">
-    <script defer src="../assets/field/color-motion-v8.js"></script>
+    <link rel="stylesheet" href="../assets/field/atelier-v9.css?v=9">
+    <link rel="stylesheet" href="../assets/field/interior-v9.css?v=9">
+    <script defer src="../assets/field/atelier-v9.js?v=9"></script>
+    <link rel="stylesheet" href="../assets/field/screen-v9.css?v=9">
   </head>
-  <body class="case-spatial edition-v5 edition-v8" data-interior-edition="assenttag" style="--case-color:#62e7f0">
+  <body class="case-spatial edition-v5 edition-v8 edition-v9" data-interior-edition="assenttag" style="--case-color:#62e7f0">
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
     <header class="folio-head">
-      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=8" width="34" height="34" alt="" />Adarsh S</a>
+      <a class="folio-brand" href="../index.html" aria-label="Adarsh S, portfolio home"><img src="../assets/field/mark.svg?v=9" width="34" height="34" alt="" />Adarsh S</a>
       <nav class="case-navigation" aria-label="Portfolio navigation"><a href="../index.html">Portfolio</a> <a href="../index.html#skills">Skills</a> <a href="../index.html#projects">All projects</a></nav>
       <div class="folio-prefs" hidden>
       <button type="button" id="motionButton" aria-label="Pause animation" aria-pressed="false" title="Pause animation"><span aria-hidden="true">Ⅱ</span></button>
@@ -81,19 +84,36 @@
     </header>
     <main id="main" class="case case-v3" data-project="assenttag">
       <header class="case-splash" data-ed-stage>
-        <figure class="cover-image" data-motion-frame>
-          <img class="ed-picture" src="../assets/field/v6-assenttag.webp" width="1774" height="887" alt="A silhouette appears behind fluted privacy glass with a single circular opening." fetchpriority="high" />
-          <figcaption>Face privacy · AI-generated concept artwork</figcaption>
+        <figure class="cover-image case-plate" data-motion-frame data-atelier-reveal data-case-plate>
+          <div class="plate-aperture" data-atelier-depth>
+            <div id="plate-artwork" class="plate-artwork" data-plate-panel="artwork"><img class="ed-picture" src="../assets/field/v6-assenttag.webp" width="1774" height="887" alt="A silhouette appears behind fluted privacy glass with a single circular opening." fetchpriority="high" /></div>
+            <div id="plate-workflow" class="plate-workflow" data-plate-panel="workflow" hidden>
+              <h2>Photo privacy</h2>
+              <ol>
+              <li>Enrollment &amp; identity</li>
+              <li>Face matching</li>
+              <li>Records &amp; permissions</li>
+              </ol>
+            </div>
+          </div>
+          <figcaption>
+            <span class="plate-caption" data-plate-caption="artwork">Face privacy · AI-generated concept artwork</span>
+            <span class="plate-caption" data-plate-caption="workflow" hidden>Workflow · <a href="#workflow">Read the steps ↓</a></span>
+            <span class="plate-views" role="group" aria-label="Project frame view" hidden>
+              <button type="button" data-plate-view="artwork" aria-controls="plate-artwork" aria-pressed="true">Artwork</button>
+              <button type="button" data-plate-view="workflow" aria-controls="plate-workflow" aria-pressed="false">Workflow</button>
+            </span>
+          </figcaption>
         </figure>
         <div class="cover-copy">
           <p class="ed-kicker v8-hinge">CASE STUDY / 01 / Privacy engineering / Computer vision</p>
-          <h1 data-motion-title class="ed-title"><span>AssentTag</span></h1>
-          <p class="v8-cover-role">Academic project · Full-stack development and computer vision</p>
+          <h1 data-motion-title data-atelier-title class="ed-title"><span>AssentTag</span></h1>
+          <p class="plate-lead">A privacy-first image-sharing platform that makes facial consent part of the sharing workflow.</p>
           <div class="v8-cover-actions"><a class="button primary" href="#film">Watch project film <span aria-hidden="true">↓</span></a><a href="#workflow">How it works <span aria-hidden="true">↓</span></a></div>
         </div>
       </header>
       <div class="case-brief">
-        <p class="case-lead">A privacy-first image-sharing platform that makes facial consent part of the sharing workflow.</p>
+        <p class="v8-cover-role">Academic project · Full-stack development and computer vision</p>
         <div><div class="actions">
           <a class="button" href="https://github.com/oyadarsh-hue/AssentTag" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt=""> View source code <span aria-hidden="true">↗</span></a>
           <a class="button" href="https://oyadarsh-hue.github.io/AssentTag/demo.html#feed" target="_blank" rel="noopener noreferrer">Explore sample UI <span aria-hidden="true">↗</span></a>
@@ -111,7 +131,7 @@
       <section id="film" class="chapter film-chapter" aria-labelledby="film-title">
         <div class="film-copy">
           <p class="chapter-label v8-hinge">Project film</p>
-          <h2 data-motion-title id="film-title">A photograph with more than one owner.</h2>
+          <h2 data-motion-title data-atelier-title id="film-title">A photograph with more than one owner.</h2>
           <p>A shared photograph can expose people who never agreed to be visible. Identity and consent need to be considered before a face is revealed.</p>
           <h3>The approach</h3><p>Detect faces, compare biometric embeddings with enrolled identities, and blur unconsented faces. The Veil workflow lifts the mask when the identified person grants permission.</p><p><strong>MCA project scope.</strong> The final academic design keeps the uploader visible and automatically blurs every other detected face. The linked public prototype and its film also demonstrate a consent-based workflow.</p>
         </div>
@@ -124,14 +144,14 @@
         </figure>
       </section>
       <section id="system" class="chapter pf-case-frame" data-pf="assenttag" aria-labelledby="system-title">
-        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 data-motion-title id="system-title">Photo privacy</h2><p>Checks who is uploading a photo and masks protected faces before the image is shared.</p></div><div data-motion-frame class="pf-diagram" data-system="assenttag">
+        <div class="pf-case-intro"><p class="pf-label">System view</p><h2 data-motion-title data-atelier-title id="system-title">Photo privacy</h2><p>Checks who is uploading a photo and masks protected faces before the image is shared.</p></div><div data-motion-frame data-atelier-reveal class="pf-diagram" data-system="assenttag">
         <p class="pf-label">Masking decision</p><h3>Who stays visible?</h3>
         <div class="pf-mask-map"><div class="pf-origin">Detected face</div><dl><div><dt>Identity</dt><dd>Compare with enrolled faces.</dd></div><div><dt>Privacy</dt><dd>Keep protected regions blurred.</dd></div></dl></div>
         <a class="pf-evidence-link" href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/face_privacy.py" target="_blank" rel="noopener noreferrer">Inspect implementation <span aria-hidden="true">↗</span></a>
       </div>
       </section>
       <section id="stack" class="chapter stack-chapter" aria-labelledby="stack-title">
-        <div class="stack-aperture" data-motion-frame><img class="ed-picture" src="../assets/field/studio-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 data-motion-title id="stack-title">Technology stack</h2></div>
+        <div class="stack-aperture" data-motion-frame data-atelier-reveal><img class="ed-picture" src="../assets/field/studio-v2.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><h2 data-motion-title data-atelier-title id="stack-title">Technology stack</h2></div>
         <dl class="stack-table">
           <div><dt>Python</dt><dd>Image-processing logic</dd></div>
           <div><dt>Django</dt><dd>Accounts and sharing workflows</dd></div>
@@ -141,10 +161,10 @@
         </dl>
       </section>
       <section id="workflow" class="chapter workflow-chapter" aria-labelledby="workflow-title">
-        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/optical-glass-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 data-motion-title id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>DETECT</span>
+        <header class="edition-banner workflow-banner"><img class="ed-picture" src="../assets/images/backgrounds/optical-glass-1600.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><div class="chapter-head"><h2 data-motion-title data-atelier-title id="workflow-title">How it works</h2><div class="flow-strip" aria-hidden="true"><span>DETECT</span>
           <span>VERIFY</span>
           <span>CONSENT</span></div></div></div></header>
-        <ol class="flow-steps" data-motion-frame>
+        <ol class="flow-steps" data-motion-frame data-atelier-reveal>
           <li><h3>Enrollment & identity</h3><p>Django modules separate enrollment, authentication, image processing and consent management.</p></li>
           <li><h3>Face matching</h3><p>Dlib landmarks and ResNet facial embeddings support identity matching using Euclidean distance.</p></li>
           <li><h3>Records & permissions</h3><p>MySQL stores application records; notifications connect consent requests to the social feed.</p></li>
@@ -152,7 +172,7 @@
       </section>
       <div class="chapter-pair">
         <section id="features" class="chapter features-chapter" aria-labelledby="features-title">
-          <h2 data-motion-title id="features-title">Features</h2>
+          <h2 data-motion-title data-atelier-title id="features-title">Features</h2>
           <ul>
             <li>Privacy-by-default facial blurring</li>
             <li>Biometric enrollment and verification</li>
@@ -161,7 +181,7 @@
           </ul>
         </section>
         <section id="result" class="chapter outcome-chapter" aria-labelledby="result-title">
-          <h2 data-motion-title id="result-title">Outcome</h2>
+          <h2 data-motion-title data-atelier-title id="result-title">Outcome</h2>
           <p>
           An integrated academic application connecting computer vision with a
           consent-aware social experience.
@@ -170,15 +190,15 @@
         </section>
       </div>
       <section id="proof" class="chapter case-evidence proof-chapter" aria-labelledby="evidenceHeading">
-        <h2 data-motion-title id="evidenceHeading">Implementation evidence</h2>
-        <div class="evidence-grid" data-motion-frame>
+        <h2 data-motion-title data-atelier-title id="evidenceHeading">Implementation evidence</h2>
+        <div class="evidence-grid" data-motion-frame data-atelier-reveal>
           <div><h3>Face masking</h3><p>Build a conservative face mask and blur inside it while preserving surrounding pixels.</p><div class="evidence-links"><a href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/face_privacy.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect masking code ↗</a><a href="https://github.com/oyadarsh-hue/AssentTag/blob/a276677ba323ae9cc5018f6db4ebadf3f1be38ca/image/tests.py" target="_blank" rel="noopener noreferrer"><img class="service-icon" src="../assets/field/icons/github.svg" width="18" height="18" alt="" /> Inspect privacy tests ↗</a></div></div>
           <div><h3>Review scenario</h3><p>Review the fallback-mask tests, then compare a synthetic group image before and after masking. Check edge faces and predictor failure.</p><p class="evidence-caption">A suggested walkthrough; linked tests are source evidence, not a new execution report.</p></div>
           <div><h3>Scope</h3><p>The public UI demo uses fictional sample data. Real recognition, identity checks and uploads require the local Django application and its dependencies.</p></div>
         </div>
       </section>
       <section id="next" class="chapter next-chapter" aria-labelledby="next-title">
-        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/field/coast.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label v8-hinge">Future work</p><h2 data-motion-title id="next-title">Next engineering step</h2></div></header>
+        <header class="edition-banner future-banner"><img class="ed-picture" src="../assets/field/coast.webp" width="1600" height="900" alt="" loading="lazy" decoding="async" /><div class="banner-copy"><p class="chapter-label v8-hinge">Future work</p><h2 data-motion-title data-atelier-title id="next-title">Next engineering step</h2></div></header>
         <p>Evaluate detection and privacy behavior on a consented, representative dataset before any real deployment.</p>
       </section>
       <a class="next-project" href="epigraphix-ai.html"><span>NEXT CASE STUDY</span><strong>EpigraphiX-AI ↗</strong></a>

@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 80" aria-labelledby="title" role="img">
-  <title id="title">Adarsh S folded-ribbon monogram</title>
-  <defs><linearGradient id="face" x2="1" y2="1"><stop stop-color="#302447"/><stop offset="1" stop-color="#18142d"/></linearGradient><linearGradient id="ribbon" x1="0" x2="1" y1="0" y2=".85"><stop stop-color="#ffca92"/><stop offset=".58" stop-color="#ff8e88"/><stop offset="1" stop-color="#ed69ac"/></linearGradient></defs>
-  <path fill="url(#face)" d="M4 17 17 4h68l7 7v52L79 76H11l-7-7z"/>
-  <path fill="#c3afff" d="M14 56 33 20h13l9 36H43l-2-9H30l-5 9zm20-18h5l-1.5-7z" fill-rule="evenodd"/>
-  <path fill="url(#ribbon)" d="M61 19h20l-5 9H62l-3 5 12 3q10 3 6 12l-5 9H52l-2-9h16l3-5-12-3q-11-3-7-11l4-7z"/>
-  <path fill="#f6e2bf" d="m25 59 7-4h9l1 4z"/><path fill="#9683cd" d="M16 65h29l3 3H13z"/><path fill="#fa9d85" d="M49 65h30l-3 3H52z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 80" role="img" aria-labelledby="title">
+  <title id="title">Adarsh S — AS contour monogram</title>
+  <path fill="#1a1c37" d="M9 3h59l16 16v50l-8 8H20L4 61V8z"/>
+  <path fill="#672dfa" d="M65 4h3l15 15v47l-6 6V24z"/>
+  <path fill="none" stroke="#5363f1" stroke-width="1.5" d="M11 18 24 7h28M8 28 31 8m28 63h13l6-6M12 56l18 15h20"/>
+  <path fill="#dcff55" fill-rule="evenodd" d="M12 58 29 20h11l9 38H37l-1.5-7H26l-3 7zm17-15h5l-1.6-9z"/>
+  <path fill="#fff5df" d="M67.5 20H56a12 12 0 0 0-11.8 8.7c-1.7 6.3 1.4 10.4 7.7 12.3l8.1 2.5c1.2.4 2 1 1.6 2.1-.3 1.1-1.4 1.6-3 1.6H47.7l2.4 10.7h9.8c8 0 13.5-3.5 15-10.2 1.3-5.7-1.9-10.2-8.5-12.2l-7.8-2.3c-1.6-.5-2.3-1-2-2.2.3-1 1.3-1.6 2.9-1.6h12.4z"/>
+  <circle cx="75" cy="64" r="3.1" fill="#ff7962"/>
 </svg>

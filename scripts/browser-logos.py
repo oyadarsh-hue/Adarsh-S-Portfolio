@@ -24,7 +24,7 @@ with run_suite('logos') as (browser, test):
                     return i.naturalWidth > 0 && box.width >= 20 && box.height >= 10
                         && box.left >= -1 && box.right <= innerWidth + 1;
                 }'''), f'Logo loads and fits at {width}px: {img.get_attribute("alt")}')
-            test.check(page.locator('#education img[src*="mgm-"]').evaluate('e => !e.closest("a")'),
+            test.check(page.locator('#education img[src*="/logos/mgm-"]').evaluate('e => !e.closest("a")'),
                        'Supplied MGM emblem has no unrelated school link')
             test.check(page.locator('#experience a[href="https://bluegensolutions.com/"]').count() == 1,
                        'Original employer website is reachable')

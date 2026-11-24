@@ -1,0 +1,279 @@
+/* One finish for the portfolio's players, including their case-study embeds. */
+figure.screen-card[data-clip] {
+  --film-accent: var(--lo-record-color, var(--pf-accent, #b6dc9d));
+  --film-paper: #f4f0e6;
+  --film-ink: #25232a;
+  --film-secondary: #514e55;
+  --film-rule: #c5bfb4;
+  --film-rim: #434450;
+  --film-deck: #22232b;
+  --film-key: #30313b;
+  --film-inset: #18191f;
+  --film-keyline: #62626d;
+  --film-padding: clamp(12px, 1.35vw, 22px);
+  padding: 3px;
+  border: 1px solid var(--film-rim);
+  border-radius: 12px;
+  background: var(--film-inset);
+  color: #f6f3ed;
+  box-shadow: 0 2px 0 #121319, 0 12px 24px -18px #0a0a12b3;
+}
+
+:root[data-theme="dark"] figure.screen-card[data-clip] {
+  --film-paper: #282832;
+  --film-ink: #fcf7ea;
+  --film-secondary: #d1cbd2;
+  --film-rule: #555462;
+  --film-rim: #6e6c79;
+  --film-deck: #191a20;
+  --film-key: #2a2b34;
+  --film-inset: #101117;
+}
+
+figure.screen-card:is([data-clip="premiere-teaser"], [data-clip="projects"], [data-clip="assenttag"]) {
+  --film-accent: #ffa49c;
+}
+figure.screen-card:is([data-clip="premiere-loop"], [data-clip="orbit"], [data-clip="epigraphix-ai"]) {
+  --film-accent: #ffcd83;
+}
+figure.screen-card:is([data-clip="quietnote"], [data-clip="landscape"]) {
+  --film-accent: #9bdfc3;
+}
+figure.screen-card:is([data-clip="journey"], [data-clip="aegisforge-x"]) {
+  --film-accent: #a8ceff;
+}
+figure.screen-card[data-clip="deciphera"] { --film-accent: #cfafef; }
+
+figure.screen-card[data-clip] > video {
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  background: #0e0f13;
+}
+
+figure.screen-card[data-clip] > figcaption {
+  position: relative;
+  gap: 10px 16px;
+  padding: 14px var(--film-padding) 14px calc(var(--film-padding) + 5px);
+  border-top: 1px solid var(--film-inset);
+  background: var(--film-paper);
+  color: var(--film-ink);
+}
+figure.screen-card[data-clip] > figcaption::before {
+  content: "";
+  position: absolute;
+  inset: 12px auto 12px 0;
+  width: 4px;
+  border-radius: 0 3px 3px 0;
+  background: var(--film-accent);
+  box-shadow: 1px 0 0 #14151b2b;
+}
+.screen-card[data-clip] figcaption strong {
+  color: var(--film-ink);
+  font: 700 clamp(16px, 1.45vw, 23px)/1.15 "DM Sans", sans-serif;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.screen-card[data-clip] .screen-description p {
+  color: var(--film-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.screen-card[data-clip] .screen-description p a,
+.screen-card[data-clip] .photo-edition-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.screen-card[data-clip] .screen-description small {
+  color: var(--film-secondary);
+  margin-bottom: 5px;
+  font: 500 10px/1.35 "IBM Plex Mono", monospace;
+  letter-spacing: .065em;
+}
+.premiere-grid .screen-card[data-clip] figcaption strong,
+.screen-card:is([data-clip="projects"], [data-clip="journey"]) figcaption strong {
+  font-size: clamp(24px, 2.4vw, 38px);
+  letter-spacing: -.055em;
+}
+
+.screen-card[data-clip] .screen-actions {
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 4px 10px;
+}
+.screen-card[data-clip] .screen-quality {
+  min-width: 0;
+  gap: 6px;
+  color: var(--film-secondary);
+}
+.screen-card[data-clip] .screen-actions select,
+.screen-card[data-clip] .screen-actions [data-uhd] {
+  min-height: 34px;
+  max-width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--film-keyline);
+  border-radius: 5px;
+  background-color: var(--film-deck);
+  color: #fff9ef;
+  font: 620 12px/1.25 "DM Sans", sans-serif;
+  text-decoration: none;
+  color-scheme: dark;
+}
+.screen-card[data-clip] .screen-actions [data-uhd] {
+  border-color: var(--film-rule);
+  background-color: transparent;
+  color: var(--film-ink);
+}
+
+/* Light through the perforations of a contact sheet. Keep the source frame and
+   its timestamp intact so the three thumbnails also function as a seek bar. */
+.screen-card[data-clip] .film-stills {
+  padding: 10px var(--film-padding) 14px;
+  border-top: 1px solid #0c0d12;
+  background: var(--film-deck);
+}
+.screen-card[data-clip] .film-stills > p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 8px;
+  color: #f3f0ea;
+  font: 500 10px/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: .03em;
+}
+.screen-card[data-clip] .film-stills > p::after {
+  content: "";
+  flex: 1;
+  height: 3px;
+  opacity: .65;
+  background: repeating-linear-gradient(90deg, var(--film-accent) 0 6px, transparent 6px 16px);
+}
+.screen-card[data-clip] .still-options { gap: clamp(5px, .7vw, 10px); }
+.screen-card[data-clip] .still-options button {
+  border-color: var(--film-keyline);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 #06070a;
+}
+.screen-card[data-clip] .still-options button[aria-current="true"] {
+  outline: 2px solid var(--film-accent);
+  outline-offset: -2px;
+}
+.screen-card[data-clip] .still-options button span {
+  right: 4px;
+  bottom: 4px;
+  padding: 2px 5px;
+  border: 1px solid #ffffff52;
+  border-radius: 3px;
+  background: #14141cec;
+  color: white;
+  font-variant-numeric: tabular-nums;
+}
+.screen-card[data-clip] .still-options [aria-current="true"] span {
+  border-color: var(--film-accent);
+  background: var(--film-accent);
+  color: #19191c;
+}
+
+.screen-card[data-clip] > .screen-program,
+.screen-card[data-clip] > .film-language {
+  border-top: 1px solid var(--film-keyline);
+  background: var(--film-inset);
+  color: #f9f5ed;
+}
+.screen-card[data-clip] > .screen-program { padding: 0 var(--film-padding); }
+.screen-card[data-clip] > .screen-program > summary,
+.screen-card[data-clip] > .film-language > summary {
+  min-height: 42px;
+  align-content: center;
+  color: #f5f1e9;
+  font: 630 13px/1.4 "DM Sans", sans-serif;
+  cursor: pointer;
+}
+.screen-card[data-clip] > .film-language > summary { padding-inline: var(--film-padding); }
+.screen-card[data-clip] summary::marker { color: var(--film-accent); }
+.screen-card[data-clip] .screen-program [data-chapters] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 152px), 1fr));
+  gap: 5px;
+  margin: 0 0 12px;
+}
+.screen-card[data-clip] .screen-program [data-chapters] button {
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 38px;
+  padding: 6px 8px;
+  border: 1px solid var(--film-keyline);
+  border-radius: 4px;
+  background: var(--film-key);
+  color: #fcf9ef;
+}
+.screen-card[data-clip] .screen-program button time {
+  color: var(--film-accent);
+  font-variant-numeric: tabular-nums;
+}
+.screen-card[data-clip] .screen-program [data-chapters] button[aria-current="true"] {
+  border-color: var(--film-accent);
+  box-shadow: inset 3px 0 var(--film-accent);
+}
+.screen-card[data-clip] [data-transcript] { padding-bottom: 10px; }
+.screen-card[data-clip] .film-language-body { padding-inline: var(--film-padding); }
+.screen-card[data-clip] .film-audio-actions button {
+  background: var(--film-accent);
+  color: #141419;
+}
+.screen-card[data-clip] .photo-edition-note {
+  border-top: 1px solid #53545e;
+  background: var(--film-key);
+  color: #eeece5;
+}
+.screen-card[data-clip] :is(a, button, select, summary, input):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #292632;
+}
+.screen-card[data-clip] .still-options button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+.screen-card[data-clip] video:focus-visible {
+  outline: 3px solid var(--film-accent);
+  outline-offset: -3px;
+}
+
+@media (hover: hover) {
+  .screen-card[data-clip] .screen-actions [data-uhd]:hover {
+    background: var(--film-ink);
+    color: var(--film-paper);
+    border-color: var(--film-ink);
+  }
+  .screen-card[data-clip] .still-options button:hover,
+  .screen-card[data-clip] .screen-program [data-chapters] button:hover {
+    border-color: var(--film-accent);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :root:not(.paused) .screen-card .still-options button {
+    transition: transform .16s ease-out, border-color .16s ease-out;
+  }
+  :root:not(.paused) .screen-card .still-options button:hover { transform: translateY(-2px); }
+}
+@media (max-width: 520px) {
+  figure.screen-card[data-clip] {
+    --film-padding: 10px;
+    padding: 2px;
+    border-radius: 9px;
+  }
+  figure.screen-card[data-clip] > figcaption { padding-block: 11px; }
+  .screen-card[data-clip] .screen-actions { gap: 4px 6px; }
+  .screen-card[data-clip] .screen-actions select,
+  .screen-card[data-clip] .screen-actions [data-uhd],
+  .screen-card[data-clip] .screen-program [data-chapters] button { min-height: 42px; }
+  .screen-card[data-clip] .still-options button span { right: 2px; bottom: 2px; }
+}
+@media (forced-colors: active) {
+  .screen-card[data-clip] .still-options button[aria-current="true"],
+  .screen-card[data-clip] .screen-program button[aria-current="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+}

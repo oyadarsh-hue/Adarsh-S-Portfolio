@@ -66,6 +66,23 @@
   const controls = document.querySelector(".folio-prefs");
   if (controls) controls.hidden = false;
 
+  // Artwork and workflow occupy the same frame. Selecting a view never starts the film.
+  const plate = document.querySelector("[data-case-plate]");
+  if (plate) {
+    const selector = plate.querySelector(".plate-views");
+    const buttons = selector.querySelectorAll("[data-plate-view]");
+    function showView(view) {
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.plateView === view));
+      }
+      for (const panel of plate.querySelectorAll("[data-plate-panel], [data-plate-caption]")) {
+        panel.hidden = (panel.dataset.platePanel || panel.dataset.plateCaption) !== view;
+      }
+    }
+    for (const button of buttons) button.addEventListener("click", () => showView(button.dataset.plateView));
+    selector.hidden = false;
+  }
+
   if ("IntersectionObserver" in window) {
     const entrances = new IntersectionObserver(entries => {
       for (const entry of entries) {

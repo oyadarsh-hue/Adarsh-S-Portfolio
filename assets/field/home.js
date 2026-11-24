@@ -51,13 +51,20 @@
   mobileMenu.addEventListener('change', () => setMenu(false));
 
   const scenes = [...document.querySelectorAll('.hero-image')];
-  const sceneNames = ['MUNNAR TEA GARDENS','THAMARASSERY CHURAM','KOZHIKODE BEACH'];
+  const photoLabel = document.querySelector('.hero-photo-label');
   let activeScene = 0;
   document.querySelectorAll('[data-scene-step]').forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async () => {
       activeScene = (activeScene + Number(button.dataset.sceneStep) + scenes.length) % scenes.length;
+      const next = scenes[activeScene];
+      if (!next.hasAttribute('src')) next.src = next.dataset.src;
+      try { await next.decode(); }
+      catch { return; }
+      if (next !== scenes[activeScene]) return;
       scenes.forEach((image, i) => { image.dataset.active = String(activeScene === i); });
-      byId('sceneName').textContent = '0' + (activeScene + 1) + ' / 0' + scenes.length + '   ' + sceneNames[activeScene];
+      const label = next.dataset.label;
+      byId('sceneName').textContent = '0' + (activeScene + 1) + ' / 0' + scenes.length + '   ' + label.toUpperCase();
+      photoLabel.textContent = label;
     });
   });
 

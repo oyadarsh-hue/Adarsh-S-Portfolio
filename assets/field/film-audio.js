@@ -176,7 +176,7 @@
         if (!download.hidden) {download.href=record.src;download.download=slug+'-'+code+(/\.m4a(?:$|\?)/.test(record.src)?'.m4a':'.mp3');}
         halt.hidden=true;
         const target=new URL('audio-studio.html',site);
-        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'8'});
+        target.search=new URLSearchParams({film:slug,mode:mode.value,lang:code,edition,v:'9'});
         studio.href=target.href;
       }
       async function generate() {

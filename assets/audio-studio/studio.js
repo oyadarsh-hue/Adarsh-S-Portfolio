@@ -4,7 +4,9 @@ import {synthesizeWav,workerJob} from './speech.js?v=6';
 import {translateText} from './translate.js?v=7';
 import {filmTrack,showFilmNote} from './film-track.js?v=8';
 import {resolveEdition,descriptionForEdition,documentaryMedia} from './film-editions-v8.js?v=8';
+import {createWaveform} from './waveform-v9.js?v=9';
 const $=id=>document.getElementById(id);
+const displayWaveform=createWaveform($('studioWave'),$('waveName'),$('waveMetric'));
 const source=()=>$('sourceText').value.trim(), output=()=>$('output').value.trim();
 const from=()=>language($('from').value), to=()=>language($('to').value);
 let decoded=null,fileToken=0,originalURL='',resultURL='',busy=null,speaking=false,speakEpoch=0;
@@ -211,7 +213,7 @@ $('file').addEventListener('change',async()=>{
   const token=++fileToken,file=$('file').files[0];
   cancel();decoded=null;$('originalAudio').pause();$('originalAudio').removeAttribute('src');$('originalAudio').load();
   $('originalAudio').hidden=true;if(originalURL){URL.revokeObjectURL(originalURL);originalURL='';}
-  $('fileInfo').textContent='';refresh();
+  $('fileInfo').textContent='';displayWaveform(null);refresh();
   if(!file)return;
   // A new recording is a new source, never a continuation of the selected film.
   film=null;sourceRevision++;drafts.clear();machineSource=null;autoOutput=null;
@@ -222,7 +224,7 @@ $('file').addEventListener('change',async()=>{
   $('fileInfo').textContent='Opening the recording locally…';
   try{
     const buffer=await decode(file);if(token!==fileToken)return;
-    decoded=buffer;
+    decoded=buffer;displayWaveform(buffer);
     $('fileInfo').textContent=file.name+' · '+buffer.duration.toFixed(1)+' s · '+buffer.numberOfChannels+' channel'+(buffer.numberOfChannels===1?'':'s')+' · '+(buffer.sampleRate/1000)+' kHz decoded';
     report('Recording ready. You can transcribe it or export its WAV.');
   }catch{if(token===fileToken){$('fileInfo').textContent='This browser could not decode the recording. Try a WAV or MP3, or paste a transcript.';}}

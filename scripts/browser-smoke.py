@@ -106,7 +106,7 @@ with run_suite('portfolio') as (browser, test):
             photo.evaluate('i => i.decode()')
             test.check(photo.evaluate('i => i.naturalWidth >= 640 && i.getBoundingClientRect().height >= 120'),
                        f'Visible photographic background: {selector}')
-        atlas = page.get_by_role('navigation', name='Explore four stages of education')
+        atlas = page.get_by_role('navigation', name='Explore the four education records')
         tiles = atlas.get_by_role('link')
         expect(tiles).to_have_count(4)
         destinations = ['#education-mgm', '#education-gvhss', '#education-cas', '#education-gec']
@@ -165,6 +165,17 @@ with run_suite('portfolio') as (browser, test):
             title = page.locator('.case-splash .ed-title')
             expect(page.locator('h1[data-motion-title]')).to_be_visible()
             expect(page.locator('.cover-image[data-motion-frame]')).to_be_visible()
+            plate = page.locator('[data-case-plate]')
+            workflow = plate.get_by_role('button', name='Workflow', exact=True)
+            workflow.focus()
+            page.keyboard.press('Enter')
+            expect(workflow).to_have_attribute('aria-pressed', 'true')
+            expect(plate.locator('#plate-artwork')).to_be_hidden()
+            steps = plate.locator('#plate-workflow li').all_text_contents()
+            test.check(steps == page.locator('#workflow .flow-steps li h3').all_text_contents(),
+                       case.stem + ' shows its own documented workflow in the project frame')
+            plate.get_by_role('button', name='Artwork', exact=True).click()
+            expect(plate.locator('#plate-artwork')).to_be_visible()
             expect(page.locator('.v8-cover-actions a[href="#workflow"]')).to_be_visible()
             expect(page.locator('.v8-cover-actions a[href="#film"]')).to_be_visible()
             palettes.add(page.locator('body').evaluate('b=>getComputedStyle(b).getPropertyValue("--tone").trim()'))
